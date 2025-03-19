@@ -13,23 +13,24 @@ import { WebsocketService } from './websocket.service';
 })
 export class AppComponent {
   title = 'frontend';
-  message = signal('');
-  messages: WritableSignal<string[]> = signal<string[]>([]);
 
-  private wsService = inject(WebsocketService);
+  // message = signal('');
+  // messages: WritableSignal<string[]> = signal<string[]>([]);
 
-  constructor() {
-    effect(() => {
-      this.wsService.onMessage((msg) => {
-        this.messages.set([...this.messages(), msg]);
-      });
-    });
-  }
+  // private wsService = inject(WebsocketService);
 
-  sendMessage() {
-    if (this.message().trim()) {
-      this.wsService.sendMessage(this.message());
-      this.message.set('');
-    }
-  }
+  // constructor() {
+  //   effect(() => {
+  //     this.wsService.onMessage((msg) => {
+  //       this.messages.set([...this.messages(), msg]);
+  //     });
+  //   });
+  // }
+
+  // sendMessage() {
+  //   if (this.message().trim()) {
+  //     this.wsService.sendMessage(this.message());
+  //     this.message.set('');
+  //   }
+  // }
 }
