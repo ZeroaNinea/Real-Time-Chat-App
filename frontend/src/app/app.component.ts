@@ -14,26 +14,43 @@ import { WebsocketService } from './websocket.service';
 export class AppComponent {
   title = 'frontend';
 
-  message = signal('');
-  messages: WritableSignal<string[]> = signal<string[]>([]);
 
-  private wsService = inject(WebsocketService);
+  message!: string;
+  messages: string[] = [];
 
-  constructor() {
-    // effect(() => {
-    //   this.wsService.onMessage((msg) => {
-    //     this.messages.set([...this.messages(), msg]);
-    //   });
-    // });
-    this.wsService.onMessage((msg) => {
-      this.messages.set([...this.messages(), msg]);
+  constructor(private chatService: WebsocketService) { }
+
+  ngOnInit() {
+    this.chatService.getMessages().subscribe((message: any) => {
+      this.messages.push(message);
     });
   }
 
   sendMessage() {
-    if (this.message().trim()) {
-      this.wsService.sendMessage(this.message());
-      this.message.set('');
-    }
+    this.chatService.sendMessage(this.message);
+    this.message = '';
   }
+
+  // message = signal('');
+  // messages: WritableSignal<string[]> = signal<string[]>([]);
+
+  // private wsService = inject(WebsocketService);
+
+  // constructor() {
+  //   // effect(() => {
+  //   //   this.wsService.onMessage((msg) => {
+  //   //     this.messages.set([...this.messages(), msg]);
+  //   //   });
+  //   // });
+  //   this.wsService.onMessage((msg) => {
+  //     this.messages.set([...this.messages(), msg]);
+  //   });
+  // }
+
+  // sendMessage() {
+  //   if (this.message().trim()) {
+  //     this.wsService.sendMessage(this.message());
+  //     this.message.set('');
+  //   }
+  // }
 }
