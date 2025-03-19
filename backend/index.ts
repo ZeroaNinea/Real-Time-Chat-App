@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import http from 'http';
 import {Server} from 'socket.io';
 import cors from 'cors';
@@ -14,6 +14,9 @@ const io = new Server(server, {
 });
 
 app.use(cors({ origin: "http://localhost:4200", credentials: true }));
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+    res.send('Server is running...');
+})
 
 io.on("connection", (socket) => {
     console.log("A user connected.");
