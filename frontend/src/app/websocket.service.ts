@@ -10,12 +10,12 @@ export class WebsocketService {
   private socket = io('http://localhost:3000');
 
   sendMessage(message: string){
-    this.socket.emit('message', message);
+    this.socket.emit('new-message', message);
   }
 
   getMessages() {
     let observable = new Observable<{ user: String, message: String }>(observer => {
-      this.socket.on('message', (data) => {
+      this.socket.on('new-message', (data) => {
         observer.next(data);
       });
       return () => { this.socket.disconnect(); };
