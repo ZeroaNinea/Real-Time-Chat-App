@@ -332,12 +332,12 @@
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<!-- @for (msg of messages(); track $index) {
+@for (msg of messages(); track $index) {
   <div>{{ msg }}</div>
 }
-<input [ngModel]="message()" (ngModelChange)="message.set($event)" (keyup.enter)="sendMessage()" placeholder="Type a message"> -->
+<input [ngModel]="message()" (ngModelChange)="message.set($event)" (keyup.enter)="sendMessage()" placeholder="Type a message">
 
-<div>
+<!-- <div>
   <ul>
     @for (message of messages; track $index) {
       <li>{{ message }}</li>
@@ -345,6 +345,6 @@
   </ul>
   <input [(ngModel)]="message" (keydown.enter)="sendMessage()" type="text">
   <button (click)="sendMessage()">Send</button>
-</div>
+</div> -->
 
 <router-outlet />
