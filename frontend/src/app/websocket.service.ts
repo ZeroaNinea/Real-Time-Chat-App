@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class WebsocketService {
+export class WebsocketService implements OnDestroy {
   // private socket = io('http://localhost:3000');
 
   // sendMessage(message: string){

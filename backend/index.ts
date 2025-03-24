@@ -1,6 +1,7 @@
-import express, {Request, Response, NextFunction} from 'express';
+import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import http from 'http';
-import {Server} from 'socket.io';
+import { Server } from "socket.io";
 import cors from 'cors';
 
 const app = express();

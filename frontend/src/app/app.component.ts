@@ -30,26 +30,26 @@ export class AppComponent {
   //   this.message = '';
   // }
 
-  // message = signal('');
-  // messages: WritableSignal<string[]> = signal<string[]>([]);
+  message = signal('');
+  messages: WritableSignal<string[]> = signal<string[]>([]);
 
-  // private wsService = inject(WebsocketService);
+  private wsService = inject(WebsocketService);
 
-  // constructor() {
-  //   effect(() => {
-  //     this.wsService.onMessage((msg) => {
-  //       this.messages.set([...this.messages(), msg]);
-  //     });
-  //   });
-  //   // this.wsService.onMessage((msg) => {
-  //   //   this.messages.set([...this.messages(), msg]);
-  //   // });
-  // }
+  constructor() {
+    effect(() => {
+      this.wsService.onMessage((msg) => {
+        this.messages.set([...this.messages(), msg]);
+      });
+    });
+    // this.wsService.onMessage((msg) => {
+    //   this.messages.set([...this.messages(), msg]);
+    // });
+  }
 
-  // sendMessage() {
-  //   if (this.message().trim()) {
-  //     this.wsService.sendMessage(this.message());
-  //     this.message.set('');
-  //   }
-  // }
+  sendMessage() {
+    if (this.message().trim()) {
+      this.wsService.sendMessage(this.message());
+      this.message.set('');
+    }
+  }
 }
