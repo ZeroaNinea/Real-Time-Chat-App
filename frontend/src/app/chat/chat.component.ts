@@ -20,6 +20,7 @@ export class ChatComponent {
   constructor() {
     effect(() => {
       this.wsService.onMessage((msg: string) => {
+        console.log('Received message:', msg);
         this.messages.set([...this.messages(), msg]);
       });
     });
@@ -27,6 +28,7 @@ export class ChatComponent {
 
   sendMessage() {
     if (this.message().trim()) {
+      console.log('Sending message:', this.message());
       this.wsService.sendMessage(this.message());
       this.message.set('');
     }
