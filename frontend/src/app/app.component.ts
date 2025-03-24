@@ -14,24 +14,8 @@ import { WebsocketService } from './websocket.service';
 export class AppComponent {
   title = 'frontend';
 
-  // message!: string;
-  // messages: string[] = [];
-
-  // constructor(private chatService: WebsocketService) { }
-
-  // ngOnInit() {
-  //   this.chatService.getMessages().subscribe((message: any) => {
-  //     this.messages.push(message);
-  //   });
-  // }
-
-  // sendMessage() {
-  //   this.chatService.sendMessage(this.message);
-  //   this.message = '';
-  // }
-
   message = signal('');
-  messages: WritableSignal<string[]> = signal<string[]>([]);
+  messages = signal<string[]>([]);
 
   private wsService = inject(WebsocketService);
 
@@ -41,9 +25,6 @@ export class AppComponent {
         this.messages.set([...this.messages(), msg]);
       });
     });
-    // this.wsService.onMessage((msg) => {
-    //   this.messages.set([...this.messages(), msg]);
-    // });
   }
 
   sendMessage() {

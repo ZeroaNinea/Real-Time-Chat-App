@@ -29,6 +29,7 @@ export class WebsocketService implements OnDestroy {
     this.socket = io('http://localhost:3000', {
       transports: ['websocket'], // Ensure WebSocket transport is used.
     });
+    this.socket.on("error", (error) => console.error('Socket.io error:', error));
     this.socket.on("connect", () => console.log("Connected to server"));
     this.socket.on("disconnect", () => console.log("Disconnected from server"));
   }

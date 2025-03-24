@@ -4,7 +4,7 @@
 <!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <style>
@@ -336,15 +336,5 @@
   <div>{{ msg }}</div>
 }
 <input [ngModel]="message()" (ngModelChange)="message.set($event)" (keyup.enter)="sendMessage()" placeholder="Type a message">
-
-<!-- <div>
-  <ul>
-    @for (message of messages; track $index) {
-      <li>{{ message }}</li>
-    }
-  </ul>
-  <input [(ngModel)]="message" (keydown.enter)="sendMessage()" type="text">
-  <button (click)="sendMessage()">Send</button>
-</div> -->
 
 <router-outlet />
