@@ -8,7 +8,7 @@ export class WebsocketService implements OnDestroy {
   private socket: Socket;
 
   constructor() {
-    this.socket = io('http://localhost:3000', {
+    this.socket = io("http://localhost:3000", {
       transports: ['websocket'], // Ensure WebSocket transport is used.
     });
     this.socket.on("error", (error) => console.error('Socket.io error:', error));
