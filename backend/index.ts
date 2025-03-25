@@ -8,13 +8,13 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:4200", "http://localhost:3000"], // Allow Angular and Node.js to connect to Socket.io.
+        origin: "http://localhost:4200", // Allow Angular to connect to Socket.io.
         methods: ["GET", "POST"],
         credentials: true
     }
 });
 
-app.use(cors({ origin: ["http://localhost:4200", "http://localhost:3000"], credentials: true }));
+app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Server is running...');
 })
