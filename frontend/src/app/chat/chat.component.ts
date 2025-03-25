@@ -31,7 +31,7 @@ export class ChatComponent implements OnInit {
         console.log('Received message:', msg);
         this.messages.update(messages => [...messages, msg]); // Safe update.
       });
-    }, 30000);
+    }, 100);
   }
 
   connectSocketIo() {
