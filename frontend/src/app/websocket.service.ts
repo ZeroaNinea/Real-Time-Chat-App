@@ -5,9 +5,19 @@ import { io, Socket } from 'socket.io-client';
   providedIn: 'root'
 })
 export class WebsocketService implements OnDestroy {
-  private socket: Socket;
+  private socket!: Socket;
 
   constructor() {
+    // this.socket = io("http://localhost:3000", {
+    //   transports: ['websocket'], // Ensure WebSocket transport is used.
+    // });
+    // this.socket.on("error", (error) => console.error('Socket.io error:', error));
+    // this.socket.on("connect", () => console.log("Connected to server"));
+    // this.socket.on("disconnect", () => console.log("Disconnected from server"));
+    console.log('WebsocketService constructor called.');
+  }
+
+  connect() {
     this.socket = io("http://localhost:3000", {
       transports: ['websocket'], // Ensure WebSocket transport is used.
     });
