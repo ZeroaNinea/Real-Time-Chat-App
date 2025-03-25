@@ -52,6 +52,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
   //   });
   // }
   ngOnInit(): void {
+    // console.log('ChatComponent initialized.');
+    // this.wsService.connect();
+
+    // // Ensure we only subscribe once
+    // this.wsService.onMessage((msg: string) => {
+    //   console.log('Received message:', msg);
+    //   this.messages.update(messages => [...messages, msg]); // Safe update
+    // });
+  }
+
+  connectSocketIo() {
     console.log('ChatComponent initialized.');
     this.wsService.connect();
 
