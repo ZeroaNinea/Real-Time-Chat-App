@@ -19,6 +19,7 @@ export class ChatComponent {
 
   constructor() {
     effect(() => {
+      console.log('ChatComponent initialized.');
       this.wsService.onMessage((msg: string) => {
         console.log('Received message:', msg);
         this.messages.set([...this.messages(), msg]);
