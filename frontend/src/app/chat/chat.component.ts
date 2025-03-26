@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, OnDestroy, OnChanges, afterNextRender, afterRender } from '@angular/core';
+import { Component, inject, signal, OnDestroy, afterNextRender } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../websocket.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent implements OnInit, OnDestroy, OnChanges {
+export class ChatComponent implements OnDestroy {
   message = signal('');
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
@@ -20,26 +20,8 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
     console.log('ChatComponent constructor called.');
 
     afterNextRender(() => {
-      console.log('ChatComponent rendered.');
-      this.logCatgirl();
       this.connectSocketIo();
-    })
-
-    // this.logCatgirl();
-    // this.connectSocketIo();
-  }
-
-  ngOnInit(): void {
-    console.log('ChatComponent initialized.');
-
-    // this.connectSocketIo();
-    // this.logCatgirl();
-  }
-
-  ngOnChanges(): void {
-    console.log('ChatComponent content itinitialized.');
-    this.logCatgirl();
-    this.connectSocketIo();
+    });
   }
 
   ngOnDestroy(): void {
@@ -66,11 +48,5 @@ export class ChatComponent implements OnInit, OnDestroy, OnChanges {
       console.log('Received messages:', msgs);
       this.messages.set(msgs);
     });
-  }
-
-  logCatgirl() {
-    for (let i = 0; i < 10; i++) {
-      console.log('Catgirl!');
-    }
   }
 }

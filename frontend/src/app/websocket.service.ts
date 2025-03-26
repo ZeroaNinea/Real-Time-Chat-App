@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
