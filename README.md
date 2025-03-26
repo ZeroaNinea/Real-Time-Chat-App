@@ -1,6 +1,6 @@
 # Real-Time Chat Application
 
-This is my first pet project. I want to implement these staps here.
+This is my first pet project. It's written in Node.js and Angular using Socket.io. I want to implement these staps here.
 
 1. **Connect to Socket.io** ✅ 
 - Basic Socket.io connection.
