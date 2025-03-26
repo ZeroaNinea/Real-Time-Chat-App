@@ -64,6 +64,12 @@ npm start
 
 ```
 
+## Docket & Kubernetes Deployments
+
+The deployments are placed in the [`docker-kubernetes-deployments`](./docker-kubernetes-deployments) folder.
+- **[MongoDB](./docker-kubernetes-deployments/mongodb/)**
+- **[MongoDB Express](./docker-kubernetes-deployments/mongodb-express/)**
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
