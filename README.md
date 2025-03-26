@@ -42,6 +42,27 @@ This is a real-time chat application built with Node.js, Angular, and Socket.io.
   - Implement end-to-end encryption if necessary.
   - Optimize and polish the UI.
 
+## Start the Project
+
+- **In the Development Mode**
+To start this project in the development mode use these commands:
+
+```bash
+cd backend
+npm install
+npm run dev
+
+```
+
+And then open a new terminal and run this:
+
+```bash
+cd frontend
+npm install
+npm run start
+
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.

@@ -1,0 +1,49 @@
+apiVersion: apps/v1 # Defines the API version.
+kind: Deployment # This is a Deployment.
+metadata:
+  name: mongodb-deployment # Name.
+  labels:
+    app: mongodb # Use MongoDB.
+spec:
+  replicas: 1 # Contains one Pod.
+  selector:
+    matchLabels:
+      app: mongodb # The Deployment will menage Pods with the lable `app: mongodb`.
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo
+          resources:
+            limits:
+              memory: "512Mi" # Specifies the max memory.
+              cpu: "500m" # Specifies the max CPU.
+          ports:
+            - containerPort: 27017 # Container's port.
+          env:
+            # Uses the environment variables from the `mongodb-scret.yaml` file.
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-password
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongodb-service
+# spec:
+#   selector:
+#     app: mongodb
+#   ports:
+#     - protocol: TCP
+#       port: 27017
+#       targetPort: 27017
