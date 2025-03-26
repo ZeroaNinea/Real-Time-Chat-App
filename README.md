@@ -44,7 +44,8 @@ This is a real-time chat application built with Node.js, Angular, and Socket.io.
 
 ## Start the Project
 
-- **In the Development Mode**
+### **In the Development Mode**
+
 To start this project in the development mode use these commands:
 
 ```bash
