@@ -1,7 +1,15 @@
 # Real-Time Chat Application
 
-This is my first pet project. It's written in Node.js and Angular using Socket.io. I want to implement these staps here.
+This is a real-time chat application built with Node.js, Angular, and Socket.io. It allows users to send and receive messages in real time, join chat rooms, and more.
 
+## Features
+- Real-time messaging with Socket.io
+- User authentication with JWT
+- Multiple chat rooms
+- Online/offline status
+- Typing indicators
+
+## Roadmap
 1. **Connect to Socket.io** ✅ 
   - Basic Socket.io connection.
   - Sending and displaying messages.
@@ -33,3 +41,7 @@ This is my first pet project. It's written in Node.js and Angular using Socket.i
   - Improve performance with Redis caching.
   - Implement end-to-end encryption if necessary.
   - Optimize and polish the UI.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
