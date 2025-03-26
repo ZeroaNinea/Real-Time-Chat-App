@@ -7,7 +7,7 @@ This is my first pet project. I want to implement these staps here.
 - Sending and displaying messages.
 
 2. **User Accounts & Authentication**  
-   - Implement JWT authentication (yes, it's a good choice for a chat app).
+   - Implement JWT authentication.
    - Set up registration and login with password hashing (e.g., bcrypt).
    - Allow users to store display names and profile pictures.
 
