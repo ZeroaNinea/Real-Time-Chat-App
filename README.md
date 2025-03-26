@@ -50,7 +50,7 @@ To start this project in the development mode use these commands:
 ```bash
 cd backend
 npm install
-npm run dev
+npm start
 
 ```
 
@@ -59,7 +59,7 @@ And then open a new terminal and run this:
 ```bash
 cd frontend
 npm install
-npm run start
+npm start
 
 ```
 
