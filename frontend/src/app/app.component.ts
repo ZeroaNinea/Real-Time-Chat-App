@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { ChatComponent } from './chat/chat.component';
@@ -10,10 +10,6 @@ import { ChatComponent } from './chat/chat.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'frontend';
-
-  ngOnInit(): void {
-    console.log('AppComponent initialized.');
-  }
 }
