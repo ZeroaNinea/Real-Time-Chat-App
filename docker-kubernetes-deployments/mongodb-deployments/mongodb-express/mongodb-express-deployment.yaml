@@ -34,5 +34,10 @@ spec:
                 secretKeyRef:
                   name: mongodb-secret
                   key: mongo-root-password
+            # - name: ME_CONFIG_MONGODB_SERVER
+            #   value: mongodb-service # Ensure this matches the MongoDB service name.
             - name: ME_CONFIG_MONGODB_SERVER
-              value: mongodb-service # Ensure this matches the MongoDB service name.
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-configmap
+                  key: database_url
