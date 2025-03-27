@@ -7,19 +7,25 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 - `kubectl` installed and configured to interact with your cluster.
 
 ## Deploy MongoDB
-1. Apply the secrets for MongoDB (stores sensitive information like username and password):
+1. Create a namespace:
+   ```sh
+   kubectl apply -f namespace.yaml
+
+   ```
+
+2. Apply the secrets for MongoDB (stores sensitive information like username and password):
    ```sh
    kubectl apply -f mongodb-secret.yaml
 
    ```
 
-2. Deploy the MongoDB database:
+3. Deploy the MongoDB database:
    ```sh
    kubectl apply -f mongodb-deployment.yaml
 
    ```
 
-3. Expose MongoDB as a service:
+4. Expose MongoDB as a service:
    ```sh
    kubectl apply -f mongodb-service.yaml
 
