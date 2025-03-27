@@ -40,7 +40,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
    127.0.0.1  mongodb-express.local
    ```
 
-3. Access MongoDB Express at `http://mongodb-express.local`.
+3. Access MongoDB Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Verify the Deployment
 - Check the status of the MongoDB pods:
@@ -54,7 +54,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 
   ```
 
-- Access MongoDB Express at `http://mongodb-express.local`.
+- Access MongoDB Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Troubleshooting
 - **MongoDB Express is not accessible:**
