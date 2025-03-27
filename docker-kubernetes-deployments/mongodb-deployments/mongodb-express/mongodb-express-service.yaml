@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-express-service
+  namespace: mongodb-express
 spec:
   selector:
     app: mongodb-express
