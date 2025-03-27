@@ -2,6 +2,7 @@ apiVersion: apps/v1 # Defines the API version.
 kind: Deployment # This is a Deployment.
 metadata:
   name: mongodb-deployment # Name.
+  namespace: mongodb-express
   labels:
     app: mongodb # Use MongoDB.
 spec:

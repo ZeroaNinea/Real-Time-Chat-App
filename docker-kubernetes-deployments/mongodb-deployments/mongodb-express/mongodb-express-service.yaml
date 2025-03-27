@@ -6,9 +6,9 @@ metadata:
 spec:
   selector:
     app: mongodb-express
-  type: NodePort # Use Node.js.
+  type: ClusterIP # Use Node.js.
   ports:
     - protocol: TCP
       port: 8081
       targetPort: 8081
-      nodePort: 30001 # Define the local Node.js port.
+      # nodePort: 30001 # Define the local Node.js port.
