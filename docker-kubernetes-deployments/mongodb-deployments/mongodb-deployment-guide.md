@@ -51,6 +51,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 - Check the status of the MongoDB Express pods:
   ```sh
   kubectl get pods -l app=mongodb-express
+
   ```
 
 - Access MongoDB Express at `http://mongodb-express.local`.
