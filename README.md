@@ -67,8 +67,8 @@ npm start
 ## Docket & Kubernetes Deployments
 
 The deployments are placed in the [`docker-kubernetes-deployments`](./docker-kubernetes-deployments) folder.
-- **[MongoDB](./docker-kubernetes-deployments/mongodb/)**
-- **[MongoDB Express](./docker-kubernetes-deployments/mongodb-express/)**
+- **[MongoDB](./docker-kubernetes-deployments/mongodb-deployments/mongodb/)**
+- **[MongoDB Express](./docker-kubernetes-deployments/mongodb-deployments/mongodb-express/)**
 
 ## License
 
