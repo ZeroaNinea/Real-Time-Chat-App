@@ -36,3 +36,5 @@ spec:
                 secretKeyRef:
                   name: mongodb-secret
                   key: mongo-root-password
+            - name: MONGO_BIND_IP
+              value: 0.0.0.0

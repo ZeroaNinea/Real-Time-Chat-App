@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mongodb-express
-          image: mongo-express # Use the MongoDB Express image.
+          image: mongo-express:0.54.0 # Use the MongoDB Express image.
           resources:
             limits:
               # Memory.
@@ -23,8 +23,8 @@ spec:
           ports:
             - containerPort: 8081
           env:
-            # - name: ME_CONFIG_MONGODB_AUTH_DATABASE
-            #   value: "admin"
+            - name: ME_CONFIG_MONGODB_AUTH_DATABASE
+              value: "admin"
             # Set login and password with environment variables.
             - name: ME_CONFIG_MONGODB_ADMINUSERNAME
               valueFrom:
@@ -37,5 +37,6 @@ spec:
                   name: mongodb-secret
                   key: mongo-root-password
             - name: ME_CONFIG_MONGODB_SERVER
-              value: mongodb-service # Ensure this matches the MongoDB service name.
+              # value: mongodb-service # Ensure this matches the MongoDB service name.
               # value: mongodb-service.mongodb-express.svc.cluster.local # Use the full DNS name of the MongoDB service.
+              value: mongodb-service.default.svc.cluster.local
