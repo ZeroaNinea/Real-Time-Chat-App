@@ -10,4 +10,5 @@ spec:
     - protocol: TCP
       port: 27017
       targetPort: 27017
-  # type: ClusterIP
+      nodePort: 30002 # Define the local MongoDB port.
+  type: NodePort
