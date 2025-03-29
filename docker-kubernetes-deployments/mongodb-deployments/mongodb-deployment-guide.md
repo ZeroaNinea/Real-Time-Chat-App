@@ -9,7 +9,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 ## Deploy MongoDB
 1. Create a namespace and use it:
    ```sh
-   kubectl apply -f namespace.yaml
+   kubectl apply -f mongodb-namespace.yaml
    kubens mongodb-express
 
    ```

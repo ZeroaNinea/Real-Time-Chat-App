@@ -2,6 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongodb-express-configmap
-  # namespace: mongodb-express
+  namespace: mongodb-express
 data:
   database_url: mongodb-service # Use the `MongoDB` service to define the database for the Deployment.

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb-express # The name of the Deployment.
-  # namespace: mongodb-express
+  namespace: mongodb-express
 spec:
   selector:
     matchLabels:
