@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: mongodb-express
-          image: mongo-express:0.54.0 # Use the MongoDB Express image.
+          # image: mongo-express:0.54.0 # Use the MongoDB Express image.
+          image: mongo-express
           resources:
             limits:
               # Memory.
