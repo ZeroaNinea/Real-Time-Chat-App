@@ -32,7 +32,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 
    ```
 
-5. Create a Persistent Volume to store the data for MongoDB database:
+5. Create a Persistent Volume to store data for MongoDB database:
    ```sh
    kubectl apply -f mongodb-pv.yaml
    ```
