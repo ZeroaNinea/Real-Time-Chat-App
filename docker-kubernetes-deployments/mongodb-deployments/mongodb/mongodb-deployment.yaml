@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: mongo
+          image: mongo:7.0 # MongoDB image.
           resources:
             limits:
               memory: "512Mi" # Specifies the max memory.
@@ -36,5 +36,34 @@ spec:
                 secretKeyRef:
                   name: mongodb-secret
                   key: mongo-root-password
-            - name: MONGO_BIND_IP
-              value: 0.0.0.0
+            # - name: MONGO_BIND_IP
+            #   value: 0.0.0.0
+
+  livenessProbe:
+  # Kubernetes checks if MongoDB is running before sending traffic.
+    exec:
+      command:
+        - mongosh
+        - --eval
+        - "db.adminCommand('ping')"
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+  readinessProbe:
+    exec:
+      command:
+        - mongosh
+        - --eval
+        - "db.adminCommand('ping')"
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+  # Create a presistent volume claim to store MongoDB data.
+  volumeMounts:
+    - name: mongodb-storage
+      mountPath: /data/db
+
+  volumes:
+  - name: mongodb-storage
+    persistentVolumeClaim:
+      claimName: mongodb-pvc
