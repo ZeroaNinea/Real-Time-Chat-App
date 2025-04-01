@@ -59,11 +59,11 @@ spec:
             periodSeconds: 10
 
           # Create a presistent volume claim to store MongoDB data.
-      #     volumeMounts:
-      #       - name: mongodb-storage
-      #         mountPath: /data/db
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
 
-      # volumes:
-      #   - name: mongodb-storage
-      #     persistentVolumeClaim:
-      #       claimName: mongodb-pvc
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc

@@ -10,5 +10,5 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  # hostPath:
-  #   path: "/mnt/data/mongodb"
+  hostPath:
+    path: "/mnt/data/mongodb"

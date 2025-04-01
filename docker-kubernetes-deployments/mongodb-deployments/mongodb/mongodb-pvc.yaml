@@ -9,5 +9,5 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  volumeName: mongodb-storage
+  # volumeName: mongodb-storage
   storageClassName: standard
