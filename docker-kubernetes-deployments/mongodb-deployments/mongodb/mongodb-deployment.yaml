@@ -39,31 +39,31 @@ spec:
             # - name: MONGO_BIND_IP
             #   value: 0.0.0.0
 
-  livenessProbe:
-  # Kubernetes checks if MongoDB is running before sending traffic.
-    exec:
-      command:
-        - mongosh
-        - --eval
-        - "db.adminCommand('ping')"
-    initialDelaySeconds: 5
-    periodSeconds: 10
+          # Kubernetes checks if MongoDB is running before sending traffic.
+          livenessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 5
+            periodSeconds: 10
 
-  readinessProbe:
-    exec:
-      command:
-        - mongosh
-        - --eval
-        - "db.adminCommand('ping')"
-    initialDelaySeconds: 5
-    periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 5
+            periodSeconds: 10
 
-  # Create a presistent volume claim to store MongoDB data.
-  volumeMounts:
-    - name: mongodb-storage
-      mountPath: /data/db
+          # Create a presistent volume claim to store MongoDB data.
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
 
-  volumes:
-  - name: mongodb-storage
-    persistentVolumeClaim:
-      claimName: mongodb-pvc
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
