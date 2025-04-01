@@ -66,4 +66,5 @@ spec:
       volumes:
         - name: mongodb-storage
           persistentVolumeClaim:
-            claimName: mongodb-pvc
+            # claimName: mongodb-pvc
+            emptyDir: {}
