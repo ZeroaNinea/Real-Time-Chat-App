@@ -42,6 +42,37 @@ This is a real-time chat application built with Node.js, Angular, and Socket.io.
   - Implement end-to-end encryption if necessary.
   - Optimize and polish the UI.
 
+## Backend's File Structure
+
+```bash
+backend/
+│── src/
+│   │── server.ts          # Starts the server (entry point).
+│   │── app.ts             # Express app instance (middleware & routes).
+│   │── socket.ts          # Socket.io setup.
+│   │── routes/
+│   │   ├── index.ts       # Define all routes.
+│   │   ├── auth.routes.ts # Authentication routes (JWT, login, register).
+│   │   ├── user.routes.ts # User-related routes.
+│   │── config/
+│   │   ├── env.ts         # Environment variables config.
+│   │   ├── db.ts          # MongoDB connection.
+│   │── controllers/
+│   │   ├── auth.controller.ts # Handles authentication logic.
+│   │   ├── user.controller.ts # Handles user-related logic.
+│   │── models/
+│   │   ├── user.model.ts   # Mongoose schema for users.
+│   │── middleware/
+│   │   ├── auth.middleware.ts # JWT verification middleware.
+│   │── tests/
+│       ├── auth.test.ts     # Mocha & Chai tests for auth.
+│       ├── user.test.ts     # Tests for user features.
+│── package.json
+│── tsconfig.json
+│── Dockerfile (optional)
+│── .env (environment variables)
+```
+
 ## Start the Project
 
 ### **In the Development Mode**
