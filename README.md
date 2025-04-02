@@ -77,7 +77,7 @@ backend/
 
 ✅ **Step 1:** Separate index.ts into proper structure
 <br />
-➡️ **Step 2:** Create user.model.ts (MongoDB schema for users)
+✅ **Step 2:** Create user.model.ts (MongoDB schema for users)
 <br />
 ➡️ **Step 3:** Implement authentication (JWT, registration, login)
 <br />
