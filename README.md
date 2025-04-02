@@ -73,6 +73,14 @@ backend/
 │── .env (environment variables)
 ```
 
+## The First Step Implementation Plan
+
+✅ **Step 1:** Separate index.ts into proper structure
+➡️ **Step 2:** Create user.model.ts (MongoDB schema for users)
+➡️ **Step 3:** Implement authentication (JWT, registration, login)
+➡️ **Step 4:** Write Mocha & Chai tests for authentication
+➡️ **Step 5:** Build UI in Angular
+
 ## Start the Project
 
 ### **In the Development Mode**
