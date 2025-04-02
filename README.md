@@ -73,7 +73,7 @@ backend/
 │── .env (environment variables)
 ```
 
-## The First Step Implementation Plan
+## The Second Step Implementation Plan
 
 ✅ **Step 1:** Separate index.ts into proper structure
 <br />
