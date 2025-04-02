@@ -76,9 +76,13 @@ backend/
 ## The First Step Implementation Plan
 
 ✅ **Step 1:** Separate index.ts into proper structure
+<br />
 ➡️ **Step 2:** Create user.model.ts (MongoDB schema for users)
+<br />
 ➡️ **Step 3:** Implement authentication (JWT, registration, login)
+<br />
 ➡️ **Step 4:** Write Mocha & Chai tests for authentication
+<br />
 ➡️ **Step 5:** Build UI in Angular
 
 ## Start the Project
