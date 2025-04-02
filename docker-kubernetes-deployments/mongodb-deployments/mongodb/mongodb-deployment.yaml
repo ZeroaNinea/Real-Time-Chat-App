@@ -18,6 +18,7 @@ spec:
       containers:
         - name: mongodb
           image: mongo:8.0 # MongoDB image.
+          args: ["--bind_ip", "0.0.0.0"] # Listen all network interfaces. It's impossible to connect with `nodePort` without this setup.
           resources:
             limits:
               memory: "512Mi" # Specifies the max memory.
