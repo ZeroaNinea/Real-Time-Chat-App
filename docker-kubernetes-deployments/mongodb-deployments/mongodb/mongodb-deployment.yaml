@@ -67,3 +67,6 @@ spec:
         - name: mongodb-storage
           persistentVolumeClaim:
             claimName: mongodb-pvc
+
+# To open MongoDB shell.
+# kubectl exec -it mongodb-deployment-677b68df9d-mldjz -n mongodb-express -- mongosh -u username -p password --authenticationDatabase admin

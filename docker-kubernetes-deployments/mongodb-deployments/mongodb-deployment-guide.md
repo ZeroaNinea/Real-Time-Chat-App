@@ -1,6 +1,6 @@
 # **MongoDB Deployment Guide**
 
-This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
+This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
 
 ## Prerequisites
 - A running Kubernetes cluster.
@@ -44,8 +44,8 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
 
    ```
 
-## Deploy MongoDB Express (Optional)
-1. Deploy the MongoDB Express admin interface:
+## Deploy Mongo Express (Optional)
+1. Deploy the Mongo Express admin interface:
    ```sh
    kubectl apply -f mongodb-express-deployment.yaml
    kubectl apply -f mongodb-express-service.yaml
@@ -59,7 +59,7 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
    127.0.0.1  mongodb-express.local
    ```
 
-3. Access MongoDB Express at [`http://mongodb-express.local`](http://mongodb-express.local).
+3. Access Mongo Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Verify the Deployment
 - Check the status of the MongoDB pods:
@@ -67,16 +67,16 @@ This guide explains how to deploy MongoDB and MongoDB Express using Kubernetes.
   kubectl get pods -l app=mongodb
   ```
 
-- Check the status of the MongoDB Express pods:
+- Check the status of the Mongo Express pods:
   ```sh
   kubectl get pods -l app=mongodb-express
 
   ```
 
-- Access MongoDB Express at [`http://mongodb-express.local`](http://mongodb-express.local).
+- Access Mongo Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Troubleshooting
-- **MongoDB Express is not accessible:**
+- **Mongo Express is not accessible:**
   - Ensure the `mongodb-express-ingress.yaml` file is applied correctly.
   - Verify that the `hosts` file is updated with `127.0.0.1 mongodb-express.local`.
   - Check the status of the ingress controller using:

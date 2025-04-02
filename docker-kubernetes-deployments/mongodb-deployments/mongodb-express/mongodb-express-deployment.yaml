@@ -18,6 +18,7 @@ spec:
           image: mongo-express:1.0.0-alpha.4
           # image: mongo-express:latest
           # image: mongo-express
+          # image: mongo-express:1.1.0-rc-3
           resources:
             limits:
               # Memory.
@@ -28,6 +29,8 @@ spec:
           env:
             - name: ME_CONFIG_MONGODB_AUTH_DATABASE
               value: "admin"
+            - name: ME_CONFIG_MONGODB_ENABLE_ADMIN 
+              value: "true"
             # Set login and password with environment variables.
             - name: ME_CONFIG_MONGODB_ADMINUSERNAME
               valueFrom:
@@ -40,6 +43,4 @@ spec:
                   name: mongodb-secret
                   key: mongo-root-password
             - name: ME_CONFIG_MONGODB_SERVER
-              # value: mongodb-service # Ensure this matches the MongoDB service name.
-              # value: mongodb-service.mongodb-express.svc.cluster.local # Use the full DNS name of the MongoDB service.
               value: mongodb-service.mongodb-express.svc.cluster.local
