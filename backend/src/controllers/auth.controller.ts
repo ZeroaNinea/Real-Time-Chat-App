@@ -82,7 +82,23 @@ export const login = async (req: Request, res: Response) => {
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body;
-  } catch (error) {}
+
+    const user = await User.findOne({ username });
+
+    if (!user || !(await user.comparePassword(encrypt(<string>password)))) {
+      return res.status(401).json({ message: 'Invalid username or password.' });
+    }
+
+    await User.deleteOne({
+      username,
+      email,
+      password: encrypt(<string>password),
+    });
+
+    res.status(204).json({ message: 'Account deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error during account deletion.' });
+  }
 };
 
 // Protected route.
