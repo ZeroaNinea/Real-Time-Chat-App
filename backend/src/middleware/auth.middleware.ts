@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-// Load RSA public key
+// Load RSA public key.
 const publicKey = fs.readFileSync(
   path.join(__dirname, '../../keys/public.pem'),
   'utf-8'
