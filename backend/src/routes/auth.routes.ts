@@ -12,6 +12,6 @@ const router = express.Router();
 
 router.post('/register', asyncRoute(register));
 router.post('/login', asyncRoute(login));
-router.get('/protected', authMiddleware, account);
+router.get('/account', authMiddleware, account);
 
 export default router;
