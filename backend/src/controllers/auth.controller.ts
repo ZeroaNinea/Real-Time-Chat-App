@@ -32,11 +32,6 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
 
-    // Encrypt user's data.
-    // const encryptedUsername = encrypt(<string>username);
-    // const encryptedEmail = encrypt(<string>email);
-    const encryptedPassword = encrypt(<string>password);
-
     // Check if user exists.
     const existingUser = await User.findOne({ username });
     if (existingUser) return res.status(400).send('Username already exists.');
@@ -45,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
     const user = new User({
       username,
       email,
-      password: encryptedPassword,
+      password: encrypt(<string>password),
     });
 
     await user.save();
@@ -62,13 +57,9 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
 
-    // Encrypt user's data.
-    // const encryptedUsername: string = encrypt(<string>username);
-    const encryptedPassword: string = encrypt(<string>password);
-
     const user = await User.findOne({ username });
 
-    if (!user || !(await user.comparePassword(encryptedPassword))) {
+    if (!user || !(await user.comparePassword(encrypt(<string>password)))) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 
@@ -86,6 +77,12 @@ export const login = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: 'Server error during login.' });
   }
+};
+
+export const deleteAccount = async (req: Request, res: Response) => {
+  try {
+    const { username, password, email } = req.body;
+  } catch (error) {}
 };
 
 // Protected route.
