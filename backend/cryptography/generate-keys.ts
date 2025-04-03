@@ -50,5 +50,3 @@ fs.writeFileSync(privateKeyPath, privateKey);
 fs.writeFileSync(publicKeyPath, publicKey);
 
 console.log('RSA keys generated successfully!');
-console.log(`🔑 Private Key: ${privateKeyPath}`);
-console.log(`🔓 Public Key: ${publicKeyPath}`);
