@@ -95,7 +95,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
       password: encrypt(<string>password),
     });
 
-    res.status(204).json({ message: 'Account deleted successfully!' });
+    res.status(200).json({ message: 'Account deleted successfully!' });
   } catch (error) {
     res.status(500).json({ error: 'Server error during account deletion.' });
   }
