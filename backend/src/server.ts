@@ -1,6 +1,6 @@
-import { app } from "./app";
-import { setupSocket } from "./socket";
-import http from "http";
+import { app } from './app';
+import { setupSocket } from './socket';
+import http from 'http';
 
 // This file is the entry point of the backend server.
 const server = http.createServer(app);
