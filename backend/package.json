@@ -4,6 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon src/server.ts",
+    "gkeys": "node cryptography/generate-keys.ts",
     "db-connect": "nodemon src/config/db.ts"
   },
   "keywords": [],
