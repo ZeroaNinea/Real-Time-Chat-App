@@ -33,8 +33,8 @@ export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     // Encrypt user's data.
-    // const encryptedUsername = encrypt(username as string);
-    // const encryptedEmail = encrypt(email as string);
+    // const encryptedUsername = encrypt(username + '');
+    // const encryptedEmail = encrypt(email + '');
     const encryptedPassword = encrypt(password + '');
 
     // Check if user exists.
