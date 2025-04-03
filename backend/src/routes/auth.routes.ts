@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.post('/register', asyncRoute(register));
-router.post('/login', login);
+router.post('/login', asyncRoute(login));
 router.get('/protected', account);
 
 export default router;
