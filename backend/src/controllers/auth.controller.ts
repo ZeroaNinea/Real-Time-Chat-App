@@ -4,7 +4,6 @@ import fs from 'fs';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user.model';
-import { encrypt } from '../../cryptography/encrypt-decrypt';
 
 // Get keys.
 const privateKey = fs.readFileSync(
@@ -40,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
     const user = new User({
       username,
       email,
-      password: encrypt(<string>password),
+      password,
     });
 
     await user.save();
@@ -59,7 +58,7 @@ export const login = async (req: Request, res: Response) => {
 
     const user = await User.findOne({ username });
 
-    if (!user || !(await user.comparePassword(encrypt(<string>password)))) {
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 
@@ -85,7 +84,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
 
     const user = await User.findOne({ username });
 
-    if (!user || !(await user.comparePassword(encrypt(<string>password)))) {
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 
