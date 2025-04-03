@@ -91,6 +91,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
     await User.deleteOne({
       username,
       email,
+      password,
     });
 
     res.status(200).json({ message: 'Account deleted successfully!' });
