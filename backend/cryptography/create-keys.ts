@@ -18,4 +18,37 @@ generateKeyFile('encryption.key', 32);
 // Generate the initialization vector (16 bytes).
 generateKeyFile('init_vector.key', 16);
 
-console.log('Key generation complete!');
+console.log(
+  'Encryption and initialization vector key generation is completed!'
+);
+
+// Define paths.
+const keysDir = path.join(__dirname, '../keys/');
+const privateKeyPath = path.join(keysDir, 'private.pem');
+const publicKeyPath = path.join(keysDir, 'public.pem');
+
+// Ensure keys directory exists.
+if (!fs.existsSync(keysDir)) {
+  fs.mkdirSync(keysDir, { recursive: true });
+}
+
+// Generate RSA Key Pair.
+const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048, // 2048-bit key for strong security.
+  publicKeyEncoding: {
+    type: 'spki',
+    format: 'pem',
+  },
+  privateKeyEncoding: {
+    type: 'pkcs8',
+    format: 'pem',
+  },
+});
+
+// Save the keys.
+fs.writeFileSync(privateKeyPath, privateKey);
+fs.writeFileSync(publicKeyPath, publicKey);
+
+console.log('RSA keys generated successfully!');
+console.log(`🔑 Private Key: ${privateKeyPath}`);
+console.log(`🔓 Public Key: ${publicKeyPath}`);
