@@ -37,14 +37,9 @@ UserSchema.pre('save', async function (next) {
 });
 
 // Compare password for login.
-UserSchema.methods.comparePassword = async function (
-  password: string | undefined
-) {
+UserSchema.methods.comparePassword = async function (password: string) {
   if (!password) throw new Error('Password is required.');
-  if (!this.password)
-    throw new Error(
-      `Ahh! It\'s terrible! The user has no password. I din\'t even have an idea how this could happened.\n:p`
-    );
+  if (!this.password) throw new Error(`User has no password.`);
 
   return bcrypt.compare(password, this.password);
 };
