@@ -63,10 +63,10 @@ export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
     // Encrypt user's data.
-    const encryptedUsername: string = encrypt(username);
-    const encryptedPassword: string = encrypt(password);
+    // const encryptedUsername: string = encrypt(<string>username);
+    const encryptedPassword: string = encrypt(<string>password);
 
-    const user = await User.findOne({ encryptedUsername });
+    const user = await User.findOne({ username });
 
     if (!user || !(await user.comparePassword(encryptedPassword))) {
       return res.status(401).json({ message: 'Invalid username or password.' });
