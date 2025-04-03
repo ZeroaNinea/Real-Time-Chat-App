@@ -18,12 +18,16 @@ export const authMiddleware = (
 
   if (!req.header('Authorization')) {
     res.status(401).json({ message: 'Access denied. No headers provided.' });
+
+    return;
   } else {
     token = req.header('Authorization')?.split(' ')[1];
   }
 
   if (!token) {
     res.status(401).json({ message: 'Access denied. No token provided.' });
+
+    return;
   }
 
   try {
