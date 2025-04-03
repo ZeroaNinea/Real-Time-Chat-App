@@ -3,6 +3,7 @@ import express from 'express';
 import {
   account,
   asyncRoute,
+  deleteAccount,
   login,
   register,
 } from '../controllers/auth.controller';
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.post('/register', asyncRoute(register));
 router.post('/login', asyncRoute(login));
-router.get('/account', authMiddleware, account);
+router.get('/account', authMiddleware, asyncRoute(account));
+router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;
