@@ -4,10 +4,20 @@ import fs from 'fs';
 import crypto from 'crypto';
 import path from 'path';
 
+// Define keys directory.
+const keysDir = path.join(__dirname, '../keys/');
+
+// Ensure keys directory exists.
+if (!fs.existsSync(keysDir)) {
+  fs.mkdirSync(keysDir, { recursive: true });
+}
+
+console.log('===============================================================');
+
 // Function to generate random bytes and save to a file.
 const generateKeyFile = (filename: string, size: number) => {
   const key = crypto.randomBytes(size);
-  const filePath = path.join(__dirname, '../keys/', filename);
+  const filePath = path.join(keysDir, filename);
   fs.writeFileSync(filePath, key.toString('hex'));
   console.log(`Generated ${filename} in the keys folder.`);
 };
@@ -22,15 +32,11 @@ console.log(
   'Encryption and initialization vector key generation is completed!'
 );
 
-// Define paths.
-const keysDir = path.join(__dirname, '../keys/');
+console.log('===============================================================');
+
+// Define RSA key paths.
 const privateKeyPath = path.join(keysDir, 'private.pem');
 const publicKeyPath = path.join(keysDir, 'public.pem');
-
-// Ensure keys directory exists.
-if (!fs.existsSync(keysDir)) {
-  fs.mkdirSync(keysDir, { recursive: true });
-}
 
 // Generate RSA Key Pair.
 const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
@@ -49,4 +55,8 @@ const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
 fs.writeFileSync(privateKeyPath, privateKey);
 fs.writeFileSync(publicKeyPath, publicKey);
 
+console.log(`Generated Private Key in the keys folder.`);
+console.log(`Generated Public Key in the keys folder.`);
 console.log('RSA keys generated successfully!');
+
+console.log('===============================================================');
