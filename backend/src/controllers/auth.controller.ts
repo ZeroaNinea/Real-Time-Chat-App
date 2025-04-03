@@ -35,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
     // Encrypt user's data.
     // const encryptedUsername = encrypt(username + '');
     // const encryptedEmail = encrypt(email + '');
-    const encryptedPassword = encrypt(password + '');
+    const encryptedPassword = encrypt(<string>password);
 
     // Check if user exists.
     const existingUser = await User.findOne({ username });
@@ -52,6 +52,7 @@ export const register = async (req: Request, res: Response) => {
 
     res.status(201).json({ message: 'User registered successfully!' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Server error during registration.' });
   }
 };
