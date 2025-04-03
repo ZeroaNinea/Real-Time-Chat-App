@@ -1,14 +1,11 @@
 import mongoose from 'mongoose';
 import { DB_URL } from './env';
 
-const conn = mongoose.createConnection(DB_URL, {
-  serverSelectionTimeoutMS: 5000,
-});
+mongoose
+  .connect(DB_URL, {
+    serverSelectionTimeoutMS: 5000,
+  })
+  .then(() => console.log(' ✅ MongoDB successfully connected! 🎉 '))
+  .catch((err) => console.error(' ❌ MongoDB connection error:', err));
 
-conn.on('connected', (): void => {
-  console.log(' ✅ MongoDB successfully connected! 🎉 ');
-});
-
-conn.on('error', (err: Error) => {
-  console.error(' ❌ ', err);
-});
+export default mongoose;
