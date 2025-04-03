@@ -14,6 +14,7 @@ const publicKey = fs.readFileSync(
   'utf-8'
 );
 
+// Middleware to handle async routes.
 export const asyncRoute =
   (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
     fn(req, res, next).catch((error: unknown) => {
@@ -24,6 +25,7 @@ export const asyncRoute =
     });
   };
 
+// Register user.
 export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
@@ -42,10 +44,12 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+// Login user.
 export const login = (req: Request, res: Response) => {
   res.send('login');
 };
 
+// Protected route.
 export const account = (req: Request, res: Response) => {
   res.send('account');
 };
