@@ -4,6 +4,7 @@ import fs from 'fs';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user.model';
+import { encrypt } from '../../cryptography/encrypt-decrypt';
 
 // Get keys.
 const privateKey = fs.readFileSync(
@@ -31,12 +32,21 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
 
+    // Encrypt user's data.
+    const encryptedUsername = encrypt(username);
+    const encryptedEmail = encrypt(email);
+    const encryptedPassword = encrypt(password);
+
     // Check if user exists.
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ encryptedUsername });
     if (existingUser) return res.status(400).send('Username already exists.');
 
     // Create new user.
-    const user = new User({ username, email, password });
+    const user = new User({
+      encryptedUsername,
+      encryptedEmail,
+      encryptedPassword,
+    });
     await user.save();
 
     res.status(201).json({ message: 'User registered successfully!' });
@@ -49,9 +59,14 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
 
-    if (!user || !(await user.comparePassword(password))) {
+    // Encrypt user's data.
+    const encryptedUsername = encrypt(username);
+    const encryptedPassword = encrypt(password);
+
+    const user = await User.findOne({ encryptedUsername });
+
+    if (!user || !(await user.comparePassword(encryptedPassword))) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 

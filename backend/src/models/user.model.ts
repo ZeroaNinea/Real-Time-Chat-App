@@ -47,7 +47,7 @@ UserSchema.methods.comparePassword = async function (
       `Ahh! It\'s terrible! The user has no password. I din\'t even have an idea how this could happened.\n:p`
     );
 
-  return bcrypt.compare(encrypt(password) as string, this.password);
+  return bcrypt.compare(password, this.password);
 };
 
 export const User = mongoose.model('User', UserSchema);
