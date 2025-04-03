@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { encrypt } from '../../cryptography/encrypt-decrypt';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -37,8 +38,16 @@ UserSchema.pre('save', async function (next) {
 });
 
 // Compare password for login.
-UserSchema.methods.comparePassword = async function (password: string) {
-  return bcrypt.compare(password, this.password);
+UserSchema.methods.comparePassword = async function (
+  password: string | undefined
+) {
+  if (!password) throw new Error('Password is required.');
+  if (!this.password)
+    throw new Error(
+      `Ahh! It\'s terrible! The user has no password. I din\'t even have an idea how this could happened.\n:p`
+    );
+
+  return bcrypt.compare(encrypt(password) as string, this.password);
 };
 
 export const User = mongoose.model('User', UserSchema);

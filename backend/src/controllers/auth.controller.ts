@@ -7,11 +7,11 @@ import { User } from '../models/user.model';
 
 // Get keys.
 const privateKey = fs.readFileSync(
-  path.join(__dirname, '../keys/private.pem'),
+  path.join(__dirname, '../../keys/private.pem'),
   'utf-8'
 );
 const publicKey = fs.readFileSync(
-  path.join(__dirname, '../keys/public.pem'),
+  path.join(__dirname, '../../keys/public.pem'),
   'utf-8'
 );
 
