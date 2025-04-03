@@ -33,27 +33,29 @@ export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     // Encrypt user's data.
-    const encryptedUsername: string = encrypt(username);
-    const encryptedEmail: string = encrypt(email);
-    const encryptedPassword: string = encrypt(password);
+    // const encryptedUsername = encrypt(username as string);
+    // const encryptedEmail = encrypt(email as string);
+    const encryptedPassword = encrypt(password + '');
 
     // Check if user exists.
-    const existingUser = await User.findOne({ encryptedUsername });
+    const existingUser = await User.findOne({ username });
     if (existingUser) return res.status(400).send('Username already exists.');
 
     // Create new user.
     const user = new User({
-      encryptedUsername,
-      encryptedEmail,
-      encryptedPassword,
+      username,
+      email,
+      password: encryptedPassword,
     });
+
     await user.save();
 
     res.status(201).json({ message: 'User registered successfully!' });
   } catch (error) {
+    console.error('Registration error:', error);
     res
       .status(500)
-      .json({ error: 'Server error duing registration.', errorMessage: error });
+      .json({ error: 'Server error during registration.', details: error });
   }
 };
 
