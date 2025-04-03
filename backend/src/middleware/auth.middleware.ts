@@ -9,12 +9,8 @@ const publicKey = fs.readFileSync(
   'utf-8'
 );
 
-interface AuthenticatedRequest extends Request {
-  user?: string | jwt.JwtPayload;
-}
-
 export const authMiddleware = (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): void => {
