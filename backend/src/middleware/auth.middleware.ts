@@ -9,6 +9,7 @@ const publicKey = fs.readFileSync(
   'utf-8'
 );
 
+// Middleware function with JWT verification.
 export const authMiddleware = (
   req: Request,
   res: Response,
