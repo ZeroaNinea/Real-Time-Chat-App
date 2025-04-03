@@ -9,21 +9,25 @@ const publicKey = fs.readFileSync(
   'utf-8'
 );
 
+interface AuthenticatedRequest extends Request {
+  user?: string | jwt.JwtPayload;
+}
+
 export const authMiddleware = (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): any => {
+): void => {
   const token = req.header('Authorization')?.split(' ')[1];
 
   if (!token) {
-    return res
-      .status(401)
-      .json({ message: 'Access denied. No token provided.' });
+    res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
   try {
-    const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+    const decoded = jwt.verify(token as string, publicKey, {
+      algorithms: ['RS256'],
+    });
     req.user = decoded; // Attach decoded user info to request object.
     next(); // Move to the next middleware/controller.
   } catch (error) {

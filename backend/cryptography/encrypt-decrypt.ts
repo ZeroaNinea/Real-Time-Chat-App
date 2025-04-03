@@ -11,7 +11,7 @@ const iv = Buffer.from(
   'hex'
 );
 
-export const encrypt = (text: string) => {
+export const encrypt = (text: string): string => {
   if (typeof text === 'string') {
     const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     let encrypted = cipher.update(text, 'utf8', 'hex');
@@ -19,7 +19,7 @@ export const encrypt = (text: string) => {
 
     return encrypted;
   } else {
-    console.log(`
+    throw new Error(`
       I'm so sorry, girl. Only strings can be encrypted.
       :p
     `);

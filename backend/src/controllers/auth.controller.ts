@@ -33,9 +33,9 @@ export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     // Encrypt user's data.
-    const encryptedUsername = encrypt(username);
-    const encryptedEmail = encrypt(email);
-    const encryptedPassword = encrypt(password);
+    const encryptedUsername: string = encrypt(username);
+    const encryptedEmail: string = encrypt(email);
+    const encryptedPassword: string = encrypt(password);
 
     // Check if user exists.
     const existingUser = await User.findOne({ encryptedUsername });
@@ -61,8 +61,8 @@ export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
     // Encrypt user's data.
-    const encryptedUsername = encrypt(username);
-    const encryptedPassword = encrypt(password);
+    const encryptedUsername: string = encrypt(username);
+    const encryptedPassword: string = encrypt(password);
 
     const user = await User.findOne({ encryptedUsername });
 
