@@ -1,30 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import fs from 'fs';
-import path from 'path';
-import jwt from 'jsonwebtoken';
+import { verifyToken } from './jwt.service';
 
-// Load RSA public key.
-const publicKey = fs.readFileSync(
-  path.join(__dirname, '../../keys/public.pem'),
-  'utf-8'
-);
-
-// Middleware function with JWT verification.
 export const authMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  let token: string | undefined;
+  const authHeader = req.header('Authorization');
 
-  if (!req.header('Authorization')) {
+  if (!authHeader) {
     res.status(401).json({ message: 'Access denied. No headers provided.' });
 
     return;
-  } else {
-    token = req.header('Authorization')?.split(' ')[1];
   }
 
+  const token = authHeader.split(' ')[1];
   if (!token) {
     res.status(401).json({ message: 'Access denied. No token provided.' });
 
@@ -32,11 +22,10 @@ export const authMiddleware = (
   }
 
   try {
-    const decoded = jwt.verify(<string>token, publicKey, {
-      algorithms: ['RS256'],
-    });
-    req.user = decoded; // Attach decoded user info to request object.
-    next(); // Move to the next middleware/controller.
+    const decoded = verifyToken(token);
+    req.user = decoded;
+
+    next();
   } catch (error) {
     res.status(401).json({ message: 'Invalid token.' });
   }
