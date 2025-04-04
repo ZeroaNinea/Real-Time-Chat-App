@@ -32,7 +32,7 @@ export const authMiddleware = (
   }
 
   try {
-    const decoded = jwt.verify(token as string, publicKey, {
+    const decoded = jwt.verify(<string>token, publicKey, {
       algorithms: ['RS256'],
     });
     req.user = decoded; // Attach decoded user info to request object.
