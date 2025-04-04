@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-const keysDir = path.join(__dirname, '../../cryptography/keys');
+const keysDir = path.join(__dirname, '../../cryptography/keys/key-map.json');
 
 // Load key map JSON.
 const keyMapPath = path.join(keysDir, 'key-map.json');
