@@ -7,7 +7,7 @@ import {
   login,
   register,
 } from '../controllers/auth.controller';
-import { authMiddleware } from '../middleware/auth.middleware';
+import { authMiddleware } from '../auth/auth.middleware';
 
 const router = express.Router();
 
