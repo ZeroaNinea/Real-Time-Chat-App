@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 describe('Environment Variables', () => {
   it('should load environment variables from .env file', async () => {
-    // Backup and mock environment
+    // Backup and mock environment.
     const originalEnv = { ...process.env };
     process.env.DB_USER = 'testuser';
     process.env.DB_PASSWORD = 'testpass';
@@ -19,8 +19,18 @@ describe('Environment Variables', () => {
     expect(env.DB_URL).to.include('testuser');
     expect(env.NODE_ENV).to.equal('test');
     expect(env.PORT).to.equal(4000);
+    expect(env.DIALECT).to.equal('mongodb');
+    expect(env.DB_HOST).to.equal('localhost');
+    expect(env.DB_PORT).to.equal(27017);
+    expect(env.DB_NAME).to.equal('testdb');
+    expect(env.DB_USER).to.equal('testuser');
+    expect(env.DB_PASSWORD).to.equal('testpass');
 
-    // Restore
+    expect(env.DB_URL).to.equal(
+      'mongodb://testuser:testpass@localhost:27017/testdb?authSource=admin'
+    );
+
+    // Restore.
     process.env = originalEnv;
   });
 });
