@@ -90,7 +90,7 @@ backend/
 <br />
 ✅ **Step 3:** Implement authentication (JWT, registration, login)
 <br />
-➡️ **Step 4:** Implement JWT key rotation logic
+✅ **Step 4:** Implement JWT key rotation logic
 <br />
 ➡️ **Step 5:** Write Mocha & Chai tests for authentication
 <br />
