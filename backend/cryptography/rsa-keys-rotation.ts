@@ -45,7 +45,7 @@ export const rotateKeys = () => {
 
     fs.writeFileSync(privateKeyPath, privateKey);
     fs.writeFileSync(publicKeyPath, publicKey);
-    console.log(`🔑 Generated key pair with kid "${newKid}"`);
+    console.log(` 🔑 Generated key pair with kid "${newKid}"`);
 
     keyMap[newKid] = publicKey;
 
