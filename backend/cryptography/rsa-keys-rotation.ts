@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
-export const maybeRotateKeys = () => {
+export const rotateKeys = () => {
   const keysDir = path.join(__dirname, '../keys');
   const keyMapPath = path.join(keysDir, 'key-map.json');
 

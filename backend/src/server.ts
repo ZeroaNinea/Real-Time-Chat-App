@@ -3,9 +3,9 @@ import { setupSocket } from './socket';
 import http from 'http';
 
 import { PORT } from './config/env';
-import { maybeRotateKeys } from '../cryptography/rsa-keys-rotation';
+import { rotateKeys } from '../cryptography/rsa-keys-rotation';
 
-maybeRotateKeys();
+rotateKeys();
 
 // Importing the database into the `server.ts` ensures that the database connection is established before the server starts and the application is read to work with the database.
 import './config/db';
