@@ -4,11 +4,12 @@ import http from 'http';
 
 import { PORT } from './config/env';
 import { rotateKeys } from '../cryptography/rsa-keys-rotation';
+import { connectToDatabase } from './config/db';
 
 rotateKeys();
 
 // Importing the database into the `server.ts` ensures that the database connection is established before the server starts and the application is read to work with the database.
-import './config/db';
+connectToDatabase();
 
 // This file is the entry point of the backend server.
 const server = http.createServer(app);
