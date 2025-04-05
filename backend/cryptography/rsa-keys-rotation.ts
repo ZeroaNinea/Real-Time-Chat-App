@@ -58,6 +58,17 @@ if (fs.existsSync(keyMapPath) && today >= rotationDate) {
 
   if (fs.existsSync(keyMapPath)) {
     keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
+
+    if (Object.keys(keyMap).length > 4) {
+      // Delete everything except the latest 3 keys.
+      const sortedKeys = Object.keys(keyMap).sort();
+      sortedKeys.slice(0, sortedKeys.length - 3).forEach((key) => {
+        delete keyMap[key];
+      });
+      fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+
+      console.log('✅ Key map cleaned!');
+    }
   }
   keyMap[kid] = publicKey;
   fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
