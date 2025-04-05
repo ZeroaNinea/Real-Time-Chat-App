@@ -4,5 +4,5 @@
   },
   "watch": ["src", "test"],
   "ext": "ts,json",
-  "exec": "ts-node server.ts"
+  "exec": "ts-node src/server.ts"
 }
