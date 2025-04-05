@@ -1,22 +1,22 @@
 import { expect } from 'chai';
-
+import mongoose from 'mongoose';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
-import { DB_URL, NODE_ENV } from '../src/config/env';
 
-describe('Test Database Connection', () => {
+describe('Database Connection', () => {
   before(async () => {
     await connectToDatabase();
   });
 
-  it('NODE_ENV should be "test"', () => {
-    expect(NODE_ENV).to.equal('test');
-  });
-
-  it('DB_URL should be defined and equal to correct value', () => {
-    expect(DB_URL).to.be.a('string');
+  it('should connect to the in-memory MongoDB instance', () => {
+    const connectionState = mongoose.connection.readyState;
+    // 1 = connected
+    expect(connectionState).to.equal(1, 'Mongoose should be connected');
   });
 
   after(async () => {
     await disconnectDatabase();
+    const connectionState = mongoose.connection.readyState;
+    // 0 = disconnected
+    expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
   });
 });
