@@ -78,6 +78,22 @@ describe('Database Connection', () => {
     disconnectStub.restore();
   });
 
+  // it('should connect to the in-memory MongoDB instance', async () => {
+  //   process.env.NODE_ENV = 'test';
+
+  //   // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
+  //   const { connectToDatabase, disconnectDatabase } = await import(
+  //     '../src/config/db'
+  //   );
+  //   await connectToDatabase();
+
+  //   const connectionState = (await import('mongoose')).default.connection
+  //     .readyState;
+  //   expect(connectionState).to.equal(1, 'Mongoose should be connected');
+
+  //   await disconnectDatabase();
+  // });
+
   after(async () => {
     await disconnectDatabase();
     const connectionState = mongoose.connection.readyState;
