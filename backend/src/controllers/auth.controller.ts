@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
+import { signToken } from '../auth/jwt.service';
 
 import { User } from '../models/user.model';
 
@@ -48,6 +49,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 // Login user.
+
 export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
@@ -58,15 +60,8 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 
-    // Generate JWT with private key.
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      privateKey,
-      {
-        algorithm: 'RS256', // Use RSA encryption.
-        expiresIn: '1h',
-      }
-    );
+    // ✅ Use your signToken helper.
+    const token = signToken({ id: user._id, username: user.username });
 
     res.json({ message: 'Login successful!', token });
   } catch (error) {
