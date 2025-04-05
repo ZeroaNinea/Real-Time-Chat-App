@@ -64,8 +64,8 @@ export const maybeRotateKeys = () => {
     }
 
     fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
-    console.log('✅ Key map updated and cleaned!');
+    console.log(' ✅ Key map updated and cleaned!');
   } else {
-    console.log('ℹ️ No rotation needed today.');
+    console.log(' ℹ️ No rotation needed today.');
   }
 };
