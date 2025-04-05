@@ -1,5 +1,7 @@
 import { expect } from 'chai';
+
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import { NODE_ENV } from '../src/config/env';
 
 describe('Test Database Connection', () => {
   before(async () => {
@@ -7,7 +9,7 @@ describe('Test Database Connection', () => {
   });
 
   it('NODE_ENV should be test', () => {
-    expect(process.env.NODE_ENV).to.equal('test');
+    expect(NODE_ENV).to.equal('test');
   });
 
   after(async () => {
