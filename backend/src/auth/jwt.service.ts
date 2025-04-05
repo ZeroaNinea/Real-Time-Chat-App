@@ -18,6 +18,8 @@ const privateKey = fs.readFileSync(
 );
 
 export const signToken = (payload: any): string => {
+  console.log('Access token is signed to a user.');
+
   return jwt.sign(payload, privateKey, {
     algorithm: 'RS256',
     keyid: currentKid,
