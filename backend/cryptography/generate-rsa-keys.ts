@@ -25,17 +25,40 @@ const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
 });
 
 // Save private/public keys with current date.
-fs.writeFileSync(privateKeyPath, privateKey);
-fs.writeFileSync(publicKeyPath, publicKey);
-console.log(`🔑 Generated key pair with kid "${kid}"`);
+// fs.writeFileSync(privateKeyPath, privateKey);
+// fs.writeFileSync(publicKeyPath, publicKey);
+// console.log(`🔑 Generated key pair with kid "${kid}"`);
 
 // Update key-map.json.
-let keyMap: Record<string, string> = {};
+// let keyMap: Record<string, string> = {};
+
+// if (fs.existsSync(keyMapPath)) {
+//   keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
+// }
+// keyMap[kid] = publicKey;
+// fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+
+// console.log('✅ Key map updated!');
 
 if (fs.existsSync(keyMapPath)) {
-  keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
-}
-keyMap[kid] = publicKey;
-fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+  const keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
+  // keyMap[kid] = publicKey;
 
-console.log('✅ Key map updated!');
+  console.log(typeof keyMap);
+
+  const newKey: {
+    kid: string;
+    publicKey: string;
+  } = {
+    kid,
+    publicKey,
+  };
+
+  console.log(newKey);
+
+  // keyMap.push(newKey);
+
+  // fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+
+  // console.log('✅ New key added!');
+}
