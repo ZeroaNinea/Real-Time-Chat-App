@@ -60,7 +60,10 @@ import { expect } from 'chai';
 import mongoose from 'mongoose';
 import sinon from 'sinon';
 
-import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import mongoServer, {
+  connectToDatabase,
+  disconnectDatabase,
+} from '../src/config/db';
 import { NODE_ENV } from '../src/config/env';
 
 describe('Database Connection', () => {
@@ -135,22 +138,21 @@ describe('Database Connection', () => {
     disconnectStub.restore();
   });
 
-  // it('should disconnect and stop the in-memory MongoDB server', async () => {
-  //   if (NODE_ENV === 'test') {
-  //     // Stub the mongoServer.stop() method
-  //     const dbModule = await import('../src/config/db');
-  //     mongoServerStopStub = sinon
-  //       .stub(dbModule.mongoServer!, 'stop')
-  //       .resolves();
+  it('should disconnect and stop the in-memory MongoDB server', async () => {
+    if (process.env.NODE_ENV === 'test') {
+      // Stub the mongoServer.stop() method
+      const mongoServerStopStub = sinon
+        .stub(mongoServer!, 'disconnect')
+        .resolves();
 
-  //     await disconnectDatabase();
+      await disconnectDatabase();
 
-  //     // Ensure mongoServer.stop() was called
-  //     expect(mongoServerStopStub.calledOnce).to.be.true;
+      // Ensure mongoServer.stop() was called
+      expect(mongoServerStopStub.calledOnce).to.be.true;
 
-  //     mongoServerStopStub.restore();
-  //   }
-  // });
+      mongoServerStopStub.restore();
+    }
+  });
 
   after(async () => {
     await disconnectDatabase();
