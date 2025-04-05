@@ -5,73 +5,65 @@ import crypto from 'crypto';
 const keysDir = path.join(__dirname, '../keys');
 const keyMapPath = path.join(keysDir, 'key-map.json');
 
-// Create directory if missing.
+// Ensure keys directory exists.
 if (!fs.existsSync(keysDir)) {
   fs.mkdirSync(keysDir, { recursive: true });
 }
 
-// Get today's date as key ID.
-const now = new Date();
-const kid = now.toISOString().split('T')[0]; // Format: YYYY-MM-DD.
+// Load existing key map.
+let keyMap: Record<string, string> = {};
+if (fs.existsSync(keyMapPath)) {
+  keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
+}
 
-const privateKeyPath = path.join(keysDir, `${kid}.private.pem`);
-const publicKeyPath = path.join(keysDir, `${kid}.public.pem`);
+// Get latest existing key ID.
+const existingKids = Object.keys(keyMap).sort();
+const latestKid = existingKids.at(-1);
+const rotationPeriodMs = 24 * 60 * 60 * 1000; // 1 day.
 
-// Generate RSA Key Pair.
-const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-  modulusLength: 2048,
-  publicKeyEncoding: { type: 'spki', format: 'pem' },
-  privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
-});
+let shouldRotate = true;
 
-// Save private/public keys with current date.
-// fs.writeFileSync(privateKeyPath, privateKey);
-// fs.writeFileSync(publicKeyPath, publicKey);
-// console.log(`🔑 Generated key pair with kid "${kid}"`);
+if (latestKid) {
+  const lastDate = new Date(latestKid);
+  const nextRotationDate = new Date(lastDate.getTime() + rotationPeriodMs);
+  shouldRotate = new Date() >= nextRotationDate;
+}
 
-// Update key-map.json.
-// let keyMap: Record<string, string> = {};
+if (shouldRotate) {
+  const now = new Date();
+  const newKid = now.toISOString().split('T')[0];
 
-// if (fs.existsSync(keyMapPath)) {
-//   keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
-// }
-// keyMap[kid] = publicKey;
-// fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+  const privateKeyPath = path.join(keysDir, `${newKid}.private.pem`);
+  const publicKeyPath = path.join(keysDir, `${newKid}.public.pem`);
 
-// console.log('✅ Key map updated!');
+  const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: { type: 'spki', format: 'pem' },
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+  });
 
-const kidDate = new Date(kid);
-const rotationPeriod = 24 * 60 * 60 * 1000;
-
-const rotationDate = new Date(kidDate.getTime() + rotationPeriod);
-
-const today = new Date();
-
-if (fs.existsSync(keyMapPath) && today >= rotationDate) {
-  // Save private/public keys with current date.
   fs.writeFileSync(privateKeyPath, privateKey);
   fs.writeFileSync(publicKeyPath, publicKey);
-  console.log(`🔑 Generated key pair with kid "${kid}"`);
+  console.log(`🔑 Generated key pair with kid "${newKid}"`);
 
-  // Update key-map.json.
-  let keyMap: Record<string, string> = {};
+  keyMap[newKid] = publicKey;
 
-  if (fs.existsSync(keyMapPath)) {
-    keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf-8'));
+  // Keep only the 3 newest keys.
+  const sorted = Object.keys(keyMap).sort();
+  while (sorted.length > 3) {
+    const toDelete = sorted.shift();
+    if (toDelete) {
+      delete keyMap[toDelete];
 
-    if (Object.keys(keyMap).length > 4) {
-      // Delete everything except the latest 3 keys.
-      const sortedKeys = Object.keys(keyMap).sort();
-      sortedKeys.slice(0, sortedKeys.length - 3).forEach((key) => {
-        delete keyMap[key];
-      });
-      fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
-
-      console.log('✅ Key map cleaned!');
+      const privPath = path.join(keysDir, `${toDelete}.private.pem`);
+      const pubPath = path.join(keysDir, `${toDelete}.public.pem`);
+      if (fs.existsSync(privPath)) fs.unlinkSync(privPath);
+      if (fs.existsSync(pubPath)) fs.unlinkSync(pubPath);
     }
   }
-  keyMap[kid] = publicKey;
-  fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
 
-  console.log('✅ Key map updated!');
+  fs.writeFileSync(keyMapPath, JSON.stringify(keyMap, null, 2));
+  console.log('✅ Key map updated and cleaned!');
+} else {
+  console.log('ℹ️ No rotation needed today.');
 }
