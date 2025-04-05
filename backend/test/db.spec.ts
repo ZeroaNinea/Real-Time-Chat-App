@@ -6,7 +6,7 @@ describe('Test Database Connection', () => {
     await connectToDatabase();
   });
 
-  it('NEDE_ENV shoub be test', () => {
+  it('NODE_ENV should be test', () => {
     expect(process.env.NODE_ENV).to.equal('test');
   });
 
