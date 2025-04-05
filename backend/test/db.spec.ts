@@ -11,7 +11,7 @@ import { NODE_ENV } from '../src/config/env';
 describe('Database Connection', () => {
   before(async () => {
     if (NODE_ENV === 'test') {
-      // await connectToDatabase();
+      await connectToDatabase();
     }
   });
 
@@ -25,17 +25,8 @@ describe('Database Connection', () => {
   //   }
   // });
 
-  it('should connect to the in-memory MongoDB instance', async () => {
-    await connectToDatabase();
-    const connectionState = mongoose.connection.readyState;
-    // 1 = connected
-    expect(connectionState).to.equal(1, 'Mongoose should be connected');
-
-    await disconnectDatabase();
-  });
-
   it('should connect to real MongoDB when NODE_ENV is not "test"', async () => {
-    // await disconnectDatabase();
+    await disconnectDatabase();
 
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
@@ -78,26 +69,35 @@ describe('Database Connection', () => {
     disconnectStub.restore();
   });
 
-  // it('should connect to the in-memory MongoDB instance', async () => {
-  //   process.env.NODE_ENV = 'test';
+  it('should connect to the in-memory MongoDB instance', async () => {
+    process.env.NODE_ENV = 'production';
 
-  //   // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
-  //   const { connectToDatabase, disconnectDatabase } = await import(
-  //     '../src/config/db'
-  //   );
-  //   await connectToDatabase();
+    // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
+    const { connectToDatabase, disconnectDatabase } = await import(
+      '../src/config/db'
+    );
+    await connectToDatabase();
 
-  //   const connectionState = (await import('mongoose')).default.connection
-  //     .readyState;
-  //   expect(connectionState).to.equal(1, 'Mongoose should be connected');
+    const connectionState = (await import('mongoose')).default.connection
+      .readyState;
+    expect(connectionState).to.equal(1, 'Mongoose should be connected');
 
+    await disconnectDatabase();
+  });
+
+  // after(async () => {
   //   await disconnectDatabase();
+  //   const connectionState = mongoose.connection.readyState;
+  //   // 0 = disconnected
+  //   expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
   // });
-
   after(async () => {
     await disconnectDatabase();
     const connectionState = mongoose.connection.readyState;
-    // 0 = disconnected
+    // 0 = disconnected.
     expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
+
+    // Ensure the process exits cleanly.
+    process.exit(0);
   });
 });
