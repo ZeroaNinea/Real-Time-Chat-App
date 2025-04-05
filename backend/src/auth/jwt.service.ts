@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-const keysDir = path.join(__dirname, '../../cryptography/keys/key-map.json');
+const keysDir = path.join(__dirname, '../../keys');
 
 // Load key map JSON.
 const keyMapPath = path.join(keysDir, 'key-map.json');
@@ -11,8 +11,11 @@ const keyMap: Record<string, string> = JSON.parse(
 );
 
 // Load current private key.
-const currentKid = '2025-04-03';
-const privateKey = fs.readFileSync(path.join(keysDir, 'private.pem'), 'utf-8');
+const currentKid = Object.keys(keyMap).sort().reverse()[0]; // Get latest kid.
+const privateKey = fs.readFileSync(
+  path.join(keysDir, `${currentKid}.private.pem`),
+  'utf-8'
+);
 
 export const signToken = (payload: any): string => {
   return jwt.sign(payload, privateKey, {
