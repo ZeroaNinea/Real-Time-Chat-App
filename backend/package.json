@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon src/server.ts",
     "gkeys": "ts-node cryptography/generate-keys.ts",
-    "grsa": "ts-node cryptography/generate-rsa-keys.ts",
+    "grsa": "ts-node cryptography/rsa-keys-rotation.ts",
     "db-connect": "nodemon src/config/db.ts"
   },
   "keywords": [],
