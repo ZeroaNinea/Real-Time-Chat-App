@@ -1,4 +1,3 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -13,11 +12,6 @@ export let DB_URL: string = `${DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:$
 
 // Testing
 export const NODE_ENV: string = process.env.NODE_ENV!;
-
-if (NODE_ENV === 'test') {
-  const mongoServer = await MongoMemoryServer.create();
-  DB_URL = mongoServer.getUri(); // Use in-memory MongoDB URI
-}
 
 // Application
 export const PORT: number = parseInt(process.env.PORT!) || 3000;
