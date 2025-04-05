@@ -1,7 +1,12 @@
 import { expect } from 'chai';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 
 describe('test', () => {
-  it('true to be true', () => {
-    expect(true).to.be.equal(true);
+  before(async () => {
+    await connectToDatabase();
+  });
+
+  after(async () => {
+    await disconnectDatabase();
   });
 });
