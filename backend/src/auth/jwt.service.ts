@@ -37,6 +37,12 @@ export const verifyToken = (token: string): any => {
   }
 
   const kid = decodedHeader.header.kid;
+
+  // ✅ Reload key map each time.
+  const keyMap: Record<string, string> = JSON.parse(
+    fs.readFileSync(keyMapPath, 'utf-8')
+  );
+
   const publicKey = keyMap[kid];
 
   if (!publicKey) {
