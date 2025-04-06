@@ -57,29 +57,19 @@ describe('Environment Variables', () => {
     expect(env.DB_PASSWORD).to.be.a('string');
   });
 
-  it('should check environment variables values', async () => {
+  it('should check DB_PORT value', async () => {
     expect(DB_PORT).to.be.a('number');
 
     process.env.DB_PORT = '27017';
 
-    console.log('====================================');
-
-    expect(DB_PORT).to.not.be.equal(
-      '27017',
-      'DB_PORT should be 27017 ======================'
-    );
+    expect(DB_PORT).to.not.be.equal('27017', 'DB_PORT should be 27017');
   });
 
-  it('should check environment variables values', async () => {
+  it('should check PORT value', async () => {
     expect(PORT).to.be.a('number');
 
     process.env.PORT = '27017';
 
-    console.log('====================================');
-
-    expect(PORT).to.not.be.equal(
-      '27017',
-      'DB_PORT should be 27017 ======================'
-    );
+    expect(PORT).to.not.be.equal('27017', 'DB_PORT should be 27017');
   });
 });
