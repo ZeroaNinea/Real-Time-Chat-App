@@ -6,6 +6,7 @@ import {
   DB_NAME,
   DB_USER,
   DB_PASSWORD,
+  PORT,
 } from '../src/config/env';
 
 describe('Environment Variables', () => {
@@ -64,6 +65,19 @@ describe('Environment Variables', () => {
     console.log('====================================');
 
     expect(DB_PORT).to.not.be.equal(
+      '27017',
+      'DB_PORT should be 27017 ======================'
+    );
+  });
+
+  it('should check environment variables values', async () => {
+    expect(PORT).to.be.a('number');
+
+    process.env.PORT = '27017';
+
+    console.log('====================================');
+
+    expect(PORT).to.not.be.equal(
       '27017',
       'DB_PORT should be 27017 ======================'
     );
