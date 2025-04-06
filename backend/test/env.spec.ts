@@ -72,4 +72,16 @@ describe('Environment Variables', () => {
 
     expect(PORT).to.not.be.equal('27017', 'DB_PORT should be 27017');
   });
+
+  // it('should use default PORT if environment variable is not set', async () => {
+  //   const originalEnv = { ...process.env };
+  //   delete process.env.PORT;
+
+  //   delete require.cache[require.resolve('../src/config/env')];
+  //   const env = await import('../src/config/env');
+
+  //   expect(env.PORT).to.equal(3000);
+
+  //   process.env = originalEnv;
+  // });
 });
