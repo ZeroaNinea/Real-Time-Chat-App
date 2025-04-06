@@ -51,6 +51,12 @@ describe('Environment Variables', () => {
 
     delete process.env.DB_USER;
     delete process.env.DB_PASSWORD;
+    delete process.env.DB_HOST;
+    delete process.env.DB_PORT;
+    delete process.env.DB_NAME;
+    delete process.env.DIALECT;
+    delete process.env.NODE_ENV;
+    delete process.env.PORT;
 
     try {
       delete require.cache[require.resolve('../src/config/env')];
