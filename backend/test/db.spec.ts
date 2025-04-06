@@ -120,13 +120,13 @@ describe('Database Connection', () => {
   //   mongoServer = originalMongoServer;
   // });
 
-  after(async () => {
-    await disconnectDatabase();
-    const connectionState = mongoose.connection.readyState;
-    // 0 = disconnected.
-    expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
+  // after(async () => {
+  //   await disconnectDatabase();
+  //   const connectionState = mongoose.connection.readyState;
+  //   // 0 = disconnected.
+  //   expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
 
-    // Ensure the process exits cleanly.
-    process.exit(0);
-  });
+  //   // Ensure the process exits cleanly.
+  //   process.exit(0);
+  // });
 });

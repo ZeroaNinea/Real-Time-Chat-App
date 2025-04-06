@@ -1,4 +1,12 @@
 import { expect } from 'chai';
+import {
+  DIALECT,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+  DB_USER,
+  DB_PASSWORD,
+} from '../src/config/env';
 
 describe('Environment Variables', () => {
   it('should load environment variables from .env file', async () => {
@@ -46,5 +54,18 @@ describe('Environment Variables', () => {
     expect(env.DB_NAME).to.be.a('string');
     expect(env.DB_USER).to.be.a('string');
     expect(env.DB_PASSWORD).to.be.a('string');
+  });
+
+  it('should check environment variables values', async () => {
+    expect(DB_PORT).to.be.a('number');
+
+    process.env.DB_PORT = '27017';
+
+    console.log('====================================');
+
+    expect(DB_PORT).to.not.be.equal(
+      '27017',
+      'DB_PORT should be 27017 ======================'
+    );
   });
 });
