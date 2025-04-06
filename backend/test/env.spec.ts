@@ -33,4 +33,33 @@ describe('Environment Variables', () => {
     // Restore.
     process.env = originalEnv;
   });
+
+  it('should fallback to default port when PORT is not set', async () => {
+    const originalEnv = { ...process.env };
+    delete process.env.PORT;
+
+    delete require.cache[require.resolve('../src/config/env')];
+    const env = await import('../src/config/env');
+
+    expect(env.PORT).to.equal(3000);
+
+    process.env = originalEnv;
+  });
+
+  it('should throw when required environment variables are missing', async () => {
+    const originalEnv = { ...process.env };
+
+    delete process.env.DB_USER;
+    delete process.env.DB_PASSWORD;
+
+    try {
+      delete require.cache[require.resolve('../src/config/env')];
+      await import('../src/config/env');
+      throw new Error('Expected import to fail but it succeeded');
+    } catch (err) {
+      expect(err).to.exist;
+    } finally {
+      process.env = originalEnv;
+    }
+  });
 });

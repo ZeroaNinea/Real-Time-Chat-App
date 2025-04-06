@@ -7,6 +7,8 @@ import mongoServer, {
   disconnectDatabase,
 } from '../src/config/db';
 import { NODE_ENV } from '../src/config/env';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { connect } from 'http2';
 
 describe('Database Connection', () => {
   before(async () => {
@@ -88,7 +90,7 @@ describe('Database Connection', () => {
   });
 
   // it('should connect to the in-memory MongoDB instance', async () => {
-  //   process.env.NODE_ENV = 'test';
+  //   process.env.NODE_ENV = 'production';
 
   //   // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
   //   const { connectToDatabase, disconnectDatabase } = await import(
