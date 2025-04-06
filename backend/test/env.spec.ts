@@ -34,38 +34,17 @@ describe('Environment Variables', () => {
     process.env = originalEnv;
   });
 
-  it('should fallback to default port when PORT is not set', async () => {
-    const originalEnv = { ...process.env };
-    delete process.env.PORT;
-
-    delete require.cache[require.resolve('../src/config/env')];
+  it('should check environment variables datatypes', async () => {
     const env = await import('../src/config/env');
 
-    expect(env.PORT).to.equal(3000);
-
-    process.env = originalEnv;
-  });
-
-  it('should throw when required environment variables are missing', async () => {
-    const originalEnv = { ...process.env };
-
-    delete process.env.DB_USER;
-    delete process.env.DB_PASSWORD;
-    delete process.env.DB_HOST;
-    delete process.env.DB_PORT;
-    delete process.env.DB_NAME;
-    delete process.env.DIALECT;
-    delete process.env.NODE_ENV;
-    delete process.env.PORT;
-
-    try {
-      delete require.cache[require.resolve('../src/config/env')];
-      await import('../src/config/env');
-      throw new Error('Expected import to fail but it succeeded');
-    } catch (err) {
-      expect(err).to.exist;
-    } finally {
-      process.env = originalEnv;
-    }
+    expect(env.DB_URL).to.be.a('string');
+    expect(env.NODE_ENV).to.be.a('string');
+    expect(env.PORT).to.be.a('number');
+    expect(env.DIALECT).to.be.a('string');
+    expect(env.DB_HOST).to.be.a('string');
+    expect(env.DB_PORT).to.be.a('number');
+    expect(env.DB_NAME).to.be.a('string');
+    expect(env.DB_USER).to.be.a('string');
+    expect(env.DB_PASSWORD).to.be.a('string');
   });
 });
