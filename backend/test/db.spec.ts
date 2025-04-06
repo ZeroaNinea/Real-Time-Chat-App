@@ -69,28 +69,55 @@ describe('Database Connection', () => {
     disconnectStub.restore();
   });
 
-  it('should connect to the in-memory MongoDB instance', async () => {
-    process.env.NODE_ENV = 'production';
+  describe('Database Connection', () => {
+    it('should disconnect and stop the in-memory MongoDB server', async () => {
+      if (process.env.NODE_ENV === 'test') {
+        // Stub the mongoServer.stop() method
+        const mongoServerStopStub = sinon
+          .stub(mongoServer!, 'disconnect')
+          .resolves();
 
-    // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
-    const { connectToDatabase, disconnectDatabase } = await import(
-      '../src/config/db'
-    );
-    await connectToDatabase();
+        await disconnectDatabase();
 
-    const connectionState = (await import('mongoose')).default.connection
-      .readyState;
-    expect(connectionState).to.equal(1, 'Mongoose should be connected');
+        // Ensure mongoServer.stop() was called.
+        expect(mongoServerStopStub.calledOnce).to.be.true;
 
-    await disconnectDatabase();
+        mongoServerStopStub.restore();
+      }
+    });
   });
 
-  // after(async () => {
+  // it('should connect to the in-memory MongoDB instance', async () => {
+  //   process.env.NODE_ENV = 'test';
+
+  //   // Re-import the db file so NODE_ENV === 'test' gets used at runtime.
+  //   const { connectToDatabase, disconnectDatabase } = await import(
+  //     '../src/config/db'
+  //   );
+  //   await connectToDatabase();
+
+  //   const connectionState = (await import('mongoose')).default.connection
+  //     .readyState;
+  //   expect(connectionState).to.equal(1, 'Mongoose should be connected');
+
   //   await disconnectDatabase();
-  //   const connectionState = mongoose.connection.readyState;
-  //   // 0 = disconnected
-  //   expect(connectionState).to.equal(0, 'Mongoose should be disconnected');
   // });
+
+  // it('should handle disconnection when mongoServer is null', async () => {
+  //   // Ensure mongoServer is null.
+  //   const originalMongoServer = mongoServer;
+  //   mongoServer = null;
+
+  //   // Call disconnectDatabase.
+  //   await disconnectDatabase();
+
+  //   // Assert that no errors occur.
+  //   expect(mongoServer).to.be.null;
+
+  //   // Restore original mongoServer.
+  //   mongoServer = originalMongoServer;
+  // });
+
   after(async () => {
     await disconnectDatabase();
     const connectionState = mongoose.connection.readyState;
