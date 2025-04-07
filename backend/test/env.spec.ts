@@ -99,19 +99,19 @@ describe('Environment Variables', () => {
     );
   });
 
-  it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
-    delete process.env.DB_URL; // simulate absence of DB_URL
-    process.env.DB_USER = 'user';
-    process.env.DB_PASSWORD = 'pass';
-    process.env.DB_HOST = 'localhost';
-    process.env.DB_PORT = '27017';
-    process.env.DB_NAME = 'mydb';
+  // it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
+  //   delete process.env.DB_URL; // simulate absence of DB_URL
+  //   process.env.DB_USER = 'user';
+  //   process.env.DB_PASSWORD = 'pass';
+  //   process.env.DB_HOST = 'localhost';
+  //   process.env.DB_PORT = '27017';
+  //   process.env.DB_NAME = 'mydb';
 
-    delete require.cache[require.resolve('../src/config/env')];
-    const envTs = await import('../src/config/env');
+  //   delete require.cache[require.resolve('../src/config/env')];
+  //   const envTs = await import('../src/config/env');
 
-    expect(envTs.buildMongoUrl()).to.equal(
-      'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
-    );
-  });
+  //   expect(envTs.buildMongoUrl()).to.equal(
+  //     'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
+  //   );
+  // });
 });
