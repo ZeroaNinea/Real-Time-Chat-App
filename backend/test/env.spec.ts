@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { buildMongoUrl } from '../src/config/env';
 
 describe('Environment Variables', () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -51,36 +50,16 @@ describe('Environment Variables', () => {
     expect(env.PORT).to.equal(3000);
   });
 
-  it('should delete environment variables to check their assignment', async () => {
+  it('should delete NODE_ENV', async () => {
+    // I don't understand how this test works I'm just deleting `NODE_ENV` checking `DB_URL`, and it increases the coverage. It says that I should cover the 25th line.
     delete require.cache[require.resolve('../src/config/env')];
     const envTs = await import('../src/config/env');
     let env = envTs.getEnv();
 
-    // delete env.DIALECT;
-    // delete process.env.DIALECT;
-    // delete process.env.DB_HOST;
-    // delete process.env.DB_PORT;
-    // delete process.env.DB_NAME;
-    // delete process.env.DB_USER;
-    // delete process.env.DB_PASSWORD;
-    console.log(env.NODE_ENV, '=================');
+    console.log(env.NODE_ENV, '================='); // Output: test.
     delete process.env.NODE_ENV;
-    // delete process.env.PORT;
-    // delete process.env.DB_URL;
+    console.log(env.NODE_ENV, '================='); // Output: test.
 
-    // console.log(env.DB_PORT, '=================');
-    // console.log(env.PORT);
-    console.log(env.NODE_ENV);
-    // console.log(envTs.buildMongoUrl());
-
-    // expect(env.DIALECT).to.equal('mongodb');
-    // expect(env.DB_HOST).to.equal('localhost');
-    // expect(env.DB_PORT).to.equal(27017);
-    // expect(env.DB_NAME).to.equal('default_db');
-    // expect(env.DB_USER).to.equal('');
-    // expect(env.DB_PASSWORD).to.equal('');
-    // expect(env.NODE_ENV).to.equal('development');
-    // expect(env.PORT).to.equal(3000);
     expect(envTs.buildMongoUrl()).to.equal(
       'mongodb://:@localhost:27017/default_db?authSource=admin'
     );
@@ -99,19 +78,20 @@ describe('Environment Variables', () => {
     );
   });
 
-  // it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
-  //   delete process.env.DB_URL; // simulate absence of DB_URL
-  //   process.env.DB_USER = 'user';
-  //   process.env.DB_PASSWORD = 'pass';
-  //   process.env.DB_HOST = 'localhost';
-  //   process.env.DB_PORT = '27017';
-  //   process.env.DB_NAME = 'mydb';
+  it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
+    // This test doesn't cause any effect.
+    delete process.env.DB_URL;
+    process.env.DB_USER = 'user';
+    process.env.DB_PASSWORD = 'pass';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_PORT = '27017';
+    process.env.DB_NAME = 'mydb';
 
-  //   delete require.cache[require.resolve('../src/config/env')];
-  //   const envTs = await import('../src/config/env');
+    delete require.cache[require.resolve('../src/config/env')];
+    const envTs = await import('../src/config/env');
 
-  //   expect(envTs.buildMongoUrl()).to.equal(
-  //     'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
-  //   );
-  // });
+    expect(envTs.buildMongoUrl()).to.equal(
+      'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
+    );
+  });
 });

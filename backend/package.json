@@ -7,8 +7,8 @@
     "gkeys": "ts-node cryptography/generate-keys.ts",
     "grsa": "ts-node cryptography/rsa-keys-rotation.ts",
     "db-connect": "nodemon src/config/db.ts",
-    "test": "NODE_ENV=test nodemon --exec c8 mocha",
-    "test:nyc": "NODE_ENV=test nodemon --exec npx nyc mocha"
+    "test": "NODE_ENV=test nodemon --exec npx nyc mocha",
+    "test:c8": "NODE_ENV=test nodemon --exec c8 mocha"
   },
   "keywords": [],
   "author": "",
