@@ -57,15 +57,33 @@ describe('Environment Variables', () => {
     let env = envTs.getEnv();
 
     // delete env.DIALECT;
-    delete process.env.DB_PORT;
-    delete process.env.PORT;
+    // delete process.env.DIALECT;
+    // delete process.env.DB_HOST;
+    // delete process.env.DB_PORT;
+    // delete process.env.DB_NAME;
+    // delete process.env.DB_USER;
+    // delete process.env.DB_PASSWORD;
+    console.log(env.NODE_ENV, '=================');
     delete process.env.NODE_ENV;
-    // delete env.DB_URL;
+    // delete process.env.PORT;
+    // delete process.env.DB_URL;
 
-    console.log(env.DB_PORT, '=================');
-    console.log(env.PORT);
+    // console.log(env.DB_PORT, '=================');
+    // console.log(env.PORT);
     console.log(env.NODE_ENV);
-    console.log(envTs.buildMongoUrl());
+    // console.log(envTs.buildMongoUrl());
+
+    // expect(env.DIALECT).to.equal('mongodb');
+    // expect(env.DB_HOST).to.equal('localhost');
+    // expect(env.DB_PORT).to.equal(27017);
+    // expect(env.DB_NAME).to.equal('default_db');
+    // expect(env.DB_USER).to.equal('');
+    // expect(env.DB_PASSWORD).to.equal('');
+    // expect(env.NODE_ENV).to.equal('development');
+    // expect(env.PORT).to.equal(3000);
+    expect(envTs.buildMongoUrl()).to.equal(
+      'mongodb://:@localhost:27017/default_db?authSource=admin'
+    );
   });
 
   it('should use DB_URL if provided', async () => {
@@ -78,6 +96,22 @@ describe('Environment Variables', () => {
 
     expect(envTs.buildMongoUrl()).to.equal(
       'mongodb://custom:uri@host:1234/testdb'
+    );
+  });
+
+  it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
+    delete process.env.DB_URL; // simulate absence of DB_URL
+    process.env.DB_USER = 'user';
+    process.env.DB_PASSWORD = 'pass';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_PORT = '27017';
+    process.env.DB_NAME = 'mydb';
+
+    delete require.cache[require.resolve('../src/config/env')];
+    const envTs = await import('../src/config/env');
+
+    expect(envTs.buildMongoUrl()).to.equal(
+      'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
     );
   });
 });
