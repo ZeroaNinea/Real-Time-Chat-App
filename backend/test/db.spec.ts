@@ -144,4 +144,41 @@ describe('Database Connection', () => {
     expect(errorStub.calledOnce).to.be.true;
     expect(errorStub.args[0][0]).to.include('MongoDB disconnection error');
   });
+
+  it('does not call stop when mongoServer is null', async () => {
+    const stopSpy = sinon.spy();
+
+    dbModule = proxyquire('../src/config/db', {
+      mongoose: {
+        connect: connectStub,
+        disconnect: disconnectStub,
+        default: {},
+      },
+      './env': {
+        default: {
+          NODE_ENV: 'test',
+          DB_USER: '',
+          DB_PASSWORD: '',
+          DB_HOST: '',
+          DB_PORT: 27017,
+          DB_NAME: '',
+        },
+      },
+      'mongodb-memory-server': {
+        MongoMemoryServer: {
+          create: sinon.stub().resolves({
+            getUri: () => 'mongodb://localhost:27017',
+            stop: stopSpy,
+          }),
+        },
+      },
+    });
+
+    // Don't call connectToDatabase(), so mongoServer stays null.
+
+    await dbModule.disconnectDatabase();
+
+    expect(disconnectStub.calledOnce).to.be.true;
+    expect(stopSpy.notCalled).to.be.true; // Important: make sure stop is NOT called.
+  });
 });
