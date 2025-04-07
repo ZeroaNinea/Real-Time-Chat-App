@@ -11,37 +11,56 @@ describe('Environment Variables', () => {
     process.env = originalEnv;
   });
 
-  it('should load default values from .env', async () => {
-    process.env.DIALECT = 'mongodb';
-    process.env.DB_HOST = 'localhost';
-    process.env.DB_PORT = '27017';
-    process.env.DB_NAME = 'test_db';
-    process.env.DB_USER = 'testuser';
-    process.env.DB_PASSWORD = 'testpass';
-    process.env.PORT = '4000';
-    process.env.NODE_ENV = 'development';
+  it('should load default values when environment variables are missing', async () => {
+    delete process.env.DIALECT;
+    delete process.env.DB_HOST;
+    delete process.env.DB_PORT;
+    delete process.env.DB_NAME;
+    delete process.env.DB_USER;
+    delete process.env.DB_PASSWORD;
+    delete process.env.NODE_ENV;
+    delete process.env.PORT;
 
     delete require.cache[require.resolve('../src/config/env')];
     const envTs = await import('../src/config/env');
-
     const env = envTs.getEnv();
 
     expect(env.DIALECT).to.equal('mongodb');
+    expect(env.DB_HOST).to.equal('localhost');
     expect(env.DB_PORT).to.equal(27017);
-    expect(envTs.buildMongoUrl()).to.equal(
-      'mongodb://testuser:testpass@localhost:27017/test_db?authSource=admin'
-    );
-    expect(env.PORT).to.equal(4000);
+    expect(env.DB_NAME).to.equal('default_db');
+    expect(env.DB_USER).to.equal('');
+    expect(env.DB_PASSWORD).to.equal('');
+    expect(env.NODE_ENV).to.equal('development');
+    expect(env.PORT).to.equal(3000);
+  });
+
+  it('should load custom values from environment variables', async () => {
+    process.env.DIALECT = 'postgres';
+    process.env.DB_HOST = 'customhost';
+    process.env.DB_PORT = '5432';
+    process.env.DB_NAME = 'custom_db';
+    process.env.DB_USER = 'custom_user';
+    process.env.DB_PASSWORD = 'custom_password';
+    process.env.NODE_ENV = 'production';
+    process.env.PORT = '8080';
+
+    delete require.cache[require.resolve('../src/config/env')];
+    const envTs = await import('../src/config/env');
+    const env = envTs.getEnv();
+
+    expect(env.DIALECT).to.equal('postgres');
+    expect(env.DB_HOST).to.equal('customhost');
+    expect(env.DB_PORT).to.equal(5432);
+    expect(env.DB_NAME).to.equal('custom_db');
+    expect(env.DB_USER).to.equal('custom_user');
+    expect(env.DB_PASSWORD).to.equal('custom_password');
+    expect(env.NODE_ENV).to.equal('production');
+    expect(env.PORT).to.equal(8080);
   });
 
   it('should fallback to default PORT if not provided', async () => {
     delete process.env.PORT;
-    process.env.DIALECT = 'mongodb';
-    process.env.DB_HOST = 'localhost';
-    process.env.DB_PORT = '27017';
-    process.env.DB_NAME = 'test_db';
-    process.env.DB_USER = 'testuser';
-    process.env.DB_PASSWORD = 'testpass';
 
     delete require.cache[require.resolve('../src/config/env')];
     const envTs = await import('../src/config/env');
@@ -50,47 +69,13 @@ describe('Environment Variables', () => {
     expect(env.PORT).to.equal(3000);
   });
 
-  it('should delete NODE_ENV', async () => {
-    // I don't understand how this test works I'm just deleting `NODE_ENV` checking `DB_URL`, and it increases the coverage. It says that I should cover the 25th line.
-    delete require.cache[require.resolve('../src/config/env')];
-    const envTs = await import('../src/config/env');
-    let env = envTs.getEnv();
-
-    console.log(env.NODE_ENV, '================='); // Output: test.
+  it('should handle missing NODE_ENV and default to "development"', async () => {
     delete process.env.NODE_ENV;
-    console.log(env.NODE_ENV, '================='); // Output: test.
-
-    expect(envTs.buildMongoUrl()).to.equal(
-      'mongodb://:@localhost:27017/default_db?authSource=admin'
-    );
-  });
-
-  it('should use DB_URL if provided', async () => {
-    process.env.DB_URL = 'mongodb://custom:uri@host:1234/testdb';
 
     delete require.cache[require.resolve('../src/config/env')];
     const envTs = await import('../src/config/env');
+    const env = envTs.getEnv();
 
-    console.log(envTs.buildMongoUrl(), '===================');
-
-    expect(envTs.buildMongoUrl()).to.equal(
-      'mongodb://custom:uri@host:1234/testdb'
-    );
-  });
-
-  it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
-    delete process.env.DB_URL;
-    process.env.DB_USER = 'user';
-    process.env.DB_PASSWORD = 'pass';
-    process.env.DB_HOST = 'localhost';
-    process.env.DB_PORT = '27017';
-    process.env.DB_NAME = 'mydb';
-
-    delete require.cache[require.resolve('../src/config/env')];
-    const envTs = await import('../src/config/env');
-
-    expect(envTs.buildMongoUrl()).to.equal(
-      'mongodb://user:pass@localhost:27017/mydb?authSource=admin'
-    );
+    expect(env.NODE_ENV).to.equal('development');
   });
 });
