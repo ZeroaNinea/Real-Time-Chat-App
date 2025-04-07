@@ -69,10 +69,12 @@ describe('Environment Variables', () => {
   });
 
   it('should use DB_URL if provided', async () => {
+    process.env.DB_URL = 'mongodb://custom:uri@host:1234/testdb';
+
     delete require.cache[require.resolve('../src/config/env')];
     const envTs = await import('../src/config/env');
 
-    process.env.DB_URL = 'mongodb://custom:uri@host:1234/testdb';
+    console.log(envTs.buildMongoUrl(), '===================');
 
     expect(envTs.buildMongoUrl()).to.equal(
       'mongodb://custom:uri@host:1234/testdb'

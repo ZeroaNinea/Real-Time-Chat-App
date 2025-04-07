@@ -24,6 +24,7 @@ export const getEnv = (): EnvConfig => {
     DB_PASSWORD: process.env.DB_PASSWORD ?? '',
     NODE_ENV: process.env.NODE_ENV ?? 'development',
     PORT: parseInt(process.env.PORT ?? '3000', 10),
+    DB_URL: process.env.DB_URL ?? undefined,
   };
 };
 
