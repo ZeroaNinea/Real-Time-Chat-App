@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { buildMongoUrl } from '../src/config/env';
 
 describe('Environment Variables', () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -48,5 +49,33 @@ describe('Environment Variables', () => {
     const env = envTs.getEnv();
 
     expect(env.PORT).to.equal(3000);
+  });
+
+  it('should delete environment variables to check their assignment', async () => {
+    delete require.cache[require.resolve('../src/config/env')];
+    const envTs = await import('../src/config/env');
+    let env = envTs.getEnv();
+
+    // delete env.DIALECT;
+    delete process.env.DB_PORT;
+    delete process.env.PORT;
+    delete process.env.NODE_ENV;
+    // delete env.DB_URL;
+
+    console.log(env.DB_PORT, '=================');
+    console.log(env.PORT);
+    console.log(env.NODE_ENV);
+    console.log(envTs.buildMongoUrl());
+  });
+
+  it('should use DB_URL if provided', async () => {
+    process.env.DB_URL = 'mongodb://custom:uri@host:1234/testdb';
+
+    delete require.cache[require.resolve('../src/config/env')];
+    const envTs = await import('../src/config/env');
+
+    expect(envTs.buildMongoUrl()).to.equal(
+      'mongodb://custom:uri@host:1234/testdb'
+    );
   });
 });
