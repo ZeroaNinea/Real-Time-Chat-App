@@ -118,7 +118,7 @@ npm start
 
 ```
 
-## Docket & Kubernetes Deployments
+## Docker & Kubernetes Deployments
 
 The deployments are placed in the [`docker-kubernetes-deployments`](./docker-kubernetes-deployments) folder.
 
