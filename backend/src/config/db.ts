@@ -60,3 +60,5 @@ export async function disconnectDatabase() {
     await memoryServer.stop();
   }
 }
+
+export default mongoose;

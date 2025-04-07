@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import mongoose from '../config/db';
 import bcrypt from 'bcrypt';
 
