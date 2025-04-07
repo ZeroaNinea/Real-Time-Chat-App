@@ -5,17 +5,17 @@ describe('Environment Variables Configuration', () => {
   const ORIGINAL_ENV = process.env;
 
   beforeEach(() => {
-    // Backup the original environment variables
+    // Backup the original environment variables.
     process.env = { ...ORIGINAL_ENV };
   });
 
   afterEach(() => {
-    // Restore the original environment variables
+    // Restore the original environment variables.
     process.env = ORIGINAL_ENV;
   });
 
   it('should load default values when environment variables are missing', () => {
-    // Clear relevant environment variables
+    // Clear relevant environment variables.
     delete process.env.DIALECT;
     delete process.env.DB_HOST;
     delete process.env.DB_PORT;
@@ -25,12 +25,12 @@ describe('Environment Variables Configuration', () => {
     delete process.env.NODE_ENV;
     delete process.env.PORT;
 
-    // Mock dotenv to prevent it from loading the .env file
+    // Mock dotenv to prevent it from loading the .env file.
     const env = proxyquire('../src/config/env', {
       dotenv: { config: () => ({}) },
     }).default;
 
-    // Assert default values
+    // Assert default values.
     expect(env.DIALECT).to.equal('mongodb');
     expect(env.DB_HOST).to.equal('localhost');
     expect(env.DB_PORT).to.equal(27017);
@@ -42,7 +42,7 @@ describe('Environment Variables Configuration', () => {
   });
 
   it('should load custom values from environment variables', () => {
-    // Set custom environment variables
+    // Set custom environment variables.
     process.env.DIALECT = 'postgres';
     process.env.DB_HOST = 'customhost';
     process.env.DB_PORT = '5432';
@@ -52,12 +52,12 @@ describe('Environment Variables Configuration', () => {
     process.env.NODE_ENV = 'production';
     process.env.PORT = '8080';
 
-    // Mock dotenv to prevent it from loading the .env file
+    // Mock dotenv to prevent it from loading the .env file.
     const env = proxyquire('../src/config/env', {
       dotenv: { config: () => ({}) },
     }).default;
 
-    // Assert custom values
+    // Assert custom values.
     expect(env.DIALECT).to.equal('postgres');
     expect(env.DB_HOST).to.equal('customhost');
     expect(env.DB_PORT).to.equal(5432);
