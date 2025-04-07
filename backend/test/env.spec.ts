@@ -79,7 +79,6 @@ describe('Environment Variables', () => {
   });
 
   it('should build Mongo URL from individual env values when DB_URL is not provided', async () => {
-    // This test doesn't cause any effect.
     delete process.env.DB_URL;
     process.env.DB_USER = 'user';
     process.env.DB_PASSWORD = 'pass';
