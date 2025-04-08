@@ -11,7 +11,7 @@ import { Request, Response, NextFunction } from 'express';
 describe('Test App Router', () => {
   it('should test registration, login, account and delete routes', async () => {
     // Register a user.
-    const res = await request(app)
+    const registerRes = await request(app)
       .post('/auth/register')
       .send({
         username: 'imgay',
@@ -21,11 +21,11 @@ describe('Test App Router', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    expect(res.status).to.equal(201);
-    expect(res.body.message).to.equal('User registered successfully!');
+    expect(registerRes.status).to.equal(201);
+    expect(registerRes.body.message).to.equal('User registered successfully!');
 
     // Checik if the user already exists.
-    const res2 = await request(app)
+    const registerUserExistsRes = await request(app)
       .post('/auth/register')
       .send({
         username: 'imgay',
@@ -35,11 +35,11 @@ describe('Test App Router', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    expect(res2.status).to.equal(400);
-    expect(res2.text).to.equal('Username already exists.');
+    expect(registerUserExistsRes.status).to.equal(400);
+    expect(registerUserExistsRes.text).to.equal('Username already exists.');
 
     // Provoke an error.
-    const res3 = await request(app)
+    const registerStatus500Res = await request(app)
       .post('/auth/register')
       .send({
         username: "Bohahahahah! I'm an evil hacker!",
@@ -51,11 +51,13 @@ describe('Test App Router', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    expect(res3.status).to.equal(500);
-    expect(res3.body.error).to.equal('Server error during registration.');
+    expect(registerStatus500Res.status).to.equal(500);
+    expect(registerStatus500Res.body.error).to.equal(
+      'Server error during registration.'
+    );
 
     // Login the user.
-    const res4 = await request(app)
+    const loginRes = await request(app)
       .post('/auth/login')
       .send({
         username: 'imgay',
@@ -64,8 +66,8 @@ describe('Test App Router', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    expect(res4.status).to.equal(200);
-    expect(res4.body.message).to.equal('Login successful!');
+    expect(loginRes.status).to.equal(200);
+    expect(loginRes.body.message).to.equal('Login successful!');
 
     // Provoke an invalid login or password error.
     const res5 = await request(app)
@@ -102,7 +104,7 @@ describe('Test App Router', () => {
     // Visit the account route with the access token.
     const res10 = await request(app)
       .get('/auth/account')
-      .set('Authorization', `Bearer ${res4.body.token}`);
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
 
     expect(res10.status).to.equal(200);
     expect(res10.text).to.equal('account');
@@ -121,7 +123,7 @@ describe('Test App Router', () => {
       })
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Authorization', `Bearer ${res4.body.token}`);
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
 
     expect(res9.status).to.equal(500);
     expect(res9.body.error).to.equal('Server error during account deletion.');
@@ -138,7 +140,7 @@ describe('Test App Router', () => {
       })
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Authorization', `Bearer ${res4.body.token}`);
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
 
     expect(res7.status).to.equal(200);
     expect(res7.body.message).to.equal('Account deleted successfully!');
@@ -153,7 +155,7 @@ describe('Test App Router', () => {
       })
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Authorization', `Bearer ${res4.body.token}`);
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
 
     expect(res8.status).to.equal(401);
     expect(res8.body.message).to.equal('Invalid username or password.');
