@@ -6,6 +6,7 @@ import { disconnectDatabase } from '../src/config/db';
 
 describe('Test App Router', () => {
   it('should register a new user, check if the user already exists and provoke an error', async () => {
+    // Register a user.
     const res = await request(app)
       .post('/auth/register')
       .send({
@@ -19,6 +20,7 @@ describe('Test App Router', () => {
     expect(res.status).to.equal(201);
     expect(res.body.message).to.equal('User registered successfully!');
 
+    // Checik if the user already exists.
     const res2 = await request(app)
       .post('/auth/register')
       .send({
@@ -32,6 +34,7 @@ describe('Test App Router', () => {
     expect(res2.status).to.equal(400);
     expect(res2.text).to.equal('Username already exists.');
 
+    // Provoke an error.
     const res3 = await request(app)
       .post('/auth/register')
       .send({
