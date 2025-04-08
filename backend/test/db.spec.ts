@@ -144,4 +144,10 @@ describe('Database Connection', () => {
     expect(errorStub.calledOnce).to.be.true;
     expect(errorStub.args[0][0]).to.include('MongoDB disconnection error');
   });
+
+  it('should disconnect and stop in-memory MongoDB', async () => {
+    process.env.NODE_ENV = 'test';
+    await dbModule.connectToDatabase();
+    await dbModule.disconnectDatabase();
+  });
 });
