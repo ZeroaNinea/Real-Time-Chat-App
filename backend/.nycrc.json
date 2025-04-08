@@ -3,5 +3,9 @@
   "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts", "test/**"],
   "require": ["ts-node/register"],
-  "reporter": ["text", "lcov"]
+  "reporter": ["text", "lcov"],
+  "branches": 85,
+  "functions": 90,
+  "lines": 90,
+  "statements": 90
 }
