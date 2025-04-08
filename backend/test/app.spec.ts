@@ -3,8 +3,10 @@ import { expect } from 'chai';
 import { app } from '../src/app';
 import { server } from '../src/server';
 import { disconnectDatabase } from '../src/config/db';
-import sinon from 'sinon';
+import sinon, { SinonSpy } from 'sinon';
 import { User } from '../src/models/user.model';
+import { asyncRoute } from '../src/controllers/auth.controller';
+import { Request, Response, NextFunction } from 'express';
 
 describe('Test App Router', () => {
   it('should test registration, login, account and delete routes', async () => {
@@ -92,7 +94,20 @@ describe('Test App Router', () => {
 
     findOneStub.restore();
 
-    // Should provoke an internal server error on account deletion.
+    // Visit the account route without the access token.
+    const res11 = await request(app).get('/auth/account');
+    expect(res11.status).to.equal(401);
+    expect(res11.body.message).to.equal('Access denied. No headers provided.');
+
+    // Visit the account route with the access token.
+    const res10 = await request(app)
+      .get('/auth/account')
+      .set('Authorization', `Bearer ${res4.body.token}`);
+
+    expect(res10.status).to.equal(200);
+    expect(res10.text).to.equal('account');
+
+    // Provoke an internal server error on account deletion.
     const deleteOneStub = sinon
       .stub(User, 'deleteOne')
       .rejects('Simulated internal server error');
@@ -144,10 +159,52 @@ describe('Test App Router', () => {
     expect(res8.body.message).to.equal('Invalid username or password.');
   });
 
-  it('should return 401 for /auth/account', async () => {
-    const res = await request(app).get('/auth/account');
-    expect(res.status).to.equal(401);
-    expect(res.body.message).to.equal('Access denied. No headers provided.');
+  it('should handle errors thrown by the wrapped function', async () => {
+    // Mock request, response, and next.
+    const req = {} as Request;
+    const res = {} as Response;
+    const next = sinon.spy() as SinonSpy & NextFunction; // Cast next as a Sinon spy.
+
+    // Mock function that throws an error.
+    const mockFn = sinon.stub().rejects(new Error('Test error'));
+
+    // Wrap the mock function with asyncRoute.
+    const wrappedRoute = asyncRoute(mockFn);
+
+    // Call the wrapped route.
+    await wrappedRoute(req, res, next);
+
+    // Assert that the error was passed to next.
+    expect(next.calledOnce).to.be.true;
+    expect(next.args[0][0]).to.be.an.instanceOf(Error);
+    expect(next.args[0][0].message).to.equal('Test error');
+  });
+
+  it('should log the error if it is an instance of Error', async () => {
+    // Mock request, response, and next.
+    const req = {} as Request;
+    const res = {} as Response;
+    const next = sinon.spy() as SinonSpy & NextFunction; // Cast next as a Sinon spy.
+
+    // Mock console.error.
+    const consoleErrorStub = sinon.stub(console, 'error');
+
+    // Mock function that throws an error.
+    const mockFn = sinon.stub().rejects(new Error('Test error'));
+
+    // Wrap the mock function with asyncRoute.
+    const wrappedRoute = asyncRoute(mockFn);
+
+    // Call the wrapped route.
+    await wrappedRoute(req, res, next);
+
+    // Assert that console.error was called.
+    expect(consoleErrorStub.calledOnce).to.be.true;
+    expect(consoleErrorStub.args[0][0]).to.equal('Error in route:');
+    expect(consoleErrorStub.args[0][1]).to.equal('Test error');
+
+    // Restore console.error.
+    consoleErrorStub.restore();
   });
 
   after(async () => {
