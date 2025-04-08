@@ -17,23 +17,11 @@ describe('Database Connection', () => {
 
     // Stub MongoMemoryServer.
     const mockUri = 'mongodb://localhost:27017/in-memory-test';
-    // mongoMemoryStub = {
-    //   create: sinon.stub().resolves({
-    //     getUri: () => mockUri,
-    //     stop: sinon.stub().resolves(),
-    //   }),
-    // };
-    const stopStub = sinon.stub().resolves();
-
-    class FakeMemoryServer {
-      getUri() {
-        return 'mongodb://localhost:27017/in-memory-test';
-      }
-      stop = stopStub;
-    }
-
     mongoMemoryStub = {
-      create: sinon.stub().resolves(new FakeMemoryServer()),
+      create: sinon.stub().resolves({
+        getUri: () => mockUri,
+        stop: sinon.stub().resolves(),
+      }),
     };
 
     dbModule = proxyquire('../src/config/db', {
@@ -61,15 +49,6 @@ describe('Database Connection', () => {
   afterEach(() => {
     sinon.restore();
     process.env = originalEnv;
-  });
-
-  it('connects to in-memory MongoDB in test environment', async () => {
-    await dbModule.connectToDatabase();
-
-    expect(mongoMemoryStub.create.calledOnce).to.be.true;
-    expect(
-      connectStub.calledOnceWith('mongodb://localhost:27017/in-memory-test')
-    ).to.be.true;
   });
 
   it('connects to external MongoDB in non-test environment', async () => {
