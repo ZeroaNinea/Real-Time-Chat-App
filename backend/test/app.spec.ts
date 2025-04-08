@@ -91,6 +91,21 @@ describe('Test App Router', () => {
     expect(res6.body.error).to.equal('Server error during login.');
 
     findOneStub.restore();
+
+    // Delete account.
+    const res7 = await request(app)
+      .delete('/auth/delete-account')
+      .send({
+        username: 'imgay',
+        email: 'imgay@gmail.com',
+        password: 'imgay',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${res4.body.token}`);
+
+    expect(res7.status).to.equal(200);
+    expect(res7.body.message).to.equal('Account deleted successfully!');
   });
 
   it('should return 401 for /auth/account', async () => {
