@@ -1,5 +1,4 @@
-// import mongoose from '../config/db';
-import mongoose from 'mongoose';
+import mongoose from '../config/db';
 import bcrypt from 'bcrypt';
 
 const UserSchema = new mongoose.Schema(
