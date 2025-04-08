@@ -106,12 +106,12 @@ describe('Test App Router', () => {
     );
 
     // Visit the account route with the access token.
-    const res10 = await request(app)
+    const accountStatus200Res = await request(app)
       .get('/auth/account')
       .set('Authorization', `Bearer ${loginRes.body.token}`);
 
-    expect(res10.status).to.equal(200);
-    expect(res10.text).to.equal('account');
+    expect(accountStatus200Res.status).to.equal(200);
+    expect(accountStatus200Res.text).to.equal('account');
 
     // Provoke an internal server error on account deletion.
     const deleteOneStub = sinon
