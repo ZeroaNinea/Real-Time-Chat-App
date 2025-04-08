@@ -91,5 +91,5 @@ export const deleteAccount = async (req: Request, res: Response) => {
 
 // Protected route.
 export const account = async (req: Request, res: Response) => {
-  res.send('account');
+  res.status(200).send('account');
 };
