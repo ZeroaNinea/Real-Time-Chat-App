@@ -5,7 +5,7 @@ import { server } from '../src/server';
 import { disconnectDatabase } from '../src/config/db';
 
 describe('Test App Router', () => {
-  it('should register a new user and check if the user already exists', async () => {
+  it('should register a new user, check if the user already exists and provoke an error', async () => {
     const res = await request(app)
       .post('/auth/register')
       .send({
@@ -31,6 +31,21 @@ describe('Test App Router', () => {
 
     expect(res2.status).to.equal(400);
     expect(res2.text).to.equal('Username already exists.');
+
+    const res3 = await request(app)
+      .post('/auth/register')
+      .send({
+        username: "Bohahahahah! I'm an evil hacker!",
+        email: () => {
+          console.log('Evil hacker function! >:(');
+        },
+        password: 'hacker_password',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    expect(res3.status).to.equal(500);
+    expect(res3.body.error).to.equal('Server error during registration.');
   });
 
   it('should return 401 for /auth/account', async () => {
@@ -42,7 +57,7 @@ describe('Test App Router', () => {
   after(async () => {
     await disconnectDatabase();
     server.close(async () => {
-      console.log('Server and database connections closed');
+      console.log('Server and database connections closed.');
     });
   });
 });
