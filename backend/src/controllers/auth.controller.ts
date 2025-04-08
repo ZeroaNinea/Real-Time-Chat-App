@@ -49,7 +49,6 @@ export const register = async (req: Request, res: Response) => {
 };
 
 // Login user.
-
 export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
@@ -69,6 +68,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+// Delete account.
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body;

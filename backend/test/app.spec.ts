@@ -62,6 +62,19 @@ describe('Test App Router', () => {
 
     expect(res4.status).to.equal(200);
     expect(res4.body.message).to.equal('Login successful!');
+
+    // Provoke an invalid login or password error.
+    const res5 = await request(app)
+      .post('/auth/login')
+      .send({
+        username: 'imgay',
+        password: 'wrong_password',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    expect(res5.status).to.equal(401);
+    expect(res5.body.message).to.equal('Invalid username or password.');
   });
 
   it('should return 401 for /auth/account', async () => {
