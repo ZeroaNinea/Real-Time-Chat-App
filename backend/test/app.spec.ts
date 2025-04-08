@@ -70,7 +70,7 @@ describe('Test App Router', () => {
     expect(loginRes.body.message).to.equal('Login successful!');
 
     // Provoke an invalid login or password error.
-    const res5 = await request(app)
+    const loginStatus401Res = await request(app)
       .post('/auth/login')
       .send({
         username: 'imgay',
@@ -79,27 +79,31 @@ describe('Test App Router', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    expect(res5.status).to.equal(401);
-    expect(res5.body.message).to.equal('Invalid username or password.');
+    expect(loginStatus401Res.status).to.equal(401);
+    expect(loginStatus401Res.body.message).to.equal(
+      'Invalid username or password.'
+    );
 
     // Provoke an internal server error on login.
     const findOneStub = sinon
       .stub(User, 'findOne')
       .rejects('Simulated internal server error');
 
-    const res6 = await request(app)
+    const loginStatus500Res = await request(app)
       .post('/auth/login')
       .send({ username: 'test', password: 'test' });
 
-    expect(res6.status).to.equal(500);
-    expect(res6.body.error).to.equal('Server error during login.');
+    expect(loginStatus500Res.status).to.equal(500);
+    expect(loginStatus500Res.body.error).to.equal('Server error during login.');
 
     findOneStub.restore();
 
     // Visit the account route without the access token.
-    const res11 = await request(app).get('/auth/account');
-    expect(res11.status).to.equal(401);
-    expect(res11.body.message).to.equal('Access denied. No headers provided.');
+    const accountStatus401Res = await request(app).get('/auth/account');
+    expect(accountStatus401Res.status).to.equal(401);
+    expect(accountStatus401Res.body.message).to.equal(
+      'Access denied. No headers provided.'
+    );
 
     // Visit the account route with the access token.
     const res10 = await request(app)
