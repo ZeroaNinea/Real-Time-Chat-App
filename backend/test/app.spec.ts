@@ -5,7 +5,7 @@ import { server } from '../src/server';
 import { disconnectDatabase } from '../src/config/db';
 
 describe('Test App Router', () => {
-  it('should register a new user, check if the user already exists and provoke an error', async () => {
+  it('should test registration, login, account and delete routes', async () => {
     // Register a user.
     const res = await request(app)
       .post('/auth/register')
