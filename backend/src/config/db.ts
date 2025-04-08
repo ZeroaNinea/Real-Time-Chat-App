@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import config from './env';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let mongoServer: MongoMemoryServer | null = null;
+export let mongoServer: MongoMemoryServer | null = null;
 
 export const connectToDatabase = async () => {
   try {
