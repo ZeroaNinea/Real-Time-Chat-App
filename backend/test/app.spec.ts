@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { app } from '../src/app';
 import { server } from '../src/server';
 import { disconnectDatabase } from '../src/config/db';
+import sinon from 'sinon';
+import { User } from '../src/models/user.model';
 
 describe('Test App Router', () => {
   it('should test registration, login, account and delete routes', async () => {
@@ -75,6 +77,20 @@ describe('Test App Router', () => {
 
     expect(res5.status).to.equal(401);
     expect(res5.body.message).to.equal('Invalid username or password.');
+
+    // Provoke an internal server error on login.
+    const findOneStub = sinon
+      .stub(User, 'findOne')
+      .rejects('Simulated internal server error');
+
+    const res6 = await request(app)
+      .post('/auth/login')
+      .send({ username: 'test', password: 'test' });
+
+    expect(res6.status).to.equal(500);
+    expect(res6.body.error).to.equal('Server error during login.');
+
+    findOneStub.restore();
   });
 
   it('should return 401 for /auth/account', async () => {
