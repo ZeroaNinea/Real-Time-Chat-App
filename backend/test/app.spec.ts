@@ -92,6 +92,27 @@ describe('Test App Router', () => {
 
     findOneStub.restore();
 
+    // Should provoke an internal server error on account deletion.
+    const deleteOneStub = sinon
+      .stub(User, 'deleteOne')
+      .rejects('Simulated internal server error');
+
+    const res9 = await request(app)
+      .delete('/auth/delete-account')
+      .send({
+        username: 'imgay',
+        email: 'imgay@gmail.com',
+        password: 'imgay',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${res4.body.token}`);
+
+    expect(res9.status).to.equal(500);
+    expect(res9.body.error).to.equal('Server error during account deletion.');
+
+    deleteOneStub.restore();
+
     // Delete account.
     const res7 = await request(app)
       .delete('/auth/delete-account')
