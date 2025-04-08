@@ -106,6 +106,21 @@ describe('Test App Router', () => {
 
     expect(res7.status).to.equal(200);
     expect(res7.body.message).to.equal('Account deleted successfully!');
+
+    // Check if the password is wrong during account deletion.
+    const res8 = await request(app)
+      .delete('/auth/delete-account')
+      .send({
+        username: 'imgay',
+        email: 'imgay@gmail.com',
+        password: 'wrong_password',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${res4.body.token}`);
+
+    expect(res8.status).to.equal(401);
+    expect(res8.body.message).to.equal('Invalid username or password.');
   });
 
   it('should return 401 for /auth/account', async () => {
