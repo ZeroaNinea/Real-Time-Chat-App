@@ -49,6 +49,19 @@ describe('Test App Router', () => {
 
     expect(res3.status).to.equal(500);
     expect(res3.body.error).to.equal('Server error during registration.');
+
+    // Login the user.
+    const res4 = await request(app)
+      .post('/auth/login')
+      .send({
+        username: 'imgay',
+        password: 'imgay',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    expect(res4.status).to.equal(200);
+    expect(res4.body.message).to.equal('Login successful!');
   });
 
   it('should return 401 for /auth/account', async () => {
