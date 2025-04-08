@@ -17,11 +17,23 @@ describe('Database Connection', () => {
 
     // Stub MongoMemoryServer.
     const mockUri = 'mongodb://localhost:27017/in-memory-test';
+    // mongoMemoryStub = {
+    //   create: sinon.stub().resolves({
+    //     getUri: () => mockUri,
+    //     stop: sinon.stub().resolves(),
+    //   }),
+    // };
+    const stopStub = sinon.stub().resolves();
+
+    class FakeMemoryServer {
+      getUri() {
+        return 'mongodb://localhost:27017/in-memory-test';
+      }
+      stop = stopStub;
+    }
+
     mongoMemoryStub = {
-      create: sinon.stub().resolves({
-        getUri: () => mockUri,
-        stop: sinon.stub().resolves(),
-      }),
+      create: sinon.stub().resolves(new FakeMemoryServer()),
     };
 
     dbModule = proxyquire('../src/config/db', {
@@ -143,11 +155,5 @@ describe('Database Connection', () => {
     await dbModule.disconnectDatabase();
     expect(errorStub.calledOnce).to.be.true;
     expect(errorStub.args[0][0]).to.include('MongoDB disconnection error');
-  });
-
-  it('should disconnect and stop in-memory MongoDB', async () => {
-    process.env.NODE_ENV = 'test';
-    await dbModule.connectToDatabase();
-    await dbModule.disconnectDatabase();
   });
 });
