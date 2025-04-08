@@ -5,7 +5,7 @@ import { server } from '../src/server';
 import { disconnectDatabase } from '../src/config/db';
 
 describe('Test App Router', () => {
-  it('should register a new user', async () => {
+  it('should register a new user and check if the user already exists', async () => {
     const res = await request(app)
       .post('/auth/register')
       .send({
@@ -18,7 +18,19 @@ describe('Test App Router', () => {
 
     expect(res.status).to.equal(201);
     expect(res.body.message).to.equal('User registered successfully!');
-    console.log(res.body.message, res.status, '============================');
+
+    const res2 = await request(app)
+      .post('/auth/register')
+      .send({
+        username: 'imgay',
+        email: 'imgay@gmail.com',
+        password: 'imgay',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    expect(res2.status).to.equal(400);
+    expect(res2.text).to.equal('Username already exists.');
   });
 
   it('should return 401 for /auth/account', async () => {
