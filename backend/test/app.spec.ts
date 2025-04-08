@@ -118,7 +118,7 @@ describe('Test App Router', () => {
       .stub(User, 'deleteOne')
       .rejects('Simulated internal server error');
 
-    const res9 = await request(app)
+    const deleteStatus500Res = await request(app)
       .delete('/auth/delete-account')
       .send({
         username: 'imgay',
@@ -129,8 +129,10 @@ describe('Test App Router', () => {
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${loginRes.body.token}`);
 
-    expect(res9.status).to.equal(500);
-    expect(res9.body.error).to.equal('Server error during account deletion.');
+    expect(deleteStatus500Res.status).to.equal(500);
+    expect(deleteStatus500Res.body.error).to.equal(
+      'Server error during account deletion.'
+    );
 
     deleteOneStub.restore();
 
