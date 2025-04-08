@@ -137,7 +137,7 @@ describe('Test App Router', () => {
     deleteOneStub.restore();
 
     // Delete account.
-    const res7 = await request(app)
+    const deleteStatus200Res = await request(app)
       .delete('/auth/delete-account')
       .send({
         username: 'imgay',
@@ -148,8 +148,10 @@ describe('Test App Router', () => {
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${loginRes.body.token}`);
 
-    expect(res7.status).to.equal(200);
-    expect(res7.body.message).to.equal('Account deleted successfully!');
+    expect(deleteStatus200Res.status).to.equal(200);
+    expect(deleteStatus200Res.body.message).to.equal(
+      'Account deleted successfully!'
+    );
 
     // Check if the password is wrong during account deletion.
     const res8 = await request(app)
