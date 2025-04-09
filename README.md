@@ -96,6 +96,32 @@ backend/
 <br />
 ➡️ **Step 6:** Build UI in Angular
 
+### Main Components (likely pages or views)
+
+1. **RegisterComponent**
+2. **LoginComponent**
+3. **ChatRoomsComponent** (public rooms list)
+4. **PrivateMessagesComponent**
+5. **AccountSettingsComponent**
+6. **UserSearchComponent**
+7. **ChatSearchComponent**
+8. **FriendsComponent**
+9. **CreateChatRoomComponent**
+10. **ChatRoomDetailComponent** (for viewing & sending messages in a room)
+11. **PrivateChatComponent** (for one-on-one messages)
+
+### Shared / Reusable Components
+
+- **MessageBubbleComponent**
+- **UserCardComponent**
+- **ChatRoomCardComponent**
+- **NavbarComponent**
+- **SidebarComponent**
+- **SearchInputComponent**
+- **ModalComponent** (for creating rooms or settings)
+- **NotificationBadgeComponent**
+- **TypingIndicatorComponent**
+
 ## Start the Project
 
 ### **In the Development Mode**
