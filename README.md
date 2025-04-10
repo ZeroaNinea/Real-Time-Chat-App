@@ -92,7 +92,7 @@ backend/
 <br />
 ✅ **Step 4:** Implement JWT key rotation logic
 <br />
-➡️ **Step 5:** Write Mocha & Chai tests for authentication
+✅ **Step 5:** Write Mocha & Chai tests for authentication
 <br />
 ➡️ **Step 6:** Build UI in Angular
 
