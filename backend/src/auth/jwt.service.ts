@@ -51,3 +51,7 @@ export const verifyToken = (token: string): any => {
 
   return jwt.verify(token, publicKey, { algorithms: ['RS256'] });
 };
+
+export const jwtService = {
+  verifyToken,
+};
