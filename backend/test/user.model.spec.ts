@@ -1,31 +1,53 @@
 import { expect } from 'chai';
 import mongoose from 'mongoose';
-import { User } from '../src/models/user.model';
+import request from 'supertest';
 import bcrypt from 'bcrypt';
+
+import { User } from '../src/models/user.model';
+import { app } from '../src/app';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import { server } from '../src/server';
 
 describe('User Model', () => {
   before(async (done) => {
-    await mongoose.connect('mongodb://localhost:27017/test-db');
+    // await mongoose.connect('mongodb://localhost:27017/test-db');
+    await connectToDatabase();
+  });
+
+  beforeEach(async (done) => {
+    // Register a user.
+    const registerRes = await request(app)
+      .post('/auth/register')
+      .send({
+        username: 'imgay',
+        email: 'imgay@gmail.com',
+        password: 'imgay',
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    expect(registerRes.status).to.equal(201);
+    expect(registerRes.body.message).to.equal('User registered successfully!');
 
     done();
   });
 
-  after(async (done) => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.disconnect();
+  // after(async (done) => {
+  //   await mongoose.connection.dropDatabase();
+  //   await mongoose.disconnect();
 
-    done();
-  });
+  //   done();
+  // });
 
   afterEach(async () => {
     await User.deleteMany({});
   });
 
   it('should hash the password before saving', async (done) => {
-    const rawPassword = 'my-secret';
+    const rawPassword = 'imgay';
     const user = new User({
-      username: 'heghine',
-      email: 'heghine@example.com',
+      username: 'imgay',
+      email: 'imgay@gmail.com',
       password: rawPassword,
     });
 
@@ -38,11 +60,11 @@ describe('User Model', () => {
     done();
   });
 
-  it('should compare passwords correctly', async () => {
+  it('should compare passwords correctly', async (done) => {
     const rawPassword = 'compare-me';
     const user = new User({
-      username: 'zeroa',
-      email: 'zeroa@example.com',
+      username: 'imgay',
+      email: 'imgay@gmail.com',
       password: rawPassword,
     });
 
@@ -53,6 +75,8 @@ describe('User Model', () => {
 
     const isWrong = await user.comparePassword('wrong-password');
     expect(isWrong).to.be.false;
+
+    done();
   });
 
   it('should throw if password is not provided in comparePassword', async (done) => {
@@ -71,5 +95,12 @@ describe('User Model', () => {
     }
 
     done();
+  });
+
+  after(async () => {
+    await disconnectDatabase();
+    server.close(async () => {
+      console.log('Server and database connections closed.');
+    });
   });
 });
