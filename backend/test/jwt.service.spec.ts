@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import jwt from 'jsonwebtoken';
 
 // Temporarily override the real keys during test.
-const keysDir = path.join(__dirname, '../fixtures/keys');
+const keysDir = path.join(__dirname, './keys');
 const privateKey = fs.readFileSync(
   path.join(keysDir, 'test-key.private.pem'),
   'utf-8'
@@ -21,10 +21,10 @@ const keyMap = {
 };
 fs.writeFileSync(keyMapPath, JSON.stringify(keyMap));
 
-process.env.TEST_KEY_DIR = keysDir; // Optional for flexible paths
+process.env.TEST_KEY_DIR = keysDir; // Optional for flexible paths.
 
-// Load service *after* mocking to inject test keys
-const { signToken, verifyToken } = require('../../src/services/jwt.service');
+// Load service *after* mocking to inject test keys.
+const { signToken, verifyToken } = require('../src/auth/jwt.service');
 
 describe('JWT Service', () => {
   const payload = { userId: 'test-user' };
@@ -42,7 +42,7 @@ describe('JWT Service', () => {
   it('should throw if kid is missing', () => {
     const token = jwt.sign(payload, privateKey, {
       algorithm: 'RS256',
-      // no keyid
+      // No keyid.
       expiresIn: '1h',
     });
 
