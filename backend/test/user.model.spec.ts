@@ -64,4 +64,21 @@ describe('User Model', () => {
       expect(message).to.equal('Password is required.');
     }
   });
+
+  it('should not hash the password again if it is not modified', async () => {
+    const rawPassword = 'imgay';
+    const user = new User({
+      username: 'imgay',
+      email: 'imgay@gmail.com',
+      password: rawPassword,
+    });
+
+    await user.save();
+    const hashedPassword = user.password;
+
+    user.profilePicture = 'new-pic.png';
+    await user.save();
+
+    expect(user.password).to.equal(hashedPassword);
+  });
 });
