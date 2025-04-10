@@ -1,6 +1,6 @@
 {
   "extension": [".ts"],
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "cryptography/**/*.ts"],
   "exclude": ["**/*.spec.ts", "test/**"],
   "require": ["ts-node/register"],
   "reporter": ["text", "lcov"],
