@@ -30,3 +30,7 @@ export const authMiddleware = (
     res.status(401).json({ message: 'Invalid token.' });
   }
 };
+
+export const jwtService = {
+  verifyToken,
+};
