@@ -1,5 +1,6 @@
 /node_modules
 /.env
 /keys
+/test/keys
 /coverage
 /.nyc_output
