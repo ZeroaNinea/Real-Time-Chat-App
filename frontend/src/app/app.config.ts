@@ -10,6 +10,7 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,20 @@ export const appConfig: ApplicationConfig = {
     // Angular Material
     provideAnimationsAsync(),
     provideAnimations(),
-    provideStore()
-],
+
+    // NgRx Store
+    provideStore(),
+
+    // NgRx DevTools
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: false,
+      autoPause: true,
+      features: {
+        pause: false,
+        lock: true,
+        persist: true,
+      },
+    }),
+  ],
 };
