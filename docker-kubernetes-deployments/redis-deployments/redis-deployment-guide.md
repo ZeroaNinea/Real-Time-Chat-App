@@ -22,3 +22,17 @@ This guide explains how to deploy Redis and Redis Commander using Kubernetes.
    kubectl apply -f redis-secret.yaml
 
    ```
+
+3. Create a PVC to store the database data:
+
+   ```bash
+   kubectl apply -f redis-pvc.yaml
+
+   ```
+
+4. Apply the deployment:
+
+   ```bash
+   kubectl apply -f redis-deployment.yaml
+
+   ```
