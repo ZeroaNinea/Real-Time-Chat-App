@@ -18,12 +18,15 @@ export class LoginComponent {
 
   form = this.fb.group({
     username: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   submit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      console.log('Invalid form');
+      return;
+    }
+    console.log('Form submitted:', this.form.value);
     this.authService
       .login({
         username: this.form.value.username || '',
