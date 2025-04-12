@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
 import { RegisterComponent } from './auth/register/register.component';
-import { AppComponent } from './app.component';
+import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: AppComponent,
-  // },
-  // {
-  //   path: 'auth/register',
-  //   component: RegisterComponent,
-  // },
+  {
+    path: '',
+    component: ChatComponent,
+  },
+  {
+    path: 'auth/register',
+    component: RegisterComponent,
+  },
 ];
