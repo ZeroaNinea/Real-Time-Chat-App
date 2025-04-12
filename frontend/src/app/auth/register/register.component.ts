@@ -5,20 +5,11 @@ import { MatInputModule } from '@angular/material/input';
 
 import { AuthFormFieldComponent } from '../shared/auth-form-field/auth-form-field.component';
 import { AuthService } from '../auth.service';
-import {
-  MatFormFieldControl,
-  MatFormFieldModule,
-} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    AuthFormFieldComponent,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, AuthFormFieldComponent],
   standalone: true,
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
