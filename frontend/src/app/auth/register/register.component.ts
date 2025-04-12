@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { AuthFormFieldComponent } from '../shared/auth-form-field/auth-form-field.component';
 import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AuthFormFieldComponent],
   standalone: true,
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
