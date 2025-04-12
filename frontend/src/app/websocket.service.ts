@@ -17,7 +17,7 @@ export class WebsocketService implements OnDestroy {
   connect() {
     if (this.socket && this.isConnected) return;
 
-    this.socket = io(environment.socketUrl, { transports: ['websocket'] });
+    this.socket = io(environment.backendUrl, { transports: ['websocket'] });
 
     this.socket.on('connect', () => {
       this.isConnected = true;

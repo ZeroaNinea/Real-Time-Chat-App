@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,10 @@ export class AuthService {
   constructor() {}
 
   register(data: { username: string; password: string; email: string }) {
-    return this.http.post('http://localhost:5000/auth/register', data);
+    return this.http.post(`${environment.backendUrl}/auth/register`, data);
   }
 
   login(data: { username: string; password: string }) {
-    return this.http.post('http://localhost:5000/auth/login', data);
+    return this.http.post(`${environment.backendUrl}/auth/login`, data);
   }
 }
