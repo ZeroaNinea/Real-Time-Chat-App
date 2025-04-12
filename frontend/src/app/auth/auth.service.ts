@@ -10,10 +10,10 @@ export class AuthService {
   constructor() {}
 
   register(data: { username: string; password: string; email: string }) {
-    return this.http.post('/auth/register', data);
+    return this.http.post('http://localhost:5000/auth/register', data);
   }
 
   login(data: { username: string; password: string }) {
-    return this.http.post('/auth/login', data);
+    return this.http.post('http://localhost:5000/auth/login', data);
   }
 }
