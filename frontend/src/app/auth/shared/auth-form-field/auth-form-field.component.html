@@ -1,1 +1,20 @@
-<p>auth-form-field works!</p>
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [type]="type"
+    [formControl]="control"
+    [placeholder]="placeholder"
+  />
+
+  @if (control.hasError('required')) {
+  <mat-error>Required</mat-error>
+  } @if (control.hasError('email')) {
+  <mat-error>Invalid email</mat-error>
+  } @if (control.hasError('minlength')) {
+  <mat-error
+    >Minimum length is
+    {{ control.getError("minlength").requiredLength }}</mat-error
+  >
+  }
+</mat-form-field>
