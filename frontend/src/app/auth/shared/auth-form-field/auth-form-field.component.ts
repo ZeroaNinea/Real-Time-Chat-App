@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatError } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-auth-form-field',
-  imports: [ReactiveFormsModule, MatFormFieldModule],
+  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatError],
   standalone: true,
   templateUrl: './auth-form-field.component.html',
   styleUrls: ['./auth-form-field.component.scss'],
