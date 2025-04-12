@@ -43,3 +43,26 @@ This guide explains how to deploy Redis and Redis Commander using Kubernetes.
    kubectl apply -f redis-service.yaml
 
    ```
+
+## Deploy Redis Commander
+
+1. Deploy Redis Commander:
+
+   ```bash
+   kubectl apply -f redis-commander-deployment.yaml
+
+   ```
+
+2. Deploy Redis Commander service:
+
+   ```bash
+   kubectl apply -f redis-commander-service.yaml
+
+   ```
+
+3. Deploy the ingress:
+
+   ```bash
+   kubectl apply -f redis-commander-ingress.yaml
+
+   ```
