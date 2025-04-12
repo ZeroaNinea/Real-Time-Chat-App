@@ -96,7 +96,7 @@ backend/
 <br />
 ✅ **Step 6:** Build UI in Angular
 <br />
-➡️ **Step 7:** Deploy Redis with K8s
+✅ **Step 7:** Deploy Redis with K8s
 <br />
 ➡️ **Step 8:** Set up Redis in the backend
 <br />
