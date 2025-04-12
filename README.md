@@ -98,15 +98,15 @@ backend/
 <br />
 ➡️ **Step 7:** Deploy Redis with K8s
 <br />
-➡️ **Step 7:** Set up Redis in the backend
+➡️ **Step 8:** Set up Redis in the backend
 <br />
-➡️ **Step 8:** Store tokens in Redis on login, and check them in a middleware
+➡️ **Step 9:** Store tokens in Redis on login, and check them in a middleware
 <br />
-➡️ **Step 9:** Implement logout by deleting the token from Redis
+➡️ **Step 10:** Implement logout by deleting the token from Redis
 <br />
-➡️ **Step 10:** Then add the Angular interceptor to send tokens on every request
+➡️ **Step 11:** Then add the Angular interceptor to send tokens on every request
 <br />
-➡️ **Step 11:** Finally, build the account page to use the /auth/account route
+➡️ **Step 12:** Finally, build the account page to use the /auth/account route
 
 ### Main Components (likely pages or views)
 
