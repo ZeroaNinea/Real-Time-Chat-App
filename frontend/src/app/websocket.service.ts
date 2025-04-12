@@ -2,8 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
-import config from '../../../backend/src/config/env';
-const { PORT } = config;
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +17,7 @@ export class WebsocketService implements OnDestroy {
   connect() {
     if (this.socket && this.isConnected) return;
 
-    this.socket = io(`http://localhost:${PORT}`, { transports: ['websocket'] });
+    this.socket = io(environment.socketUrl, { transports: ['websocket'] });
 
     this.socket.on('connect', () => {
       this.isConnected = true;
