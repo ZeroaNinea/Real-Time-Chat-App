@@ -94,7 +94,17 @@ backend/
 <br />
 ✅ **Step 5:** Write Mocha & Chai tests for authentication
 <br />
-➡️ **Step 6:** Build UI in Angular
+✅ **Step 6:** Build UI in Angular
+<br />
+➡️ **Step 7:** Set up Redis in the backend.
+<br />
+➡️ **Step 8:** Store tokens in Redis on login, and check them in a middleware.
+<br />
+➡️ **Step 9:** Implement logout by deleting the token from Redis.
+<br />
+➡️ **Step 10:** Then add the Angular interceptor to send tokens on every request.
+<br />
+➡️ **Step 11:** Finally, build the account page to use the /auth/account route.
 
 ### Main Components (likely pages or views)
 
