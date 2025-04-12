@@ -23,6 +23,20 @@ export class LoginComponent {
   });
 
   submit() {
-    console.log('Form submitted');
+    if (this.form.invalid) return;
+    this.authService
+      .login({
+        username: this.form.value.username || '',
+        password: this.form.value.password || '',
+      })
+      .subscribe({
+        next: () => {
+          // Navigate to chat or show success.
+          console.log('Login successful');
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 }
