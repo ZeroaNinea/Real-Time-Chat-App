@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-auth-form-field',
-  imports: [],
+  imports: [ReactiveFormsModule, MatFormFieldModule],
   standalone: true,
   templateUrl: './auth-form-field.component.html',
-  styleUrl: './auth-form-field.component.scss',
+  styleUrls: ['./auth-form-field.component.scss'],
 })
 export class AuthFormFieldComponent {
   @Input() label: string = '';
