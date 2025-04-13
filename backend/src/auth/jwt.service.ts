@@ -28,7 +28,7 @@ export const signToken = async (payload: any): Promise<string> => {
 
   console.log('Access token is signed to a user.');
 
-  await redisClient.set(`auth:${payload.userId}:${token}`, '1', 'EX', 60 * 60);
+  await redisClient.set(`auth:${payload.id}:${token}`, '1', 'EX', 60 * 60);
 
   return token;
 };

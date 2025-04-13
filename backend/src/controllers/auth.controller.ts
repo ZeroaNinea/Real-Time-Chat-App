@@ -59,7 +59,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // ✅ Use your signToken helper.
-    const token = signToken({ id: user._id, username: user.username });
+    const token = await signToken({ id: user._id, username: user.username });
 
     res.status(200).json({ message: 'Login successful!', token });
   } catch (error) {
