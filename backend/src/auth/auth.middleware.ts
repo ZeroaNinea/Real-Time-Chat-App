@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from './jwt.service';
+import { redisClient } from '../config/redis';
 
-export const authMiddleware = (
+export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   const authHeader = req.header('Authorization');
 
   if (!authHeader) {
@@ -24,6 +25,15 @@ export const authMiddleware = (
   try {
     const decoded = verifyToken(token);
     req.user = decoded;
+
+    const redisKey = `auth:${decoded.id}:${token}`;
+    const exists = await redisClient.exists(redisKey);
+
+    if (!exists) {
+      res.status(401).json({ message: 'Token expired or revoked.' });
+
+      return;
+    }
 
     next();
   } catch (error) {

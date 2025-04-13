@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
+import { redisClient } from '../config/redis';
+
 const keysDir = path.join(__dirname, '../../keys');
 
 // Load key map JSON.
@@ -17,14 +19,18 @@ const privateKey = fs.readFileSync(
   'utf-8'
 );
 
-export const signToken = (payload: any): string => {
-  console.log('Access token is signed to a user.');
-
-  return jwt.sign(payload, privateKey, {
+export const signToken = async (payload: any): Promise<string> => {
+  const token = jwt.sign(payload, privateKey, {
     algorithm: 'RS256',
     keyid: currentKid,
     expiresIn: '1h',
   });
+
+  console.log('Access token is signed to a user.');
+
+  await redisClient.set(`auth:${payload.userId}:${token}`, '1', 'EX', 60 * 60);
+
+  return token;
 };
 
 export const verifyToken = (token: string): any => {
