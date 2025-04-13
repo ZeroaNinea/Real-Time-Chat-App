@@ -107,7 +107,7 @@ export const logout = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'No token provided.' });
     }
 
-    await redisClient.del(token); // Delete token from Redis.
+    await redisClient.del(`auth:67fc3607d8af11df28619460:${token}`); // Delete token from Redis.
 
     res.status(200).json({ message: 'Logged out successfully.' });
   } catch (error) {
