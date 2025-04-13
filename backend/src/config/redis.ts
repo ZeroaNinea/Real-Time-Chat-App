@@ -14,11 +14,11 @@ const redis = new Redis(redisConfig);
 const redisClient = redis.duplicate();
 
 redisClient.on('error', (err) => {
-  console.error(err);
+  console.error(' ❌ ', err);
 });
 
-redisClient.on('connect', () => {
-  console.log('Redis client connected');
-});
+// redisClient.on('connect', () => {
+//   console.log(' ✅ Redis client connected');
+// });
 
 export { redis, redisClient };
