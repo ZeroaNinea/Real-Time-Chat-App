@@ -31,7 +31,7 @@ rotateKeys(); // Rotate RSA keys.
 
 // Connect to Redis.
 redisClient.on('connect', () => {
-  console.log(' ✅ Redis client connected');
+  console.log(' ✅ Redis client connected!');
 });
 
 // Importing the database into the `server.ts` ensures that the database connection is established before the server starts and the application is ready to work with the database.
