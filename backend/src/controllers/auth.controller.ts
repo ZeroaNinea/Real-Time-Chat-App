@@ -89,7 +89,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'No token provided.' });
     }
 
-    await redisClient.del(token); // Delete token from Redis.
+    await redisClient.del(`auth:${user._id}:${token}`); // Delete token from Redis.
 
     res.status(200).json({ message: 'Account deleted successfully!' });
   } catch (error) {
@@ -115,6 +115,24 @@ export const logout = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Server error during logout.' });
   }
 };
+
+// export const logout = async (req: Request, res: Response) => {
+//   try {
+//     const token = req.headers.authorization?.split(' ')[1];
+
+//     if (!token || !req.user?.id) {
+//       return res.status(400).json({ message: 'No token or user ID provided.' });
+//     }
+
+//     const redisKey = `auth:${req.user.id}:${token}`;
+//     await redisClient.del(redisKey);
+
+//     res.status(200).json({ message: 'Logged out successfully.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error during logout.' });
+//   }
+// };
 
 // Protected route.
 export const account = async (req: Request, res: Response) => {
