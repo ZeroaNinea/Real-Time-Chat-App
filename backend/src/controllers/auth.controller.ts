@@ -5,6 +5,7 @@ import fs from 'fs';
 import { signToken } from '../auth/jwt.service';
 
 import { User } from '../models/user.model';
+import { redisClient } from '../config/redis';
 
 // Get keys.
 const privateKey = fs.readFileSync(
@@ -87,6 +88,24 @@ export const deleteAccount = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error during account deletion.' });
+  }
+};
+
+// Logout controller.
+export const logout = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      return res.status(400).json({ message: 'No token provided.' });
+    }
+
+    await redisClient.del(token); // Delete token from Redis.
+
+    res.status(200).json({ message: 'Logged out successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error during logout.' });
   }
 };
 
