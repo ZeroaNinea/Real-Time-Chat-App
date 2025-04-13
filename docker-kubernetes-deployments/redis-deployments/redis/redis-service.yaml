@@ -8,7 +8,6 @@ spec:
   selector:
     app: redis
   ports:
-    - protocol: TCP
-      port: 6379
+    - port: 6379
       targetPort: 6379
       nodePort: 30003 # Define the local Redis port.

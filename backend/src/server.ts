@@ -24,6 +24,7 @@ import http from 'http';
 import config from './config/env';
 import { rotateKeys } from '../cryptography/rsa-keys-rotation';
 import { connectToDatabase } from './config/db';
+import './config/redis';
 
 const { PORT } = config; // Get environment variables.
 rotateKeys(); // Rotate RSA keys.
