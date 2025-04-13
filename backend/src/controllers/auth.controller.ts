@@ -72,6 +72,7 @@ export const login = async (req: Request, res: Response) => {
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body;
+    const token = req.headers.authorization?.split(' ')[1];
 
     const user = await User.findOne({ username });
 
@@ -83,6 +84,12 @@ export const deleteAccount = async (req: Request, res: Response) => {
       username,
       email,
     });
+
+    if (!token) {
+      return res.status(400).json({ message: 'No token provided.' });
+    }
+
+    await redisClient.del(token); // Delete token from Redis.
 
     res.status(200).json({ message: 'Account deleted successfully!' });
   } catch (error) {
