@@ -12,6 +12,9 @@ export interface EnvConfig {
   DB_PASSWORD: string;
   NODE_ENV: NodeEnv;
   PORT: number;
+  REDIS_HOST: string;
+  REDIS_PORT: number;
+  REDIS_PASSWORD: string;
 }
 
 const config: EnvConfig = {
@@ -23,6 +26,9 @@ const config: EnvConfig = {
   DB_PASSWORD: process.env.DB_PASSWORD || '',
   NODE_ENV: (process.env.NODE_ENV || 'development') as NodeEnv,
   PORT: Number(process.env.PORT || 3000),
+  REDIS_HOST: process.env.REDIS_HOST || 'localhost',
+  REDIS_PORT: Number(process.env.REDIS_PORT || 6379),
+  REDIS_PASSWORD: process.env.REDIS_PASSWORD || '',
 };
 
 export default config;
