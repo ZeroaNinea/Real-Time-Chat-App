@@ -102,7 +102,7 @@ backend/
 <br />
 ✅ **Step 9:** Store tokens in Redis on login, and check them in a middleware
 <br />
-➡️ **Step 10:** Implement logout by deleting the token from Redis
+✅ **Step 10:** Implement logout by deleting the token from Redis
 <br />
 ➡️ **Step 11:** Then add the Angular interceptor to send tokens on every request
 <br />
