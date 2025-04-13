@@ -19,6 +19,11 @@ const privateKey = fs.readFileSync(
   'utf-8'
 );
 
+export interface DecodedToken {
+  id: string;
+  username: string;
+}
+
 export const signToken = async (payload: any): Promise<string> => {
   const token = jwt.sign(payload, privateKey, {
     algorithm: 'RS256',
@@ -55,7 +60,9 @@ export const verifyToken = (token: string): any => {
     throw new Error(`Public key not found for kid: ${kid}`);
   }
 
-  return jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+  return jwt.verify(token, publicKey, {
+    algorithms: ['RS256'],
+  }) as DecodedToken;
 };
 
 export const jwtService = {
