@@ -98,9 +98,9 @@ backend/
 <br />
 ✅ **Step 7:** Deploy Redis with K8s
 <br />
-➡️ **Step 8:** Set up Redis in the backend
+✅ **Step 8:** Set up Redis in the backend
 <br />
-➡️ **Step 9:** Store tokens in Redis on login, and check them in a middleware
+✅ **Step 9:** Store tokens in Redis on login, and check them in a middleware
 <br />
 ➡️ **Step 10:** Implement logout by deleting the token from Redis
 <br />
