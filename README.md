@@ -104,7 +104,7 @@ backend/
 <br />
 ✅ **Step 10:** Implement logout by deleting the token from Redis
 <br />
-➡️ **Step 11:** Then add the Angular interceptor to send tokens on every request
+✅ **Step 11:** Then add the Angular interceptor to send tokens on every request
 <br />
 ➡️ **Step 12:** Finally, build the account page to use the /auth/account route
 
