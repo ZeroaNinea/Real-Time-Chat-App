@@ -106,7 +106,7 @@ backend/
 <br />
 ✅ **Step 11:** Then add the Angular interceptor to send tokens on every request
 <br />
-➡️ **Step 12:** Create a simple home page with links to the login and register pages
+✅ **Step 12:** Create a simple home page with links to the login and register pages
 <br />
 ➡️ **Step 13:** Build the register page
 <br />
