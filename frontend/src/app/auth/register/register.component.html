@@ -1,23 +1,46 @@
-<form action="" [formGroup]="form" (ngSubmit)="submit()">
-  <app-auth-form-field
-    label="Username"
-    placeholder="Username"
-    [control]="form.controls.username"
-  ></app-auth-form-field>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Register</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card-subtitle>
+      Create a new account to access our application.
+    </mat-card-subtitle>
+    <mat-card-content>
+      <app-auth-form-field
+        label="Username"
+        placeholder="Username"
+        [control]="form.controls.username"
+      ></app-auth-form-field>
 
-  <app-auth-form-field
-    label="Email"
-    placeholder="email@email.com"
-    type="email"
-    [control]="form.controls.email"
-  ></app-auth-form-field>
+      <app-auth-form-field
+        label="Email"
+        placeholder="example@email.com"
+        type="email"
+        [control]="form.controls.email"
+      ></app-auth-form-field>
 
-  <app-auth-form-field
-    label="Password"
-    placeholder="Password"
-    type="password"
-    [control]="form.controls.password"
-  ></app-auth-form-field>
+      <app-auth-form-field
+        label="Password"
+        placeholder="Password"
+        type="password"
+        [control]="form.controls.password"
+      ></app-auth-form-field>
 
-  <button type="submit" [disabled]="form.invalid">Register</button>
-</form>
+      <div class="button-row">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          [disabled]="form.invalid"
+        >
+          Register
+        </button>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </mat-card-actions>
+  </form>
+</mat-card>
