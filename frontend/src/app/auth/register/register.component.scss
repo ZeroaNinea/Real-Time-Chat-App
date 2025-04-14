@@ -1,15 +1,25 @@
+@use "@angular/material" as mat;
+
 mat-card {
   width: 60%;
   margin: auto;
   padding: 20px;
 }
 
-// mat-card-header {
-//   margin-bottom: 2.5%;
-// }
+mat-card-title {
+  font: var(--mat-sys-headline-large);
+}
+
+mat-card-subtitle {
+  color: var(--mat-sys-outline);
+}
 
 .button-row {
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+}
+
+form {
+  margin: 1rem;
 }
