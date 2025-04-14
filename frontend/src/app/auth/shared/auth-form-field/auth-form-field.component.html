@@ -8,7 +8,6 @@
     [placeholder]="placeholder"
   />
 
-  <!-- Show toggle button only for password -->
   @if (type === 'password') {
   <button
     mat-icon-button
@@ -17,8 +16,11 @@
     type="button"
     (click)="togglePasswordVisibility()"
   >
-    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+    <mat-icon>
+      {{ hide ? "visibility_off" : "visibility" }}
+    </mat-icon>
   </button>
+
   } @if (control.hasError('required')) {
   <mat-error>Required</mat-error>
   } @if (control.hasError('email')) {
