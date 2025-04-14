@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthFormFieldComponent } from '../shared/auth-form-field/auth-form-field.component';
 import { AuthService } from '../auth.service';
@@ -15,6 +16,7 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   form = this.fb.group({
     username: ['', [Validators.required]],
@@ -34,7 +36,8 @@ export class RegisterComponent {
       })
       .subscribe({
         next: () => {
-          // Navigate to chat or show success.
+          console.log('Registration successful');
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error(err);
