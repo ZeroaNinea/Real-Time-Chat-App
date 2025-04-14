@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthFormFieldComponent } from '../shared/auth-form-field/auth-form-field.component';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   form = this.fb.group({
     username: ['', [Validators.required]],
@@ -33,9 +35,11 @@ export class LoginComponent {
         password: this.form.value.password || '',
       })
       .subscribe({
-        next: () => {
+        next: (data: any) => {
           // Navigate to chat or show success.
           console.log('Login successful');
+          localStorage.setItem('accessToken', data['token']);
+          this.router.navigate(['/chat']);
         },
         error: (err) => {
           console.error(err);
