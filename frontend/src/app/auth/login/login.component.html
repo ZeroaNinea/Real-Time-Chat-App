@@ -1,17 +1,40 @@
-<form action="" [formGroup]="form" (ngSubmit)="submit()">
-  <app-auth-form-field
-    label="Username"
-    placeholder="Username"
-    [control]="form.controls.username"
-  ></app-auth-form-field>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
 
-  <app-auth-form-field
-    label="Password"
-    placeholder="Password"
-    type="password"
-    [control]="form.controls.password"
-  ></app-auth-form-field>
+  <form action="" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card-subtitle>
+      Login with your account to access our application.
+    </mat-card-subtitle>
+    <mat-card-content>
+      <app-auth-form-field
+        label="Username"
+        placeholder="Username"
+        [control]="form.controls.username"
+      ></app-auth-form-field>
 
-  <!-- <button type="submit" [disabled]="form.invalid">Login</button> -->
-  <button type="submit">Login</button>
-</form>
+      <app-auth-form-field
+        label="Password"
+        placeholder="Password"
+        type="password"
+        [control]="form.controls.password"
+      ></app-auth-form-field>
+
+      <div class="button-row">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          [disabled]="form.invalid"
+        >
+          Login
+        </button>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p>Don't have an account? <a routerLink="/register">Register</a></p>
+    </mat-card-actions>
+  </form>
+</mat-card>

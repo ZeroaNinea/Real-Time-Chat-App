@@ -1,0 +1,23 @@
+mat-card {
+  width: 60%;
+  margin: auto;
+  padding: 20px;
+}
+
+mat-card-title {
+  font: var(--mat-sys-headline-large);
+}
+
+mat-card-subtitle {
+  color: var(--mat-sys-outline);
+  margin-bottom: 0.5rem;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+form {
+  margin: 1rem;
+}
