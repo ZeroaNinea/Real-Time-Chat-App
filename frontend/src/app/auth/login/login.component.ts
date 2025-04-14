@@ -39,7 +39,7 @@ export class LoginComponent {
           // Navigate to chat or show success.
           console.log('Login successful');
           localStorage.setItem('accessToken', data['token']);
-          this.router.navigate(['/chat']);
+          this.router.navigate(['/']);
         },
         error: (err) => {
           console.error(err);
