@@ -108,7 +108,7 @@ backend/
 <br />
 ✅ **Step 12:** Create a simple home page with links to the login and register pages
 <br />
-➡️ **Step 13:** Build the register page
+✅ **Step 13:** Build the register page
 <br />
 ➡️ **Step 14:** Build the login page
 <br />
