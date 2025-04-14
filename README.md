@@ -110,7 +110,7 @@ backend/
 <br />
 ✅ **Step 13:** Build the register page
 <br />
-➡️ **Step 14:** Build the login page
+✅ **Step 14:** Build the login page
 <br />
 ➡️ **Step 15:** Build the account page to use the /auth/account route
 
