@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatError } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-auth-form-field',
@@ -12,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatError,
     MatIconModule,
+    MatButtonModule,
   ],
   standalone: true,
   templateUrl: './auth-form-field.component.html',

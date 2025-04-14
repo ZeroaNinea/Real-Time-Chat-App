@@ -9,13 +9,7 @@
   />
 
   @if (type === 'password') {
-  <button
-    mat-icon-button
-    matSuffix
-    tabindex="-1"
-    type="button"
-    (click)="togglePasswordVisibility()"
-  >
+  <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
     <mat-icon>
       {{ hide ? "visibility_off" : "visibility" }}
     </mat-icon>
