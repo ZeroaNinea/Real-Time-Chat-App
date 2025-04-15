@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from './jwt.service';
 import { redisClient } from '../config/redis';
+import { User } from '../models/user.model';
 
 export const authMiddleware = async (
   req: Request,
@@ -24,7 +25,7 @@ export const authMiddleware = async (
 
   try {
     const decoded = verifyToken(token);
-    req.user = decoded;
+    req.auth = decoded;
 
     const redisKey = `auth:${decoded.id}:${token}`;
     const exists = await redisClient.exists(redisKey);
@@ -34,6 +35,14 @@ export const authMiddleware = async (
 
       return;
     }
+
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+
+      return;
+    }
+    req.user = user;
 
     next();
   } catch (error) {
