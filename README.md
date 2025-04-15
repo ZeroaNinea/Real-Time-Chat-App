@@ -113,6 +113,18 @@ backend/
 ✅ **Step 14:** Build the login page
 <br />
 ➡️ **Step 15:** Build the account page to use the /auth/account route
+<br />
+➡️ **Step 15.1:** Display user info
+<br />
+➡️ **Step 15.2:** Create a form for changing the password
+<br />
+➡️ **Step 15.3:** Implement avatar updating
+<br />
+➡️ **Step 15.4:** Implement log out
+<br />
+➡️ **Step 15.5:** Implement account deletion
+<br />
+➡️ **Step 15:** Build the account page to use the /auth/account route
 
 ### Main Components (likely pages or views)
 
