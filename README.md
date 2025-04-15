@@ -152,6 +152,14 @@ backend/
 - **NotificationBadgeComponent**
 - **TypingIndicatorComponent**
 
+## Planned Pages
+
+1. **Account Page**
+2. **Chat Room Page**
+3. **Friends & Activity Page**
+4. **Personal Messages Page**
+5. **Landing Page**
+
 ## Start the Project
 
 ### **In the Development Mode**
