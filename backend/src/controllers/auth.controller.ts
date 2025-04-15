@@ -6,6 +6,7 @@ import { signToken } from '../auth/jwt.service';
 
 import { User } from '../models/user.model';
 import { redisClient } from '../config/redis';
+import { buildAccountResponse } from '../helpers/account-response';
 
 // Get keys.
 const privateKey = fs.readFileSync(
@@ -119,5 +120,11 @@ export const logout = async (req: Request, res: Response) => {
 
 // Protected route.
 export const account = async (req: Request, res: Response) => {
-  res.status(200).send('account');
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  res.status(200).json(buildAccountResponse(user));
 };
