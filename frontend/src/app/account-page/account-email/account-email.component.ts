@@ -6,7 +6,13 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,18 +23,27 @@ import { User } from '../../auth/shared/user.model';
 
 @Component({
   selector: 'app-account-email',
-  imports: [AuthFormFieldComponent, MatButtonModule],
+  imports: [AuthFormFieldComponent, MatButtonModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './account-email.component.html',
   styleUrl: './account-email.component.scss',
 })
 export class AccountEmailComponent implements OnChanges {
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
+  private fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    email: ['', [Validators.required]],
+  });
+
   authService = inject(AuthService);
   snackBar = inject(MatSnackBar);
 
   @Input() user!: User | null;
   @Output() userChange = new EventEmitter<User>();
+
+  get emailControl() {
+    return this.form.get('email') as FormControl;
+  }
 
   ngOnChanges() {
     if (this.user?.email) {
@@ -40,7 +55,7 @@ export class AccountEmailComponent implements OnChanges {
     console.log('Update button clicked!');
     if (this.emailControl.invalid) return;
 
-    this.authService.updateEmail(<string>this.emailControl.value).subscribe({
+    this.authService.updateEmail(this.emailControl.value!).subscribe({
       next: (updatedUser) => {
         this.user = updatedUser;
         this.userChange.emit(updatedUser);

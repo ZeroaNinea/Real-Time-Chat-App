@@ -1,5 +1,8 @@
 <header></header>
 <main>
   <router-outlet />
+  <button (click)="authService.updateEmail('new@example.com').subscribe()">
+    Send Test
+  </button>
 </main>
 <footer></footer>
