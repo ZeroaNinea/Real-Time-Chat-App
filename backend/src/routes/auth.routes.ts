@@ -16,6 +16,7 @@ router.post('/register', asyncRoute(register));
 router.post('/login', asyncRoute(login));
 router.get('/logout', authMiddleware, asyncRoute(logout));
 router.get('/account', authMiddleware, asyncRoute(account));
+router.put('/update-email', authMiddleware, asyncRoute(account));
 router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;
