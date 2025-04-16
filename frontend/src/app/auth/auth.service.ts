@@ -21,6 +21,6 @@ export class AuthService {
   }
 
   updateEmail(email: string): Observable<User> {
-    return this.http.put<User>('/api/auth/update-email', { email });
+    return this.http.put<User>('/auth/update-email', { email });
   }
 }
