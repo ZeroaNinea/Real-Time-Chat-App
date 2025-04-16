@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AccountInfoComponent } from '../account-info/account-info.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })
-export class AccountComponent {
+export class AccountComponent implements OnInit {
   private http = inject(HttpClient);
 
   user: {

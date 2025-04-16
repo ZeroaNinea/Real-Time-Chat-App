@@ -11,7 +11,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 // import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { authInterceptor } from './auth/shared/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,5 +43,8 @@ export const appConfig: ApplicationConfig = {
         persist: true,
       },
     }),
+
+    // Interceptors
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };
