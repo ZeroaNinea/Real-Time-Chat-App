@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AccountInfoComponent } from '../account-info/account-info.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-account',
@@ -8,4 +10,27 @@ import { AccountInfoComponent } from '../account-info/account-info.component';
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })
-export class AccountComponent {}
+export class AccountComponent {
+  private http = inject(HttpClient);
+
+  user: {
+    username: string;
+    email?: string;
+    createdAt: string;
+  } | null = null;
+
+  ngOnInit() {
+    this.http
+      .get<{ username: string; email?: string; createdAt: string }>(
+        `${environment.backendUrl}/auth/account`
+      )
+      .subscribe({
+        next: (data) => {
+          this.user = data;
+        },
+        error: (error) => {
+          console.error('Error fetching user data', error);
+        },
+      });
+  }
+}

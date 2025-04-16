@@ -1,4 +1,9 @@
 <div class="account-container">
   <h2>Account Page</h2>
-  <app-account-info />
+
+  @if (user) {
+  <app-account-info [user]="user" />
+  } @else {
+  <p>Loading user data...</p>
+  }
 </div>
