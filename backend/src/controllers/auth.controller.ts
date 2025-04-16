@@ -128,3 +128,22 @@ export const account = async (req: Request, res: Response) => {
 
   res.status(200).json(buildAccountResponse(user));
 };
+
+// Update email.
+export const updateEmail = async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  const existing = await User.findOne({ email });
+  if (existing && existing._id.toString() !== userId.toString()) {
+    return res.status(409).json({ message: 'Email already in use' });
+  }
+
+  const user = await User.findByIdAndUpdate(userId, { email }, { new: true });
+
+  res.status(200).json(buildAccountResponse(user));
+};
