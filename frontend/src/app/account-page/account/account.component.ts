@@ -1,11 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AccountInfoComponent } from '../account-info/account-info.component';
+
 import { HttpClient } from '@angular/common/http';
+
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { AccountInfoComponent } from '../account-info/account-info.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-account',
-  imports: [AccountInfoComponent],
+  imports: [AccountInfoComponent, MatTabsModule],
   standalone: true,
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
