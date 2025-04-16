@@ -6,6 +6,8 @@ export const buildAccountResponse = (user: UserDocument) => {
     username: user.username,
     email: user.email,
     profilePicture: user.profilePicture,
+    bio: user.bio,
+    pronouns: user.pronouns,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   };
