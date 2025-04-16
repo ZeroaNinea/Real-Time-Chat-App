@@ -1,4 +1,12 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+  ɵɵNgOnChangesFeature,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,13 +23,19 @@ import { User } from '../../auth/shared/user.model';
   templateUrl: './account-email.component.html',
   styleUrl: './account-email.component.scss',
 })
-export class AccountEmailComponent {
+export class AccountEmailComponent implements OnChanges {
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   authService = inject(AuthService);
   snackBar = inject(MatSnackBar);
 
   @Input() user!: User | null;
   @Output() userChange = new EventEmitter<User>();
+
+  ngOnChanges() {
+    if (this.user?.email) {
+      this.emailControl.setValue(this.user.email);
+    }
+  }
 
   updateEmail() {
     if (this.emailControl.invalid) return;
