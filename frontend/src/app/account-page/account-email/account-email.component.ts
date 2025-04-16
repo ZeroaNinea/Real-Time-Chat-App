@@ -6,10 +6,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/auth.service';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { User } from '../../auth/shared/user.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-account-email',
-  imports: [AuthFormFieldComponent],
+  imports: [AuthFormFieldComponent, MatButtonModule],
   templateUrl: './account-email.component.html',
   styleUrl: './account-email.component.scss',
 })

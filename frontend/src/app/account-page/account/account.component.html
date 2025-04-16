@@ -1,24 +1,26 @@
-<mat-tab-group>
-  <mat-tab label="Account Info">
-    @if (user) {
-    <app-account-info [user]="user" />
-    } @else {
-    <p>Loading user data...</p>
-    }
-  </mat-tab>
-  <mat-tab label="Username & Bio">
-    <h1>update username and bio</h1>
-  </mat-tab>
-  <mat-tab label="Email">
-    <app-account-email [user]="user" (userChange)="user = $event" />
-  </mat-tab>
-  <mat-tab label="Password">
-    <h1>update password</h1>
-  </mat-tab>
-  <mat-tab label="Avatar">
-    <h1>update avatar</h1>
-  </mat-tab>
-  <mat-tab label="Delete Account">
-    <h1>delete account</h1>
-  </mat-tab>
-</mat-tab-group>
+<div id="account-settings">
+  <mat-tab-group>
+    <mat-tab label="Account Info">
+      @if (user) {
+      <app-account-info [user]="user" />
+      } @else {
+      <p>Loading user data...</p>
+      }
+    </mat-tab>
+    <mat-tab label="Username & Bio">
+      <h1>update username and bio</h1>
+    </mat-tab>
+    <mat-tab label="Email">
+      <app-account-email [user]="user" (userChange)="user = $event" />
+    </mat-tab>
+    <mat-tab label="Password">
+      <h1>update password</h1>
+    </mat-tab>
+    <mat-tab label="Avatar">
+      <h1>update avatar</h1>
+    </mat-tab>
+    <mat-tab label="Delete Account">
+      <h1>delete account</h1>
+    </mat-tab>
+  </mat-tab-group>
+</div>
