@@ -2,15 +2,16 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { User } from '../../auth/shared/user.model';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-account-email',
   imports: [AuthFormFieldComponent, MatButtonModule],
+  standalone: true,
   templateUrl: './account-email.component.html',
   styleUrl: './account-email.component.scss',
 })
