@@ -126,6 +126,28 @@ backend/
 <br />
 ➡️ **Step 15.6:** Build the account page to use the /auth/account route
 
+```plaintext
+/account-page
+│
+├── /account/                 ← Parent layout component (e.g., shows sidebar, etc.)
+│   └── account.component.ts
+│
+├── /account-info/            ← Display user data
+│   └── account-info.component.ts
+│
+├── /account-edit/            ← Edit username/email/avatar
+│   └── account-edit.component.ts
+│
+├── /change-password/         ← Password change form
+│   └── change-password.component.ts
+│
+├── /delete-account/          ← Delete button + confirmation dialog
+│   └── delete-account.component.ts
+│
+└── /logout-button/           ← Logout trigger
+    └── logout-button.component.ts
+```
+
 ### Main Components (likely pages or views)
 
 1. **RegisterComponent**
