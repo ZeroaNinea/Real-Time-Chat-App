@@ -11,6 +11,8 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const token = localStorage.getItem('accessToken');
 
+  console.log(token, '======================');
+
   if (!token) {
     router.navigate(['/401']); // Use a 401 page for better UX.
     return false;
