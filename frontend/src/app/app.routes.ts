@@ -4,6 +4,7 @@ import { ChatComponent } from './chat/chat.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account-page/account/account.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,5 +22,6 @@ export const routes: Routes = [
   {
     path: 'account',
     component: AccountComponent,
+    canActivate: [authGuard],
   },
 ];
