@@ -22,17 +22,13 @@ export class AccountComponent implements OnInit {
   user: User | null = null;
 
   ngOnInit() {
-    this.http
-      .get<{ username: string; email?: string; createdAt: string }>(
-        `${environment.backendUrl}/auth/account`
-      )
-      .subscribe({
-        next: (data) => {
-          this.user = data;
-        },
-        error: (error) => {
-          console.error('Error fetching user data', error);
-        },
-      });
+    this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
+      next: (data) => {
+        this.user = data;
+      },
+      error: (error) => {
+        console.error('Error fetching user data', error);
+      },
+    });
   }
 }

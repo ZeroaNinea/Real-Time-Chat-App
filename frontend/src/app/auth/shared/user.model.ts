@@ -1,5 +1,9 @@
 export interface User {
   username: string;
   email?: string;
-  createdAt: string;
+  profilePicture?: string;
+  bio?: string;
+  pronouns?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
