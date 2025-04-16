@@ -10,7 +10,7 @@
     <h1>update username and bio</h1>
   </mat-tab>
   <mat-tab label="Email">
-    <h1>update email</h1>
+    <app-account-email [user]="user" (userChange)="user = $event" />
   </mat-tab>
   <mat-tab label="Password">
     <h1>update password</h1>

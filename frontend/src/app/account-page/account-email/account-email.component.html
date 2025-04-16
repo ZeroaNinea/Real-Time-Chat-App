@@ -1,0 +1,17 @@
+<form (ngSubmit)="updateEmail()" class="form">
+  <app-auth-form-field
+    label="New Email"
+    [control]="emailControl"
+    inputType="email"
+    placeholder="Enter new email"
+  />
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="emailControl.invalid"
+  >
+    Update Email
+  </button>
+</form>

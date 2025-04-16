@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
+import { User } from './shared/user.model';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,5 +18,9 @@ export class AuthService {
 
   login(data: { username: string; password: string }) {
     return this.http.post(`${environment.backendUrl}/auth/login`, data);
+  }
+
+  updateEmail(email: string): Observable<User> {
+    return this.http.put<User>('/api/auth/update-email', { email });
   }
 }

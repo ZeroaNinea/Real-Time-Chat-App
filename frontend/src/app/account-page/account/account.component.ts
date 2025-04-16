@@ -6,10 +6,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { AccountInfoComponent } from '../account-info/account-info.component';
 import { environment } from '../../../environments/environment';
+import { AccountEmailComponent } from '../account-email/account-email.component';
+import { User } from '../../auth/shared/user.model';
 
 @Component({
   selector: 'app-account',
-  imports: [AccountInfoComponent, MatTabsModule],
+  imports: [AccountInfoComponent, AccountEmailComponent, MatTabsModule],
   standalone: true,
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
@@ -17,11 +19,7 @@ import { environment } from '../../../environments/environment';
 export class AccountComponent implements OnInit {
   private http = inject(HttpClient);
 
-  user: {
-    username: string;
-    email?: string;
-    createdAt: string;
-  } | null = null;
+  user: User | null = null;
 
   ngOnInit() {
     this.http
