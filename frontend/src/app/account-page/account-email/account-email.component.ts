@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   Output,
-  ɵɵNgOnChangesFeature,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -38,6 +37,7 @@ export class AccountEmailComponent implements OnChanges {
   }
 
   updateEmail() {
+    console.log('Update button clicked!');
     if (this.emailControl.invalid) return;
 
     this.authService.updateEmail(<string>this.emailControl.value).subscribe({

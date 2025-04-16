@@ -134,6 +134,8 @@ export const updateEmail = async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { email } = req.body;
 
+  console.log(userId, email);
+
   if (!email) {
     return res.status(400).json({ message: 'Email is required' });
   }

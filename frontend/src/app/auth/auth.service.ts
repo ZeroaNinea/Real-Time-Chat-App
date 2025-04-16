@@ -10,7 +10,13 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private http = inject(HttpClient);
 
-  constructor() {}
+  constructor() {
+    // this.http
+    //   .put('http://localhost:5000/auth/update-email', {
+    //     email: 'another@example.com',
+    //   })
+    //   .subscribe({ next: console.log, error: console.error });
+  }
 
   register(data: { username: string; password: string; email: string }) {
     return this.http.post(`${environment.backendUrl}/auth/register`, data);
