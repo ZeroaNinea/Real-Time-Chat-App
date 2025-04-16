@@ -114,7 +114,7 @@ backend/
 <br />
 ➡️ **Step 15:** Build the account page to use the /auth/account route
 <br />
-➡️ **Step 15.1:** Display user info
+✅ **Step 15.1:** Display user info
 <br />
 ➡️ **Step 15.2:** Create a form for changing the password
 <br />
