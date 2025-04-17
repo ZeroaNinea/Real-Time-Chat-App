@@ -1,1 +1,7 @@
-<p>username-bio works!</p>
+<form [formGroup]="form" action="">
+  <app-auth-form-field
+    label="Username"
+    placeholder="Username"
+    [control]="usernameBioControl"
+  ></app-auth-form-field>
+</form>
