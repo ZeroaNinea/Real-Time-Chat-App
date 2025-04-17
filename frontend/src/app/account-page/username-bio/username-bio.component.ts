@@ -70,17 +70,27 @@ export class UsernameBioComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.populateForm();
+    // this.populateForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['user']) {
+    if (changes['user'] && changes['user'].currentValue) {
       this.populateForm();
     }
   }
 
   updateUsernameBio() {
-    if (this.usernameControl.invalid && this.bioControl.invalid) return;
+    if (this.usernameControl.invalid || this.bioControl.invalid) return;
+
+    const dataToUpdate: Partial<User> = {};
+    if (this.usernameControl.value !== this.user?.username) {
+      dataToUpdate.username = this.usernameControl.value!;
+    }
+    if (this.bioControl.value !== this.user?.bio) {
+      dataToUpdate.bio = this.bioControl.value!;
+    }
+
+    if (Object.keys(dataToUpdate).length === 0) return;
 
     this.authService
       .updateUsernameBio({
