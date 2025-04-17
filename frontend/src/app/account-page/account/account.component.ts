@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { AccountEmailComponent } from '../account-email/account-email.component';
 import { User } from '../../auth/shared/user.model';
 import { UsernameBioComponent } from '../username-bio/username-bio.component';
+import { PasswordComponent } from '../password/password.component';
 
 @Component({
   selector: 'app-account',
@@ -17,6 +18,7 @@ import { UsernameBioComponent } from '../username-bio/username-bio.component';
     AccountEmailComponent,
     MatTabsModule,
     UsernameBioComponent,
+    PasswordComponent,
   ],
   standalone: true,
   templateUrl: './account.component.html',
