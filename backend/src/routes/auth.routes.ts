@@ -8,6 +8,7 @@ import {
   logout,
   register,
   updateEmail,
+  updateUsernameBio,
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../auth/auth.middleware';
 
@@ -18,6 +19,11 @@ router.post('/login', asyncRoute(login));
 router.get('/logout', authMiddleware, asyncRoute(logout));
 router.get('/account', authMiddleware, asyncRoute(account));
 router.put('/update-email', authMiddleware, asyncRoute(updateEmail));
+router.put(
+  '/update-username-bio',
+  authMiddleware,
+  asyncRoute(updateUsernameBio)
+);
 router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;

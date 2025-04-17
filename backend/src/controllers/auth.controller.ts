@@ -149,3 +149,7 @@ export const updateEmail = async (req: Request, res: Response) => {
 
   res.status(200).json(buildAccountResponse(user));
 };
+
+export const updateUsernameBio = async (req: Request, res: Response) => {
+  res.status(200).json(buildAccountResponse(req.user));
+};
