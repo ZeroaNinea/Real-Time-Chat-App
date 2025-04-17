@@ -4,7 +4,9 @@ import {
   inject,
   Input,
   OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import {
@@ -37,7 +39,7 @@ import { User } from '../../auth/shared/user.model';
   templateUrl: './username-bio.component.html',
   styleUrl: './username-bio.component.scss',
 })
-export class UsernameBioComponent implements OnChanges {
+export class UsernameBioComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
@@ -51,6 +53,14 @@ export class UsernameBioComponent implements OnChanges {
   @Input() user!: User | null;
   @Output() userChange = new EventEmitter<User>();
 
+  private populateForm() {
+    if (!this.user) return;
+    this.form.patchValue({
+      username: this.user.username || '',
+      bio: this.user.bio || '',
+    });
+  }
+
   get usernameControl() {
     return this.form.get('username') as FormControl;
   }
@@ -59,13 +69,13 @@ export class UsernameBioComponent implements OnChanges {
     return this.form.get('bio') as FormControl;
   }
 
-  ngOnChanges() {
-    if (this.user?.username) {
-      this.usernameControl.setValue(this.user.username);
-    }
+  ngOnInit() {
+    this.populateForm();
+  }
 
-    if (this.user?.bio) {
-      this.bioControl.setValue(this.user.bio);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['user']) {
+      this.populateForm();
     }
   }
 
@@ -84,6 +94,7 @@ export class UsernameBioComponent implements OnChanges {
           this.snackBar.open('Username & Bio updated!', 'Close', {
             duration: 3000,
           });
+          this.form.reset(updatedUser);
         },
         error: (err) => {
           this.snackBar.open(
