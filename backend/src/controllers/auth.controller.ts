@@ -179,3 +179,25 @@ export const updateUsernameBio = async (req: Request, res: Response) => {
 
   res.status(200).json(buildAccountResponse(updatedUser));
 };
+
+// Update password.
+export const updatePassword = async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res
+      .status(400)
+      .json({ message: 'Both current and new password are required' });
+  }
+
+  const user = await User.findById(userId);
+  if (!user || !(await user.comparePassword(currentPassword))) {
+    return res.status(401).json({ message: 'Current password is incorrect' });
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.status(200).json(buildAccountResponse(user));
+};
