@@ -65,7 +65,7 @@ export class UsernameBioComponent implements OnChanges {
     }
 
     if (this.user?.bio) {
-      this.usernameControl.setValue(this.user.bio);
+      this.bioControl.setValue(this.user.bio);
     }
   }
 
