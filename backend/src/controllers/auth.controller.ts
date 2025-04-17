@@ -134,8 +134,6 @@ export const updateEmail = async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { email } = req.body;
 
-  console.log(userId, email);
-
   if (!email) {
     return res.status(400).json({ message: 'Email is required' });
   }
@@ -150,6 +148,34 @@ export const updateEmail = async (req: Request, res: Response) => {
   res.status(200).json(buildAccountResponse(user));
 };
 
+// Update username and bio.
 export const updateUsernameBio = async (req: Request, res: Response) => {
-  res.status(200).json(buildAccountResponse(req.user));
+  const userId = req.user?._id;
+  const { username, bio } = req.body;
+
+  if (!username) {
+    return res.status(400).json({ message: 'Username is required' });
+  }
+
+  if (!bio) {
+    return res.status(400).json({ message: 'Bio is required' });
+  }
+
+  const existing = await User.findOne({ username });
+
+  if (existing && existing._id.toString() !== userId.toString()) {
+    return res.status(409).json({ message: 'Username already in use' });
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { username, bio },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  res.status(200).json(buildAccountResponse(updatedUser));
 };
