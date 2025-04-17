@@ -51,7 +51,6 @@ export class AccountEmailComponent implements OnChanges {
   }
 
   updateEmail() {
-    console.log('Update button clicked!');
     if (this.emailControl.invalid) return;
 
     this.authService.updateEmail(this.emailControl.value!).subscribe({

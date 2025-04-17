@@ -31,4 +31,11 @@ export class AuthService {
       email,
     });
   }
+
+  updateUsernameBio(data: { username: string; bio: string }) {
+    return this.http.put<User>(
+      `${environment.backendUrl}/auth/update-username-bio`,
+      data
+    );
+  }
 }

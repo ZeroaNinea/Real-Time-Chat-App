@@ -2,7 +2,7 @@
   <app-auth-form-field
     label="Username"
     placeholder="Username"
-    [control]="usernameBioControl"
+    [control]="usernameControl"
   ></app-auth-form-field>
 
   <textarea
@@ -10,6 +10,7 @@
     cdkAutosizeMinRows="1"
     cdkAutosizeMaxRows="5"
     placeholder="Edit your bio or username"
+    [formControl]="bioControl"
   ></textarea>
 
   <div class="button-row">

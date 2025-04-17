@@ -8,10 +8,16 @@ import { AccountInfoComponent } from '../account-info/account-info.component';
 import { environment } from '../../../environments/environment';
 import { AccountEmailComponent } from '../account-email/account-email.component';
 import { User } from '../../auth/shared/user.model';
+import { UsernameComponent } from '../username-bio/username-bio.component';
 
 @Component({
   selector: 'app-account',
-  imports: [AccountInfoComponent, AccountEmailComponent, MatTabsModule],
+  imports: [
+    AccountInfoComponent,
+    AccountEmailComponent,
+    MatTabsModule,
+    UsernameComponent,
+  ],
   standalone: true,
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
