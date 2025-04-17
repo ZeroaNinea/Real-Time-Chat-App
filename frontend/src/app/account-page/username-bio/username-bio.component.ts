@@ -94,7 +94,7 @@ export class UsernameBioComponent implements OnInit, OnChanges {
           this.snackBar.open('Username & Bio updated!', 'Close', {
             duration: 3000,
           });
-          this.form.reset(updatedUser);
+          this.populateForm();
         },
         error: (err) => {
           this.snackBar.open(
