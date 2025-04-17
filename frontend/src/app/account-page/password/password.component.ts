@@ -63,4 +63,35 @@ export class PasswordComponent {
   get confirmPasswordControl() {
     return this.form.get('confirmPassword') as FormControl;
   }
+
+  updatePassword() {
+    if (this.newPasswordControl.value !== this.confirmPasswordControl.value) {
+      this.snackBar.open('Passwords do not match', 'Close', { duration: 3000 });
+      return;
+    }
+
+    const { currentPassword, newPassword } = this.form.value;
+
+    this.authService
+      .updatePassword({
+        currentPassword: <string>currentPassword,
+        newPassword: <string>newPassword,
+      })
+      .subscribe({
+        next: (updatedUser) => {
+          this.snackBar.open('Password updated successfully', 'Close', {
+            duration: 3000,
+          });
+          this.userChange.emit(updatedUser);
+          this.form.reset();
+        },
+        error: (err) => {
+          this.snackBar.open(
+            err?.error?.message || 'Failed to update password',
+            'Close',
+            { duration: 3000 }
+          );
+        },
+      });
+  }
 }
