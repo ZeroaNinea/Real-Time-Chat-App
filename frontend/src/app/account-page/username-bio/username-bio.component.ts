@@ -21,7 +21,7 @@ import { User } from '../../auth/shared/user.model';
   templateUrl: './username-bio.component.html',
   styleUrl: './username-bio.component.scss',
 })
-export class UsernameComponent {
+export class UsernameBioComponent {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
