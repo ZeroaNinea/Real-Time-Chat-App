@@ -112,7 +112,7 @@ backend/
 <br />
 ✅ **Step 14:** Build the login page
 <br />
-➡️ **Step 15:** Build the account page to use the /auth/account route
+✅ **Step 15:** Build the account page to use the /auth/account route
 <br />
 ✅ **Step 15.1:** Display user info
 <br />
