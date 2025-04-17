@@ -38,4 +38,11 @@ export class AuthService {
       data
     );
   }
+
+  updatePassword(data: { currentPassword: string; newPassword: string }) {
+    return this.http.put<User>(
+      `${environment.backendUrl}/auth/update-password`,
+      data
+    );
+  }
 }
