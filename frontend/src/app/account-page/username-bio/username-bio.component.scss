@@ -8,3 +8,11 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.full-width {
+  width: 100%;
+}
+
+textarea.mat-mdc-input-element {
+  resize: none;
+}
