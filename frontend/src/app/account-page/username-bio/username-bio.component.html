@@ -1,17 +1,21 @@
-<form [formGroup]="form" action="">
+<form [formGroup]="form" (ngSubmit)="updateUsernameBio()" class="form">
   <app-auth-form-field
     label="Username"
     placeholder="Username"
     [control]="usernameControl"
   ></app-auth-form-field>
 
-  <textarea
-    matInput
-    cdkAutosizeMinRows="1"
-    cdkAutosizeMaxRows="5"
-    placeholder="Edit your bio or username"
-    [formControl]="bioControl"
-  ></textarea>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Bio</mat-label>
+    <textarea
+      matInput
+      cdkAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+      placeholder="Write a short bio"
+      [formControl]="bioControl"
+    ></textarea>
+  </mat-form-field>
 
   <div class="button-row">
     <button mat-raised-button type="submit" [disabled]="form.invalid">

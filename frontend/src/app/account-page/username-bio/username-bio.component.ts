@@ -1,9 +1,16 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { AuthService } from '../../auth/auth.service';
@@ -16,6 +23,8 @@ import { User } from '../../auth/shared/user.model';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatInputModule,
+    TextFieldModule,
   ],
   standalone: true,
   templateUrl: './username-bio.component.html',
@@ -25,7 +34,7 @@ export class UsernameBioComponent {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
-    username: [''],
+    username: ['', [Validators.minLength(3)]],
     bio: [''],
   });
 
@@ -55,11 +64,13 @@ export class UsernameBioComponent {
         next: (updatedUser) => {
           this.user = updatedUser;
           this.userChange.emit(updatedUser);
-          this.snackBar.open('Email updated!', 'Close', { duration: 3000 });
+          this.snackBar.open('Username & Bio updated!', 'Close', {
+            duration: 3000,
+          });
         },
         error: (err) => {
           this.snackBar.open(
-            err.error?.message || 'Failed to update email',
+            err.error?.message || 'Failed to update Username & Bio',
             'Close',
             { duration: 3000 }
           );
