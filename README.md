@@ -116,7 +116,7 @@ backend/
 <br />
 ✅ **Step 15.1:** Display user info
 <br />
-➡️ **Step 15.2:** Create a form for changing the password
+✅ **Step 15.2:** Create a form for changing the password
 <br />
 ➡️ **Step 15.3:** Implement avatar updating
 <br />
