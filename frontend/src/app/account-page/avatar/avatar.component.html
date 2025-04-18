@@ -1,1 +1,15 @@
-<p>avatar works!</p>
+<h2>Update Avatar</h2>
+
+@if (previewUrl) {
+<img [src]="previewUrl" class="avatar-preview" />
+}
+<!-- <img *ngIf="previewUrl" [src]="previewUrl" class="avatar-preview" /> -->
+<input type="file" (change)="onFileSelected($event)" accept="image/*" />
+<button
+  mat-raised-button
+  color="primary"
+  (click)="uploadAvatar()"
+  [disabled]="!selectedFile"
+>
+  Upload
+</button>

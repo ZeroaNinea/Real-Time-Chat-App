@@ -45,4 +45,11 @@ export class AuthService {
       data
     );
   }
+
+  uploadAvatar(data: FormData) {
+    return this.http.post<{ avatar: string }>(
+      `${environment.backendUrl}/account/avatar`,
+      data
+    );
+  }
 }

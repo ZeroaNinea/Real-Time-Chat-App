@@ -12,12 +12,14 @@ import { AccountEmailComponent } from '../account-email/account-email.component'
 import { User } from '../../auth/shared/user.model';
 import { UsernameBioComponent } from '../username-bio/username-bio.component';
 import { PasswordComponent } from '../password/password.component';
+import { AvatarComponent } from '../avatar/avatar.component';
 
 @Component({
   selector: 'app-account',
   imports: [
     AccountInfoComponent,
     AccountEmailComponent,
+    AvatarComponent,
     MatTabsModule,
     UsernameBioComponent,
     PasswordComponent,
