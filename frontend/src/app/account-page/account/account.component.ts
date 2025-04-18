@@ -3,6 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 import { AccountInfoComponent } from '../account-info/account-info.component';
 import { environment } from '../../../environments/environment';
@@ -19,6 +21,8 @@ import { PasswordComponent } from '../password/password.component';
     MatTabsModule,
     UsernameBioComponent,
     PasswordComponent,
+    MatSidenavModule,
+    MatListModule,
   ],
   standalone: true,
   templateUrl: './account.component.html',
@@ -27,7 +31,14 @@ import { PasswordComponent } from '../password/password.component';
 export class AccountComponent implements OnInit {
   private http = inject(HttpClient);
 
-  user: User | null = null;
+  // user: User | null = null;
+  user!: User;
+
+  setSection(section: string) {
+    this.selectedSection = section;
+  }
+
+  selectedSection = 'username-bio';
 
   ngOnInit() {
     this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({

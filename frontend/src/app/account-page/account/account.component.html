@@ -1,4 +1,4 @@
-<div id="account-settings">
+<!-- <div id="account-settings">
   <mat-tab-group>
     <mat-tab label="Account Info">
       @if (user) {
@@ -24,4 +24,72 @@
       <h1>delete account</h1>
     </mat-tab>
   </mat-tab-group>
+</div> -->
+
+<div class="account-page">
+  <mat-nav-list class="account-sidebar">
+    <a
+      mat-list-item
+      (click)="setSection('username-bio')"
+      [class.active]="selectedSection === 'username-bio'"
+    >
+      Username & Bio
+    </a>
+    <a
+      mat-list-item
+      (click)="setSection('email')"
+      [class.active]="selectedSection === 'email'"
+    >
+      Email
+    </a>
+    <a
+      mat-list-item
+      (click)="setSection('password')"
+      [class.active]="selectedSection === 'password'"
+    >
+      Password
+    </a>
+    <a
+      mat-list-item
+      (click)="setSection('avatar')"
+      [class.active]="selectedSection === 'avatar'"
+    >
+      Avatar
+    </a>
+    <a
+      mat-list-item
+      (click)="setSection('delete')"
+      [class.active]="selectedSection === 'delete'"
+    >
+      Delete Account
+    </a>
+  </mat-nav-list>
+
+  <div class="account-main">
+    @switch (selectedSection) { @case ('username-bio') {
+    <app-username-bio [user]="user" (userChange)="user = $event" />
+    } @case ('email') {
+    <div>
+      <h1>Current Email: {{ user.email }}</h1>
+      <app-account-email [user]="user" (userChange)="user = $event" />
+    </div>
+    } @case ('password') {
+    <app-password [user]="user" />
+    } @case ('avatar') {
+    <!-- <app-avatar [user]="user" (userChange)="user = $event" /> -->
+    <h1>update avatar</h1>
+    } @case ('delete') {
+    <div>
+      <h1>Delete Account</h1>
+      <p>Are you sure you want to delete your account?</p>
+    </div>
+    } @default {
+    <app-account-info [user]="user" />
+    } }
+  </div>
+
+  <div class="account-card">
+    <app-account-info [user]="user" />
+    <!-- Later: <app-user-card [user]="user" /> -->
+  </div>
 </div>

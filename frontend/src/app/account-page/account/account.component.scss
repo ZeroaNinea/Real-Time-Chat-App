@@ -1,10 +1,36 @@
-#account-settings {
-  display: flex;
-  justify-content: center;
-  height: 55vh;
-  margin-top: 5%;
+// #account-settings {
+//   display: flex;
+//   justify-content: center;
+//   height: 55vh;
+//   margin-top: 5%;
+// }
+
+// mat-tab-group {
+//   width: 60%;
+// }
+
+.account-page {
+  display: grid;
+  grid-template-columns: 200px 1fr 250px;
+  gap: 2rem;
+  padding: 2rem;
 }
 
-mat-tab-group {
-  width: 60%;
+.account-sidebar {
+  background: #f9f9f9;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.account-main {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.account-card {
+  background: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.75rem;
 }
