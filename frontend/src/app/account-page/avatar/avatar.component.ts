@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { User } from '../../auth/shared/user.model';
 import { AuthService } from '../../auth/auth.service';
@@ -20,10 +21,12 @@ export class AvatarComponent {
   previewUrl: string | null = null;
 
   private authService = inject(AuthService);
+  private snackBar = inject(MatSnackBar);
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
+      if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
       this.selectedFile = input.files[0];
       this.previewUrl = URL.createObjectURL(this.selectedFile);
     }
@@ -37,10 +40,17 @@ export class AvatarComponent {
 
     this.authService.uploadAvatar(formData).subscribe({
       next: (res) => {
-        this.user.profilePicture = res.avatar;
+        this.user.avatar = res.avatar;
         this.userChange.emit(this.user);
+        this.snackBar.open('Avatar uploaded!', 'Close', { duration: 3000 });
       },
-      error: (err) => console.error('Avatar upload failed', err),
+      error: (err) => {
+        this.snackBar.open(
+          err.error?.message || 'Failed to upload avatar',
+          'Close',
+          { duration: 3000 }
+        );
+      },
     });
   }
 }

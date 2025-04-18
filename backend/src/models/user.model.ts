@@ -6,7 +6,7 @@ export interface IUser {
   username: string;
   email?: string;
   password: string;
-  profilePicture?: string;
+  avatar?: string;
   bio?: string;
   pronouns?: string;
   createdAt?: Date;
@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       type: String,
       required: true,
     },
-    profilePicture: {
+    avatar: {
       type: String,
       default: '',
     },

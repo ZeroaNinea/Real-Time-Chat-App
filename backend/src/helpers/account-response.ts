@@ -5,7 +5,7 @@ export const buildAccountResponse = (user: UserDocument) => {
     id: user._id,
     username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
+    avatar: user.avatar,
     bio: user.bio,
     pronouns: user.pronouns,
     createdAt: user.createdAt,
