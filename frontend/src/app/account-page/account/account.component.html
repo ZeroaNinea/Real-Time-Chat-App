@@ -8,7 +8,7 @@
       }
     </mat-tab>
     <mat-tab label="Username & Bio">
-      <app-username-bio />
+      <app-username-bio [user]="user" (userChange)="user = $event" />
     </mat-tab>
     <mat-tab label="Email">
       <h1>Current Email: {{ user?.email }}</h1>
