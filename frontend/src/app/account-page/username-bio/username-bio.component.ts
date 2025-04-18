@@ -43,8 +43,8 @@ export class UsernameBioComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
-    username: ['', [Validators.minLength(3)]],
-    bio: [''],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    bio: ['', Validators.required],
   });
 
   authService = inject(AuthService);
@@ -70,7 +70,7 @@ export class UsernameBioComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.populateForm();
+    this.populateForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
