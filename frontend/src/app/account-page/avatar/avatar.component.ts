@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -14,17 +21,22 @@ import { environment } from '../../../environments/environment';
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
 })
-export class AvatarComponent {
+export class AvatarComponent implements OnInit {
   @Input() user!: User;
   @Output() userChange = new EventEmitter<User>();
 
-  currentAvatar = `../../../backend/uploads/avatars/68015ed422ae38094c9a6867-1745068845925.png`;
-
   selectedFile: File | null = null;
   previewUrl: string | null = null;
+  currentAvatar: string | null = null;
 
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
+
+  ngOnInit() {
+    if (this.user.avatar) {
+      this.currentAvatar = `${environment.backendUrl}${this.user.avatar}`;
+    }
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -44,6 +56,7 @@ export class AvatarComponent {
     this.authService.uploadAvatar(formData).subscribe({
       next: (res) => {
         this.user.avatar = res.avatar;
+        this.currentAvatar = `${environment.backendUrl}${this.user.avatar}`;
         this.userChange.emit(this.user);
         this.snackBar.open('Avatar uploaded!', 'Close', { duration: 3000 });
       },
