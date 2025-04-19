@@ -210,7 +210,7 @@ export const updateAvatar = async (req: Request, res: Response) => {
 
   const user = await User.findByIdAndUpdate(
     req.user?._id,
-    { avatar: `../uploads/avatars/${req.file.filename}` },
+    { avatar: `/uploads/avatars/${req.file.filename}` },
     { new: true }
   );
 
