@@ -118,7 +118,7 @@ backend/
 <br />
 ✅ **Step 15.2:** Create a form for changing the password
 <br />
-➡️ **Step 15.3:** Implement avatar updating
+✅ **Step 15.3:** Implement avatar updating
 <br />
 ➡️ **Step 15.4:** Implement log out
 <br />
