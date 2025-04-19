@@ -18,7 +18,7 @@ export class AvatarComponent {
   @Input() user!: User;
   @Output() userChange = new EventEmitter<User>();
 
-  currentAvatar = `${environment.avatarPath}this.user.avatar`;
+  currentAvatar = `../../../backend/uploads/avatars/68015ed422ae38094c9a6867-1745068845925.png`;
 
   selectedFile: File | null = null;
   previewUrl: string | null = null;
