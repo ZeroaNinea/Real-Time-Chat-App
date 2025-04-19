@@ -3,7 +3,6 @@
 @if (previewUrl) {
 <img [src]="previewUrl" class="avatar-preview" />
 }
-<!-- <img *ngIf="previewUrl" [src]="previewUrl" class="avatar-preview" /> -->
 <input type="file" (change)="onFileSelected($event)" accept="image/*" />
 <button
   mat-raised-button
