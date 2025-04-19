@@ -7,6 +7,7 @@ import {
   login,
   logout,
   register,
+  removeAvatar,
   updateAvatar,
   updateEmail,
   updatePassword,
@@ -34,6 +35,7 @@ router.post(
   uploadAvatar,
   asyncRoute(updateAvatar)
 );
+router.delete('/remove-avatar', authMiddleware, asyncRoute(removeAvatar));
 router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;

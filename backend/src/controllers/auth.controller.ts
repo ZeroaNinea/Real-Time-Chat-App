@@ -208,9 +208,19 @@ export const updateAvatar = async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'No avatar uploaded' });
   }
 
+  const oldAvatarPath = req.body.oldAvatar;
+
+  // Delete old avatar if present.
+  if (oldAvatarPath) {
+    const fullPath = path.join(__dirname, '../../', oldAvatarPath);
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath); // Remove the file.
+    }
+  }
+
   const user = await User.findByIdAndUpdate(
     req.user?._id,
-    { avatar: `/uploads/avatars/${req.file.filename}` },
+    { avatar: `uploads/avatars/${req.file.filename}` },
     { new: true }
   );
 
@@ -219,4 +229,24 @@ export const updateAvatar = async (req: Request, res: Response) => {
   }
 
   res.status(200).json({ avatar: user.avatar });
+};
+
+// Remove avatar.
+export const removeAvatar = async (req: Request, res: Response) => {
+  const user = await User.findById(req.user?._id);
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  if (user.avatar) {
+    const fullPath = path.join(__dirname, '../../', user.avatar);
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath); // Delete file.
+    }
+
+    user.avatar = '';
+    await user.save();
+  }
+
+  res.status(200).json({ message: 'Avatar removed' });
 };
