@@ -52,4 +52,10 @@ export class AuthService {
       data
     );
   }
+
+  removeAvatar(): Observable<void> {
+    return this.http.delete<void>(
+      `${environment.backendUrl}/auth/remove-avatar`
+    );
+  }
 }
