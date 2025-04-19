@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .avatar-container {
   display: flex;
   flex-direction: column;
@@ -26,4 +28,12 @@
 .button-row {
   display: flex;
   gap: 1rem;
+}
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
 }

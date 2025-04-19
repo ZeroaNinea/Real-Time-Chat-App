@@ -22,7 +22,6 @@
   <div class="button-row">
     <button
       mat-raised-button
-      color="primary"
       (click)="uploadAvatar()"
       [disabled]="!selectedFile"
     >
@@ -30,9 +29,9 @@
     </button>
     <button
       mat-raised-button
-      color="warn"
       (click)="removeAvatar()"
       [disabled]="!user.avatar"
+      class="warn"
     >
       Remove
     </button>
