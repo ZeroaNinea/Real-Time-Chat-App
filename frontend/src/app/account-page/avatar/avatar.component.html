@@ -19,20 +19,22 @@
     Choose Image
   </label>
 
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="uploadAvatar()"
-    [disabled]="!selectedFile"
-  >
-    Upload
-  </button>
-  <button
-    mat-raised-button
-    color="warn"
-    (click)="removeAvatar()"
-    [disabled]="!user.avatar"
-  >
-    Remove
-  </button>
+  <div class="button-row">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="uploadAvatar()"
+      [disabled]="!selectedFile"
+    >
+      Upload
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="removeAvatar()"
+      [disabled]="!user.avatar"
+    >
+      Remove
+    </button>
+  </div>
 </div>
