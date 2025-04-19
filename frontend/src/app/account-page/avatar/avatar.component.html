@@ -1,4 +1,4 @@
-<h2>Update Avatar</h2>
+<!-- <h2>Update Avatar</h2>
 
 @if (previewUrl) {
 <img [src]="previewUrl" class="avatar-preview" />
@@ -11,4 +11,35 @@
   [disabled]="!selectedFile"
 >
   Upload
-</button>
+</button> -->
+
+<div class="avatar-container">
+  <h2>Update Avatar</h2>
+
+  <div class="avatar-preview-wrapper">
+    <img
+      [src]="previewUrl || currentAvatar || 'assets/empty-avatar.svg'"
+      class="avatar-preview"
+      alt="Avatar preview"
+    />
+  </div>
+
+  <label mat-stroked-button color="accent" class="file-label">
+    <input
+      type="file"
+      hidden
+      (change)="onFileSelected($event)"
+      accept="image/*"
+    />
+    Choose Image
+  </label>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="uploadAvatar()"
+    [disabled]="!selectedFile"
+  >
+    Upload
+  </button>
+</div>

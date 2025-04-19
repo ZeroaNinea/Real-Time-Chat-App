@@ -17,6 +17,8 @@ export class AvatarComponent {
   @Input() user!: User;
   @Output() userChange = new EventEmitter<User>();
 
+  currentAvatar = this.user.avatar;
+
   selectedFile: File | null = null;
   previewUrl: string | null = null;
 
