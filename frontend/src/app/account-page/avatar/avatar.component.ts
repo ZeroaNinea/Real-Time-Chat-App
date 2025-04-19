@@ -69,4 +69,22 @@ export class AvatarComponent implements OnInit {
       },
     });
   }
+
+  removeAvatar() {
+    this.authService.removeAvatar().subscribe({
+      next: () => {
+        this.user.avatar = '';
+        this.currentAvatar = null;
+        this.userChange.emit(this.user);
+        this.snackBar.open('Avatar removed.', 'Close', { duration: 3000 });
+      },
+      error: (err) => {
+        this.snackBar.open(
+          err.error?.message || 'Failed to remove avatar',
+          'Close',
+          { duration: 3000 }
+        );
+      },
+    });
+  }
 }
