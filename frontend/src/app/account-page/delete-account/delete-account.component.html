@@ -1,1 +1,21 @@
-<p>delete-account works!</p>
+<form [formGroup]="form" (ngSubmit)="deleteAccount()" class="form">
+  <app-auth-form-field
+    label="Password"
+    placeholder="Password"
+    type="password"
+    [control]="passwordControl"
+  ></app-auth-form-field>
+
+  <app-auth-form-field
+    label="Confirm Password"
+    placeholder="Confirm Password"
+    type="password"
+    [control]="confirmPasswordControl"
+  ></app-auth-form-field>
+
+  <div class="button-row">
+    <button mat-raised-button type="submit" [disabled]="form.invalid">
+      Delete Account
+    </button>
+  </div>
+</form>

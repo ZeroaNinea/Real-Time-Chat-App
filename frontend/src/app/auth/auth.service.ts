@@ -58,4 +58,8 @@ export class AuthService {
       `${environment.backendUrl}/auth/remove-avatar`
     );
   }
+
+  deleteAccount(data: { username: string; password: string }) {
+    return this.http.delete(`${environment.backendUrl}/auth/delete-account`);
+  }
 }
