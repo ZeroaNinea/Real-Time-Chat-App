@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { User } from '../../auth/shared/user.model';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-avatar',
@@ -17,7 +18,7 @@ export class AvatarComponent {
   @Input() user!: User;
   @Output() userChange = new EventEmitter<User>();
 
-  currentAvatar = this.user.avatar;
+  currentAvatar = `${environment.avatarPath}this.user.avatar`;
 
   selectedFile: File | null = null;
   previewUrl: string | null = null;
