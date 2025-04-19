@@ -7,11 +7,13 @@ import {
   login,
   logout,
   register,
+  updateAvatar,
   updateEmail,
   updatePassword,
   updateUsernameBio,
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../auth/auth.middleware';
+import { uploadAvatar } from '../middleware/upload';
 
 const router = express.Router();
 
@@ -26,6 +28,12 @@ router.put(
   asyncRoute(updateUsernameBio)
 );
 router.put('/update-password', authMiddleware, asyncRoute(updatePassword));
+router.post(
+  '/update-avatar',
+  authMiddleware,
+  uploadAvatar,
+  asyncRoute(updateAvatar)
+);
 router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;

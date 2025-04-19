@@ -201,3 +201,22 @@ export const updatePassword = async (req: Request, res: Response) => {
 
   res.status(200).json(buildAccountResponse(user));
 };
+
+// Update avatar.
+export const updateAvatar = async (req: Request, res: Response) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No avatar uploaded' });
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    { avatar: `../uploads/avatars/${req.file.filename}` },
+    { new: true }
+  );
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  res.status(200).json({ avatar: user.avatar });
+};
