@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logout',
@@ -10,6 +11,6 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './logout.component.scss',
 })
 export class LogoutComponent {
-  authService = inject(AuthService);
-  snackBar = inject(MatSnackBar);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 }
