@@ -120,7 +120,7 @@ backend/
 <br />
 ✅ **Step 15.3:** Implement avatar updating
 <br />
-➡️ **Step 15.4:** Implement account deletion
+✅ **Step 15.4:** Implement account deletion
 <br />
 ➡️ **Step 15.5:** Implement log out
 <br />
