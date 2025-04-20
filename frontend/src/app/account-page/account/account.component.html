@@ -67,19 +67,27 @@
 
   <div class="account-main">
     @switch (selectedSection) { @case ('username-bio') {
+    <h2>Username & Bio</h2>
+    <p>Update your username and bio to personalize your account.</p>
     <app-username-bio [user]="user" (userChange)="user = $event" />
     } @case ('email') {
     <div>
-      <h1>Current Email: {{ user.email }}</h1>
+      <h2>Email</h2>
+      <p>
+        Update your email address. There is no functionality yet. It is
+        optional.
+      </p>
       <app-account-email [user]="user" (userChange)="user = $event" />
     </div>
     } @case ('password') {
+    <h2>Password</h2>
+    <p>Update your password to secure your account.</p>
     <app-password [user]="user" />
     } @case ('avatar') {
     <app-avatar [user]="user" (userChange)="user = $event" />
     } @case ('delete') {
     <div>
-      <h1>Delete Account</h1>
+      <h2>Delete Account</h2>
       <p>
         Are you sure you want to delete your account? You will not be able to
         restore it after this action.
