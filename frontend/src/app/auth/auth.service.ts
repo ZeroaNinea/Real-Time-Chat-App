@@ -59,7 +59,9 @@ export class AuthService {
     );
   }
 
-  deleteAccount(data: { username: string; password: string }) {
-    return this.http.delete(`${environment.backendUrl}/auth/delete-account`);
+  deleteAccount(data: { password: string }) {
+    return this.http.delete(`${environment.backendUrl}/auth/delete-account`, {
+      body: data,
+    });
   }
 }
