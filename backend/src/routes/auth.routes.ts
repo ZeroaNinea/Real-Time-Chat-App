@@ -11,6 +11,7 @@ import {
   updateAvatar,
   updateEmail,
   updatePassword,
+  updatePronouns,
   updateUsernameBio,
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../auth/auth.middleware';
@@ -36,6 +37,7 @@ router.post(
   asyncRoute(updateAvatar)
 );
 router.delete('/remove-avatar', authMiddleware, asyncRoute(removeAvatar));
+router.put('/update-pronouns', authMiddleware, asyncRoute(updatePronouns));
 router.delete('/delete-account', authMiddleware, asyncRoute(deleteAccount));
 
 export default router;
