@@ -7,14 +7,16 @@ import {
   OnChanges,
   OnInit,
 } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../../auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { User } from '../../auth/shared/user.model';
-import { MatButtonModule } from '@angular/material/button';
+
 import { afterNextRender } from '@angular/core';
 
 @Component({
