@@ -124,7 +124,7 @@ backend/
 <br />
 ➡️ **Step 15.5:** Implement log out
 <br />
-➡️ **Step 15.6:** Implement pronouns editing
+✅ **Step 15.6:** Implement pronouns editing
 <br />
 ➡️ **Step 15.6:** Implement implement user card
 <br />
