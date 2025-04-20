@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { User } from '../../auth/shared/user.model';
 import { MatButtonModule } from '@angular/material/button';
+import { afterNextRender } from '@angular/core';
 
 @Component({
   selector: 'app-pronouns',
