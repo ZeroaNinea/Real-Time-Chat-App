@@ -37,6 +37,13 @@
     </a>
     <a
       mat-list-item
+      (click)="setSection('pronouns')"
+      [class.active]="selectedSection === 'pronouns'"
+    >
+      Pronouns
+    </a>
+    <a
+      mat-list-item
       (click)="setSection('email')"
       [class.active]="selectedSection === 'email'"
     >
@@ -83,6 +90,12 @@
     <h2>Password</h2>
     <p>Update your password to secure your account.</p>
     <app-password [user]="user" />
+    } @case ('pronouns') {
+    <div>
+      <h2>Pronouns</h2>
+      <p>Update your pronouns to personalize your account.</p>
+      <app-pronouns [user]="user" (userChange)="user = $event" />
+    </div>
     } @case ('avatar') {
     <app-avatar [user]="user" (userChange)="user = $event" />
     } @case ('delete') {
