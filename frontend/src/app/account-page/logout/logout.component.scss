@@ -75,3 +75,20 @@
     opacity: 1;
   }
 }
+
+#fade-out-message {
+  margin-top: 2.5rem;
+  font-size: 1.61rem;
+  color: var(--mat-sys-on-secondary-fixed-variant);
+  opacity: 0;
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
