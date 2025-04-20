@@ -268,7 +268,5 @@ export const updatePronouns = async (req: Request, res: Response) => {
     { new: true }
   );
 
-  console.log(user, '=====================');
-
   res.status(200).json(buildAccountResponse(user));
 };
