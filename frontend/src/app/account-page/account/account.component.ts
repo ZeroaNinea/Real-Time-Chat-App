@@ -13,6 +13,7 @@ import { User } from '../../auth/shared/user.model';
 import { UsernameBioComponent } from '../username-bio/username-bio.component';
 import { PasswordComponent } from '../password/password.component';
 import { AvatarComponent } from '../avatar/avatar.component';
+import { DeleteAccountComponent } from '../delete-account/delete-account.component';
 
 @Component({
   selector: 'app-account',
@@ -20,9 +21,10 @@ import { AvatarComponent } from '../avatar/avatar.component';
     AccountInfoComponent,
     AccountEmailComponent,
     AvatarComponent,
-    MatTabsModule,
+    DeleteAccountComponent,
     UsernameBioComponent,
     PasswordComponent,
+    MatTabsModule,
     MatSidenavModule,
     MatListModule,
   ],

@@ -81,6 +81,7 @@
     <div>
       <h1>Delete Account</h1>
       <p>Are you sure you want to delete your account?</p>
+      <app-delete-account [user]="user" (userChange)="user = $event" />
     </div>
     } @default {
     <app-account-info [user]="user" />
