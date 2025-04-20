@@ -14,6 +14,7 @@ import { UsernameBioComponent } from '../username-bio/username-bio.component';
 import { PasswordComponent } from '../password/password.component';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { DeleteAccountComponent } from '../delete-account/delete-account.component';
+import { PronounsComponent } from '../pronouns/pronouns.component';
 
 @Component({
   selector: 'app-account',
@@ -24,6 +25,7 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
     DeleteAccountComponent,
     UsernameBioComponent,
     PasswordComponent,
+    PronounsComponent,
     MatTabsModule,
     MatSidenavModule,
     MatListModule,

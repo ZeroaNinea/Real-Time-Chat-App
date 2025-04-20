@@ -1,1 +1,14 @@
-<p>pronouns works!</p>
+<form [formGroup]="form" (ngSubmit)="updatePronouns()" class="form">
+  <app-auth-form-field
+    label="Pronouns"
+    [control]="pronounsControl"
+    inputType="text"
+    placeholder="Enter new pronouns"
+  />
+
+  <div class="button-row">
+    <button mat-raised-button type="submit" [disabled]="form.invalid">
+      Update Pronouns
+    </button>
+  </div>
+</form>
