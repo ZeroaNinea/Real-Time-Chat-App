@@ -17,6 +17,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { authInterceptor } from './auth/shared/auth-interceptor/auth.interceptor';
+import { errorInterceptor } from './auth/shared/error-interceptor/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,6 +46,6 @@ export const appConfig: ApplicationConfig = {
     }),
 
     // Interceptors
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
   ],
 };
