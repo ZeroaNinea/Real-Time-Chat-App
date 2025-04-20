@@ -20,7 +20,7 @@
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
       0 0 25px rgba(255, 100, 200, 0.5), 0 0 50px rgba(100, 150, 255, 0.4);
-    opacity: 0.9;
+    opacity: 0.89;
   }
 
   &:active {
@@ -54,6 +54,15 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   animation: slideInTop 0.6s ease-in-out;
+
+  h3 {
+    color: var(--mat-sys-on-secondary-fixed-variant);
+  }
+
+  p {
+    font-size: 1.7rem;
+    color: var(--mat-sys-on-secondary-fixed-variant);
+  }
 }
 
 @keyframes slideInTop {
