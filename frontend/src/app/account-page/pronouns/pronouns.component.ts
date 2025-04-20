@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  OnChanges,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -20,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './pronouns.component.html',
   styleUrl: './pronouns.component.scss',
 })
-export class PronounsComponent {
+export class PronounsComponent implements OnChanges {
   @Input() user!: User;
   @Output() userChange = new EventEmitter<User>();
 
@@ -35,6 +42,12 @@ export class PronounsComponent {
 
   get pronounsControl() {
     return this.form.get('pronouns') as FormControl;
+  }
+
+  ngOnChanges() {
+    if (this.user?.pronouns) {
+      this.pronounsControl.setValue(this.user.pronouns);
+    }
   }
 
   updatePronouns() {
