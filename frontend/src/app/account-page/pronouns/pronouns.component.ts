@@ -34,7 +34,7 @@ export class PronounsComponent {
   updatePronouns() {
     if (this.pronounsControl.invalid) return;
 
-    this.authService.updateEmail(this.pronounsControl.value!).subscribe({
+    this.authService.updatePronouns(this.pronounsControl.value!).subscribe({
       next: (updatedUser) => {
         this.user = updatedUser;
         this.userChange.emit(updatedUser);

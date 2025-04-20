@@ -64,4 +64,13 @@ export class AuthService {
       body: data,
     });
   }
+
+  updatePronouns(pronouns: string) {
+    return this.http.put<User>(
+      `${environment.backendUrl}/auth/update-pronouns`,
+      {
+        pronouns,
+      }
+    );
+  }
 }
