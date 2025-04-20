@@ -7,4 +7,7 @@
   <button class="rainbow-button" (click)="logout()">
     A Big Rainbow Button
   </button>
+  @if (logoutInProgress) {
+  <div class="fade-out-message">Logging out...</div>
+  }
 </div>

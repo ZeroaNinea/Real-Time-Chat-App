@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -13,12 +12,14 @@ import { Router } from '@angular/router';
 export class LogoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  logoutInProgress = false;
 
   logout() {
     this.authService.logout().subscribe({
       next: () => {
         localStorage.removeItem('accessToken');
-        this.router.navigate(['/']);
+        this.logoutInProgress = true;
+        setTimeout(() => this.router.navigate(['/']), 1000);
       },
       error: (err) => {
         console.error(err);
