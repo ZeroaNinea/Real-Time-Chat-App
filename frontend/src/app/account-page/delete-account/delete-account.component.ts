@@ -7,11 +7,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { User } from '../../auth/shared/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
-import { Router } from 'express';
 
 @Component({
   selector: 'app-delete-account',
