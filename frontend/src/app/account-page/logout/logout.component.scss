@@ -1,0 +1,31 @@
+.logout-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.logout-button {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    #ff0055,
+    #ff5500,
+    #ffaa00,
+    #55ff00,
+    #00ffaa,
+    #0055ff,
+    #aa00ff
+  );
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button:hover {
+  transform: scale(1.05);
+}
