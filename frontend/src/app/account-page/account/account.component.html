@@ -65,6 +65,13 @@
     </a>
     <a
       mat-list-item
+      (click)="setSection('logout')"
+      [class.active]="selectedSection === 'logout'"
+    >
+      Log Out
+    </a>
+    <a
+      mat-list-item
       (click)="setSection('delete')"
       [class.active]="selectedSection === 'delete'"
     >
@@ -100,6 +107,12 @@
     </div>
     } @case ('avatar') {
     <app-avatar [user]="user" (userChange)="user = $event" />
+    } @case ('logout') {
+    <div>
+      <h2>Log Out</h2>
+      <p>Are you sure you want to log out?</p>
+      <app-logout />
+    </div>
     } @case ('delete') {
     <div>
       <h2>Delete Account</h2>
