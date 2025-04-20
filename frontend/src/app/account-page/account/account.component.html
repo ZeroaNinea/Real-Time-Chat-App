@@ -109,8 +109,6 @@
     <app-avatar [user]="user" (userChange)="user = $event" />
     } @case ('logout') {
     <div>
-      <h2>Log Out</h2>
-      <p>Are you sure you want to log out?</p>
       <app-logout />
     </div>
     } @case ('delete') {
