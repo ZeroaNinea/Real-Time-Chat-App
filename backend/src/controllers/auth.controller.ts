@@ -72,25 +72,24 @@ export const login = async (req: Request, res: Response) => {
 // Delete account.
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
-    const { username, password, email } = req.body;
     const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided.' });
 
-    const user = await User.findOne({ username });
+    const { password } = req.body; // It'll be better to use user ID and password to delete the user.
+    if (!password)
+      return res.status(400).json({ message: 'Password is required.' });
 
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ message: 'Invalid username or password.' });
-    }
+    // Assume you've set `req.user` in your auth middleware.
+    const userId = (req as any).user?.id;
 
-    await User.deleteOne({
-      username,
-      email,
-    });
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found.' });
 
-    if (!token) {
-      return res.status(400).json({ message: 'No token provided.' });
-    }
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid password.' });
 
-    await redisClient.del(`auth:${user._id}:${token}`); // Delete token from Redis.
+    await User.deleteOne({ _id: userId });
+    await redisClient.del(`auth:${user._id}:${token}`);
 
     res.status(200).json({ message: 'Account deleted successfully!' });
   } catch (error) {
