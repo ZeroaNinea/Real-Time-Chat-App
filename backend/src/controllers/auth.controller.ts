@@ -262,7 +262,13 @@ export const updatePronouns = async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { pronouns } = req.body;
 
-  const user = await User.findByIdAndUpdate(userId, { pronouns });
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { pronouns },
+    { new: true }
+  );
+
+  console.log(user, '=====================');
 
   res.status(200).json(buildAccountResponse(user));
 };

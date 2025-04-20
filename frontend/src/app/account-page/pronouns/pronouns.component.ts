@@ -60,6 +60,7 @@ export class PronounsComponent implements OnChanges {
     this.authService.updatePronouns(this.pronounsControl.value!).subscribe({
       next: (updatedUser) => {
         this.user = updatedUser;
+        this.pronounsControl.setValue(updatedUser.pronouns);
         this.userChange.emit(updatedUser);
         this.snackBar.open('Pronouns updated!', 'Close', { duration: 3000 });
       },
