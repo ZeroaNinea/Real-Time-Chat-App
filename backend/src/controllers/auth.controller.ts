@@ -257,7 +257,7 @@ export const removeAvatar = async (req: Request, res: Response) => {
   }
 };
 
-// Update email.
+// Update pronouns.
 export const updatePronouns = async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { pronouns } = req.body;
