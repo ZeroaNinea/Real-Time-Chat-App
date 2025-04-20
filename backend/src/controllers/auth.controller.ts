@@ -25,6 +25,18 @@ export const asyncRoute =
     });
   };
 
+// The function to delete the avatar file. Called in the removeAvatar and deleteAccount controllers.
+const deleteAvatarFile = async (user: any) => {
+  if (user.avatar) {
+    const fullPath = path.join(__dirname, '../../', user.avatar);
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath); // Delete the avatar file.
+    }
+    user.avatar = '';
+    await user.save();
+  }
+};
+
 // Register user.
 export const register = async (req: Request, res: Response) => {
   try {
@@ -75,19 +87,18 @@ export const deleteAccount = async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'No token provided.' });
 
-    const { password } = req.body; // It'll be better to use user ID and password to delete the user.
+    const { password } = req.body;
     if (!password)
       return res.status(400).json({ message: 'Password is required.' });
 
-    // Assume you've set `req.user` in your auth middleware.
     const userId = (req as any).user?.id;
-
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found.' });
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid password.' });
 
+    await deleteAvatarFile(user);
     await User.deleteOne({ _id: userId });
     await redisClient.del(`auth:${user._id}:${token}`);
 
@@ -232,20 +243,16 @@ export const updateAvatar = async (req: Request, res: Response) => {
 
 // Remove avatar.
 export const removeAvatar = async (req: Request, res: Response) => {
-  const user = await User.findById(req.user?._id);
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-
-  if (user.avatar) {
-    const fullPath = path.join(__dirname, '../../', user.avatar);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath); // Delete file.
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    user.avatar = '';
-    await user.save();
+    await deleteAvatarFile(user);
+    res.status(200).json({ message: 'Avatar removed' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error during avatar removal.' });
   }
-
-  res.status(200).json({ message: 'Avatar removed' });
 };
