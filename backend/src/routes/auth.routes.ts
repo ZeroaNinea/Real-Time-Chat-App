@@ -21,7 +21,7 @@ const router = express.Router();
 
 router.post('/register', asyncRoute(register));
 router.post('/login', asyncRoute(login));
-router.get('/logout', authMiddleware, asyncRoute(logout));
+router.post('/logout', authMiddleware, asyncRoute(logout));
 router.get('/account', authMiddleware, asyncRoute(account));
 router.put('/update-email', authMiddleware, asyncRoute(updateEmail));
 router.put(
