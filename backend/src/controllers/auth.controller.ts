@@ -262,10 +262,6 @@ export const updatePronouns = async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { pronouns } = req.body;
 
-  if (!pronouns) {
-    return res.status(400).json({ message: 'Pronouns is required' });
-  }
-
   const user = await User.findByIdAndUpdate(userId, { pronouns });
 
   res.status(200).json(buildAccountResponse(user));
