@@ -87,9 +87,11 @@
       <app-account-email [user]="user" (userChange)="user = $event" />
     </div>
     } @case ('password') {
-    <h2>Password</h2>
-    <p>Update your password to secure your account.</p>
-    <app-password [user]="user" />
+    <div>
+      <h2>Password</h2>
+      <p>Update your password to secure your account.</p>
+      <app-password [user]="user" />
+    </div>
     } @case ('pronouns') {
     <div>
       <h2>Pronouns</h2>
