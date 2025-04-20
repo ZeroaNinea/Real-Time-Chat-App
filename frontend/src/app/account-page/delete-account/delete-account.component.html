@@ -14,7 +14,12 @@
   ></app-auth-form-field>
 
   <div class="button-row">
-    <button mat-raised-button type="submit" [disabled]="form.invalid">
+    <button
+      mat-raised-button
+      type="submit"
+      [disabled]="form.invalid"
+      class="warn"
+    >
       Delete Account
     </button>
   </div>

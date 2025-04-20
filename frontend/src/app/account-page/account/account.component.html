@@ -80,7 +80,10 @@
     } @case ('delete') {
     <div>
       <h1>Delete Account</h1>
-      <p>Are you sure you want to delete your account?</p>
+      <p>
+        Are you sure you want to delete your account? You will not be able to
+        restore it after this action.
+      </p>
       <app-delete-account [user]="user" (userChange)="user = $event" />
     </div>
     } @default {

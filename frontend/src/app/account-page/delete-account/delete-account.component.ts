@@ -12,10 +12,11 @@ import { Router } from '@angular/router';
 import { User } from '../../auth/shared/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-delete-account',
-  imports: [AuthFormFieldComponent, ReactiveFormsModule],
+  imports: [AuthFormFieldComponent, ReactiveFormsModule, MatButtonModule],
   standalone: true,
   templateUrl: './delete-account.component.html',
   styleUrl: './delete-account.component.scss',
