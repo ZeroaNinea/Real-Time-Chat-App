@@ -13,4 +13,17 @@ import { Router } from '@angular/router';
 export class LogoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        localStorage.removeItem('accessToken');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Something went wrong during logout.');
+      },
+    });
+  }
 }

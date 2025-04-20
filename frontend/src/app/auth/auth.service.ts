@@ -73,4 +73,8 @@ export class AuthService {
       }
     );
   }
+
+  logout(): Observable<void> {
+    return this.http.post<void>(`${environment.backendUrl}/auth/logout`, {});
+  }
 }
