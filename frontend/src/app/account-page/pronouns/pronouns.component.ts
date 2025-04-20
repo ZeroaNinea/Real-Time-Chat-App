@@ -6,10 +6,16 @@ import { AuthService } from '../../auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthFormFieldComponent } from '../../auth/shared/auth-form-field/auth-form-field.component';
 import { User } from '../../auth/shared/user.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-pronouns',
-  imports: [AuthFormFieldComponent, ReactiveFormsModule, MatFormFieldModule],
+  imports: [
+    AuthFormFieldComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+  ],
   standalone: true,
   templateUrl: './pronouns.component.html',
   styleUrl: './pronouns.component.scss',
