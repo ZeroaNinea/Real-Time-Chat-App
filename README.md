@@ -152,6 +152,21 @@ backend/
     └── logout-button.component.ts
 ```
 
+## The Third Step Implementation Plan
+
+➡️ Step 1: Define MongoDB schema for Message and ChatRoom
+<br />
+➡️ Step 2: Create backend service to handle messages
+<br />
+➡️ Step 3: Create simple ChatComponent Angular-ում
+<br />
+➡️ Step 4: Connect Socket.io to frontend, allow sending messages
+<br />
+➡️ Step 5: Display message history
+<br />
+➡️ Step 6: Add timestamps and online indicators
+<br />
+
 ### Main Components (likely pages or views)
 
 1. **RegisterComponent**
