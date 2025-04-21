@@ -158,7 +158,7 @@ backend/
 <br />
 ➡️ Step 2: Create backend service to handle messages
 <br />
-➡️ Step 3: Create simple ChatComponent Angular-ում
+➡️ Step 3: Create simple ChatComponent in Angular
 <br />
 ➡️ Step 4: Connect Socket.io to frontend, allow sending messages
 <br />
