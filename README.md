@@ -154,7 +154,7 @@ backend/
 
 ## The Third Step Implementation Plan
 
-➡️ Step 1: Define MongoDB schema for Message and ChatRoom
+✅ Step 1: Define MongoDB schema for Message and ChatRoom
 <br />
 ➡️ Step 2: Create backend service to handle messages
 <br />
