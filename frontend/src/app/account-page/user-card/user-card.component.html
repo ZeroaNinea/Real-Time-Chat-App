@@ -1,9 +1,25 @@
 @if (user) {
-<h3>Profile Info</h3>
-<p><strong>Avatar:</strong> {{ user.avatar }}</p>
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Pronouns:</strong> {{ user.pronouns }}</p>
-<p><strong>Bio:</strong> {{ user.bio }}</p>
-<p><strong>Email:</strong> {{ user.email || "—" }}</p>
-<p><strong>Joined:</strong> {{ user.createdAt | date }}</p>
+<mat-card class="user-card">
+  <mat-card-header>
+    <div mat-card-avatar class="user-avatar-wrapper">
+      <img
+        [src]="
+          environment.backendUrl + '/' + user.avatar || 'assets/camera.svg'
+        "
+        alt="Avatar"
+        class="user-avatar"
+      />
+    </div>
+    <mat-card-title>{{ user.username }}</mat-card-title>
+    <mat-card-subtitle>{{ user.pronouns }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="bio">{{ user.bio }}</p>
+    <div>
+      <p class="email"><strong>Email:</strong> {{ user.email || "—" }}</p>
+      <p class="joined"><strong>Joined:</strong> {{ user.createdAt | date }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
 }
