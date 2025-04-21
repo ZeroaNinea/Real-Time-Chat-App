@@ -128,7 +128,7 @@ backend/
 <br />
 ✅ **Step 15.6:** Implement implement user card
 <br />
-➡️ **Step 15.6:** Build the account page to use the /auth/account route
+✅ **Step 15.6:** Build the account page to use the /auth/account route
 
 ```plaintext
 /account-page
