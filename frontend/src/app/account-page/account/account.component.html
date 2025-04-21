@@ -1,31 +1,3 @@
-<!-- <div id="account-settings">
-  <mat-tab-group>
-    <mat-tab label="Account Info">
-      @if (user) {
-      <app-account-info [user]="user" />
-      } @else {
-      <p>Loading user data...</p>
-      }
-    </mat-tab>
-    <mat-tab label="Username & Bio">
-      <app-username-bio [user]="user" (userChange)="user = $event" />
-    </mat-tab>
-    <mat-tab label="Email">
-      <h1>Current Email: {{ user?.email }}</h1>
-      <app-account-email [user]="user" (userChange)="user = $event" />
-    </mat-tab>
-    <mat-tab label="Password">
-      <app-password [user]="user" />
-    </mat-tab>
-    <mat-tab label="Avatar">
-      <h1>update avatar</h1>
-    </mat-tab>
-    <mat-tab label="Delete Account">
-      <h1>delete account</h1>
-    </mat-tab>
-  </mat-tab-group>
-</div> -->
-
 <div class="account-page">
   <mat-nav-list class="account-sidebar">
     <a
@@ -120,13 +92,10 @@
       </p>
       <app-delete-account [user]="user" (userChange)="user = $event" />
     </div>
-    } @default {
-    <!-- <app-account-info [user]="user" /> -->
     } }
   </div>
 
   <div class="account-card">
-    <!-- <app-account-info [user]="user" /> -->
     <app-user-card [user]="user" />
   </div>
 </div>
