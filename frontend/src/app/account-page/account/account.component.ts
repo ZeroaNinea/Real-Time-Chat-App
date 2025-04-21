@@ -6,7 +6,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
-import { AccountInfoComponent } from '../account-info/account-info.component';
 import { environment } from '../../../environments/environment';
 import { AccountEmailComponent } from '../account-email/account-email.component';
 import { User } from '../../auth/shared/user.model';
@@ -16,11 +15,12 @@ import { AvatarComponent } from '../avatar/avatar.component';
 import { DeleteAccountComponent } from '../delete-account/delete-account.component';
 import { PronounsComponent } from '../pronouns/pronouns.component';
 import { LogoutComponent } from '../logout/logout.component';
+import { UserCardComponent } from '../user-card/user-card.component';
 
 @Component({
   selector: 'app-account',
   imports: [
-    AccountInfoComponent,
+    UserCardComponent,
     AccountEmailComponent,
     AvatarComponent,
     DeleteAccountComponent,

@@ -121,12 +121,12 @@
       <app-delete-account [user]="user" (userChange)="user = $event" />
     </div>
     } @default {
-    <app-account-info [user]="user" />
+    <!-- <app-account-info [user]="user" /> -->
     } }
   </div>
 
   <div class="account-card">
-    <app-account-info [user]="user" />
-    <!-- Later: <app-user-card [user]="user" /> -->
+    <!-- <app-account-info [user]="user" /> -->
+    <app-user-card [user]="user" />
   </div>
 </div>

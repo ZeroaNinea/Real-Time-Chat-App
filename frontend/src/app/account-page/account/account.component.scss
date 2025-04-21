@@ -1,19 +1,11 @@
-// #account-settings {
-//   display: flex;
-//   justify-content: center;
-//   height: 55vh;
-//   margin-top: 5%;
-// }
-
-// mat-tab-group {
-//   width: 60%;
-// }
-
 .account-page {
   display: grid;
   grid-template-columns: 200px 1fr 250px;
   gap: 2rem;
   padding: 2rem;
+  height: 90vh;
+  max-height: 90vh;
+  max-width: 100vw;
 }
 
 .account-sidebar {
