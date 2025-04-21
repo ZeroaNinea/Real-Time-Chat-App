@@ -18,8 +18,13 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
       type: Boolean,
       required: true,
       default: true,
-      members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     },
+    members: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     timestamps: true,
