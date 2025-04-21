@@ -17,7 +17,7 @@ This is a real-time chat application built with Node.js, Angular, and Socket.io.
 - Basic Socket.io connection.
 - Sending and displaying messages.
 
-2. **User Accounts & Authentication**
+2. **User Accounts & Authentication** ✅
 
 - Implement JWT authentication.
 - Set up registration and login with password hashing (e.g., bcrypt).
