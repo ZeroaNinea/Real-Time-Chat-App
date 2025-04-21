@@ -126,7 +126,7 @@ backend/
 <br />
 ✅ **Step 15.6:** Implement pronouns editing
 <br />
-➡️ **Step 15.6:** Implement implement user card
+✅ **Step 15.6:** Implement implement user card
 <br />
 ➡️ **Step 15.6:** Build the account page to use the /auth/account route
 
