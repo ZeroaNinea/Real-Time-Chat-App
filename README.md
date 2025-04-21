@@ -201,7 +201,7 @@ backend/
 4. **Personal Messages Page**
 5. **Landing Page**
 
-## Planned Fitures
+## Planned Features
 
 1. Search bar for chat rooms and users.
 2. Friend requests system.
