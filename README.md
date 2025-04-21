@@ -201,6 +201,14 @@ backend/
 4. **Personal Messages Page**
 5. **Landing Page**
 
+## Planned Fitures
+
+1. Search bar for chat rooms and users.
+2. Friend requests system.
+3. User profile page.
+4. Message reactions and replies.
+5. File/image upload.
+
 ## Start the Project
 
 ### **In the Development Mode**
