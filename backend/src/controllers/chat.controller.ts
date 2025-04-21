@@ -5,7 +5,7 @@ import { Chat } from '../models/chat.model';
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
     members: req.user._id,
-  });
+  }).populate('members', 'username avatar');
 
   res.json(chats);
 };
