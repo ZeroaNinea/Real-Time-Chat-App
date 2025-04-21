@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
@@ -12,7 +12,17 @@ import { environment } from '../../../environments/environment';
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',
 })
-export class UserCardComponent {
+export class UserCardComponent implements OnInit {
   @Input() user!: User;
   environment = environment;
+
+  // constructor() {
+  //   console.log(this.user);
+  // }
+
+  ngOnInit(): void {
+    // if (this.user?.avatar) {
+    //   this.userAvatar = `${environment.backendUrl}/${this.user?.avatar}`;
+    // }
+  }
 }

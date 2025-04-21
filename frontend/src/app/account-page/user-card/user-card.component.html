@@ -2,13 +2,15 @@
 <mat-card class="user-card">
   <mat-card-header>
     <div mat-card-avatar class="user-avatar-wrapper">
+      @if (user.avatar) {
       <img
-        [src]="
-          environment.backendUrl + '/' + user.avatar || 'assets/camera.svg'
-        "
+        [src]="environment.backendUrl + '/' + this.user.avatar"
         alt="Avatar"
         class="user-avatar"
       />
+      } @else {
+      <img [src]="'assets/camera.svg'" alt="Avatar" class="user-avatar" />
+      }
     </div>
     <mat-card-title>{{ user.username }}</mat-card-title>
     <mat-card-subtitle>{{ user.pronouns }}</mat-card-subtitle>
