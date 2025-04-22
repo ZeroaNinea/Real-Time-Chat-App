@@ -6,7 +6,7 @@ import {
   afterNextRender,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { WebsocketService } from '../shared/services/websocket.service';
+import { WebsocketService } from '../shared/services/websocket/websocket.service';
 import { Subscription } from 'rxjs';
 
 @Component({
