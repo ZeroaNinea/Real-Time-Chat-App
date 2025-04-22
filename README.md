@@ -156,7 +156,7 @@ backend/
 
 ✅ Step 1: Define MongoDB schema for Message and ChatRoom
 <br />
-➡️ Step 2: Create backend service to handle messages
+✅ Step 2: Create backend service to handle messages
 <br />
 ➡️ Step 3: Create simple ChatComponent in Angular
 <br />
