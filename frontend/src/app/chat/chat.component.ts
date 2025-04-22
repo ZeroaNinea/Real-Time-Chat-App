@@ -1,6 +1,12 @@
-import { Component, inject, signal, OnDestroy, afterNextRender } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  OnDestroy,
+  afterNextRender,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { WebsocketService } from '../websocket.service';
+import { WebsocketService } from '../shared/services/websocket.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,7 +14,7 @@ import { Subscription } from 'rxjs';
   imports: [FormsModule],
   standalone: true,
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+  styleUrl: './chat.component.scss',
 })
 export class ChatComponent implements OnDestroy {
   message = signal('');
@@ -38,8 +44,10 @@ export class ChatComponent implements OnDestroy {
 
     this.wsService.connect(); // Ensure connection happens here.
 
-    this.messagesSubscription = this.wsService.getMessages().subscribe(msgs => {
-      this.messages.set(msgs);
-    });
+    this.messagesSubscription = this.wsService
+      .getMessages()
+      .subscribe((msgs) => {
+        this.messages.set(msgs);
+      });
   }
 }
