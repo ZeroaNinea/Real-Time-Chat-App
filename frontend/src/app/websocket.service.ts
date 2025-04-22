@@ -19,6 +19,10 @@ export class WebsocketService implements OnDestroy {
 
     this.socket = io(environment.backendUrl, { transports: ['websocket'] });
 
+    this.socket.on('connect_error', (err) => {
+      console.warn('Socket connection error:', err.message);
+    });
+
     this.socket.on('connect', () => {
       this.isConnected = true;
 
