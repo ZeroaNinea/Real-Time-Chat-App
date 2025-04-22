@@ -12,6 +12,17 @@ export const mine = async (req: Request, res: Response) => {
 
 export const privateMessages = async (req: Request, res: Response) => {
   const { userId } = req.body;
+  const existingChat = await Chat.findOne({
+    isPrivate: true,
+    members: { $all: [req.user._id, userId], $size: 2 },
+  });
+
+  if (existingChat) {
+    res.status(403).json(existingChat);
+
+    return;
+  }
+
   const chat = await Chat.create({
     isPrivate: true,
     members: [req.user._id, userId],
