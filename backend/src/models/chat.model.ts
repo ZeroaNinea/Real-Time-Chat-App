@@ -5,6 +5,7 @@ export interface IChat {
   name: string;
   isPrivate: boolean;
   members: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
+  admin: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
 }
 
 export interface ChatDocument extends IChat, Document {}
@@ -25,6 +26,11 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
         ref: 'User',
       },
     ],
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: true,
