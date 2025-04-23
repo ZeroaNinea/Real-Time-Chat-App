@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Chat } from '../../models/chat.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,10 @@ export class ChatService {
 
   constructor() {}
 
-  // createChatRoom(name: string) {
-  //   return this.http.post<Chat>
-  // }
+  createChatRoom(name: string): Observable<Chat> {
+    return this.http.post<Chat>('/chat/create-chat', {
+      name,
+      isPrivate: false,
+    });
+  }
 }
