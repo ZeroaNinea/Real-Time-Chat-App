@@ -1,1 +1,22 @@
-<p>main works!</p>
+<h1>Welcome to the Chat App</h1>
+
+<section>
+  <h2>Search Chatrooms</h2>
+  <input [(ngModel)]="searchTerm" placeholder="Search chatrooms" />
+  <ul>
+    @for (room of filteredRooms(); track $index) {
+    <li (click)="enterRoom(room)">
+      {{ room }}
+    </li>
+    }
+  </ul>
+</section>
+
+<section>
+  <h2>Friend Activity</h2>
+  <ul>
+    @for (friend of friends; track $index) {
+    <li>{{ friend.name }} - {{ friend.status }}</li>
+    }
+  </ul>
+</section>
