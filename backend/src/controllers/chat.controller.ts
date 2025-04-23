@@ -37,7 +37,7 @@ export const createChat = async (req: Request, res: Response) => {
     name,
     isPrivate: false,
     members: [req.user._id],
-    admin: req.user._id,
+    admins: [req.user._id],
   });
 
   res.status(201).json(chat);
