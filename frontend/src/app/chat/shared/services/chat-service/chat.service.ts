@@ -11,9 +11,10 @@ export class ChatService {
 
   constructor() {}
 
-  createChatRoom(name: string): Observable<Chat> {
+  createChatRoom(data: { name: string; channels: string }): Observable<Chat> {
     return this.http.post<Chat>('/chat/create-chat', {
-      name,
+      name: data.name,
+      channels: data.channels,
       isPrivate: false,
     });
   }

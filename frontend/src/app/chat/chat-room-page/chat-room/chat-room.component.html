@@ -5,10 +5,18 @@
   (send)="sendMessage()"
 ></app-message-input>
 
-<!-- @if (isAdmin()) {
+@if (isAdmin()) {
 <div>
-  <input [(ngModel)]="roomName" placeholder="Chat Room Name" />
+  <!-- <input [(ngModel)]="roomName" placeholder="Chat Room Name" /> -->
+
+  @for (channel of channels(); track $index) {
+  <div>
+    <span>{{ channel }}</span>
+  </div>
+  }
+
+  <input [(ngModel)]="newChannel" placeholder="New channel" />
   <button (click)="addChannel()">Add Channel</button>
   <button (click)="save()">Save Changes</button>
 </div>
-} -->
+}

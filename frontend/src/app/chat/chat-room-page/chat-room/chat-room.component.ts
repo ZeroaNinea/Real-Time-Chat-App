@@ -12,10 +12,17 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
 import { Subscription } from 'rxjs';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
+import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-room',
-  imports: [MessageListComponent, MessageInputComponent],
+  imports: [
+    MessageListComponent,
+    MessageInputComponent,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   standalone: true,
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
@@ -30,6 +37,11 @@ export class ChatRoomComponent implements OnDestroy {
   isAdmin = signal(false);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private chatService = inject(ChatService);
+
+  roomName = signal('');
+  channels = signal<string[]>([]);
+  newChannel = signal('');
 
   constructor() {
     afterNextRender(() => {
@@ -56,5 +68,29 @@ export class ChatRoomComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+
+  addChannel() {
+    const channel = this.newChannel().trim();
+    if (channel) {
+      this.channels.update((chs) => [...chs, channel]);
+      this.newChannel.set('');
+    }
+  }
+
+  async save() {
+    const data = {
+      name: this.roomName(),
+      channels: this.channels().join(','),
+    };
+
+    this.chatService.createChatRoom(data).subscribe({
+      next: (chat) => {
+        this.router.navigate(['/chat-room', chat._id]);
+      },
+      error: (err) => {
+        console.error('Failed to create chat room:', err);
+      },
+    });
   }
 }
