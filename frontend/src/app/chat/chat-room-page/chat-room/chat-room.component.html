@@ -1,1 +1,6 @@
-<p>chat-room works!</p>
+<app-message-list [messages]="messages()"></app-message-list>
+<app-message-input
+  [message]="message()"
+  (messageChange)="message.set($event)"
+  (send)="sendMessage()"
+></app-message-input>

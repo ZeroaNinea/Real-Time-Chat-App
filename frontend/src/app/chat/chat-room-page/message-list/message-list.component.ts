@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-message-list',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './message-list.component.scss',
 })
 export class MessageListComponent {
-  messages!: string[];
+  @Input() messages!: string[];
 }
