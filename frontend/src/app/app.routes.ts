@@ -6,6 +6,7 @@ import { AccountComponent } from './account-page/account/account.component';
 import { authGuard } from './auth/auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ChatRoomComponent } from './chat/chat-room-page/chat-room/chat-room.component';
+import { MainComponent } from './chat/main-page/main/main.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     path: 'chat-room',
     component: ChatRoomComponent,
+  },
+  {
+    path: 'main',
+    component: MainComponent,
   },
   {
     path: '401',
