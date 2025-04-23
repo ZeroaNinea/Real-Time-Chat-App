@@ -4,3 +4,11 @@
   (messageChange)="message.set($event)"
   (send)="sendMessage()"
 ></app-message-input>
+
+<!-- @if (isAdmin()) {
+<div>
+  <input [(ngModel)]="roomName" placeholder="Chat Room Name" />
+  <button (click)="addChannel()">Add Channel</button>
+  <button (click)="save()">Save Changes</button>
+</div>
+} -->
