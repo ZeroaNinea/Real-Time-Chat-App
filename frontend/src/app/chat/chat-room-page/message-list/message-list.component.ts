@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent {}
+export class MessageListComponent {
+  messages!: string[];
+}
