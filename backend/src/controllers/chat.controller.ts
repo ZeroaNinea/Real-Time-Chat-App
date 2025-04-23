@@ -29,3 +29,16 @@ export const privateMessages = async (req: Request, res: Response) => {
   });
   res.json(chat);
 };
+
+export const createChat = async (req: Request, res: Response) => {
+  const { name } = req.body;
+
+  const chat = await Chat.create({
+    name,
+    isPrivate: false,
+    members: [req.user._id],
+    admin: req.user._id,
+  });
+
+  res.status(201).json(chat);
+};
