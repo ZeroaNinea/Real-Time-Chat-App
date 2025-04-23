@@ -1,6 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 export class MainComponent {
   searchTerm = signal('');
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
+
+  private router = inject(Router);
 
   friends = [
     { name: 'Alice', status: 'online' },
@@ -28,5 +30,9 @@ export class MainComponent {
     // For now, just navigate to the chat-room page.
     // Later you can pass the room name or ID via query params or a service.
     console.log('Entering room:', room);
+  }
+
+  createRoom() {
+    this.router.navigate(['/chat-room']);
   }
 }
