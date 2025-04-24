@@ -19,4 +19,8 @@ export class ChatService {
       isPrivate: false,
     });
   }
+
+  deleteChatRoom(chatId: string): Observable<void> {
+    return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
+  }
 }
