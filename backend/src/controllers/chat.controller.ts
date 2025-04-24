@@ -38,11 +38,15 @@ export const createChat = async (req: Request, res: Response) => {
     const chat = await Chat.create({
       name,
       isPrivate: false,
-      owner: req.user._id,
-      admins: [req.user._id],
+      roles: [
+        { name: 'Owner', description: 'Full permissions' },
+        { name: 'Admin', description: 'Manage channels and users' },
+        { name: 'Member', description: 'Basic access' },
+      ],
       members: [
         {
           user: req.user._id,
+          roles: ['Owner'],
         },
       ],
     });
