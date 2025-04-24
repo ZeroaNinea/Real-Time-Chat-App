@@ -10,57 +10,38 @@ export interface IChat {
   }[];
   roles: {
     name: string;
-    description: string;
+    description?: string;
+    permissions?: string[];
   }[];
-  owner: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
-  admins: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
-  moderators: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
 }
 
 export interface ChatDocument extends IChat, Document {}
 
 const ChatSchema = new mongoose.Schema<ChatDocument>(
   {
-    name: {
-      type: String,
-    },
-    isPrivate: {
-      type: Boolean,
-      required: true,
-      default: true,
-    },
+    name: { type: String, required: true },
+    isPrivate: { type: Boolean, default: true },
+
+    members: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          required: true,
+        },
+        roles: [{ type: String, required: true }],
+      },
+    ],
+
     roles: [
       {
         name: { type: String, required: true },
-        description: String,
-      },
-    ],
-    members: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        roles: [String],
-      },
-    ],
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    admins: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    moderators: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        description: { type: String },
+        permissions: [String],
       },
     ],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Chat = mongoose.model<ChatDocument>('Chat', ChatSchema);
