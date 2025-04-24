@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Chat } from '../models/chat.model';
 import { UserDocument } from '../models/user.model';
 import { Channel } from '../models/channel.model';
+import { Types } from 'mongoose';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -66,7 +67,10 @@ export const deleteChat = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Chat not found' });
     }
 
-    const member = chat.members.find((m: any) => m.user.equals(req.user._id));
+    const member = chat.members.find(
+      (m: { user: Types.ObjectId; roles: string[] }) =>
+        m.user.equals(req.user._id)
+    );
     const isOwner = member?.roles.includes('Owner');
 
     if (!isOwner) {
@@ -94,8 +98,11 @@ export const addChannel = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Chat not found' });
     }
 
-    const member = chat.members.find((m: any) => m.user.equals(req.user._id));
-    const isAdminOrOwner = member?.roles.some((r: any) =>
+    const member = chat.members.find(
+      (m: { user: Types.ObjectId; roles: string[] }) =>
+        m.user.equals(req.user._id)
+    );
+    const isAdminOrOwner = member?.roles.some((r: string) =>
       ['Owner', 'Admin'].includes(r)
     );
 
