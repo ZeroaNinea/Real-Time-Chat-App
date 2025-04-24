@@ -9,6 +9,7 @@ export interface ChannelDocument extends Document {
     adminsOnly?: boolean;
     readOnly?: boolean;
     allowedUsers?: mongoose.Types.ObjectId[];
+    allowedRoles?: string[];
   };
 }
 
@@ -25,6 +26,7 @@ const ChannelSchema = new mongoose.Schema<ChannelDocument>(
       adminsOnly: { type: Boolean, default: false },
       readOnly: { type: Boolean, default: false },
       allowedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      allowedRoles: [String],
     },
   },
   { timestamps: true }
