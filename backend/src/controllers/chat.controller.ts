@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Chat } from '../models/chat.model';
+import { UserDocument } from '../models/user.model';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -72,4 +73,27 @@ export const deleteChat = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete chat', error: err });
   }
+};
+
+export const addChannel = async (req: Request, res: Response) => {
+  const { chatId } = req.params;
+  const { channelName } = req.body;
+
+  const chat = await Chat.findById(chatId);
+
+  if (!chat) return res.status(404).json({ message: 'Chat not found' });
+
+  const isAuthorized =
+    chat.owner.equals(req.user._id) ||
+    chat.admins.some((a: UserDocument) => a.equals(req.user._id));
+
+  if (!isAuthorized)
+    return res
+      .status(403)
+      .json({ message: 'Only owner or admins can add channels' });
+
+  chat.channels.push({ name: channelName });
+  await chat.save();
+
+  res.status(200).json({ message: 'Channel added successfully', chat });
 };
