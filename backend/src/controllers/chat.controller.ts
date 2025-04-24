@@ -58,13 +58,15 @@ export const deleteChat = async (req: Request, res: Response) => {
     const chat = await Chat.findById(req.params.chatId);
 
     if (!chat) {
-      return res.status(404).json({ message: 'Chat not found' });
+      res.status(404).json({ message: 'Chat not found' });
+
+      return;
     }
 
     if (!chat.owner.equals(req.user._id)) {
-      return res
-        .status(403)
-        .json({ message: 'Only the owner can delete this chat' });
+      res.status(403).json({ message: 'Only the owner can delete this chat' });
+
+      return;
     }
 
     await chat.deleteOne();
@@ -81,16 +83,21 @@ export const addChannel = async (req: Request, res: Response) => {
 
   const chat = await Chat.findById(chatId);
 
-  if (!chat) return res.status(404).json({ message: 'Chat not found' });
+  if (!chat) {
+    res.status(404).json({ message: 'Chat not found' });
+
+    return;
+  }
 
   const isAuthorized =
     chat.owner.equals(req.user._id) ||
     chat.admins.some((a: UserDocument) => a.equals(req.user._id));
 
-  if (!isAuthorized)
-    return res
-      .status(403)
-      .json({ message: 'Only owner or admins can add channels' });
+  if (!isAuthorized) {
+    res.status(403).json({ message: 'Only owner or admins can add channels' });
+
+    return;
+  }
 
   chat.channels.push({ name: channelName });
   await chat.save();
