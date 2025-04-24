@@ -93,4 +93,22 @@ export class ChatRoomComponent implements OnDestroy {
       },
     });
   }
+
+  deleteChatRoom() {
+    if (!this.chatId()) return;
+
+    const confirmed = confirm(
+      'Are you sure you want to delete this chat room?'
+    );
+    if (!confirmed) return;
+
+    this.chatService.deleteChatRoom(this.chatId()!).subscribe({
+      next: () => {
+        this.router.navigate(['/main']);
+      },
+      error: (err) => {
+        console.error('Failed to delete chat room:', err);
+      },
+    });
+  }
 }
