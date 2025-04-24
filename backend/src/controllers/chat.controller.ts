@@ -31,15 +31,23 @@ export const privateMessages = async (req: Request, res: Response) => {
 };
 
 export const createChat = async (req: Request, res: Response) => {
-  const { name, channels } = req.body;
+  try {
+    const { name, channels } = req.body;
 
-  const chat = await Chat.create({
-    name,
-    isPrivate: false,
-    members: [req.user._id],
-    admins: [req.user._id],
-    channels: channels || [],
-  });
+    const chat = await Chat.create({
+      name,
+      isPrivate: false,
+      owner: req.user._id,
+      admins: [req.user._id],
+      members: [
+        {
+          user: req.user._id,
+        },
+      ],
+    });
 
-  res.status(201).json(chat);
+    res.status(201).json(chat);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to create chat', error: err });
+  }
 };
