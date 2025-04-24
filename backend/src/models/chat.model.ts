@@ -6,7 +6,11 @@ export interface IChat {
   isPrivate: boolean;
   members: {
     user: mongoose.Schema.Types.ObjectId;
-    roles?: string[];
+    roles: string[];
+  }[];
+  roles: {
+    name: string;
+    description: string;
   }[];
   owner: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
   admins: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
@@ -25,13 +29,15 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
       required: true,
       default: true,
     },
+    roles: [
+      {
+        name: { type: String, required: true },
+        description: String,
+      },
+    ],
     members: [
       {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-          required: true,
-        },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         roles: [String],
       },
     ],
