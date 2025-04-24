@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { Chat } from '../models/chat.model';
 import { UserDocument } from '../models/user.model';
+import { Channel } from '../models/channel.model';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -83,29 +84,34 @@ export const deleteChat = async (req: Request, res: Response) => {
 };
 
 export const addChannel = async (req: Request, res: Response) => {
-  const { chatId } = req.params;
-  const { channelName } = req.body;
+  try {
+    const { chatId } = req.params;
+    const { channelName } = req.body;
 
-  const chat = await Chat.findById(chatId);
+    const chat = await Chat.findById(chatId);
 
-  if (!chat) {
-    res.status(404).json({ message: 'Chat not found' });
+    if (!chat) {
+      return res.status(404).json({ message: 'Chat not found' });
+    }
 
-    return;
+    const member = chat.members.find((m: any) => m.user.equals(req.user._id));
+    const isAdminOrOwner = member?.roles.some((r: any) =>
+      ['Owner', 'Admin'].includes(r)
+    );
+
+    if (!isAdminOrOwner) {
+      return res
+        .status(403)
+        .json({ message: 'Only admins or owner can add channels' });
+    }
+
+    const channel = await Channel.create({
+      chatId: chat._id,
+      name: channelName,
+    });
+
+    res.status(201).json({ message: 'Channel created successfully', channel });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to create channel', error: err });
   }
-
-  const isAuthorized =
-    chat.owner.equals(req.user._id) ||
-    chat.admins.some((a: UserDocument) => a.equals(req.user._id));
-
-  if (!isAuthorized) {
-    res.status(403).json({ message: 'Only owner or admins can add channels' });
-
-    return;
-  }
-
-  chat.channels.push({ name: channelName });
-  await chat.save();
-
-  res.status(200).json({ message: 'Channel added successfully', chat });
 };
