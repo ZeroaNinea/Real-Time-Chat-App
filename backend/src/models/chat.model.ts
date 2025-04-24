@@ -4,7 +4,11 @@ import { Document } from 'mongoose';
 export interface IChat {
   name: string;
   isPrivate: boolean;
-  members: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
+  members: {
+    type: mongoose.Schema.Types.ObjectId;
+    ref: 'User';
+    roles?: string[];
+  }[];
   owner: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
   admins: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
   moderators: { type: mongoose.Schema.Types.ObjectId; ref: 'User' }[];
@@ -27,6 +31,7 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        roles: [String],
       },
     ],
     owner: {
@@ -45,7 +50,6 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
         ref: 'User',
       },
     ],
-    channels: [{ type: String }],
   },
   {
     timestamps: true,
