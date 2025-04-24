@@ -6,6 +6,7 @@ declare global {
     interface Request {
       user?: UserDocument;
       auth?: DecodedToken;
+      chat?: ChatDocument;
     }
   }
 }
