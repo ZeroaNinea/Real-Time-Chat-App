@@ -62,15 +62,16 @@ export const deleteChat = async (req: Request, res: Response) => {
     const chat = await Chat.findById(req.params.chatId);
 
     if (!chat) {
-      res.status(404).json({ message: 'Chat not found' });
-
-      return;
+      return res.status(404).json({ message: 'Chat not found' });
     }
 
-    if (!chat.owner.equals(req.user._id)) {
-      res.status(403).json({ message: 'Only the owner can delete this chat' });
+    const member = chat.members.find((m: any) => m.user.equals(req.user._id));
+    const isOwner = member?.roles.includes('Owner');
 
-      return;
+    if (!isOwner) {
+      return res
+        .status(403)
+        .json({ message: 'Only the owner can delete this chat' });
     }
 
     await chat.deleteOne();
