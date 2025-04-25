@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -16,6 +16,7 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
 import { PronounsComponent } from '../pronouns/pronouns.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { UserCardComponent } from '../user-card/user-card.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -36,11 +37,13 @@ import { UserCardComponent } from '../user-card/user-card.component';
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })
-export class AccountComponent implements OnInit {
-  private http = inject(HttpClient);
+export class AccountComponent {
+  // private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  readonly user = computed(() => this.authService.currentUser());
 
   // user: User | null = null;
-  user!: User;
+  // user!: User;
 
   setSection(section: string) {
     this.selectedSection = section;
@@ -48,14 +51,14 @@ export class AccountComponent implements OnInit {
 
   selectedSection = 'username-bio';
 
-  ngOnInit() {
-    this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
-      next: (data) => {
-        this.user = data;
-      },
-      error: (error) => {
-        console.error('Error fetching user data', error);
-      },
-    });
-  }
+  // ngOnInit() {
+  //   this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
+  //     next: (data) => {
+  //       this.user = data;
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching user data', error);
+  //     },
+  //   });
+  // }
 }
