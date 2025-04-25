@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { User } from './shared/user.model';
@@ -10,12 +10,15 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private http = inject(HttpClient);
 
+  readonly currentUser = signal<User | null>(null);
+
   constructor() {
     // this.http
     //   .put('http://localhost:5000/auth/update-email', {
     //     email: 'another@example.com',
     //   })
     //   .subscribe({ next: console.log, error: console.error });
+    this.fetchUser();
   }
 
   register(data: { username: string; password: string; email: string }) {
@@ -76,5 +79,12 @@ export class AuthService {
 
   logout(): Observable<void> {
     return this.http.post<void>(`${environment.backendUrl}/auth/logout`, {});
+  }
+
+  fetchUser() {
+    this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
+      next: (user) => this.currentUser.set(user),
+      error: (err) => console.error('Failed to fetch user', err),
+    });
   }
 }

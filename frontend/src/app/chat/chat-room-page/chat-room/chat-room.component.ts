@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -36,6 +37,7 @@ export class ChatRoomComponent implements OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private chatService = inject(ChatService);
+  private authService = inject(AuthService);
 
   roomName = signal('');
   newChannel = signal('');
@@ -45,15 +47,17 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isAdmin = signal(false);
   readonly chatName = signal('');
   readonly channels = signal<string[]>([]);
+  readonly currentUser = this.authService.currentUser;
 
   constructor() {
     afterNextRender(() => {
       this.connect();
-      this.chatId.set(this.route.snapshot.paramMap.get('chatId'));
+      const id = this.route.snapshot.paramMap.get('chatId');
+      this.chatId.set(id);
       this.isAdmin.set(!this.chatId());
 
-      if (this.chatId) {
-        this.fetchChatRoom(this.chatId);
+      if (id) {
+        this.fetchChatRoom(id);
       } else {
         this.isOwner.set(true);
       }
@@ -63,11 +67,17 @@ export class ChatRoomComponent implements OnDestroy {
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
-      this.channels.set(chat.channels);
-      this.isOwner.set(chat.ownerId === this.authService.currentUserId());
-      this.isAdmin.set(
-        chat.adminIds.includes(this.authService.currentUserId())
-      );
+      this.channels.set([]);
+
+      const currentUserId = this.authService.currentUser()?.id;
+      const member = chat.members.find((m) => m.user === currentUserId);
+
+      if (member) {
+        this.isOwner.set(member.roles.includes('Owner'));
+        this.isAdmin.set(
+          member.roles.includes('Admin') || member.roles.includes('Owner')
+        );
+      }
     });
   }
 
