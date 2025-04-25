@@ -1,19 +1,20 @@
 import {
   afterNextRender,
   Component,
+  computed,
   inject,
   OnDestroy,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 import { Subscription } from 'rxjs';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-room',
@@ -32,16 +33,18 @@ export class ChatRoomComponent implements OnDestroy {
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
   private sub?: Subscription;
-
-  chatId = signal<string | null>(null);
-  isAdmin = signal(false);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private chatService = inject(ChatService);
 
   roomName = signal('');
-  channels = signal<string[]>([]);
   newChannel = signal('');
+  readonly chatId = signal<string | null>(null);
+  readonly isCreatingNewRoom = computed(() => !this.chatId());
+  readonly isOwner = signal(false);
+  readonly isAdmin = signal(false);
+  readonly chatName = signal('');
+  readonly channels = signal<string[]>([]);
 
   constructor() {
     afterNextRender(() => {
