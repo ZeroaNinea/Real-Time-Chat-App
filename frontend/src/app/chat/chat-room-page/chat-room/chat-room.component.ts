@@ -51,6 +51,23 @@ export class ChatRoomComponent implements OnDestroy {
       this.connect();
       this.chatId.set(this.route.snapshot.paramMap.get('chatId'));
       this.isAdmin.set(!this.chatId());
+
+      if (this.chatId) {
+        this.fetchChatRoom(this.chatId);
+      } else {
+        this.isOwner.set(true);
+      }
+    });
+  }
+
+  fetchChatRoom(chatId: string) {
+    this.chatService.getChatRoom(chatId).subscribe((chat) => {
+      this.chatName.set(chat.name);
+      this.channels.set(chat.channels);
+      this.isOwner.set(chat.ownerId === this.authService.currentUserId());
+      this.isAdmin.set(
+        chat.adminIds.includes(this.authService.currentUserId())
+      );
     });
   }
 
@@ -81,28 +98,47 @@ export class ChatRoomComponent implements OnDestroy {
     }
   }
 
-  async save() {
-    const data = {
-      name: this.roomName(),
-      channels: this.channels().join(','),
-    };
+  // async save() {
+  //   const data = {
+  //     name: this.roomName(),
+  //     channels: this.channels().join(','),
+  //   };
 
-    this.chatService.createChatRoom(data).subscribe({
-      next: (chat) => {
-        this.chatService.addChannel(chat._id, 'Some-Channel-Name').subscribe({
-          next: () => {
-            console.log('Channel added successfully');
-          },
-          error: (err) => {
-            console.error('Failed to add channel:', err);
-          },
+  //   this.chatService.createChatRoom(data).subscribe({
+  //     next: (chat) => {
+  //       this.chatService.addChannel(chat._id, 'Some-Channel-Name').subscribe({
+  //         next: () => {
+  //           console.log('Channel added successfully');
+  //         },
+  //         error: (err) => {
+  //           console.error('Failed to add channel:', err);
+  //         },
+  //       });
+  //       this.router.navigate(['/chat-room', chat._id]);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to create chat room:', err);
+  //     },
+  //   });
+  // }
+  saveChanges() {
+    if (this.chatId()) {
+      this.chatService
+        .updateChatRoom(this.chatId()!, {
+          name: this.chatName(),
+          channels: this.channels(),
+        })
+        .subscribe(() => console.log('Room updated'));
+    } else {
+      this.chatService
+        .createChatRoom({
+          name: this.chatName(),
+          channels: this.channels(),
+        })
+        .subscribe((createdRoom) => {
+          this.router.navigate(['/chat-room', createdRoom._id]);
         });
-        this.router.navigate(['/chat-room', chat._id]);
-      },
-      error: (err) => {
-        console.error('Failed to create chat room:', err);
-      },
-    });
+    }
   }
 
   deleteChatRoom() {

@@ -17,7 +17,7 @@
 
   <input [(ngModel)]="newChannel" placeholder="New channel" />
   <button (click)="addChannel()">Add Channel</button>
-  <button (click)="save()">Save Changes</button>
+  <button (click)="saveChanges()">Save Changes</button>
 </div>
 } @if(isAdmin() && chatId()) {
 <button (click)="deleteChatRoom()" class="danger">Delete Chat Room</button>

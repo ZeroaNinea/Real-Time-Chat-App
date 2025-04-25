@@ -15,12 +15,19 @@ export class ChatService {
 
   constructor() {}
 
-  createChatRoom(data: { name: string; channels: string }): Observable<Chat> {
-    return this.http.post<Chat>(`${environment.backendUrl}/chat/create-chat`, {
-      name: data.name,
-      channels: data.channels,
-      isPrivate: false,
-    });
+  createChatRoom(data: { name: string; channels: string[] }) {
+    return this.http.post<Chat>(
+      `${environment.backendUrl}/chat/create-chat`,
+      data
+    );
+  }
+
+  getChatRoom(id: string) {
+    return this.http.get<Chat>(`${environment.backendUrl}/chat/${id}`);
+  }
+
+  updateChatRoom(id: string, data: { name: string; channels: string[] }) {
+    return this.http.patch<Chat>(`${environment.backendUrl}/chat/${id}`, data);
   }
 
   addChannel(chatId: string, channelName: string): Observable<Channel> {
