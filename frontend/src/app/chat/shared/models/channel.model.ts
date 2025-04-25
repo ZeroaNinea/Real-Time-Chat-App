@@ -1,4 +1,4 @@
-interface Channel {
+export interface Channel {
   _id: string;
   chatId: string;
   name: string;

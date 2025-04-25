@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Chat } from '../../models/chat.model';
+
 import { Observable } from 'rxjs';
+
+import { Chat } from '../../models/chat.model';
+import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({
@@ -21,7 +24,10 @@ export class ChatService {
   }
 
   addChannel(data: { chatId: string; channelName: string }) {
-    return this.http.post(`${environment.backendUrl}/chat/add-chennel`, data);
+    return this.http.post<Channel>(
+      `${environment.backendUrl}/chat/add-chennel`,
+      data
+    );
   }
 
   deleteChatRoom(chatId: string): Observable<void> {
