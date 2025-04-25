@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { User } from './shared/user.model';
 import { environment } from '../../environments/environment';
+import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
 
-  readonly currentUser = signal<User | null>(null);
+  currentUser = signal<User | null>(null);
 
   constructor() {
     // this.http
@@ -18,7 +19,7 @@ export class AuthService {
     //     email: 'another@example.com',
     //   })
     //   .subscribe({ next: console.log, error: console.error });
-    this.fetchUser();
+    // this.fetchUser();
   }
 
   register(data: { username: string; password: string; email: string }) {
@@ -78,12 +79,17 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${environment.backendUrl}/auth/logout`, {});
+    return this.http
+      .post<void>(`${environment.backendUrl}/auth/logout`, {})
+      .pipe(tap(() => this.fetchUser()));
   }
 
   fetchUser() {
     this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
-      next: (user) => this.currentUser.set(user),
+      next: (user) => {
+        console.log('Fetched user:', user, '====================');
+        this.currentUser.set(user);
+      },
       error: (err) => console.error('Failed to fetch user', err),
     });
   }

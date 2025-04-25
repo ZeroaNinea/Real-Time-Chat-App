@@ -37,13 +37,13 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })
-export class AccountComponent {
-  // private http = inject(HttpClient);
-  private authService = inject(AuthService);
-  readonly user = computed(() => this.authService.currentUser());
+export class AccountComponent implements OnInit {
+  private http = inject(HttpClient);
+  // private authService = inject(AuthService);
+  // readonly user = computed(() => this.authService.currentUser());
 
   // user: User | null = null;
-  // user!: User;
+  user!: User;
 
   setSection(section: string) {
     this.selectedSection = section;
@@ -51,14 +51,23 @@ export class AccountComponent {
 
   selectedSection = 'username-bio';
 
+  ngOnInit() {
+    this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
+      next: (data) => {
+        this.user = data;
+      },
+      error: (error) => {
+        console.error('Error fetching user data', error);
+      },
+    });
+  }
   // ngOnInit() {
-  //   this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
-  //     next: (data) => {
-  //       this.user = data;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching user data', error);
-  //     },
-  //   });
+  //   const user = this.authService.currentUser();
+  //   console.log('User data:', user, '=============');
+  //   if (!user) {
+  //     console.error('User data not available');
+  //   } else {
+  //     this.user = user;
+  //   }
   // }
 }
