@@ -16,6 +16,6 @@ router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 router.post('/create-chat', authMiddleware, asyncRoute(createChat));
 router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
-router.post('/add-channel', authMiddleware, asyncRoute(addChannel));
+router.post('/add-channel/:chatId', authMiddleware, asyncRoute(addChannel));
 
 export default router;

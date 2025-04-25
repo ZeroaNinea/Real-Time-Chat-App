@@ -23,10 +23,13 @@ export class ChatService {
     });
   }
 
-  addChannel(data: { chatId: string; channelName: string }) {
+  addChannel(data: {
+    chatId: string;
+    channelName: string;
+  }): Observable<Channel> {
     return this.http.post<Channel>(
-      `${environment.backendUrl}/chat/add-chennel`,
-      data
+      `${environment.backendUrl}/chat/add-channel/${data.chatId}`,
+      data.channelName
     );
   }
 

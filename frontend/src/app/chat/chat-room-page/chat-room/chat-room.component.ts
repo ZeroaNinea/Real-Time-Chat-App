@@ -92,7 +92,9 @@ export class ChatRoomComponent implements OnDestroy {
             channelName: this.channels().join(','),
           })
           .subscribe({
-            next: () => {},
+            next: () => {
+              console.log('Channel added successfully');
+            },
             error: (err) => {
               console.error('Failed to add channel:', err);
             },
