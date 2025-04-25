@@ -92,6 +92,8 @@ export const addChannel = async (req: Request, res: Response) => {
     const { chatId } = req.params;
     const { channelName } = req.body;
 
+    console.log(chatId, channelName, '=================');
+
     const chat = await Chat.findById(chatId);
 
     if (!chat) {
