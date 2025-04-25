@@ -86,6 +86,17 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.chatService.createChatRoom(data).subscribe({
       next: (chat) => {
+        this.chatService
+          .addChannel({
+            chatId: chat._id,
+            channelName: this.roomName(),
+          })
+          .subscribe({
+            next: () => {},
+            error: (err) => {
+              console.error('Failed to add channel:', err);
+            },
+          });
         this.router.navigate(['/chat-room', chat._id]);
       },
       error: (err) => {
