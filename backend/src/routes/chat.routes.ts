@@ -3,6 +3,7 @@ import express from 'express';
 import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../controllers/auth.controller';
 import {
+  addChannel,
   createChat,
   deleteChat,
   mine,
@@ -15,5 +16,6 @@ router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 router.post('/create-chat', authMiddleware, asyncRoute(createChat));
 router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
+router.post('/add-channel', authMiddleware, asyncRoute(addChannel));
 
 export default router;

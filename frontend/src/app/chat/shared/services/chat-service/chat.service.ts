@@ -20,6 +20,10 @@ export class ChatService {
     });
   }
 
+  addChannel(data: { chatId: string; channelName: string }) {
+    return this.http.post(`${environment.backendUrl}/chat/add-chennel`, data);
+  }
+
   deleteChatRoom(chatId: string): Observable<void> {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
