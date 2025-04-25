@@ -89,7 +89,7 @@ export class ChatRoomComponent implements OnDestroy {
         this.chatService
           .addChannel({
             chatId: chat._id,
-            channelName: this.channels().join(','),
+            channelName: 'Some-Channel-Name',
           })
           .subscribe({
             next: () => {
