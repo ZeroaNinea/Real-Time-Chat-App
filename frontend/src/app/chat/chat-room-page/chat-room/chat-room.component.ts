@@ -131,22 +131,61 @@ export class ChatRoomComponent implements OnDestroy {
   //     },
   //   });
   // }
+  // saveChanges() {
+  //   if (this.chatId()) {
+  //     this.chatService
+  //       .updateChatRoom(this.chatId()!, {
+  //         name: this.chatName(),
+  //         channels: this.channels(),
+  //       })
+  //       .subscribe(() => console.log('Room updated'));
+  //   } else {
+  //     this.chatService
+  //       .createChatRoom({
+  //         name: this.chatName(),
+  //         channels: this.channels(),
+  //       })
+  //       .subscribe((createdRoom) => {
+  //         this.router.navigate(['/chat-room', createdRoom._id]);
+  //       });
+  //   }
+  // }
   saveChanges() {
     if (this.chatId()) {
+      // Updating existing chat room.
       this.chatService
         .updateChatRoom(this.chatId()!, {
           name: this.chatName(),
-          channels: this.channels(),
         })
         .subscribe(() => console.log('Room updated'));
     } else {
+      // Creating a new chat room.
       this.chatService
         .createChatRoom({
           name: this.chatName(),
-          channels: this.channels(),
         })
-        .subscribe((createdRoom) => {
-          this.router.navigate(['/chat-room', createdRoom._id]);
+        .subscribe({
+          next: (createdRoom) => {
+            // After chat room is created, create channels
+            const chatId = createdRoom._id;
+
+            const channelCreations = this.channels().map((channelName) =>
+              this.chatService.addChannel(chatId, channelName)
+            );
+
+            // Execute all channel creations.
+            Promise.all(channelCreations.map((obs) => obs.toPromise()))
+              .then(() => {
+                console.log('All channels created');
+                this.router.navigate(['/chat-room', chatId]);
+              })
+              .catch((error) => {
+                console.error('Failed to create channels:', error);
+              });
+          },
+          error: (err) => {
+            console.error('Failed to create chat room:', err);
+          },
         });
     }
   }

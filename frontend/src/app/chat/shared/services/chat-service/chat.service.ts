@@ -15,7 +15,7 @@ export class ChatService {
 
   constructor() {}
 
-  createChatRoom(data: { name: string; channels: string[] }) {
+  createChatRoom(data: { name: string }) {
     return this.http.post<Chat>(
       `${environment.backendUrl}/chat/create-chat`,
       data
@@ -26,7 +26,7 @@ export class ChatService {
     return this.http.get<Chat>(`${environment.backendUrl}/chat/${id}`);
   }
 
-  updateChatRoom(id: string, data: { name: string; channels: string[] }) {
+  updateChatRoom(id: string, data: { name: string }) {
     return this.http.patch<Chat>(`${environment.backendUrl}/chat/${id}`, data);
   }
 
