@@ -7,7 +7,7 @@
 
 @if (isAdmin()) {
 <div>
-  <input [(ngModel)]="roomName" placeholder="Chat Room Name" />
+  <input [(ngModel)]="chatName" placeholder="Chat Room Name" />
 
   @for (channel of channels(); track $index) {
   <div>

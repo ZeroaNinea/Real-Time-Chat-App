@@ -109,6 +109,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   saveChanges() {
+    console.log('Chat name:', this.chatName());
     if (this.chatId()) {
       // Updating existing chat room.
       this.chatService
