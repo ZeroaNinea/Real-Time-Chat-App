@@ -51,19 +51,47 @@ export class ChatRoomComponent implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
+      // this.connect();
+      // const id = this.route.snapshot.paramMap.get('chatId');
+      // this.chatId.set(id);
+      // this.isAdmin.set(!this.chatId());
+
+      // if (id) {
+      //   this.fetchChatRoom(id);
+      // } else {
+      //   this.isOwner.set(true);
+      // }
       this.connect();
       const id = this.route.snapshot.paramMap.get('chatId');
       this.chatId.set(id);
-      // this.isAdmin.set(!this.chatId());
 
       if (id) {
+        // There is chatId -> fetch from server.
         this.fetchChatRoom(id);
       } else {
+        // No chatId -> creating new room.
         this.isOwner.set(true);
+        this.isAdmin.set(true);
       }
     });
   }
 
+  // fetchChatRoom(chatId: string) {
+  //   this.chatService.getChatRoom(chatId).subscribe((chat) => {
+  //     this.chatName.set(chat.name);
+  //     this.channels.set([]);
+
+  //     const currentUserId = this.authService.currentUser()?.id;
+  //     const member = chat.members.find((m) => m.user === currentUserId);
+
+  //     if (member) {
+  //       this.isOwner.set(member.roles.includes('Owner'));
+  //       this.isAdmin.set(
+  //         member.roles.includes('Admin') || member.roles.includes('Owner')
+  //       );
+  //     }
+  //   });
+  // }
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
@@ -73,10 +101,16 @@ export class ChatRoomComponent implements OnDestroy {
       const member = chat.members.find((m) => m.user === currentUserId);
 
       if (member) {
+        // Found in members.
         this.isOwner.set(member.roles.includes('Owner'));
         this.isAdmin.set(
           member.roles.includes('Admin') || member.roles.includes('Owner')
         );
+      } else {
+        // Not found in members.
+        // If user is not listed (maybe because they just created the room), fallback.
+        this.isOwner.set(true);
+        this.isAdmin.set(true);
       }
     });
   }
@@ -128,8 +162,8 @@ export class ChatRoomComponent implements OnDestroy {
             // After chat room is created, create channels.
             const chatId = createdRoom._id;
 
-            this.isOwner.set(true);
-            this.isAdmin.set(true);
+            // this.isOwner.set(true);
+            // this.isAdmin.set(true);
 
             const channelCreations = this.channels().map((channelName) =>
               this.chatService.addChannel(chatId, channelName)
