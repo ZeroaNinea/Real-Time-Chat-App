@@ -87,6 +87,18 @@ export const deleteChat = async (req: Request, res: Response) => {
   }
 };
 
+export const getChat = async (req: Request, res: Response) => {
+  try {
+    const chat = await Chat.findById(req.params.chatId).populate('members');
+
+    res.json(chat);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get chat', error: err });
+  }
+};
+
+// Channels
+
 export const addChannel = async (req: Request, res: Response) => {
   try {
     const { chatId } = req.params;
