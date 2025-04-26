@@ -108,48 +108,6 @@ export class ChatRoomComponent implements OnDestroy {
     }
   }
 
-  // async save() {
-  //   const data = {
-  //     name: this.roomName(),
-  //     channels: this.channels().join(','),
-  //   };
-
-  //   this.chatService.createChatRoom(data).subscribe({
-  //     next: (chat) => {
-  //       this.chatService.addChannel(chat._id, 'Some-Channel-Name').subscribe({
-  //         next: () => {
-  //           console.log('Channel added successfully');
-  //         },
-  //         error: (err) => {
-  //           console.error('Failed to add channel:', err);
-  //         },
-  //       });
-  //       this.router.navigate(['/chat-room', chat._id]);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to create chat room:', err);
-  //     },
-  //   });
-  // }
-  // saveChanges() {
-  //   if (this.chatId()) {
-  //     this.chatService
-  //       .updateChatRoom(this.chatId()!, {
-  //         name: this.chatName(),
-  //         channels: this.channels(),
-  //       })
-  //       .subscribe(() => console.log('Room updated'));
-  //   } else {
-  //     this.chatService
-  //       .createChatRoom({
-  //         name: this.chatName(),
-  //         channels: this.channels(),
-  //       })
-  //       .subscribe((createdRoom) => {
-  //         this.router.navigate(['/chat-room', createdRoom._id]);
-  //       });
-  //   }
-  // }
   saveChanges() {
     if (this.chatId()) {
       // Updating existing chat room.
@@ -166,7 +124,7 @@ export class ChatRoomComponent implements OnDestroy {
         })
         .subscribe({
           next: (createdRoom) => {
-            // After chat room is created, create channels
+            // After chat room is created, create channels.
             const chatId = createdRoom._id;
 
             const channelCreations = this.channels().map((channelName) =>
