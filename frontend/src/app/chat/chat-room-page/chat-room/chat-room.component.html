@@ -5,6 +5,9 @@
   (send)="sendMessage()"
 ></app-message-input>
 
+<p>Is Admin: {{ isAdmin() }}</p>
+<p>Chat ID: {{ chatId() }}</p>
+
 @if (isAdmin()) {
 <div>
   <input [(ngModel)]="chatName" placeholder="Chat Room Name" />
