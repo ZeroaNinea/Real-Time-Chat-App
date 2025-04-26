@@ -136,7 +136,9 @@ export class ChatRoomComponent implements OnDestroy {
             Promise.all(channelCreations.map((obs) => obs.toPromise()))
               .then(() => {
                 console.log('All channels created');
-                this.router.navigate(['/chat-room', chatId]);
+                this.router.navigate(['/chat-room', chatId]).then(() => {
+                  this.fetchChatRoom(chatId);
+                });
               })
               .catch((error) => {
                 console.error('Failed to create channels:', error);
