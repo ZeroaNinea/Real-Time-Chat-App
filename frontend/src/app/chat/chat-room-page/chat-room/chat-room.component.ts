@@ -76,22 +76,6 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
-  // fetchChatRoom(chatId: string) {
-  //   this.chatService.getChatRoom(chatId).subscribe((chat) => {
-  //     this.chatName.set(chat.name);
-  //     this.channels.set([]);
-
-  //     const currentUserId = this.authService.currentUser()?.id;
-  //     const member = chat.members.find((m) => m.user === currentUserId);
-
-  //     if (member) {
-  //       this.isOwner.set(member.roles.includes('Owner'));
-  //       this.isAdmin.set(
-  //         member.roles.includes('Admin') || member.roles.includes('Owner')
-  //       );
-  //     }
-  //   });
-  // }
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
