@@ -38,7 +38,7 @@ export const createChat = async (req: Request, res: Response) => {
   try {
     const { name, channels } = req.body;
 
-    console.log(req.body, '============');
+    // console.log(req.body, '============');
 
     const chat = await Chat.create({
       name,
