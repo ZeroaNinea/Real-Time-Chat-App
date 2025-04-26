@@ -51,16 +51,6 @@ export class ChatRoomComponent implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      // this.connect();
-      // const id = this.route.snapshot.paramMap.get('chatId');
-      // this.chatId.set(id);
-      // this.isAdmin.set(!this.chatId());
-
-      // if (id) {
-      //   this.fetchChatRoom(id);
-      // } else {
-      //   this.isOwner.set(true);
-      // }
       this.connect();
       const id = this.route.snapshot.paramMap.get('chatId');
       this.chatId.set(id);
@@ -145,9 +135,6 @@ export class ChatRoomComponent implements OnDestroy {
           next: (createdRoom) => {
             // After chat room is created, create channels.
             const chatId = createdRoom._id;
-
-            // this.isOwner.set(true);
-            // this.isAdmin.set(true);
 
             const channelCreations = this.channels().map((channelName) =>
               this.chatService.addChannel(chatId, channelName)
