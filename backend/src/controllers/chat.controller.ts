@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { Chat } from '../models/chat.model';
 import { UserDocument } from '../models/user.model';
-import { Channel } from '../models/channel.model';
+import { Channel, ChannelDocument } from '../models/channel.model';
 import { Types } from 'mongoose';
 import { Member } from '../../types/member.aliase';
 
@@ -65,6 +65,7 @@ export const createChat = async (req: Request, res: Response) => {
 export const deleteChat = async (req: Request, res: Response) => {
   try {
     const chat = await Chat.findById(req.params.chatId);
+    const channels = await Channel.find({ chatId: req.params.chatId });
 
     if (!chat) {
       return res.status(404).json({ message: 'Chat not found' });
@@ -81,6 +82,9 @@ export const deleteChat = async (req: Request, res: Response) => {
         .json({ message: 'Only the owner can delete this chat' });
     }
 
+    await channels.forEach(async (channel: ChannelDocument) => {
+      await channel.deleteOne();
+    });
     await chat.deleteOne();
 
     res.status(200).json({ message: 'Chat deleted successfully' });
