@@ -82,9 +82,12 @@ export const deleteChat = async (req: Request, res: Response) => {
         .json({ message: 'Only the owner can delete this chat' });
     }
 
-    await channels.forEach(async (channel: ChannelDocument) => {
-      await channel.deleteOne();
-    });
+    // await channels.forEach(async (channel: ChannelDocument) => {
+    //   await channel.deleteOne();
+    // });
+    await Promise.all(
+      channels.map((channel: ChannelDocument) => channel.deleteOne())
+    );
     await chat.deleteOne();
 
     res.status(200).json({ message: 'Chat deleted successfully' });
