@@ -147,3 +147,30 @@ export const addChannel = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to create channel', error: err });
   }
 };
+
+export const deleteChannel = async (req: Request, res: Response) => {
+  try {
+    const channel = await Channel.findById(req.params.channelId);
+    if (!channel) {
+      return res.status(404).json({ message: 'Channel not found' });
+    }
+
+    const chat = await Chat.findById(channel.chatId);
+    const member = chat?.members.find((m: Member) =>
+      m.user.equals(req.user._id)
+    );
+    const isAdmin =
+      member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+    if (!isAdmin) {
+      return res
+        .status(403)
+        .json({ message: 'Only admins can delete channels' });
+    }
+
+    await channel.deleteOne();
+    res.status(200).json({ message: 'Channel deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete channel', error: err });
+  }
+};
