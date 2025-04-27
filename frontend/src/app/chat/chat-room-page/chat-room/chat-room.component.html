@@ -1,32 +1,3 @@
-<!-- <app-message-list [messages]="messages()"></app-message-list>
-<app-message-input
-  [message]="message()"
-  (messageChange)="message.set($event)"
-  (send)="sendMessage()"
-></app-message-input>
-
-<p>Is Admin: {{ isAdmin() }}</p>
-<p>Chat ID: {{ chatId() }}</p>
-
-@if (isAdmin()) {
-<div>
-  <input [(ngModel)]="chatName" placeholder="Chat Room Name" />
-
-  @for (channel of channels(); track $index) {
-  <div>
-    <span>{{ channel }}</span>
-  </div>
-  }
-
-  <input [(ngModel)]="newChannel" placeholder="New channel" />
-  <button (click)="addChannel()">Add Channel</button>
-  <button (click)="saveChanges()">Save Changes</button>
-</div>
-} @if(isOwner() && chatId()) {
-<button (click)="deleteChatRoom()" class="danger">Delete Chat Room</button>
-
-} -->
-
 <app-message-list [messages]="messages()"></app-message-list>
 
 <app-message-input
