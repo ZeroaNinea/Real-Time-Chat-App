@@ -30,7 +30,7 @@ export class ChatService {
     return this.http.patch<Chat>(`${environment.backendUrl}/chat/${id}`, data);
   }
 
-  addChannel(chatId: string, channelName: Channel): Observable<Channel> {
+  addChannel(chatId: string, channelName: string): Observable<Channel> {
     return this.http.post<Channel>(
       `${environment.backendUrl}/chat/add-channel/${chatId}`,
       {
