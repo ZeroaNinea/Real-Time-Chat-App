@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-chat-room-settings',
@@ -7,4 +7,17 @@ import { Component } from '@angular/core';
   templateUrl: './chat-room-settings.component.html',
   styleUrl: './chat-room-settings.component.scss',
 })
-export class ChatRoomSettingsComponent {}
+export class ChatRoomSettingsComponent {
+  @Input() chatName = '';
+  @Input() newChannel = '';
+  @Input() channels: string[] = [];
+  @Input() isAdmin = false;
+  @Input() isOwner = false;
+  @Input() chatId: string | null = null;
+
+  @Output() chatNameChange = new EventEmitter<string>();
+  @Output() newChannelChange = new EventEmitter<string>();
+  @Output() addChannel = new EventEmitter<void>();
+  @Output() saveChanges = new EventEmitter<void>();
+  @Output() deleteRoom = new EventEmitter<void>();
+}
