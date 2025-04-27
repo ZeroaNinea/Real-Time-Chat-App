@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-room-settings',
-  imports: [],
+  imports: [FormsModule],
   standalone: true,
   templateUrl: './chat-room-settings.component.html',
   styleUrl: './chat-room-settings.component.scss',
