@@ -1,1 +1,13 @@
-<p>channel-list works!</p>
+@for (channel of channels; track $index) {
+<div class="channel-item">
+  <span>{{ channel.name }}</span>
+  <button
+    (click)="
+      onRename(channel._id, prompt('New name:', channel.name) || channel.name)
+    "
+  >
+    Rename
+  </button>
+  <button (click)="onRemove(channel._id)">Delete</button>
+</div>
+}

@@ -21,4 +21,8 @@ export class ChannelListComponent {
   onRename(id: string, newName: string) {
     this.renameChannel.emit({ id, newName });
   }
+
+  prompt(notification: string, channelName: string) {
+    return prompt(notification, channelName);
+  }
 }
