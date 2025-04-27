@@ -16,12 +16,14 @@ import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { AuthService } from '../../../auth/auth.service';
+import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 
 @Component({
   selector: 'app-chat-room',
   imports: [
     MessageListComponent,
     MessageInputComponent,
+    ChatRoomSettingsComponent,
     ReactiveFormsModule,
     FormsModule,
   ],

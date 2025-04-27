@@ -1,4 +1,4 @@
-<app-message-list [messages]="messages()"></app-message-list>
+<!-- <app-message-list [messages]="messages()"></app-message-list>
 <app-message-input
   [message]="message()"
   (messageChange)="message.set($event)"
@@ -25,4 +25,26 @@
 } @if(isOwner() && chatId()) {
 <button (click)="deleteChatRoom()" class="danger">Delete Chat Room</button>
 
-}
+} -->
+
+<app-message-list [messages]="messages()"></app-message-list>
+
+<app-message-input
+  [message]="message()"
+  (messageChange)="message.set($event)"
+  (send)="sendMessage()"
+></app-message-input>
+
+<app-chat-room-settings
+  [chatName]="chatName()"
+  [newChannel]="newChannel()"
+  [channels]="channels()"
+  [isAdmin]="isAdmin()"
+  [isOwner]="isOwner()"
+  [chatId]="chatId()"
+  (chatNameChange)="chatName.set($event)"
+  (newChannelChange)="newChannel.set($event)"
+  (addChannel)="addChannel()"
+  (saveChanges)="saveChanges()"
+  (deleteRoom)="deleteChatRoom()"
+></app-chat-room-settings>
