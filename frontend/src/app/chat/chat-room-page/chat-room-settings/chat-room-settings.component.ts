@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Channel } from '../../shared/models/channel.model';
 
 @Component({
   selector: 'app-chat-room-settings',
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
   @Input() newChannel = '';
-  @Input() channels: string[] = [];
+  @Input() channels: Channel[] = [];
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() chatId: string | null = null;
