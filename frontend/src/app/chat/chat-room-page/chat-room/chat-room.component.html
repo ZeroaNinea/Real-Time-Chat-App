@@ -22,7 +22,7 @@
   <button (click)="addChannel()">Add Channel</button>
   <button (click)="saveChanges()">Save Changes</button>
 </div>
-} @if(isAdmin() && chatId()) {
+} @if(isOwner() && chatId()) {
 <button (click)="deleteChatRoom()" class="danger">Delete Chat Room</button>
 
 }
