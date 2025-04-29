@@ -12,8 +12,8 @@ import { Channel } from '../../shared/models/channel.model';
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
   @Input() newChannel = '';
-  // @Input() channels: Channel[] = [];
-  @Input() channels: string[] = [];
+  @Input() channels: Channel[] = [];
+  // @Input() channels: string[] = [];
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() chatId: string | null = null;
@@ -23,4 +23,5 @@ export class ChatRoomSettingsComponent {
   @Output() addChannel = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<void>();
   @Output() deleteRoom = new EventEmitter<void>();
+  @Output() onChannelEdit = new EventEmitter<string>();
 }

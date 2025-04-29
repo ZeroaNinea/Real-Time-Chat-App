@@ -49,8 +49,8 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isOwner = signal(false);
   readonly isAdmin = signal(false);
   readonly chatName = signal('');
-  readonly channels = signal<string[]>([]);
-  // readonly channels = signal<Channel[]>([]);
+  // readonly channels = signal<string[]>([]);
+  readonly channels = signal<Channel[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
 
@@ -114,11 +114,12 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   addChannel() {
-    const channel = this.newChannel().trim();
-    if (channel) {
-      this.channels.update((chs) => [...chs, channel]);
-      this.newChannel.set('');
-    }
+    // const channel = this.newChannel().trim();
+    // if (channel) {
+    //   this.channels.update((chs) => [...chs, channel]);
+    //   this.newChannel.set('');
+    // }
+    console.log('Add channel');
   }
 
   saveChanges() {
@@ -142,7 +143,7 @@ export class ChatRoomComponent implements OnDestroy {
             const chatId = createdRoom._id;
 
             const channelCreations = this.channels().map((channelName) =>
-              this.chatService.addChannel(chatId, channelName)
+              this.chatService.addChannel(chatId, channelName.name)
             );
 
             // Execute all channel creations.

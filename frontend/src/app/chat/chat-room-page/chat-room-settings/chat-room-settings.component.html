@@ -19,6 +19,34 @@
   />
   <button (click)="addChannel.emit()">Add Channel</button>
   <button (click)="saveChanges.emit()">Save Changes</button>
+
+  @for (channel of channels; track $index) {
+  <!-- <div>
+    <input
+      [value]="channel.name"
+      (input)="onChannelEdit(channel._id, 'name', $event.target.value)"
+      placeholder="Channel name"
+    />
+
+    <input
+      [value]="channel.topic"
+      (input)="onChannelEdit(channel._id, 'topic', $event.target.value)"
+      placeholder="Topic"
+    />
+
+    <label>
+      <input
+        type="checkbox"
+        [checked]="channel.permissions?.adminsOnly"
+        (change)="onChannelEdit(channel._id, 'permissions', {
+        ...channel.permissions,
+        adminsOnly: $event.target.checked
+      })"
+      />
+      Admins Only
+    </label>
+  </div> -->
+  }
 </div>
 } @if (isOwner && chatId) {
 <button (click)="deleteRoom.emit()" class="danger">Delete Chat Room</button>
