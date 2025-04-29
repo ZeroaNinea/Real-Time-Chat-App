@@ -114,11 +114,11 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   addChannel() {
-    // const channel = this.newChannel().trim();
-    // if (channel) {
-    //   this.channels.update((chs) => [...chs, channel]);
-    //   this.newChannel.set('');
-    // }
+    const channel = this.newChannel().trim();
+    if (channel) {
+      this.channels.update((chs) => [...chs, { name: channel } as Channel]);
+      this.newChannel.set('');
+    }
     console.log('Add channel');
   }
 
