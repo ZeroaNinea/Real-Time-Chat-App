@@ -51,6 +51,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly chatName = signal('');
   readonly channels = signal<string[]>([]);
   // readonly channels = signal<Channel[]>([]);
+  readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
@@ -179,5 +180,15 @@ export class ChatRoomComponent implements OnDestroy {
         console.error('Failed to delete chat room:', err);
       },
     });
+  }
+
+  onChannelEdit(channelId: string, key: keyof Channel, value: any) {
+    this.editedChannels.update((prev) => ({
+      ...prev,
+      [channelId]: {
+        ...prev[channelId],
+        [key]: value,
+      },
+    }));
   }
 }
