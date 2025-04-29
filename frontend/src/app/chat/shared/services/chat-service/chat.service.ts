@@ -39,6 +39,10 @@ export class ChatService {
     );
   }
 
+  updateChannel(channelId: string, changes: Partial<Channel>): Observable<any> {
+    return this.http.patch(`/api/channels/${channelId}`, changes);
+  }
+
   deleteChatRoom(chatId: string): Observable<void> {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
