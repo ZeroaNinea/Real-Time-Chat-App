@@ -40,7 +40,7 @@ export class ChatService {
   }
 
   updateChannel(channelId: string, changes: Partial<Channel>): Observable<any> {
-    return this.http.patch(`/api/channels/${channelId}`, changes);
+    return this.http.patch(`/chat/update-channel/${channelId}`, changes);
   }
 
   deleteChatRoom(chatId: string): Observable<void> {
