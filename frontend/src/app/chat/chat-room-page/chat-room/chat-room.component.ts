@@ -43,7 +43,7 @@ export class ChatRoomComponent implements OnDestroy {
   private authService = inject(AuthService);
 
   roomName = signal('');
-  newChannel = signal('');
+  newChannel = signal<string>('');
   readonly chatId = signal<string | null>(null);
   readonly isCreatingNewRoom = computed(() => !this.chatId());
   readonly isOwner = signal(false);
