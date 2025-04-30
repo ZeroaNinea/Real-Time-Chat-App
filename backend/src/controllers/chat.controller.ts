@@ -148,6 +148,23 @@ export const addChannel = async (req: Request, res: Response) => {
   }
 };
 
+export const updateChannel = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const channel = await Channel.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!channel) {
+      return res.status(404).json({ message: 'Channel not found' });
+    }
+
+    res.json(channel);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update channel', error: err });
+  }
+};
+
 export const deleteChannel = async (req: Request, res: Response) => {
   try {
     const channel = await Channel.findById(req.params.channelId);
