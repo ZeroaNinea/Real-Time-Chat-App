@@ -5,10 +5,12 @@ import { asyncRoute } from '../controllers/auth.controller';
 import {
   addChannel,
   createChat,
+  deleteChannel,
   deleteChat,
   getChat,
   mine,
   privateMessages,
+  updateChannel,
 } from '../controllers/chat.controller';
 
 const router = express.Router();
@@ -21,5 +23,15 @@ router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
 router.get('/:chatId', authMiddleware, asyncRoute(getChat));
 
 router.post('/add-channel/:chatId', authMiddleware, asyncRoute(addChannel));
+router.post(
+  '/update-channel/:chatId',
+  authMiddleware,
+  asyncRoute(updateChannel)
+);
+router.post(
+  '/delete-channel/:chatId',
+  authMiddleware,
+  asyncRoute(deleteChannel)
+);
 
 export default router;
