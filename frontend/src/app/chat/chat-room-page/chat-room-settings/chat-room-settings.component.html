@@ -21,31 +21,48 @@
   <button (click)="saveChanges.emit()">Save Changes</button>
 
   @for (channel of channels; track $index) {
-  <!-- <div>
+  <div>
     <input
       [value]="channel.name"
-      (input)="onChannelEdit(channel._id, 'name', $event.target.value)"
+      (input)="onChannelEdit.emit({ channelId: channel._id, key: 'name', value: ($event.target as HTMLInputElement).value })"
       placeholder="Channel name"
     />
 
     <input
       [value]="channel.topic"
-      (input)="onChannelEdit(channel._id, 'topic', $event.target.value)"
+      (input)="
+        onChannelEdit.emit({
+          channelId: channel._id,
+          key: 'topic',
+          value: ($event.target as HTMLInputElement).value
+        })
+      "
       placeholder="Topic"
     />
 
-    <label>
+    <!-- <label>
       <input
         type="checkbox"
         [checked]="channel.permissions?.adminsOnly"
-        (change)="onChannelEdit(channel._id, 'permissions', {
+        (change)="onChannelEdit.emit({
+      channelId: channel._id,
+      key: 'permissions',
+      value: {
         ...channel.permissions,
         adminsOnly: $event.target.checked
-      })"
+      }
+    })"
       />
       Admins Only
+    </label> -->
+    <label>
+      <input
+        type="checkbox"
+        [checked]="channel.permissions.adminsOnly"
+        (change)="handleAdminsOnlyChange(channel, $event)"
+      />
     </label>
-  </div> -->
+  </div>
   }
 </div>
 } @if (isOwner && chatId) {

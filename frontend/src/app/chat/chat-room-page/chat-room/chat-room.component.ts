@@ -183,7 +183,9 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
-  onChannelEdit(channelId: string, key: keyof Channel, value: any) {
+  onChannelEdit(event: { channelId: string; key: keyof Channel; value: any }) {
+    const { channelId, key, value } = event;
+
     this.editedChannels.update((prev) => ({
       ...prev,
       [channelId]: {

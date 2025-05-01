@@ -23,5 +23,22 @@ export class ChatRoomSettingsComponent {
   @Output() addChannel = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<void>();
   @Output() deleteRoom = new EventEmitter<void>();
-  @Output() onChannelEdit = new EventEmitter<string>();
+  // @Output() onChannelEdit = new EventEmitter<string>();
+  @Output() onChannelEdit = new EventEmitter<{
+    channelId: string;
+    key: keyof Channel;
+    value: any;
+  }>();
+
+  handleAdminsOnlyChange(channel: Channel, event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.onChannelEdit.emit({
+      channelId: channel._id,
+      key: 'permissions',
+      value: {
+        ...channel.permissions,
+        adminsOnly: input.checked,
+      },
+    });
+  }
 }
