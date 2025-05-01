@@ -41,4 +41,8 @@ export class ChatRoomSettingsComponent {
       },
     });
   }
+
+  getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }

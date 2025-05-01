@@ -24,7 +24,13 @@
   <div>
     <input
       [value]="channel.name"
-      (input)="onChannelEdit.emit({ channelId: channel._id, key: 'name', value: ($event.target as HTMLInputElement).value })"
+      (input)="
+        onChannelEdit.emit({
+          channelId: channel._id,
+          key: 'name',
+          value: getInputValue($event)
+        })
+      "
       placeholder="Channel name"
     />
 
@@ -34,7 +40,7 @@
         onChannelEdit.emit({
           channelId: channel._id,
           key: 'topic',
-          value: ($event.target as HTMLInputElement).value
+          value: getInputValue($event)
         })
       "
       placeholder="Topic"
