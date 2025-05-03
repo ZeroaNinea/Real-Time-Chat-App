@@ -49,7 +49,7 @@
     <label>
       <input
         type="checkbox"
-        [checked]="channel.permissions.adminsOnly"
+        [checked]="channel?.permissions?.adminsOnly"
         (change)="handleAdminsOnlyChange(channel, $event)"
       />
     </label>
