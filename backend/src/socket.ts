@@ -22,6 +22,11 @@ export function setupSocket(server: HttpServer) {
     socket.on('disconnect', () => {
       console.log('User disconnected.');
     });
+
+    socket.on('joinChatRoom', (chatId: string) => {
+      socket.join(chatId);
+      console.log(`Socket ${socket.id} joined room ${chatId}`);
+    });
   });
 
   return io;
