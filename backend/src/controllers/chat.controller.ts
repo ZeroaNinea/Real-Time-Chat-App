@@ -193,6 +193,26 @@ export const updateChannel = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Channel not found' });
     }
 
+    // Get chat to check if user is authorized (optional, already done in deleteChannel).
+    const chat = await Chat.findById(channel.chatId);
+    const member = chat?.members.find((m: Member) =>
+      m.user.equals(req.user._id)
+    );
+    const isAdmin =
+      member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+    if (!isAdmin) {
+      return res
+        .status(403)
+        .json({ message: 'Only admins can update channels' });
+    }
+
+    // 🔌 Emit event.
+    req.app.get('io')?.to(channel.chatId.toString()).emit('channelUpdated', {
+      channelId: id,
+      updates,
+    });
+
     res.json(channel);
   } catch (err) {
     res.status(500).json({ message: 'Failed to update channel', error: err });
