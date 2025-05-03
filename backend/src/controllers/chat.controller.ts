@@ -62,6 +62,40 @@ export const createChat = async (req: Request, res: Response) => {
   }
 };
 
+export const updateChat = async (req: Request, res: Response) => {
+  const { chatId } = req.params;
+  const updates = req.body;
+
+  try {
+    const chat = await Chat.findById(chatId);
+    if (!chat) return res.status(404).json({ message: 'Chat not found' });
+
+    // Example: ensure user is owner/admin (pseudo-code).
+    const userId = req.user?.id; // assuming auth middleware sets req.user.
+    const member = chat.members.find(
+      (m: Member) => m.user.toString() === userId
+    );
+
+    if (
+      !member ||
+      (!member.roles.includes('Owner') && !member.roles.includes('Admin'))
+    ) {
+      return res
+        .status(403)
+        .json({ message: 'You are not allowed to update this chat room' });
+    }
+
+    // Apply updates.
+    Object.assign(chat, updates);
+
+    await chat.save();
+    res.status(200).json(chat);
+  } catch (error) {
+    console.error('Error updating chat:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 export const deleteChat = async (req: Request, res: Response) => {
   try {
     const chat = await Chat.findById(req.params.chatId);
