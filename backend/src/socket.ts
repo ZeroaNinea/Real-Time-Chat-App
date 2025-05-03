@@ -1,5 +1,6 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
+import { app } from './app';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer) {
@@ -10,6 +11,8 @@ export function setupSocket(server: HttpServer) {
       credentials: true,
     },
   });
+
+  app.set('io', io);
 
   io.on('connection', (socket) => {
     console.log('A user connected.');
