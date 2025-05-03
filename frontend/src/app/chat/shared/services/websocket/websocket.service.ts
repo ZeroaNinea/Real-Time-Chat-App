@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 import { environment } from '../../../../../environments/environment';
@@ -57,5 +57,17 @@ export class WebsocketService implements OnDestroy {
       this.isConnected = false;
       console.log('User disconnected.');
     }
+  }
+
+  listen<T = any>(eventName: string): Observable<T> {
+    return new Observable((subscriber) => {
+      this.socket.on(eventName, (data: T) => {
+        subscriber.next(data);
+      });
+    });
+  }
+
+  emit<T = any>(eventName: string, data: T) {
+    this.socket.emit(eventName, data);
   }
 }
