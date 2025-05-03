@@ -1,9 +1,9 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
-import { app } from './app';
+import { Express } from 'express';
 
 // This function sets up the Socket.io server and handles events.
-export function setupSocket(server: HttpServer) {
+export function setupSocket(server: HttpServer, app: Express) {
   const io = new Server(server, {
     cors: {
       origin: 'http://localhost:4200',

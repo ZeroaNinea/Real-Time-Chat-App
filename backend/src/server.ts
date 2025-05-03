@@ -20,7 +20,7 @@ connectToDatabase();
 
 // This file is the entry point of the backend server.
 const server = http.createServer(app);
-setupSocket(server);
+setupSocket(server, app);
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
 
