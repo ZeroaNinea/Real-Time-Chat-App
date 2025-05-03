@@ -27,7 +27,10 @@ export class ChatService {
   }
 
   updateChatRoom(id: string, data: { name: string }) {
-    return this.http.patch<Chat>(`${environment.backendUrl}/chat/${id}`, data);
+    return this.http.patch<Chat>(
+      `${environment.backendUrl}/chat/update-chat/${id}`,
+      data
+    );
   }
 
   addChannel(chatId: string, channelName: string): Observable<Channel> {

@@ -20,7 +20,7 @@ router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
 router.post('/create-chat', authMiddleware, asyncRoute(createChat));
-router.post('/update-chat/:chatId', authMiddleware, asyncRoute(updateChat));
+router.patch('/update-chat/:chatId', authMiddleware, asyncRoute(updateChat));
 router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
 router.get('/:chatId', authMiddleware, asyncRoute(getChat));
 
