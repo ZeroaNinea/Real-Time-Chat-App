@@ -4,6 +4,7 @@ import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { setupSocket } from '../src/socket';
 import { io as ClientSocket } from 'socket.io-client';
+import { app } from '../src/app';
 
 describe('setupSocket', () => {
   let httpServer: HttpServer;
@@ -15,7 +16,7 @@ describe('setupSocket', () => {
     httpServer = new HttpServer();
 
     // Set up the Socket.IO server.
-    io = setupSocket(httpServer);
+    io = setupSocket(httpServer, app);
 
     // Start the HTTP server.
     httpServer.listen(() => {
