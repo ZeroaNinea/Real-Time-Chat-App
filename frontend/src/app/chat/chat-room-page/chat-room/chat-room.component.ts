@@ -99,6 +99,12 @@ export class ChatRoomComponent implements OnDestroy {
     this.sub = this.wsService.getMessages().subscribe((msgs) => {
       this.messages.set(msgs);
     });
+
+    this.wsService.listenChannelUpdates().subscribe((updatedChannel) => {
+      this.channels.update((chs) =>
+        chs.map((c) => (c._id === updatedChannel._id ? updatedChannel : c))
+      );
+    });
   }
 
   sendMessage() {
