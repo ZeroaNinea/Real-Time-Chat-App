@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 import { environment } from '../../../../../environments/environment';
+import { Channel } from '../../models/channel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,14 @@ export class WebsocketService implements OnDestroy {
     return new Observable((subscriber) => {
       this.socket.on(eventName, (data: T) => {
         subscriber.next(data);
+      });
+    });
+  }
+
+  listenChannelUpdates(): Observable<Channel> {
+    return new Observable((observer) => {
+      this.socket.on('channelEdited', (data: { channel: Channel }) => {
+        observer.next(data.channel);
       });
     });
   }
