@@ -186,12 +186,19 @@ export class ChatRoomComponent implements OnDestroy {
   onChannelEdit(event: { channelId: string; key: keyof Channel; value: any }) {
     const { channelId, key, value } = event;
 
-    this.editedChannels.update((prev) => ({
-      ...prev,
-      [channelId]: {
-        ...prev[channelId],
-        [key]: value,
+    // this.editedChannels.update((prev) => ({
+    //   ...prev,
+    //   [channelId]: {
+    //     ...prev[channelId],
+    //     [key]: value,
+    //   },
+    // }));
+    this.wsService.emit('editChannel', {
+      chatId: this.chatId(),
+      channel: {
+        _id: channelId,
+        ...this.editedChannels()[channelId],
       },
-    }));
+    });
   }
 }
