@@ -20,3 +20,9 @@
   (deleteRoom)="deleteChatRoom()"
   (onChannelEdit)="onChannelEdit($event)"
 ></app-chat-room-settings>
+
+<app-channel-list
+  [channels]="channels()"
+  (removeChannel)="onChannelRemove($event)"
+  (renameChannel)="onChannelRename($event)"
+></app-channel-list>

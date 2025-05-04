@@ -49,4 +49,10 @@ export class ChatService {
   deleteChatRoom(chatId: string): Observable<void> {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
+
+  deleteChannel(chatId: string, channelId: string): Observable<void> {
+    return this.http.delete<void>(
+      `${environment.backendUrl}/chat/delete-channel/${chatId}/${channelId}`
+    );
+  }
 }

@@ -18,6 +18,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 import { Channel } from '../../shared/models/channel.model';
+import { ChannelListComponent } from '../../channel-list/channel-list.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -25,6 +26,7 @@ import { Channel } from '../../shared/models/channel.model';
     MessageListComponent,
     MessageInputComponent,
     ChatRoomSettingsComponent,
+    ChannelListComponent,
     ReactiveFormsModule,
     FormsModule,
   ],
@@ -204,6 +206,24 @@ export class ChatRoomComponent implements OnDestroy {
       channel: {
         _id: channelId,
         ...this.editedChannels()[channelId],
+      },
+    });
+  }
+
+  onChannelRemove(channelId: string) {
+    if (!this.chatId()) return;
+
+    this.chatService.deleteChannel(this.chatId()!, channelId).subscribe(() => {
+      this.channels.update((chs) => chs.filter((ch) => ch._id !== channelId));
+    });
+  }
+
+  onChannelRename({ id, newName }: { id: string; newName: string }) {
+    this.wsService.emit('editChannel', {
+      chatId: this.chatId(),
+      channel: {
+        _id: id,
+        name: newName,
       },
     });
   }
