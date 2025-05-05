@@ -10,10 +10,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './channel-list.component.scss',
 })
 export class ChannelListComponent {
+  @Input() isAdmin = false;
+  @Input() isOwner = false;
   @Input() channels: Channel[] = [];
+  @Input() chatId: string | null = null;
 
   @Output() removeChannel = new EventEmitter<string>();
   @Output() renameChannel = new EventEmitter<{ id: string; newName: string }>();
+
+  @Output() addChannel = new EventEmitter<void>();
 
   onRemove(id: string) {
     this.removeChannel.emit(id);

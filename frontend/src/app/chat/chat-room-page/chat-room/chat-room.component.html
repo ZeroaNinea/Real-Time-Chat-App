@@ -22,7 +22,12 @@
 ></app-chat-room-settings>
 
 <app-channel-list
+  [chatId]="chatId()"
   [channels]="channels()"
+  [isAdmin]="isAdmin()"
+  [isOwner]="isOwner()"
   (removeChannel)="onChannelRemove($event)"
   (renameChannel)="onChannelRename($event)"
-></app-channel-list>
+  (addChannel)="addChannel()"
+>
+</app-channel-list>
