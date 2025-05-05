@@ -35,6 +35,10 @@ export const routes: Routes = [
     component: ChatRoomComponent,
   },
   {
+    path: 'chat-room/:chatId/channel/:channelId',
+    component: ChatRoomComponent,
+  },
+  {
     path: 'main',
     component: MainComponent,
   },
