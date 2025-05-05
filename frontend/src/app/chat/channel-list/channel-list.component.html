@@ -1,6 +1,10 @@
 @for (channel of channels; track $index) {
 <div class="channel-item">
-  <span>{{ channel.name }}</span>
+  <span>
+    <a routerLink="[/chat-room], chatId, 'channel', channel._id">
+      {{ channel.name }}
+    </a>
+  </span>
   <button
     (click)="
       onRename(channel._id, prompt('New name:', channel.name) || channel.name)
