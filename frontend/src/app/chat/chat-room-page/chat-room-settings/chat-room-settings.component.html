@@ -6,21 +6,21 @@
     placeholder="Chat Room Name"
   />
 
-  @for (channel of channels; track $index) {
+  <!-- @for (channel of channels; track $index) {
   <div>
     <span>{{ channel.name }}</span>
   </div>
-  }
+  } -->
 
-  <input
+  <!-- <input
     [(ngModel)]="newChannel"
     (ngModelChange)="newChannelChange.emit($event)"
     placeholder="New channel"
-  />
-  <button (click)="addChannel.emit()">Add Channel</button>
+  /> -->
+  <!-- <button (click)="addChannel.emit()">Add Channel</button> -->
   <button (click)="saveChanges.emit()">Save Changes</button>
 
-  @for (channel of channels; track $index) {
+  <!-- @for (channel of channels; track $index) {
   <div>
     <input
       [value]="channel.name"
@@ -54,7 +54,7 @@
       />
     </label>
   </div>
-  }
+  } -->
 </div>
 } @if (isOwner && chatId) {
 <button (click)="deleteRoom.emit()" class="danger">Delete Chat Room</button>
