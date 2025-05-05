@@ -58,20 +58,38 @@ export class ChatRoomComponent implements OnDestroy {
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
+    // afterNextRender(() => {
+    //   this.connect();
+    //   const id = this.route.snapshot.paramMap.get('chatId');
+    //   this.chatId.set(id);
+    //   this.channelId.set(this.route.snapshot.paramMap.get('channelId') || '');
+
+    //   if (id) {
+    //     // There is chatId -> fetch from server.
+    //     this.fetchChatRoom(id);
+    //   } else {
+    //     // No chatId -> creating new room.
+    //     this.isOwner.set(true);
+    //     this.isAdmin.set(true);
+    //   }
+    // });
     afterNextRender(() => {
       this.connect();
-      const id = this.route.snapshot.paramMap.get('chatId');
-      this.chatId.set(id);
-      this.channelId.set(this.route.snapshot.paramMap.get('channelId') || '');
 
-      if (id) {
-        // There is chatId -> fetch from server.
-        this.fetchChatRoom(id);
-      } else {
-        // No chatId -> creating new room.
-        this.isOwner.set(true);
-        this.isAdmin.set(true);
-      }
+      this.route.paramMap.subscribe((params) => {
+        const id = params.get('chatId');
+        const channelId = params.get('channelId');
+
+        this.chatId.set(id);
+        this.channelId.set(channelId || '');
+
+        if (id) {
+          this.fetchChatRoom(id);
+        } else {
+          this.isOwner.set(true);
+          this.isAdmin.set(true);
+        }
+      });
     });
   }
 
