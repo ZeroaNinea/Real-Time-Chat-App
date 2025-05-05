@@ -47,6 +47,7 @@ export class ChatRoomComponent implements OnDestroy {
   roomName = signal('');
   newChannel = signal<string>('');
   readonly chatId = signal<string | null>(null);
+  readonly channelId = signal(<string | null>null);
   readonly isCreatingNewRoom = computed(() => !this.chatId());
   readonly isOwner = signal(false);
   readonly isAdmin = signal(false);
@@ -61,6 +62,7 @@ export class ChatRoomComponent implements OnDestroy {
       this.connect();
       const id = this.route.snapshot.paramMap.get('chatId');
       this.chatId.set(id);
+      this.channelId.set(this.route.snapshot.paramMap.get('channelId') || '');
 
       if (id) {
         // There is chatId -> fetch from server.
