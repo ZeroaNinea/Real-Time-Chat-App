@@ -90,10 +90,6 @@ export class ChatRoomComponent implements OnDestroy {
           this.isAdmin.set(true);
         }
       });
-
-      this.wsService.listenChannelAdditions().subscribe((channel) => {
-        this.channels.update((chs) => [...chs, channel]);
-      });
     });
   }
 

@@ -1,7 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { Channel } from '../shared/models/channel.model';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { WebsocketService } from '../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-channel-list',
@@ -20,6 +28,16 @@ export class ChannelListComponent {
   @Output() renameChannel = new EventEmitter<{ id: string; newName: string }>();
 
   @Output() addChannel = new EventEmitter<void>();
+
+  readonly wsService = inject(WebsocketService);
+
+  constructor() {
+    afterNextRender(() => {
+      this.wsService.listenChannelAdditions().subscribe((channel) => {
+        this.channels.push(channel);
+      });
+    });
+  }
 
   onRemove(id: string) {
     this.removeChannel.emit(id);
