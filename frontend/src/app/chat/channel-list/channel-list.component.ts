@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Channel } from '../shared/models/channel.model';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-channel-list',
-  imports: [RouterLink],
+  imports: [RouterLink, MatButtonModule],
   standalone: true,
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss',

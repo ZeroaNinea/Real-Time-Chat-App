@@ -6,12 +6,13 @@
     </a>
   </span>
   <button
+    mat-button
     (click)="
       onRename(channel._id, prompt('New name:', channel.name) || channel.name)
     "
   >
     Rename
   </button>
-  <button (click)="onRemove(channel._id)">Delete</button>
+  <button mat-button (click)="onRemove(channel._id)">Delete</button>
 </div>
 }
