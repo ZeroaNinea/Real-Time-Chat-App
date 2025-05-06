@@ -1,7 +1,8 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { Express } from 'express';
-import { updateChannel } from './controllers/chat.controller';
+
+import { addChannel, updateChannel } from './controllers/chat.controller';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -40,6 +41,16 @@ export function setupSocket(server: HttpServer, app: Express) {
         .catch((err: unknown) => {
           console.error('Channel update failed:', err);
         });
+    });
+
+    socket.on('addChannel', async ({ chatId, channelName }) => {
+      try {
+        const newChannel = await addChannel(chatId, channelName);
+        io.to(chatId).emit('channelAdded', { channel: newChannel });
+      } catch (err) {
+        console.error('Channel addition failed:', err);
+        socket.emit('error', 'Channel creation failed.');
+      }
     });
   });
 

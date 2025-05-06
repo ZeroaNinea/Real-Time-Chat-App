@@ -183,6 +183,8 @@ export const getChat = async (req: Request, res: Response) => {
 // };
 export const addChannel = async (req: Request, res: Response) => {
   try {
+    console.log('addChannel called', '=============');
+    console.log(req.body, req.params, '====================');
     const { chatId } = req.params;
     const { channelName } = req.body;
 
