@@ -27,7 +27,7 @@ export class ChannelListComponent {
   @Output() removeChannel = new EventEmitter<string>();
   @Output() renameChannel = new EventEmitter<{ id: string; newName: string }>();
 
-  @Output() addChannel = new EventEmitter<void>();
+  @Output() addChannel = new EventEmitter<string>();
 
   readonly wsService = inject(WebsocketService);
 
@@ -49,5 +49,12 @@ export class ChannelListComponent {
 
   prompt(notification: string, channelName: string) {
     return prompt(notification, channelName);
+  }
+
+  addNewChannel() {
+    const name = prompt('Channel name:');
+    if (name) {
+      this.addChannel.emit(name);
+    }
   }
 }
