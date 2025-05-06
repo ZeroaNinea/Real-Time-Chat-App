@@ -155,7 +155,7 @@ export class ChatRoomComponent implements OnDestroy {
     const name = this.newChannel().trim();
     if (!name || !this.chatId()) return;
 
-    this.wsService.emit('createChannel', {
+    this.wsService.emit('addChannel', {
       name,
       chatId: this.chatId(),
     });
