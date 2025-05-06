@@ -142,12 +142,21 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   addChannel() {
-    const channel = this.newChannel().trim();
-    if (channel) {
-      this.channels.update((chs) => [...chs, { name: channel } as Channel]);
-      this.newChannel.set('');
-    }
-    console.log('Add channel');
+    // const channel = this.newChannel().trim();
+    // if (channel) {
+    //   this.channels.update((chs) => [...chs, { name: channel } as Channel]);
+    //   this.newChannel.set('');
+    // }
+    // console.log('Add channel');
+    const name = this.newChannel().trim();
+    if (!name || !this.chatId()) return;
+
+    this.wsService.emit('createChannel', {
+      name,
+      chatId: this.chatId(),
+    });
+
+    this.newChannel.set('');
   }
 
   saveChanges() {
