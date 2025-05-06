@@ -1,4 +1,4 @@
-@for (channel of channels; track $index) {
+@if (isAdmin) { @for (channel of channels; track $index) {
 <div class="channel-item">
   <span>
     <a routerLink="[/chat-room], chatId, 'channel', channel._id">
@@ -15,4 +15,6 @@
   </button>
   <button mat-button (click)="onRemove(channel._id)">Delete</button>
 </div>
+} } @else {
+<p>Another interface.</p>
 }
