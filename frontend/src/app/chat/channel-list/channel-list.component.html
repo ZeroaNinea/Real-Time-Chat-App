@@ -1,4 +1,6 @@
-@if (isAdmin) { @for (channel of channels; track $index) {
+@if (isAdmin) {
+<button mat-button (click)="addChannel.emit()">Add Channel</button>
+@for (channel of channels; track $index) {
 <div class="channel-item">
   <span>
     <a routerLink="[/chat-room], chatId, 'channel', channel._id">
