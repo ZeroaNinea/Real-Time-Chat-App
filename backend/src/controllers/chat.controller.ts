@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 
 import { Chat } from '../models/chat.model';
-import { UserDocument } from '../models/user.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
-import { Types } from 'mongoose';
 import { Member } from '../../types/member.aliase';
+import { addChannelService } from '../services/chat.service';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -181,44 +180,59 @@ export const getChat = async (req: Request, res: Response) => {
 //     res.status(500).json({ message: 'Failed to create channel', error: err });
 //   }
 // };
+// export const addChannel = async (req: Request, res: Response) => {
+//   try {
+//     console.log('addChannel called', '=============');
+//     console.log(req.body, req.params, '====================');
+//     const { chatId } = req.params;
+//     const { channelName } = req.body;
+
+//     const chat = await Chat.findById(chatId);
+
+//     if (!chat) {
+//       return res.status(404).json({ message: 'Chat not found' });
+//     }
+
+//     const member = chat.members.find((m: Member) =>
+//       m.user.equals(req.user._id)
+//     );
+//     const isAdminOrOwner = member?.roles.some((r: string) =>
+//       ['Owner', 'Admin'].includes(r)
+//     );
+
+//     if (!isAdminOrOwner) {
+//       return res
+//         .status(403)
+//         .json({ message: 'Only admins or owner can add channels' });
+//     }
+
+//     const channel = await Channel.create({
+//       chatId: chat._id,
+//       name: channelName,
+//     });
+
+//     // ✅ Emit real-time update to clients in that chat room.
+//     const io = req.app.get('io'); // 👈 This depends on Express having `app.set('io', io)`.
+//     io.to(chatId).emit('channelAdded', { channel });
+
+//     res.status(201).json({ message: 'Channel created successfully', channel });
+//   } catch (err) {
+//     res.status(500).json({ message: 'Failed to create channel', error: err });
+//   }
+// };
 export const addChannel = async (req: Request, res: Response) => {
   try {
-    console.log('addChannel called', '=============');
-    console.log(req.body, req.params, '====================');
     const { chatId } = req.params;
     const { channelName } = req.body;
+    const userId = req.user._id;
 
-    const chat = await Chat.findById(chatId);
-
-    if (!chat) {
-      return res.status(404).json({ message: 'Chat not found' });
-    }
-
-    const member = chat.members.find((m: Member) =>
-      m.user.equals(req.user._id)
-    );
-    const isAdminOrOwner = member?.roles.some((r: string) =>
-      ['Owner', 'Admin'].includes(r)
-    );
-
-    if (!isAdminOrOwner) {
-      return res
-        .status(403)
-        .json({ message: 'Only admins or owner can add channels' });
-    }
-
-    const channel = await Channel.create({
-      chatId: chat._id,
-      name: channelName,
-    });
-
-    // ✅ Emit real-time update to clients in that chat room.
-    const io = req.app.get('io'); // 👈 This depends on Express having `app.set('io', io)`.
+    const channel = await addChannelService(chatId, channelName, userId);
+    const io = req.app.get('io');
     io.to(chatId).emit('channelAdded', { channel });
 
     res.status(201).json({ message: 'Channel created successfully', channel });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create channel', error: err });
+    res.status(500).json({ message: (err as Error).message });
   }
 };
 
