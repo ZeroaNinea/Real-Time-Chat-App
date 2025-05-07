@@ -7,6 +7,7 @@ export async function addChannelService(
   channelName: string,
   userId: string
 ) {
+  console.log('addChannelService called with', { chatId, channelName, userId });
   const chat = await Chat.findById(chatId);
   if (!chat) throw new Error('Chat not found');
 

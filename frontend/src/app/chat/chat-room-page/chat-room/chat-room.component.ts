@@ -152,6 +152,7 @@ export class ChatRoomComponent implements OnDestroy {
     //   this.newChannel.set('');
     // }
     // console.log('Add channel');
+    console.log('New channel:', this.newChannel());
     const name = this.newChannel().trim();
     if (!name || !this.chatId()) return;
 
