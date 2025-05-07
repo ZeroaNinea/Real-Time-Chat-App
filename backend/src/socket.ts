@@ -19,23 +19,54 @@ export function setupSocket(server: HttpServer, app: Express) {
     },
   });
 
+  // io.use((socket, next) => {
+  //   const token = socket.handshake.auth.token;
+  //   if (!token) return next(new Error('Authentication error'));
+
+  //   console.log('Token:', token);
+
+  //   try {
+  //     // const payload = jwt.verify(token, process.env.JWT_SECRET!);
+  //     const publicKey = fs.readFileSync(
+  //       path.join(__dirname, '../keys/public.pem'),
+  //       'utf8'
+  //     );
+
+  //     const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+  //     socket.data.user = payload;
+  //     next();
+  //   } catch (err) {
+  //     next(new Error('Invalid token'));
+  //   }
+  // });
+
   io.use((socket, next) => {
     const token = socket.handshake.auth.token;
     if (!token) return next(new Error('Authentication error'));
 
-    console.log('Token:', token);
-
     try {
-      // const payload = jwt.verify(token, process.env.JWT_SECRET!);
-      const publicKey = fs.readFileSync(
-        path.join(__dirname, '../keys/public.pem'),
-        'utf8'
-      );
+      // Decode the token header to get the `kid`.
+      const decodedHeader = jwt.decode(token, { complete: true }) as {
+        header: { kid: string };
+      };
 
+      const kid = decodedHeader?.header?.kid;
+      if (!kid) throw new Error('Token missing "kid"');
+
+      // Load the key map.
+      const keyMapPath = path.join(__dirname, '../keys/key-map.json');
+      const keyMap = JSON.parse(fs.readFileSync(keyMapPath, 'utf8'));
+
+      const publicKey = keyMap[kid];
+      if (!publicKey) throw new Error(`Unknown key ID: ${kid}`);
+
+      // Verify the token.
       const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
       socket.data.user = payload;
+
       next();
     } catch (err) {
+      console.error('JWT error:', err);
       next(new Error('Invalid token'));
     }
   });
