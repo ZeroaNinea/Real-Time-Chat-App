@@ -2,6 +2,8 @@ import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { Express } from 'express';
 
+import jwt from 'jsonwebtoken';
+
 import { addChannel, updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 
@@ -13,6 +15,19 @@ export function setupSocket(server: HttpServer, app: Express) {
       methods: ['GET', 'POST'],
       credentials: true,
     },
+  });
+
+  io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+    if (!token) return next(new Error('Authentication error'));
+
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET!);
+      socket.data.user = payload;
+      next();
+    } catch (err) {
+      next(new Error('Invalid token'));
+    }
   });
 
   app.set('io', io);
