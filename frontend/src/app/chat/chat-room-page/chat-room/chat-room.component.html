@@ -15,7 +15,6 @@
   [chatId]="chatId()"
   (chatNameChange)="chatName.set($event)"
   (newChannelChange)="newChannel.set($event)"
-  (addChannel)="addChannel()"
   (saveChanges)="saveChanges()"
   (deleteRoom)="deleteChatRoom()"
   (onChannelEdit)="onChannelEdit($event)"
@@ -28,6 +27,6 @@
   [isOwner]="isOwner()"
   (removeChannel)="onChannelRemove($event)"
   (renameChannel)="onChannelRename($event)"
-  (addChannel)="addChannel()"
+  (addChannel)="addChannel($event)"
 >
 </app-channel-list>

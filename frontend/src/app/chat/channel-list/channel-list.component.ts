@@ -1,17 +1,7 @@
-import {
-  afterNextRender,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Channel } from '../shared/models/channel.model';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { WebsocketService } from '../shared/services/websocket/websocket.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-channel-list',
