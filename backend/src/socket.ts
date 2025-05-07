@@ -3,6 +3,8 @@ import { Server as HttpServer } from 'http';
 import { Express } from 'express';
 
 import jwt from 'jsonwebtoken';
+import path from 'path';
+import fs from 'fs';
 
 import { addChannel, updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
@@ -21,8 +23,16 @@ export function setupSocket(server: HttpServer, app: Express) {
     const token = socket.handshake.auth.token;
     if (!token) return next(new Error('Authentication error'));
 
+    console.log('Token:', token);
+
     try {
-      const payload = jwt.verify(token, process.env.JWT_SECRET!);
+      // const payload = jwt.verify(token, process.env.JWT_SECRET!);
+      const publicKey = fs.readFileSync(
+        path.join(__dirname, '../keys/public.pem'),
+        'utf8'
+      );
+
+      const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
       socket.data.user = payload;
       next();
     } catch (err) {
