@@ -8,6 +8,7 @@ import fs from 'fs';
 
 import { addChannel, updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
+import { findUserById } from './services/user.service';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -19,7 +20,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     },
   });
 
-  io.use((socket, next) => {
+  io.use(async (socket, next) => {
     const token = socket.handshake.auth.token;
     if (!token) return next(new Error('Authentication error'));
 
@@ -40,8 +41,17 @@ export function setupSocket(server: HttpServer, app: Express) {
       if (!publicKey) throw new Error(`Unknown key ID: ${kid}`);
 
       // Verify the token.
-      const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
-      socket.data.user = payload;
+      const payload = jwt.verify(token, publicKey, {
+        algorithms: ['RS256'],
+      }) as jwt.JwtPayload;
+
+      const userId = payload.sub || payload.id;
+      if (!userId) throw new Error('Token missing subject/user ID');
+
+      const user = await findUserById(userId);
+      if (!user) throw new Error('User not found');
+
+      socket.data.user = user;
 
       next();
     } catch (err) {
