@@ -118,6 +118,7 @@ export class ChatRoomComponent implements OnDestroy {
 
   connect() {
     this.wsService.connect();
+
     this.sub = this.wsService.getMessages().subscribe((msgs) => {
       this.messages.set(msgs);
     });
