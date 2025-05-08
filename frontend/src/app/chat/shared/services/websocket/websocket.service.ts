@@ -96,4 +96,8 @@ export class WebsocketService implements OnDestroy {
   emit<T = any>(eventName: string, data: T) {
     this.socket.emit(eventName, data);
   }
+
+  joinChatRoom(chatId: string) {
+    this.socket.emit('joinChatRoom', { chatId });
+  }
 }
