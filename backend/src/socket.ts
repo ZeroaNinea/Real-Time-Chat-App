@@ -64,7 +64,7 @@ export function setupSocket(server: HttpServer, app: Express) {
       console.log('User disconnected.');
     });
 
-    socket.on('joinChatRoom', (chatId: string) => {
+    socket.on('joinChatRoom', ({ chatId }) => {
       socket.join(chatId);
       console.log(`Socket ${socket.id} joined room ${chatId}`);
     });
