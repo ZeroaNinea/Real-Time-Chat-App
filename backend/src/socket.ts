@@ -79,15 +79,6 @@ export function setupSocket(server: HttpServer, app: Express) {
         });
     });
 
-    // socket.on('addChannel', async ({ chatId, channelName }) => {
-    //   try {
-    //     const newChannel = await addChannel(chatId, channelName);
-    //     io.to(chatId).emit('channelAdded', { channel: newChannel });
-    //   } catch (err) {
-    //     console.error('Channel addition failed:', err);
-    //     socket.emit('error', 'Channel creation failed.');
-    //   }
-    // });
     socket.on('addChannel', async ({ chatId, channelName }) => {
       try {
         const userId = socket.data.user._id;
