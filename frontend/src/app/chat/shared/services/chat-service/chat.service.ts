@@ -34,6 +34,7 @@ export class ChatService {
   }
 
   addChannel(chatId: string, channelName: string): Observable<Channel> {
+    console.log('Adding channel:', channelName);
     return this.http.post<Channel>(
       `${environment.backendUrl}/chat/add-channel/${chatId}`,
       {
