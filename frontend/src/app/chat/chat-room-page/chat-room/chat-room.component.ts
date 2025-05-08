@@ -170,11 +170,12 @@ export class ChatRoomComponent implements OnDestroy {
     if (!trimmed || !chatId) return;
 
     this.wsService.emit('addChannel', {
-      name: trimmed,
+      channelName: trimmed,
       chatId,
     });
 
     console.log('Emitted addChannel:', trimmed);
+    console.log('Chat ID:', chatId);
   }
 
   saveChanges() {
