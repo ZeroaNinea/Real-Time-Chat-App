@@ -90,10 +90,10 @@ export function setupSocket(server: HttpServer, app: Express) {
     // });
     socket.on('addChannel', async ({ chatId, channelName }) => {
       try {
-        // You need to authenticate this socket and extract userId!
         const userId = socket.data.user._id;
 
         const newChannel = await addChannelService(chatId, channelName, userId);
+
         io.to(chatId).emit('channelAdded', { channel: newChannel });
       } catch (err) {
         console.error('Channel addition failed:', err);
