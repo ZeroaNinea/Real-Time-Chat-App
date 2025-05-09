@@ -230,6 +230,12 @@ export const getChannels = async (req: Request, res: Response) => {
   try {
     const channels = await Channel.find({ chatId: req.params.chatId });
 
+    if (!channels) {
+      res.status(404).json({ message: 'Channels not found' });
+
+      return;
+    }
+
     res.json(channels);
   } catch (err) {
     res.status(500).json({ message: 'Failed to get channels', error: err });
