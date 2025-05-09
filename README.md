@@ -160,23 +160,25 @@ backend/
 <br />
 ✅ Step 3: Create simple ChatComponent in Angular
 <br />
-➡️ Step 4: Display channels
+✅ Step 4: Add chat rooms with Socket.io
 <br />
-➡️ Step 5: Select channel
+➡️ Step 5: Display channels
 <br />
-➡️ Step 6: Add topic field
+➡️ Step 6: Select channel
 <br />
-➡️ Step 7: Rename channel
+➡️ Step 7: Add topic field
 <br />
-➡️ Step 8: Edit permissions
+➡️ Step 8: Rename channel
 <br />
-➡️ Step 9: Delete channel
+➡️ Step 9: Edit permissions
 <br />
-➡️ Step 4: Connect Socket.io to frontend, allow sending messages
+➡️ Step 10: Delete channel
 <br />
-➡️ Step 5: Display message history
+➡️ Step 11: Connect Socket.io to frontend, allow sending messages
 <br />
-➡️ Step 6: Add timestamps and online indicators
+➡️ Step 12: Display message history
+<br />
+➡️ Step 13: Add timestamps and online indicators
 <br />
 
 ### Main Components (likely pages or views)
