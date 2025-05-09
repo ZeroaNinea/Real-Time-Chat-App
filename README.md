@@ -162,23 +162,25 @@ backend/
 <br />
 ✅ Step 4: Add chat rooms with Socket.io
 <br />
-➡️ Step 5: Display channels
+✅ Step 5: Add channel order
 <br />
-➡️ Step 6: Select channel
+➡️ Step 6: Display channels
 <br />
-➡️ Step 7: Add topic field
+➡️ Step 7: Select channel
 <br />
-➡️ Step 8: Rename channel
+➡️ Step 8: Add topic field
 <br />
-➡️ Step 9: Edit permissions
+➡️ Step 9: Rename channel
 <br />
-➡️ Step 10: Delete channel
+➡️ Step 10: Edit permissions
 <br />
-➡️ Step 11: Connect Socket.io to frontend, allow sending messages
+➡️ Step 11: Delete channel
 <br />
-➡️ Step 12: Display message history
+➡️ Step 12: Connect Socket.io to frontend, allow sending messages
 <br />
-➡️ Step 13: Add timestamps and online indicators
+➡️ Step 13: Display message history
+<br />
+➡️ Step 14: Add timestamps and online indicators
 <br />
 
 ### Main Components (likely pages or views)
