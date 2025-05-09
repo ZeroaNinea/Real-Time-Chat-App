@@ -58,21 +58,6 @@ export class ChatRoomComponent implements OnDestroy {
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
-    // afterNextRender(() => {
-    //   this.connect();
-    //   const id = this.route.snapshot.paramMap.get('chatId');
-    //   this.chatId.set(id);
-    //   this.channelId.set(this.route.snapshot.paramMap.get('channelId') || '');
-
-    //   if (id) {
-    //     // There is chatId -> fetch from server.
-    //     this.fetchChatRoom(id);
-    //   } else {
-    //     // No chatId -> creating new room.
-    //     this.isOwner.set(true);
-    //     this.isAdmin.set(true);
-    //   }
-    // });
     afterNextRender(() => {
       this.connect();
 
@@ -149,22 +134,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   addChannel(name: string) {
-    // const channel = this.newChannel().trim();
-    // if (channel) {
-    //   this.channels.update((chs) => [...chs, { name: channel } as Channel]);
-    //   this.newChannel.set('');
-    // }
-    // console.log('Add channel');
-    // console.log('New channel:', this.newChannel());
-    // const name = this.newChannel().trim();
-    // if (!name || !this.chatId()) return;
-
-    // this.wsService.emit('addChannel', {
-    //   name,
-    //   chatId: this.chatId(),
-    // });
-
-    // this.newChannel.set('');
     const trimmed = name.trim();
     const chatId = this.chatId();
     if (!trimmed || !chatId) return;
@@ -242,13 +211,6 @@ export class ChatRoomComponent implements OnDestroy {
   onChannelEdit(event: { channelId: string; key: keyof Channel; value: any }) {
     const { channelId, key, value } = event;
 
-    // this.editedChannels.update((prev) => ({
-    //   ...prev,
-    //   [channelId]: {
-    //     ...prev[channelId],
-    //     [key]: value,
-    //   },
-    // }));
     this.wsService.emit('editChannel', {
       chatId: this.chatId(),
       channel: {
