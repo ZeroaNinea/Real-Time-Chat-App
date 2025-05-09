@@ -225,3 +225,13 @@ export const deleteChannel = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to delete channel', error: err });
   }
 };
+
+export const getChannels = async (req: Request, res: Response) => {
+  try {
+    const channels = await Channel.find({ chatId: req.params.chatId });
+
+    res.json(channels);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get channels', error: err });
+  }
+};
