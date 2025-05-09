@@ -158,7 +158,19 @@ backend/
 <br />
 ✅ Step 2: Create backend service to handle messages
 <br />
-➡️ Step 3: Create simple ChatComponent in Angular
+✅ Step 3: Create simple ChatComponent in Angular
+<br />
+➡️ Step 4: Display channels
+<br />
+➡️ Step 5: Select channel
+<br />
+➡️ Step 6: Add topic field
+<br />
+➡️ Step 7: Rename channel
+<br />
+➡️ Step 8: Edit permissions
+<br />
+➡️ Step 9: Delete channel
 <br />
 ➡️ Step 4: Connect Socket.io to frontend, allow sending messages
 <br />
