@@ -20,6 +20,16 @@ export async function addChannelService(
     throw new Error('Only admins or owner can add channels');
   }
 
-  const channel = await Channel.create({ chatId: chat._id, name: channelName });
+  const maxChannel = await Channel.findOne({ chatId })
+    .sort('-order')
+    .select('order');
+
+  const nextOrder = maxChannel ? maxChannel.order + 1 : 0;
+
+  const channel = await Channel.create({
+    chatId: chat._id,
+    order: nextOrder,
+    name: channelName,
+  });
   return channel;
 }
