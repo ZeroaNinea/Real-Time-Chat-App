@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 
 export interface ChannelDocument extends Document {
   chatId: mongoose.Types.ObjectId;
+  order: { type: Number; default: 0 };
   name: string;
   topic?: string;
   permissions: {
@@ -20,6 +21,7 @@ const ChannelSchema = new mongoose.Schema<ChannelDocument>(
       ref: 'Chat',
       required: true,
     },
+    order: { type: Number, default: 0 },
     name: { type: String, required: true },
     topic: { type: String },
     permissions: {
