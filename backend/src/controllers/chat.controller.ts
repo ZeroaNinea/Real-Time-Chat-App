@@ -228,15 +228,41 @@ export const deleteChannel = async (req: Request, res: Response) => {
 
 export const getChannels = async (req: Request, res: Response) => {
   try {
-    const channels = await Channel.find({ chatId: req.params.chatId });
+    const userId = req.user._id;
+    const chatId = req.params.chatId;
 
-    if (!channels) {
-      res.status(404).json({ message: 'Channels not found' });
+    const chat = await Chat.findById(chatId);
+    if (!chat) return res.status(404).json({ message: 'Chat not found' });
 
-      return;
+    const userMembership = chat.members.find((m: Member) =>
+      m.user.equals(userId)
+    );
+    if (!userMembership) {
+      return res
+        .status(403)
+        .json({ message: 'You are not a member of this chat' });
     }
 
-    res.json(channels);
+    const userRoles = userMembership.roles;
+
+    const channels = await Channel.find({ chatId });
+
+    const accessibleChannels = channels.filter((channel: ChannelDocument) => {
+      const { adminsOnly, allowedUsers, allowedRoles } =
+        channel.permissions || {};
+
+      const isUserAllowed = allowedUsers?.some((u) => u.equals(userId));
+      const hasAllowedRole = allowedRoles?.some((r) => userRoles.includes(r));
+      const isAdmin = userRoles.includes('Admin');
+
+      if (adminsOnly && !isAdmin) return false;
+      if (allowedUsers?.length && !isUserAllowed) return false;
+      if (allowedRoles?.length && !hasAllowedRole) return false;
+
+      return true;
+    });
+
+    res.json(accessibleChannels);
   } catch (err) {
     res.status(500).json({ message: 'Failed to get channels', error: err });
   }
