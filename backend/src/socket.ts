@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
 
-import { addChannel, updateChannel } from './controllers/chat.controller';
+import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 
