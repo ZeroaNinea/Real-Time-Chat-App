@@ -254,7 +254,7 @@ export class ChatRoomComponent implements OnDestroy {
       ({ id, newName }: { id: string; newName: string }) => {
         this.channels.set(
           this.channels().map((c) =>
-            c._id === id ? { ...c, name: newName } : c
+            c._id === id ? { ...c, channelName: newName } : c
           )
         );
       }
