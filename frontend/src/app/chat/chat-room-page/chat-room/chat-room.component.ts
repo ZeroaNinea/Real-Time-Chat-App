@@ -81,7 +81,7 @@ export class ChatRoomComponent implements OnDestroy {
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
-      this.channels.set([]);
+      this.channels.set(chat.channels);
 
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);

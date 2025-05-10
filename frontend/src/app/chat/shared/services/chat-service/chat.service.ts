@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Chat } from '../../models/chat.model';
 import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
+import { Member } from '../../models/member.aliase';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +23,12 @@ export class ChatService {
     );
   }
 
-  getChatRoom(id: string) {
-    return this.http.get<Chat>(`${environment.backendUrl}/chat/${id}`);
+  getChatRoom(chatId: string) {
+    return this.http.get<{
+      name: string;
+      members: Member[];
+      channels: Channel[];
+    }>(`${environment.backendUrl}/chat/${chatId}`);
   }
 
   updateChatRoom(id: string, data: { name: string }) {
