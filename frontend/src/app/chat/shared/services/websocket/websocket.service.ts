@@ -17,12 +17,12 @@ export class WebsocketService implements OnDestroy {
     this.socket.emit(eventName, data);
   }
 
-  on<T = any>(event: string, callback: (data: T) => void) {
-    this.socket.on(event, callback);
+  on<T = any>(eventName: string, callback: (data: T) => void) {
+    this.socket.on(eventName, callback);
   }
 
-  off(event: string) {
-    this.socket.off(event);
+  off(eventName: string) {
+    this.socket.off(eventName);
   }
 
   connect() {
