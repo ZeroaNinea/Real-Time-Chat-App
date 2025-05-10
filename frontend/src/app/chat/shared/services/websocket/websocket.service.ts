@@ -9,20 +9,20 @@ import { Channel } from '../../models/channel.model';
   providedIn: 'root',
 })
 export class WebsocketService implements OnDestroy {
-  private socket = io(environment.backendUrl);
+  private socket!: Socket;
   private isConnected = false;
   private messageSubject = new BehaviorSubject<string[]>([]);
 
   emit<T = any>(eventName: string, data: T) {
-    this.socket.emit(eventName, data);
+    this.socket?.emit(eventName, data);
   }
 
   on<T = any>(eventName: string, callback: (data: T) => void) {
-    this.socket.on(eventName, callback);
+    this.socket?.on(eventName, callback);
   }
 
   off(eventName: string) {
-    this.socket.off(eventName);
+    this.socket?.off(eventName);
   }
 
   connect() {
