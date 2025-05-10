@@ -14,16 +14,16 @@ export class WebsocketService implements OnDestroy {
   private messageSubject = new BehaviorSubject<string[]>([]);
 
   constructor() {
-    this.socket = io(environment.backendUrl);
+    // this.socket = io(environment.backendUrl);
   }
 
-  on<T = any>(event: string, callback: (data: T) => void) {
-    this.socket.on(event, callback);
-  }
+  // on<T = any>(event: string, callback: (data: T) => void) {
+  //   this.socket.on(event, callback);
+  // }
 
-  off(event: string) {
-    this.socket.off(event);
-  }
+  // off(event: string) {
+  //   this.socket.off(event);
+  // }
 
   connect() {
     if (this.socket && this.isConnected) return;

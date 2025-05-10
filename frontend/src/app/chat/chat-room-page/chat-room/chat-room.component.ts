@@ -70,7 +70,7 @@ export class ChatRoomComponent implements OnDestroy {
 
         if (id) {
           this.fetchChatRoom(id);
-          this.setupRealtimeChannelUpdates(id);
+          // this.setupRealtimeChannelUpdates(id);
         } else {
           this.isOwner.set(true);
           this.isAdmin.set(true);
@@ -132,9 +132,9 @@ export class ChatRoomComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-    this.wsService.off('channel-added');
-    this.wsService.off('channel-renamed');
-    this.wsService.off('channel-deleted');
+    // this.wsService.off('channel-added');
+    // this.wsService.off('channel-renamed');
+    // this.wsService.off('channel-deleted');
   }
 
   addChannel(name: string) {
@@ -242,26 +242,26 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
-  setupRealtimeChannelUpdates(chatId: string) {
-    this.wsService.emit('join-room', chatId);
+  // setupRealtimeChannelUpdates(chatId: string) {
+  //   this.wsService.emit('join-room', chatId);
 
-    this.wsService.on('channel-added', (channel: Channel) => {
-      this.channels.set([...this.channels(), channel]);
-    });
+  //   this.wsService.on('channel-added', (channel: Channel) => {
+  //     this.channels.set([...this.channels(), channel]);
+  //   });
 
-    this.wsService.on(
-      'channel-renamed',
-      ({ id, newName }: { id: string; newName: string }) => {
-        this.channels.set(
-          this.channels().map((c) =>
-            c._id === id ? { ...c, channelName: newName } : c
-          )
-        );
-      }
-    );
+  //   this.wsService.on(
+  //     'channel-renamed',
+  //     ({ id, newName }: { id: string; newName: string }) => {
+  //       this.channels.set(
+  //         this.channels().map((c) =>
+  //           c._id === id ? { ...c, channelName: newName } : c
+  //         )
+  //       );
+  //     }
+  //   );
 
-    this.wsService.on('channel-deleted', (id: string) => {
-      this.channels.set(this.channels().filter((c) => c._id !== id));
-    });
-  }
+  //   this.wsService.on('channel-deleted', (id: string) => {
+  //     this.channels.set(this.channels().filter((c) => c._id !== id));
+  //   });
+  // }
 }
