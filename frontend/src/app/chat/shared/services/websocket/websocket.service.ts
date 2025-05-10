@@ -9,12 +9,12 @@ import { Channel } from '../../models/channel.model';
   providedIn: 'root',
 })
 export class WebsocketService implements OnDestroy {
-  private socket!: Socket;
+  private socket = io(environment.backendUrl);
   private isConnected = false;
   private messageSubject = new BehaviorSubject<string[]>([]);
 
-  constructor() {
-    this.socket = io(environment.backendUrl);
+  emit<T = any>(eventName: string, data: T) {
+    this.socket.emit(eventName, data);
   }
 
   on<T = any>(event: string, callback: (data: T) => void) {
@@ -101,10 +101,6 @@ export class WebsocketService implements OnDestroy {
         observer.next(data.channel);
       });
     });
-  }
-
-  emit<T = any>(eventName: string, data: T) {
-    this.socket.emit(eventName, data);
   }
 
   joinChatRoom(chatId: string) {
