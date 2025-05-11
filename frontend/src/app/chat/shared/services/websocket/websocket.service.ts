@@ -105,7 +105,7 @@ export class WebsocketService implements OnDestroy {
   listenChannelAdditions(): Observable<Channel> {
     return new Observable((observer) => {
       this.socket.on('channelAdded', (channel: Channel) => {
-        console.log('Channel added:', channel);
+        console.log('Channel added:', channel, '`websocket.service.ts`');
         observer.next(channel);
       });
     });
