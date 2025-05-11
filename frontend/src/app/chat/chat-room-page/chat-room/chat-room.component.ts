@@ -35,7 +35,7 @@ import { ChannelListComponent } from '../../channel-list/channel-list.component'
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent implements OnDestroy {
+export class ChatRoomComponent implements OnDestroy, OnInit {
   message = signal('');
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
@@ -120,9 +120,13 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this.wsService.connect();
+  }
+
   connect() {
     // this.wsService.disconnect();
-    this.wsService.connect();
+    // this.wsService.connect();
 
     this.wsService.joinChatRoom(<string>this.chatId());
 
