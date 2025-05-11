@@ -61,6 +61,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  disconnect() {
+    if (this.socket) {
+      this.socket.disconnect();
+      this.isConnected = false;
+      console.log('WebSocket manually disconnected.');
+    }
+  }
+
   sendMessage(message: string) {
     if (!this.isConnected) {
       return;
