@@ -244,11 +244,11 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   setupRealtimeChannelUpdates(chatId: string) {
-    this.wsService.emit('join-room', chatId);
+    this.wsService.joinChatRoom(chatId);
 
-    this.wsService.on('channel-added', (channel: Channel) => {
-      this.channels.set([...this.channels(), channel]);
-    });
+    // this.wsService.on('channel-added', (channel: Channel) => {
+    //   this.channels.set([...this.channels(), channel]);
+    // });
 
     this.wsService.on(
       'channel-renamed',
