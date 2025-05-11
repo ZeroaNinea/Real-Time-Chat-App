@@ -120,6 +120,7 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenChannelAdditions().subscribe((channel) => {
+      console.log('New channel received:', channel, 'chat-room.component.ts');
       this.channels.update((chs) => [...chs, channel]);
     });
   }
