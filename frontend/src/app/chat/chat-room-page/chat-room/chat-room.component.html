@@ -30,3 +30,9 @@
   (addChannel)="addChannel($event)"
 >
 </app-channel-list>
+
+@for (channel of channels(); track $index) {
+<div>
+  <p>{{ channel.name }}</p>
+</div>
+}
