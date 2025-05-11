@@ -75,8 +75,8 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
-      socket.join(chatId);
       console.log(`Socket ${socket.id} joined room ${chatId}`);
+      socket.join(chatId);
     });
 
     socket.on('editChannel', ({ chatId, channel }) => {
