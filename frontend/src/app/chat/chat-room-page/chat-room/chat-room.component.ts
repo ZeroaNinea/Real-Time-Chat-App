@@ -71,6 +71,7 @@ export class ChatRoomComponent implements OnDestroy {
         if (id) {
           this.fetchChatRoom(id);
           // this.setupRealtimeChannelUpdates(id);
+          console.log('Connecting to room:', id, 'chat-room.component.ts');
           this.connect();
         } else {
           this.isOwner.set(true);
