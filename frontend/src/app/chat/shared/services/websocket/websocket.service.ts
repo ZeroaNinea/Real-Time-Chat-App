@@ -94,11 +94,19 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  // listenChannelAdditions(): Observable<Channel> {
+  //   return new Observable((observer) => {
+  //     this.socket.on('channelAdded', (data: { channel: Channel }) => {
+  //       console.log('Channel added:', data);
+  //       observer.next(data.channel);
+  //     });
+  //   });
+  // }
   listenChannelAdditions(): Observable<Channel> {
     return new Observable((observer) => {
-      this.socket.on('channelAdded', (data: { channel: Channel }) => {
-        console.log('Channel added:', data);
-        observer.next(data.channel);
+      this.socket.on('channelAdded', (channel: Channel) => {
+        console.log('Channel added:', channel);
+        observer.next(channel);
       });
     });
   }
