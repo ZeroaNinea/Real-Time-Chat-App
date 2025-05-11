@@ -79,6 +79,25 @@ export class ChatRoomComponent implements OnDestroy {
         }
       });
     });
+    // afterNextRender(() => {
+    //   this.route.paramMap.subscribe((params) => {
+    //     const id = params.get('chatId');
+    //     const channelId = params.get('channelId');
+
+    //     const prevId = this.chatId();
+    //     this.chatId.set(id);
+    //     this.channelId.set(channelId || '');
+
+    //     if (id && id !== prevId) {
+    //       this.fetchChatRoom(id);
+    //       console.log('Connecting to room:', id);
+    //       this.connect();
+    //     } else {
+    //       this.isOwner.set(true);
+    //       this.isAdmin.set(true);
+    //     }
+    //   });
+    // });
   }
 
   fetchChatRoom(chatId: string) {
@@ -105,6 +124,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   connect() {
+    // this.wsService.disconnect();
     this.wsService.connect();
 
     this.wsService.joinChatRoom(<string>this.chatId());
@@ -135,6 +155,7 @@ export class ChatRoomComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    // this.wsService.disconnect();
     this.wsService.off('channel-added');
     this.wsService.off('channel-renamed');
     this.wsService.off('channel-deleted');

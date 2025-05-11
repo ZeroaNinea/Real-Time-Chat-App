@@ -1,4 +1,4 @@
-@if (isAdmin) {
+@if (isAdmin && chatId) {
 <button mat-button (click)="addNewChannel()">Add Channel</button>
 @for (channel of channels; track $index) {
 <div class="channel-item">
