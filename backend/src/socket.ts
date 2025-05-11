@@ -93,6 +93,10 @@ export function setupSocket(server: HttpServer, app: Express) {
       try {
         const userId = socket.data.user._id;
 
+        console.log('Adding channel:', channelName);
+        console.log('Chat ID:', chatId);
+        console.log('User ID:', userId);
+
         const newChannel = await addChannelService(chatId, channelName, userId);
 
         io.to(chatId).emit('channelAdded', newChannel);
