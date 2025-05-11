@@ -125,7 +125,7 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
   }
 
   connect() {
-    // this.wsService.disconnect();
+    this.wsService.disconnect();
     this.wsService.connect();
 
     this.wsService.joinChatRoom(<string>this.chatId());
@@ -156,7 +156,7 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-    // this.wsService.disconnect();
+    this.wsService.disconnect();
     this.wsService.off('channel-added');
     this.wsService.off('channel-renamed');
     this.wsService.off('channel-deleted');
