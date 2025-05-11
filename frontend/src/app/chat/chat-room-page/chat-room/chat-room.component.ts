@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   OnDestroy,
+  OnInit,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -60,14 +61,11 @@ export class ChatRoomComponent implements OnDestroy {
   constructor() {
     afterNextRender(() => {
       // this.connect();
-
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
         const channelId = params.get('channelId');
-
         this.chatId.set(id);
         this.channelId.set(channelId || '');
-
         if (id) {
           this.fetchChatRoom(id);
           // this.setupRealtimeChannelUpdates(id);
@@ -79,15 +77,14 @@ export class ChatRoomComponent implements OnDestroy {
         }
       });
     });
+    /////////////////////////////////////
     // afterNextRender(() => {
     //   this.route.paramMap.subscribe((params) => {
     //     const id = params.get('chatId');
     //     const channelId = params.get('channelId');
-
     //     const prevId = this.chatId();
     //     this.chatId.set(id);
     //     this.channelId.set(channelId || '');
-
     //     if (id && id !== prevId) {
     //       this.fetchChatRoom(id);
     //       console.log('Connecting to room:', id);
