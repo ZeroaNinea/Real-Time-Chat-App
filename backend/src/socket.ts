@@ -77,6 +77,14 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('joinChatRoom', ({ chatId }) => {
       console.log(`Socket ${socket.id} joined room ${chatId}`);
       socket.join(chatId);
+
+      setTimeout(async () => {
+        const socketsInRoom = await io.in(chatId).fetchSockets();
+        console.log(
+          `Sockets in ${chatId}:`,
+          socketsInRoom.map((s) => s.id)
+        );
+      }, 1000);
     });
 
     socket.on('editChannel', ({ chatId, channel }) => {
