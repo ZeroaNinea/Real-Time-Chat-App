@@ -70,6 +70,10 @@ export class WebsocketService implements OnDestroy {
     this.socket.on('message', (message: string) => {
       this.messageSubject.next([...this.messageSubject.getValue(), message]);
     });
+
+    this.socket.on('roomJoined', ({ chatId }) => {
+      console.log(`Successfully joined room: ${chatId}`);
+    });
   }
 
   disconnect() {
