@@ -60,7 +60,7 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
 
   constructor() {
     afterNextRender(() => {
-      this.connect();
+      // this.connect();
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
         const channelId = params.get('channelId');
@@ -70,7 +70,7 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
           this.fetchChatRoom(id);
           // this.setupRealtimeChannelUpdates(id);
           console.log('Connecting to room:', id, 'chat-room.component.ts');
-          // this.connect();
+          this.connect();
         } else {
           this.isOwner.set(true);
           this.isAdmin.set(true);
