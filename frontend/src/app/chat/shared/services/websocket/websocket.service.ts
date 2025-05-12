@@ -14,6 +14,11 @@ export class WebsocketService implements OnDestroy {
   private messageSubject = new BehaviorSubject<string[]>([]);
 
   emit<T = any>(eventName: string, data: T) {
+    console.log('Emitting:', eventName, data);
+    if (!this.isConnected) {
+      console.warn('Socket is not connected. Cannot emit event.');
+      return;
+    }
     this.socket?.emit(eventName, data);
   }
 
