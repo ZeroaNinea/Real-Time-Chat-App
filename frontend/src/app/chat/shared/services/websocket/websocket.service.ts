@@ -142,8 +142,10 @@ export class WebsocketService implements OnDestroy {
   }
 
   joinChatRoom(chatId: string) {
-    if (!this.isConnected) return;
+    console.log('Joining chat room:', chatId);
+    // if (!this.isConnected) return;
+    console.log('==============================');
     console.log('Emitting joinChatRoom with chatId:', chatId);
-    this.socket.emit('joinChatRoom', chatId);
+    this.socket.emit('joinChatRoom', { chatId });
   }
 }

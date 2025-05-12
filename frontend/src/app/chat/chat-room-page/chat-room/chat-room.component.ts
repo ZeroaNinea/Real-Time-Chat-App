@@ -133,7 +133,7 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
     this.wsService.connect();
 
     console.log('Connecting to room:', this.chatId(), 'chat-room.component.ts');
-    this.wsService.joinChatRoom(<string>this.chatId());
+    this.wsService.joinChatRoom(this.chatId()!);
 
     this.sub = this.wsService.getMessages().subscribe((msgs) => {
       this.messages.set(msgs);
