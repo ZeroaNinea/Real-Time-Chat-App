@@ -37,10 +37,6 @@ export class WebsocketService implements OnDestroy {
 
     const token = localStorage.getItem('accessToken');
 
-    this.socket.on('channelAdded', (channel) => {
-      console.log('Received new channel:', channel);
-    });
-
     this.socket = io(environment.backendUrl, {
       transports: ['websocket'],
       auth: {
@@ -65,6 +61,10 @@ export class WebsocketService implements OnDestroy {
 
     this.socket.on('disconnect', () => {
       this.isConnected = false;
+    });
+
+    this.socket.on('channelAdded', (channel) => {
+      console.log('Received new channel:', channel);
     });
 
     this.socket.on('message', (message: string) => {

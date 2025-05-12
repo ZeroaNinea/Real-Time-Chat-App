@@ -108,7 +108,8 @@ export function setupSocket(server: HttpServer, app: Express) {
         const newChannel = await addChannelService(chatId, channelName, userId);
 
         console.log('New channel:', newChannel);
-        io.to(chatId).emit('channelAdded', newChannel);
+        // io.to(chatId).emit('channelAdded', newChannel);
+        io.emit('channelAdded', newChannel);
       } catch (err) {
         console.error('Channel addition failed:', err);
         socket.emit('error', (err as Error).message);
