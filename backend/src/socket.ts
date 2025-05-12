@@ -85,6 +85,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           socketsInRoom.map((s) => s.id)
         );
       }, 1000);
+      socket.emit('roomJoined', { chatId });
     });
 
     socket.on('joinChannel', ({ chatId, channelId }) => {
