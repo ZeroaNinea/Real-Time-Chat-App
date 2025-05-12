@@ -59,35 +59,18 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
-    afterNextRender(() => {
-      this.connect();
-      this.route.paramMap.subscribe((params) => {
-        const id = params.get('chatId');
-        const channelId = params.get('channelId');
-        this.chatId.set(id);
-        this.channelId.set(channelId || '');
-        if (id) {
-          this.fetchChatRoom(id);
-          // this.setupRealtimeChannelUpdates(id);
-          console.log('Connecting to room:', id, 'chat-room.component.ts');
-          this.connect();
-        } else {
-          this.isOwner.set(true);
-          this.isAdmin.set(true);
-        }
-      });
-    });
-    /////////////////////////////////////
     // afterNextRender(() => {
+    //   // this.connect();
     //   this.route.paramMap.subscribe((params) => {
     //     const id = params.get('chatId');
     //     const channelId = params.get('channelId');
-    //     const prevId = this.chatId();
+
     //     this.chatId.set(id);
     //     this.channelId.set(channelId || '');
-    //     if (id && id !== prevId) {
+    //     if (id) {
     //       this.fetchChatRoom(id);
-    //       console.log('Connecting to room:', id);
+    //       // this.setupRealtimeChannelUpdates(id);
+    //       console.log('Connecting to room:', id, 'chat-room.component.ts');
     //       this.connect();
     //     } else {
     //       this.isOwner.set(true);
@@ -95,6 +78,26 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
     //     }
     //   });
     // });
+    /////////////////////////////////////
+    afterNextRender(() => {
+      this.route.paramMap.subscribe((params) => {
+        const id = params.get('chatId');
+        const channelId = params.get('channelId');
+        const prevId = this.chatId();
+
+        this.chatId.set(id);
+        this.channelId.set(channelId || '');
+
+        if (id && id !== prevId) {
+          this.fetchChatRoom(id);
+          console.log('Connecting to room:', id, 'chat-room.component.ts');
+          this.connect();
+        } else if (!id) {
+          this.isOwner.set(true);
+          this.isAdmin.set(true);
+        }
+      });
+    });
   }
 
   fetchChatRoom(chatId: string) {
