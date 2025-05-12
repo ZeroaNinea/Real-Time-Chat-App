@@ -164,7 +164,7 @@ backend/
 <br />
 ✅ Step 5: Add channel order
 <br />
-➡️ Step 6: Display channels
+✅ Step 6: Display channels
 <br />
 ➡️ Step 7: Select channel
 <br />
