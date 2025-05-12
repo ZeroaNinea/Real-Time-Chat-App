@@ -22,11 +22,11 @@ export class ChannelListComponent {
 
   @Output() addChannel = new EventEmitter<string>();
 
-  private wsSocket = inject(WebsocketService);
+  // private wsSocket = inject(WebsocketService);
 
-  constructor() {
-    this.wsSocket.joinChatRoom(this.chatId!);
-  }
+  // constructor() {
+  //   this.wsSocket.joinChatRoom(this.chatId!);
+  // }
 
   onRemove(id: string) {
     this.removeChannel.emit(id);
