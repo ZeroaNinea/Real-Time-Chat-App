@@ -71,6 +71,7 @@ export class WebsocketService implements OnDestroy {
 
   sendMessage(message: string) {
     if (!this.isConnected) {
+      console.warn('Socket is not connected. Cannot send message.');
       return;
     }
     console.log('Sending:', message);
