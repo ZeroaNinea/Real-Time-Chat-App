@@ -266,27 +266,4 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
       },
     });
   }
-
-  // setupRealtimeChannelUpdates(chatId: string) {
-  //   this.wsService.joinChatRoom(chatId);
-
-  //   // this.wsService.on('channel-added', (channel: Channel) => {
-  //   //   this.channels.set([...this.channels(), channel]);
-  //   // });
-
-  //   this.wsService.on(
-  //     'channel-renamed',
-  //     ({ id, newName }: { id: string; newName: string }) => {
-  //       this.channels.set(
-  //         this.channels().map((c) =>
-  //           c._id === id ? { ...c, channelName: newName } : c
-  //         )
-  //       );
-  //     }
-  //   );
-
-  //   this.wsService.on('channel-deleted', (id: string) => {
-  //     this.channels.set(this.channels().filter((c) => c._id !== id));
-  //   });
-  // }
 }
