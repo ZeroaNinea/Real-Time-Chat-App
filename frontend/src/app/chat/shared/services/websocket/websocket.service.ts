@@ -15,6 +15,8 @@ export class WebsocketService implements OnDestroy {
 
   emit<T = any>(eventName: string, data: T) {
     console.log('Emitting:', eventName, data);
+    console.log(this.isConnected);
+    console.log(this.socket);
     if (!this.isConnected) {
       console.warn('Socket is not connected. Cannot emit event.');
       return;
