@@ -75,7 +75,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
-      console.log(`Socket ${socket.id} joined room ${chatId}`);
+      console.log(`Socket ${socket.id} joined room ${chatId}`, 'socket.ts');
       socket.join(chatId);
 
       setTimeout(async () => {
@@ -85,6 +85,12 @@ export function setupSocket(server: HttpServer, app: Express) {
           socketsInRoom.map((s) => s.id)
         );
       }, 1000);
+    });
+
+    socket.on('joinChannel', ({ chatId, channelId }) => {
+      const channelRoom = `${chatId}:${channelId}`;
+      socket.join(channelRoom);
+      console.log(`User ${socket.id} joined channel ${channelRoom}`);
     });
 
     socket.on('editChannel', ({ chatId, channel }) => {
@@ -108,8 +114,8 @@ export function setupSocket(server: HttpServer, app: Express) {
         const newChannel = await addChannelService(chatId, channelName, userId);
 
         console.log('New channel:', newChannel);
-        // io.to(chatId).emit('channelAdded', newChannel);
-        io.emit('channelAdded', newChannel);
+        io.to(chatId).emit('channelAdded', newChannel);
+        // io.emit('channelAdded', newChannel);
       } catch (err) {
         console.error('Channel addition failed:', err);
         socket.emit('error', (err as Error).message);
