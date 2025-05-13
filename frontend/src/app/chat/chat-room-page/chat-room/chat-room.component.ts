@@ -206,6 +206,10 @@ export class ChatRoomComponent implements OnDestroy {
   deleteChatRoom() {
     if (!this.chatId()) return;
 
+    const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
+      data: { isChatRoom: true },
+    });
+
     const confirmed = confirm(
       'Are you sure you want to delete this chat room?'
     );
@@ -237,7 +241,7 @@ export class ChatRoomComponent implements OnDestroy {
     if (!this.chatId()) return;
 
     const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
-      data: { currentName: name },
+      data: { isChatRoom: false },
     });
 
     dialogRef.afterClosed().subscribe((isDelete: boolean) => {

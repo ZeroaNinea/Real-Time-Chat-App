@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './delete-channel-dialog.component.scss',
 })
 export class DeleteChannelDialogComponent {
+  isChatRoom!: boolean;
   isDelete!: boolean;
 
   constructor(
