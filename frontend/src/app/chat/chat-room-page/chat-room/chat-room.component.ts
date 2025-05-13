@@ -245,29 +245,6 @@ export class ChatRoomComponent implements OnDestroy {
     }
   }
 
-  // onChannelRename({ id, newName }: { id: string; newName: string }) {
-  //   this.wsService.emit<
-  //     { channelId: string; name: string },
-  //     { error?: { message: string } }
-  //   >(
-  //     'renameChannel',
-  //     {
-  //       channelId: id,
-  //       name: newName,
-  //     },
-  //     (res) => {
-  //       if (res?.error) {
-  //         this._snackbar.open(
-  //           res.error.message || 'Failed to rename channel',
-  //           'Close',
-  //           {
-  //             duration: 3000,
-  //           }
-  //         );
-  //       }
-  //     }
-  //   );
-  // }
   onChannelRename({ id, name }: { id: string; name: string }) {
     const dialogRef = this.dialog.open(RenameChannelDialogComponent, {
       data: { currentName: name },

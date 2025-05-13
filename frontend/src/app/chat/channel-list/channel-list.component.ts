@@ -25,9 +25,6 @@ export class ChannelListComponent {
     this.removeChannel.emit(id);
   }
 
-  // onRename(id: string, newName: string) {
-  //   this.renameChannel.emit({ id, newName });
-  // }
   onRenameClick(channel: { _id: string; name: string }) {
     this.renameChannel.emit({ id: channel._id, name: channel.name });
   }
