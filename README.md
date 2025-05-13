@@ -170,7 +170,7 @@ backend/
 <br />
 ➡️ Step 8: Add topic field
 <br />
-➡️ Step 9: Rename channel
+✅ Step 9: Rename channel
 <br />
 ➡️ Step 10: Edit permissions
 <br />
