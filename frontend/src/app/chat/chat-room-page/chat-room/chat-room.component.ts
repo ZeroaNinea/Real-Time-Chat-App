@@ -59,26 +59,6 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
-    // afterNextRender(() => {
-    //   // this.connect();
-    //   this.route.paramMap.subscribe((params) => {
-    //     const id = params.get('chatId');
-    //     const channelId = params.get('channelId');
-
-    //     this.chatId.set(id);
-    //     this.channelId.set(channelId || '');
-    //     if (id) {
-    //       this.fetchChatRoom(id);
-    //       // this.setupRealtimeChannelUpdates(id);
-    //       console.log('Connecting to room:', id, 'chat-room.component.ts');
-    //       this.connect();
-    //     } else {
-    //       this.isOwner.set(true);
-    //       this.isAdmin.set(true);
-    //     }
-    //   });
-    // });
-    /////////////////////////////////////
     afterNextRender(() => {
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
@@ -90,7 +70,6 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
 
         if (id && id !== prevId) {
           this.fetchChatRoom(id);
-          console.log('Connecting to room:', id, 'chat-room.component.ts');
           this.connect();
         } else if (!id) {
           this.isOwner.set(true);

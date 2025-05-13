@@ -14,9 +14,6 @@ export class WebsocketService implements OnDestroy {
   private messageSubject = new BehaviorSubject<string[]>([]);
 
   emit<T = any>(eventName: string, data: T) {
-    console.log('Emitting:', eventName, data);
-    console.log(this.isConnected);
-    console.log(this.socket);
     if (!this.isConnected) {
       console.warn('Socket is not connected. Cannot emit event.');
       return;
@@ -50,12 +47,6 @@ export class WebsocketService implements OnDestroy {
 
     this.socket.on('connect', () => {
       this.isConnected = true;
-
-      console.log(
-        'Socket.IO connection established:',
-        this.socket.id,
-        'websocket.service.ts'
-      );
       console.log('User connected.');
     });
 
@@ -63,17 +54,17 @@ export class WebsocketService implements OnDestroy {
       this.isConnected = false;
     });
 
-    this.socket.on('channelAdded', (channel) => {
-      console.log('Received new channel:', channel);
-    });
+    // this.socket.on('channelAdded', (channel) => {
+    //   console.log('Received new channel:', channel);
+    // });
 
     this.socket.on('message', (message: string) => {
       this.messageSubject.next([...this.messageSubject.getValue(), message]);
     });
 
-    this.socket.on('roomJoined', ({ chatId }) => {
-      console.log(`Successfully joined room: ${chatId}`);
-    });
+    // this.socket.on('roomJoined', ({ chatId }) => {
+    //   console.log(`Successfully joined room: ${chatId}`);
+    // });
   }
 
   disconnect() {
@@ -117,35 +108,22 @@ export class WebsocketService implements OnDestroy {
   listenChannelUpdates(): Observable<Channel> {
     return new Observable((observer) => {
       this.socket.on('channelEdited', (data: { channel: Channel }) => {
-        console.log('Channel edited:', data);
         observer.next(data.channel);
       });
     });
   }
 
-  // listenChannelAdditions(): Observable<Channel> {
-  //   return new Observable((observer) => {
-  //     this.socket.on('channelAdded', (data: { channel: Channel }) => {
-  //       console.log('Channel added:', data);
-  //       observer.next(data.channel);
-  //     });
-  //   });
-  // }
   listenChannelAdditions(): Observable<Channel> {
     console.log('Listening for channel additions...');
     return new Observable((observer) => {
       this.socket.on('channelAdded', (channel: Channel) => {
-        console.log('Channel added:', channel, '`websocket.service.ts`');
         observer.next(channel);
       });
     });
   }
 
   joinChatRoom(chatId: string) {
-    console.log('Joining chat room:', chatId);
     // if (!this.isConnected) return;
-    console.log('==============================');
-    console.log('Emitting joinChatRoom with chatId:', chatId);
     this.socket.emit('joinChatRoom', { chatId });
   }
 }
