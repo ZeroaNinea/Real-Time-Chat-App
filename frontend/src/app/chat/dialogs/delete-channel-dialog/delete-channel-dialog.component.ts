@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { RenameChannelDialogComponent } from '../rename-channel-dialog/rename-channel-dialog.component';
+import { Component, Inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -11,15 +14,18 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './delete-channel-dialog.component.scss',
 })
 export class DeleteChannelDialogComponent {
-  delete: boolean = false;
+  isDelete!: boolean;
 
-  constructor(private dialogRef: MatDialogRef<RenameChannelDialogComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<DeleteChannelDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { isDelete: boolean }
+  ) {}
 
   onCancel() {
-    this.dialogRef.close(null);
+    this.dialogRef.close((this.isDelete = false));
   }
 
   onDelete() {
-    this.dialogRef.close((this.delete = true));
+    this.dialogRef.close((this.isDelete = true));
   }
 }

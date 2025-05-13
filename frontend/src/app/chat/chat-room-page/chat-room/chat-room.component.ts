@@ -244,11 +244,13 @@ export class ChatRoomComponent implements OnDestroy {
     //   'Are you sure you want to delete this channel?'
     // );
 
-    if (confirmed && this.chatId()) {
-      this.wsService.emit('deleteChannel', {
-        channelId,
-      });
-    }
+    dialogRef.afterClosed().subscribe((isDelete: boolean | null) => {
+      if (isDelete && this.chatId()) {
+        this.wsService.emit('deleteChannel', {
+          channelId,
+        });
+      }
+    });
   }
 
   onChannelRename({ id, name }: { id: string; name: string }) {
