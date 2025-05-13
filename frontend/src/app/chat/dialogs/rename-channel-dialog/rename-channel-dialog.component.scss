@@ -1,5 +1,13 @@
 @use "@angular/material" as mat;
 
+mat-dialog-content {
+  @include mat.theme(
+    (
+      density: -1,
+    )
+  );
+}
+
 .warn {
   @include mat.theme(
     (
