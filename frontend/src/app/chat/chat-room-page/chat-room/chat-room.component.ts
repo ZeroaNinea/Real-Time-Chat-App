@@ -204,8 +204,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   deleteChatRoom() {
-    // if (!this.chatId()) return;
-
     const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
       data: { isChatRoom: true },
     });
@@ -224,11 +222,6 @@ export class ChatRoomComponent implements OnDestroy {
         return;
       }
     });
-
-    // const confirmed = confirm(
-    //   'Are you sure you want to delete this chat room?'
-    // );
-    // if (!confirmed) return;
   }
 
   onChannelEdit(event: { channelId: string; key: keyof Channel; value: any }) {
@@ -244,8 +237,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   onChannelRemove(channelId: string) {
-    if (!this.chatId()) return;
-
     const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
       data: { isChatRoom: false },
     });
@@ -255,6 +246,8 @@ export class ChatRoomComponent implements OnDestroy {
         this.wsService.emit('deleteChannel', {
           channelId,
         });
+      } else {
+        return;
       }
     });
   }
