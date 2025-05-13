@@ -148,9 +148,6 @@ export class ChatRoomComponent implements OnDestroy {
       channelName: trimmed,
       chatId,
     });
-
-    console.log('Emitted addChannel:', trimmed);
-    console.log('Chat ID:', chatId);
   }
 
   saveChanges() {
