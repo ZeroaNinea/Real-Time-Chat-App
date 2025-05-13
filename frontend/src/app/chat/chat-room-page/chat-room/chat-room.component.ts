@@ -240,10 +240,6 @@ export class ChatRoomComponent implements OnDestroy {
       data: { currentName: name },
     });
 
-    // const confirmed = window.confirm(
-    //   'Are you sure you want to delete this channel?'
-    // );
-
     dialogRef.afterClosed().subscribe((isDelete: boolean) => {
       if (isDelete && this.chatId()) {
         this.wsService.emit('deleteChannel', {
