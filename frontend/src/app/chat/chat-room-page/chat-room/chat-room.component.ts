@@ -231,7 +231,8 @@ export class ChatRoomComponent implements OnDestroy {
     // });
 
     this.wsService.emit('deleteChannel', {
-      chatId: this.chatId(),
+      // chatId: this.chatId(),
+      channelId,
     });
   }
 
