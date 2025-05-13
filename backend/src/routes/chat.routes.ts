@@ -29,10 +29,5 @@ router.post(
   authMiddleware,
   asyncRoute(updateChannel)
 );
-// router.delete(
-//   '/delete-channel/:chatId/:channelId',
-//   authMiddleware,
-//   asyncRoute(deleteChannel)
-// );
 
 export default router;
