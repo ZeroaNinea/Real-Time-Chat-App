@@ -21,12 +21,16 @@ export class WebsocketService implements OnDestroy {
     this.pendingJoins = [];
   }
 
-  emit<T = any>(eventName: string, data: T) {
+  emit<T = any, R = any>(
+    eventName: string,
+    data: T,
+    callback?: (response: R) => void
+  ) {
     if (!this.isConnected) {
       console.warn('Socket is not connected. Cannot emit event.');
       return;
     }
-    this.socket?.emit(eventName, data);
+    this.socket?.emit(eventName, data, callback); // ← you missed passing the callback!
   }
 
   on<T = any>(eventName: string, callback: (data: T) => void) {
@@ -134,14 +138,6 @@ export class WebsocketService implements OnDestroy {
   listenChannelDeletions(): Observable<{ channelId: string }> {
     return new Observable((observer) => {
       this.socket.on('channelDeleted', (data) => {
-        observer.next(data);
-      });
-    });
-  }
-
-  listenChannelRenames(): Observable<{ channelId: string; newName: string }> {
-    return new Observable((observer) => {
-      this.socket.on('channelRenamed', (data) => {
         observer.next(data);
       });
     });

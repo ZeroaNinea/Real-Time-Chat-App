@@ -19,6 +19,7 @@ import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelListComponent } from '../../channel-list/channel-list.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-chat-room',
@@ -43,6 +44,7 @@ export class ChatRoomComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
   private chatService = inject(ChatService);
   private authService = inject(AuthService);
+  private _snackbar = inject(MatSnackBar);
 
   roomName = signal('');
   newChannel = signal<string>('');
@@ -241,9 +243,26 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   onChannelRename({ id, newName }: { id: string; newName: string }) {
-    this.wsService.emit('renameChannel', {
-      channelId: id,
-      name: newName,
-    });
+    this.wsService.emit<
+      { channelId: string; name: string },
+      { error?: { message: string } }
+    >(
+      'renameChannel',
+      {
+        channelId: id,
+        name: newName,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to rename channel',
+            'Close',
+            {
+              duration: 3000,
+            }
+          );
+        }
+      }
+    );
   }
 }
