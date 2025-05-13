@@ -75,7 +75,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
-      console.log(`Socket ${socket.id} joined room ${chatId}`, 'socket.ts');
       socket.join(chatId);
 
       setTimeout(async () => {
@@ -91,7 +90,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('joinChannel', ({ chatId, channelId }) => {
       const channelRoom = `${chatId}:${channelId}`;
       socket.join(channelRoom);
-      console.log(`User ${socket.id} joined channel ${channelRoom}`);
     });
 
     socket.on('editChannel', ({ chatId, channel }) => {
@@ -107,10 +105,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('addChannel', async ({ chatId, channelName }) => {
       try {
         const userId = socket.data.user._id;
-
-        console.log('Adding channel:', channelName);
-        console.log('Chat ID:', chatId);
-        console.log('User ID:', userId);
 
         const newChannel = await addChannelService(chatId, channelName, userId);
 
