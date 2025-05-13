@@ -12,8 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 import { Subscription } from 'rxjs';
+
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 import { MessageListComponent } from '../message-list/message-list.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
