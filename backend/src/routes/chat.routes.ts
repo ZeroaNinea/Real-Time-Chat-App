@@ -5,7 +5,6 @@ import { asyncRoute } from '../controllers/auth.controller';
 import {
   addChannel,
   createChat,
-  deleteChannel,
   deleteChat,
   getChat,
   mine,
@@ -30,10 +29,10 @@ router.post(
   authMiddleware,
   asyncRoute(updateChannel)
 );
-router.delete(
-  '/delete-channel/:chatId/:channelId',
-  authMiddleware,
-  asyncRoute(deleteChannel)
-);
+// router.delete(
+//   '/delete-channel/:chatId/:channelId',
+//   authMiddleware,
+//   asyncRoute(deleteChannel)
+// );
 
 export default router;
