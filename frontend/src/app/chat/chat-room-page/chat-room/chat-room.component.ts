@@ -9,6 +9,8 @@ import {
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 import { Subscription } from 'rxjs';
@@ -19,9 +21,9 @@ import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelListComponent } from '../../channel-list/channel-list.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -234,9 +236,13 @@ export class ChatRoomComponent implements OnDestroy {
   onChannelRemove(channelId: string) {
     if (!this.chatId()) return;
 
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this channel?'
-    );
+    const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
+      data: { currentName: name },
+    });
+
+    // const confirmed = window.confirm(
+    //   'Are you sure you want to delete this channel?'
+    // );
 
     if (confirmed && this.chatId()) {
       this.wsService.emit('deleteChannel', {

@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './delete-channel-dialog.component.scss',
 })
 export class DeleteChannelDialogComponent {
+  delete: boolean = false;
+
   constructor(private dialogRef: MatDialogRef<RenameChannelDialogComponent>) {}
 
   onCancel() {
@@ -18,6 +20,6 @@ export class DeleteChannelDialogComponent {
   }
 
   onDelete() {
-    this.dialogRef.close(true);
+    this.dialogRef.close((this.delete = true));
   }
 }
