@@ -1,1 +1,11 @@
-<p>delete-channel-dialog works!</p>
+<h2 mat-dialog-title>Delete Channel</h2>
+<mat-dialog-content>
+  <p>
+    Are you sure that you want to delete this channel? This action cannot be
+    undone and all messages will be lost.
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button class="warn" (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onDelete()">Delete</button>
+</mat-dialog-actions>
