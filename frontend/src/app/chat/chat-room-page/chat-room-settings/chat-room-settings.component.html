@@ -6,55 +6,7 @@
     placeholder="Chat Room Name"
   />
 
-  <!-- @for (channel of channels; track $index) {
-  <div>
-    <span>{{ channel.name }}</span>
-  </div>
-  } -->
-
-  <!-- <input
-    [(ngModel)]="newChannel"
-    (ngModelChange)="newChannelChange.emit($event)"
-    placeholder="New channel"
-  /> -->
-  <!-- <button (click)="addChannel.emit()">Add Channel</button> -->
   <button (click)="saveChanges.emit()">Save Changes</button>
-
-  <!-- @for (channel of channels; track $index) {
-  <div>
-    <input
-      [value]="channel.name"
-      (input)="
-        onChannelEdit.emit({
-          channelId: channel._id,
-          key: 'name',
-          value: getInputValue($event)
-        })
-      "
-      placeholder="Channel name"
-    />
-
-    <input
-      [value]="channel.topic"
-      (input)="
-        onChannelEdit.emit({
-          channelId: channel._id,
-          key: 'topic',
-          value: getInputValue($event)
-        })
-      "
-      placeholder="Topic"
-    />
-
-    <label>
-      <input
-        type="checkbox"
-        [checked]="channel?.permissions?.adminsOnly"
-        (change)="handleAdminsOnlyChange(channel, $event)"
-      />
-    </label>
-  </div>
-  } -->
 </div>
 } @if (isOwner && chatId) {
 <button (click)="deleteRoom.emit()" class="danger">Delete Chat Room</button>
