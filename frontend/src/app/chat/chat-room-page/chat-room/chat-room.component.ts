@@ -35,7 +35,7 @@ import { ChannelListComponent } from '../../channel-list/channel-list.component'
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent implements OnDestroy, OnInit {
+export class ChatRoomComponent implements OnDestroy {
   message = signal('');
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
@@ -53,7 +53,6 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
   readonly isOwner = signal(false);
   readonly isAdmin = signal(false);
   readonly chatName = signal('');
-  // readonly channels = signal<string[]>([]);
   readonly channels = signal<Channel[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
@@ -102,16 +101,10 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
     });
   }
 
-  ngOnInit() {
-    // this.wsService.connect();
-    // this.wsService.joinChatRoom(<string>this.chatId());
-  }
-
   connect() {
     this.wsService.disconnect();
     this.wsService.connect();
 
-    console.log('Connecting to room:', this.chatId(), 'chat-room.component.ts');
     this.wsService.joinChatRoom(this.chatId()!);
 
     this.sub = this.wsService.getMessages().subscribe((msgs) => {
@@ -125,7 +118,6 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
     });
 
     this.wsService.listenChannelAdditions().subscribe((channel) => {
-      console.log('New channel received:', channel, 'chat-room.component.ts');
       this.channels.update((chs) => [...chs, channel]);
     });
   }
