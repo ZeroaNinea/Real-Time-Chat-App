@@ -174,7 +174,7 @@ backend/
 <br />
 ➡️ Step 10: Edit permissions
 <br />
-➡️ Step 11: Delete channel
+✅ Step 11: Delete channel
 <br />
 ➡️ Step 12: Connect Socket.io to frontend, allow sending messages
 <br />
