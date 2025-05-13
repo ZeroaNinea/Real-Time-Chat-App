@@ -12,6 +12,14 @@ export class WebsocketService implements OnDestroy {
   private socket!: Socket;
   private isConnected = false;
   private messageSubject = new BehaviorSubject<string[]>([]);
+  private pendingJoins: string[] = [];
+
+  private flushPendingJoins() {
+    this.pendingJoins.forEach((chatId) => {
+      this.socket.emit('joinChatRoom', { chatId });
+    });
+    this.pendingJoins = [];
+  }
 
   emit<T = any>(eventName: string, data: T) {
     if (!this.isConnected) {
@@ -47,6 +55,7 @@ export class WebsocketService implements OnDestroy {
 
     this.socket.on('connect', () => {
       this.isConnected = true;
+      this.flushPendingJoins();
       console.log('User connected.');
     });
 
@@ -123,7 +132,10 @@ export class WebsocketService implements OnDestroy {
   }
 
   joinChatRoom(chatId: string) {
-    // if (!this.isConnected) return;
+    if (!this.isConnected) {
+      this.pendingJoins.push(chatId);
+      return;
+    }
     this.socket.emit('joinChatRoom', { chatId });
   }
 }
