@@ -2,7 +2,7 @@ import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { Express } from 'express';
 
-import jwt, { Jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
 

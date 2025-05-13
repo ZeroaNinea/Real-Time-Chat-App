@@ -131,6 +131,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  listenChannelDeletions(): Observable<{ channelId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('channelDeleted', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
   joinChatRoom(chatId: string) {
     if (!this.isConnected) {
       this.pendingJoins.push(chatId);
