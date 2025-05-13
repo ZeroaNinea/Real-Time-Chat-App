@@ -176,11 +176,13 @@ backend/
 <br />
 ✅ Step 11: Delete channel
 <br />
-➡️ Step 12: Connect Socket.io to frontend, allow sending messages
+➡️ Step: 12: Implement channel order changing
 <br />
-➡️ Step 13: Display message history
+➡️ Step 13: Connect Socket.io to frontend, allow sending messages
 <br />
-➡️ Step 14: Add timestamps and online indicators
+➡️ Step 14: Display message history
+<br />
+➡️ Step 15: Add timestamps and online indicators
 <br />
 
 ### Main Components (likely pages or views)
