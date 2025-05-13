@@ -9,6 +9,7 @@ import fs from 'fs';
 import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
+import { Channel } from './models/channel.model';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -107,6 +108,41 @@ export function setupSocket(server: HttpServer, app: Express) {
         socket.emit('error', (err as Error).message);
       }
     });
+
+    socket.on('deleteChannel', async ({ channelId }) => {
+      const channel = await Channel.findByIdAndDelete(channelId);
+      io.to(channel.chatId.toString()).emit('channelDeleted', { channelId });
+    });
+
+    socket.on('editChannelTopic', async ({ channelId, topic }) => {
+      const channel = await Channel.findByIdAndUpdate(
+        channelId,
+        { topic },
+        { new: true }
+      );
+      io.to(channel.chatId.toString()).emit('channelEdited', { channel });
+    });
+
+    socket.on('renameChannel', async ({ channelId, name }) => {
+      const channel = await Channel.findByIdAndUpdate(
+        channelId,
+        { name },
+        { new: true }
+      );
+      io.to(channel.chatId.toString()).emit('channelEdited', { channel });
+    });
+
+    socket.on(
+      'updateChannelPermissions',
+      async ({ channelId, permissions }) => {
+        const channel = await Channel.findByIdAndUpdate(
+          channelId,
+          { permissions },
+          { new: true }
+        );
+        io.to(channel.chatId.toString()).emit('channelEdited', { channel });
+      }
+    );
   });
 
   return io;
