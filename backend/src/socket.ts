@@ -77,13 +77,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('joinChatRoom', ({ chatId }) => {
       socket.join(chatId);
 
-      setTimeout(async () => {
-        const socketsInRoom = await io.in(chatId).fetchSockets();
-        console.log(
-          `Sockets in ${chatId}:`,
-          socketsInRoom.map((s) => s.id)
-        );
-      }, 1000);
       socket.emit('roomJoined', { chatId });
     });
 
@@ -108,9 +101,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         const newChannel = await addChannelService(chatId, channelName, userId);
 
-        console.log('New channel:', newChannel);
         io.to(chatId).emit('channelAdded', newChannel);
-        // io.emit('channelAdded', newChannel);
       } catch (err) {
         console.error('Channel addition failed:', err);
         socket.emit('error', (err as Error).message);
