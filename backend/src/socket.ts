@@ -2,7 +2,7 @@ import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { Express } from 'express';
 
-import jwt from 'jsonwebtoken';
+import jwt, { Jwt } from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
 
@@ -10,6 +10,8 @@ import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 import { Channel } from './models/channel.model';
+import { Chat } from './models/chat.model';
+import { Member } from '../types/member.aliase';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -109,9 +111,31 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('deleteChannel', async ({ channelId }) => {
-      const channel = await Channel.findByIdAndDelete(channelId);
-      io.to(channel.chatId.toString()).emit('channelDeleted', { channelId });
+    socket.on('deleteChannel', async ({ channelId }, callback) => {
+      try {
+        const userId = socket.user._id;
+        const channel = await Channel.findById(channelId);
+        if (!channel) {
+          return callback?.({ error: 'Channel not found' });
+        }
+
+        const chat = await Chat.findById(channel.chatId);
+        const member = chat?.members.find((m: Member) => m.user.equals(userId));
+        const isAdmin =
+          member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+        if (!isAdmin) {
+          return callback?.({ error: 'Only admins can delete channels' });
+        }
+
+        await channel.deleteOne();
+
+        io.to(chat._id.toString()).emit('channelDeleted', { channelId });
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
     });
 
     socket.on('editChannelTopic', async ({ channelId, topic }) => {
