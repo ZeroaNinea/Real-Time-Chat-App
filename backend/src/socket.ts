@@ -113,7 +113,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('deleteChannel', async ({ channelId }, callback) => {
       try {
-        const userId = socket.user._id;
+        const userId = socket.data.user._id;
         const channel = await Channel.findById(channelId);
         if (!channel) {
           return callback?.({ error: 'Channel not found' });
