@@ -1,4 +1,4 @@
-@if (isAdmin && chatId) {
+<!-- @if (isAdmin && chatId) {
 <button mat-button (click)="addNewChannel()">Add Channel</button>
 @for (channel of channels; track $index) {
 <div class="channel-item">
@@ -10,6 +10,38 @@
 
   <button mat-button (click)="onRenameClick(channel)">Rename</button>
   <button mat-button (click)="onRemove(channel._id)">Delete</button>
+</div>
+} } @else {
+<p>Another interface.</p>
+} -->
+@if (isAdmin && chatId) {
+<button mat-button (click)="addNewChannel()">Add Channel</button>
+
+@for (channel of channels; track $index) {
+<div class="channel-item">
+  <span class="channel-link">
+    <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
+      {{ channel.name }}
+    </a>
+  </span>
+
+  <button
+    mat-icon-button
+    matTooltip="Rename"
+    (click)="onRenameClick(channel)"
+    aria-label="Rename channel"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    matTooltip="Delete"
+    (click)="onRemove(channel._id)"
+    aria-label="Delete channel"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>
 } } @else {
 <p>Another interface.</p>
