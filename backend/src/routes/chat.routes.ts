@@ -31,7 +31,7 @@ router.post(
   asyncRoute(updateChannel)
 );
 router.post(
-  '/delete-channel/:chatId',
+  '/delete-channel/:chatId/:channelId',
   authMiddleware,
   asyncRoute(deleteChannel)
 );

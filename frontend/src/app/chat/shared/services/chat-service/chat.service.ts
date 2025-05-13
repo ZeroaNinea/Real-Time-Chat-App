@@ -58,7 +58,7 @@ export class ChatService {
 
   deleteChannel(chatId: string, channelId: string): Observable<void> {
     return this.http.delete<void>(
-      `${environment.backendUrl}/chat/delete-channel/${chatId}/${channelId}`
+      `${environment.backendUrl}/chat/delete-channel/${channelId}`
     );
   }
 }
