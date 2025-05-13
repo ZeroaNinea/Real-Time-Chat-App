@@ -204,25 +204,31 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   deleteChatRoom() {
-    if (!this.chatId()) return;
+    // if (!this.chatId()) return;
 
     const dialogRef = this.dialog.open(DeleteChannelDialogComponent, {
       data: { isChatRoom: true },
     });
 
-    const confirmed = confirm(
-      'Are you sure you want to delete this chat room?'
-    );
-    if (!confirmed) return;
-
-    this.chatService.deleteChatRoom(this.chatId()!).subscribe({
-      next: () => {
-        this.router.navigate(['/main']);
-      },
-      error: (err) => {
-        console.error('Failed to delete chat room:', err);
-      },
+    dialogRef.afterClosed().subscribe((isDelete: boolean) => {
+      if (isDelete && this.chatId()) {
+        this.chatService.deleteChatRoom(this.chatId()!).subscribe({
+          next: () => {
+            this.router.navigate(['/main']);
+          },
+          error: (err) => {
+            console.error('Failed to delete chat room:', err);
+          },
+        });
+      } else {
+        return;
+      }
     });
+
+    // const confirmed = confirm(
+    //   'Are you sure you want to delete this chat room?'
+    // );
+    // if (!confirmed) return;
   }
 
   onChannelEdit(event: { channelId: string; key: keyof Channel; value: any }) {
