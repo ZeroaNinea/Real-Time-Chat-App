@@ -241,12 +241,9 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   onChannelRename({ id, newName }: { id: string; newName: string }) {
-    this.wsService.emit('editChannel', {
-      chatId: this.chatId(),
-      channel: {
-        _id: id,
-        name: newName,
-      },
+    this.wsService.emit('renameChannel', {
+      channelId: id,
+      name: newName,
     });
   }
 }
