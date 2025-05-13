@@ -230,9 +230,15 @@ export class ChatRoomComponent implements OnDestroy {
   onChannelRemove(channelId: string) {
     if (!this.chatId()) return;
 
-    this.wsService.emit('deleteChannel', {
-      channelId,
-    });
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this channel?'
+    );
+
+    if (confirmed && this.chatId()) {
+      this.wsService.emit('deleteChannel', {
+        channelId,
+      });
+    }
   }
 
   onChannelRename({ id, newName }: { id: string; newName: string }) {
