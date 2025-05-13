@@ -20,6 +20,8 @@ import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-setti
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelListComponent } from '../../channel-list/channel-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-chat-room',
@@ -45,6 +47,7 @@ export class ChatRoomComponent implements OnDestroy {
   private chatService = inject(ChatService);
   private authService = inject(AuthService);
   private _snackbar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   roomName = signal('');
   newChannel = signal<string>('');
@@ -242,27 +245,49 @@ export class ChatRoomComponent implements OnDestroy {
     }
   }
 
-  onChannelRename({ id, newName }: { id: string; newName: string }) {
-    this.wsService.emit<
-      { channelId: string; name: string },
-      { error?: { message: string } }
-    >(
-      'renameChannel',
-      {
-        channelId: id,
-        name: newName,
-      },
-      (res) => {
+  // onChannelRename({ id, newName }: { id: string; newName: string }) {
+  //   this.wsService.emit<
+  //     { channelId: string; name: string },
+  //     { error?: { message: string } }
+  //   >(
+  //     'renameChannel',
+  //     {
+  //       channelId: id,
+  //       name: newName,
+  //     },
+  //     (res) => {
+  //       if (res?.error) {
+  //         this._snackbar.open(
+  //           res.error.message || 'Failed to rename channel',
+  //           'Close',
+  //           {
+  //             duration: 3000,
+  //           }
+  //         );
+  //       }
+  //     }
+  //   );
+  // }
+  onChannelRename({ id, name }: { id: string; name: string }) {
+    const dialogRef = this.dialog.open(RenameChannelDialogComponent, {
+      data: { currentName: name },
+    });
+
+    dialogRef.afterClosed().subscribe((newName: string | null) => {
+      if (!newName || newName.trim() === '' || newName === name) return;
+
+      this.wsService.emit<
+        { channelId: string; name: string },
+        { error?: { message: string } }
+      >('renameChannel', { channelId: id, name: newName }, (res) => {
         if (res?.error) {
           this._snackbar.open(
             res.error.message || 'Failed to rename channel',
             'Close',
-            {
-              duration: 3000,
-            }
+            { duration: 3000 }
           );
         }
-      }
-    );
+      });
+    });
   }
 }

@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Channel } from '../shared/models/channel.model';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { WebsocketService } from '../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-channel-list',
@@ -18,7 +17,7 @@ export class ChannelListComponent {
   @Input() chatId: string | null = null;
 
   @Output() removeChannel = new EventEmitter<string>();
-  @Output() renameChannel = new EventEmitter<{ id: string; newName: string }>();
+  @Output() renameChannel = new EventEmitter<{ id: string; name: string }>();
 
   @Output() addChannel = new EventEmitter<string>();
 
@@ -26,8 +25,11 @@ export class ChannelListComponent {
     this.removeChannel.emit(id);
   }
 
-  onRename(id: string, newName: string) {
-    this.renameChannel.emit({ id, newName });
+  // onRename(id: string, newName: string) {
+  //   this.renameChannel.emit({ id, newName });
+  // }
+  onRenameClick(channel: { _id: string; name: string }) {
+    this.renameChannel.emit({ id: channel._id, name: channel.name });
   }
 
   prompt(notification: string, channelName: string) {

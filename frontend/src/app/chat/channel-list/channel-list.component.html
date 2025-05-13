@@ -7,14 +7,15 @@
       {{ channel.name }}
     </a>
   </span>
-  <button
+  <!-- <button
     mat-button
     (click)="
       onRename(channel._id, prompt('New name:', channel.name) || channel.name)
     "
   >
     Rename
-  </button>
+  </button> -->
+  <button mat-button (click)="onRenameClick(channel)">Rename</button>
   <button mat-button (click)="onRemove(channel._id)">Delete</button>
 </div>
 } } @else {
