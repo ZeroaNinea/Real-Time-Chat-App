@@ -19,8 +19,11 @@ export class DeleteChannelDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DeleteChannelDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { isDelete: boolean }
-  ) {}
+    @Inject(MAT_DIALOG_DATA)
+    public data: { isDelete: boolean; isChatRoom: boolean }
+  ) {
+    this.isChatRoom = data.isChatRoom;
+  }
 
   onCancel() {
     this.dialogRef.close((this.isDelete = false));
