@@ -312,15 +312,9 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     if (!id) return;
 
-    console.log('Old topic:', id);
-    console.log('New topic:', newTopic);
-
     this.wsService.emit('editChannelTopic', {
       channelId: id,
       topic: newTopic,
     });
-
-    // I'll add this logic later.
-    // this.wsService.editChannelTopic({ channelId: id, topic: newTopic });
   }
 }
