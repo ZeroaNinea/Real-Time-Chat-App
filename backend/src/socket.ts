@@ -140,6 +140,8 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('editChannelTopic', async ({ channelId, topic }, callback) => {
       try {
+        console.log('Editing channel topic:', channelId, topic);
+
         const userId = socket.data.user._id;
 
         const channel = await Channel.findById(channelId);
