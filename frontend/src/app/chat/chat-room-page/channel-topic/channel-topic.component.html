@@ -1,1 +1,19 @@
-<p>channel-topic works!</p>
+<div class="channel-topic">
+  @if (editing) {
+  <mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="draft" placeholder="Edit topic" />
+  </mat-form-field>
+  <button mat-icon-button (click)="save()" matTooltip="Save">
+    <mat-icon>check</mat-icon>
+  </button>
+  <button mat-icon-button (click)="cancel()" matTooltip="Cancel">
+    <mat-icon>close</mat-icon>
+  </button>
+  } @else {
+  <span>{{ topic || "No topic set." }}</span>
+  @if (canEdit) {
+  <button mat-icon-button (click)="startEdit()" matTooltip="Edit topic">
+    <mat-icon>edit</mat-icon>
+  </button>
+  } }
+</div>
