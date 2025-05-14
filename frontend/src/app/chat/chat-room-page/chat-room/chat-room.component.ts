@@ -4,7 +4,6 @@ import {
   computed,
   inject,
   OnDestroy,
-  OnInit,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -43,7 +42,7 @@ import { ChannelTopicComponent } from '../channel-topic/channel-topic.component'
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent implements OnDestroy, OnInit {
+export class ChatRoomComponent implements OnDestroy {
   message = signal('');
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
@@ -71,43 +70,43 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
     return id ? this.channels().find((c) => c._id === id) : null;
   });
 
-  // constructor() {
-  // afterNextRender(() => {
-  // this.route.paramMap.subscribe((params) => {
-  //   const id = params.get('chatId');
-  //   const channelId = params.get('channelId');
-  //   const prevId = this.chatId();
-  //   this.chatId.set(id);
-  //   this.channelId.set(channelId || '');
-  //   if (id && id !== prevId) {
-  //     this.fetchChatRoom(id);
-  //     this.connect();
-  //   } else if (!id) {
-  //     this.isOwner.set(true);
-  //     this.isAdmin.set(true);
-  //   }
-  // });
-  // });
-  // }
-
-  ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('chatId');
-      const channelId = params.get('channelId');
-      const prevId = this.chatId();
-
-      this.chatId.set(id);
-      this.channelId.set(channelId || '');
-
-      if (id && id !== prevId) {
-        this.fetchChatRoom(id);
-        this.connect();
-      } else if (!id) {
-        this.isOwner.set(true);
-        this.isAdmin.set(true);
-      }
+  constructor() {
+    afterNextRender(() => {
+      this.route.paramMap.subscribe((params) => {
+        const id = params.get('chatId');
+        const channelId = params.get('channelId');
+        const prevId = this.chatId();
+        this.chatId.set(id);
+        this.channelId.set(channelId || '');
+        if (id && id !== prevId) {
+          this.fetchChatRoom(id);
+          this.connect();
+        } else if (!id) {
+          this.isOwner.set(true);
+          this.isAdmin.set(true);
+        }
+      });
     });
   }
+
+  // ngOnInit() {
+  //   this.route.paramMap.subscribe((params) => {
+  //     const id = params.get('chatId');
+  //     const channelId = params.get('channelId');
+  //     const prevId = this.chatId();
+
+  //     this.chatId.set(id);
+  //     this.channelId.set(channelId || '');
+
+  //     if (id && id !== prevId) {
+  //       this.fetchChatRoom(id);
+  //       this.connect();
+  //     } else if (!id) {
+  //       this.isOwner.set(true);
+  //       this.isAdmin.set(true);
+  //     }
+  //   });
+  // }
 
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {

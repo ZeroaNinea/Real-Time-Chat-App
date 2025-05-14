@@ -34,6 +34,6 @@
 <app-channel-topic
   [topic]="selectedChannel()?.topic"
   [canEdit]="isAdmin() || isOwner()"
-  [channelId]="channelId"
+  [channelId]="channelId()"
   (topicChange)="onTopicChange($event)"
 ></app-channel-topic>
