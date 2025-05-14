@@ -168,7 +168,7 @@ backend/
 <br />
 ✅ Step 7: Select channel
 <br />
-➡️ Step 8: Add topic field
+✅ Step 8: Add topic field
 <br />
 ✅ Step 9: Rename channel
 <br />
