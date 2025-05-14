@@ -166,7 +166,7 @@ backend/
 <br />
 ✅ Step 6: Display channels
 <br />
-➡️ Step 7: Select channel
+✅ Step 7: Select channel
 <br />
 ➡️ Step 8: Add topic field
 <br />
