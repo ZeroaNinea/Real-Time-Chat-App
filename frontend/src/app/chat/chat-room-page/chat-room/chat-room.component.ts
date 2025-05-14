@@ -151,10 +151,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   addChannel() {
-    // const trimmed = name.trim();
-    // const chatId = this.chatId();
-    // if (!trimmed || !chatId) return;
-
     const dialogRef = this.dialog.open(RenameChannelDialogComponent, {
       data: { isAddChannel: true },
     });
