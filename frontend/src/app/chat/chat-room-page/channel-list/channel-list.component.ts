@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Channel } from '../shared/models/channel.model';
+import { Channel } from '../../shared/models/channel.model';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

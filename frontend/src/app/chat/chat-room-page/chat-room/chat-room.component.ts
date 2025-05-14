@@ -22,7 +22,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 import { Channel } from '../../shared/models/channel.model';
-import { ChannelListComponent } from '../../channel-list/channel-list.component';
+import { ChannelListComponent } from '../channel-list/channel-list.component';
 
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
