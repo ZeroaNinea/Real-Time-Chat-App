@@ -26,6 +26,7 @@ import { ChannelListComponent } from '../channel-list/channel-list.component';
 
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
+import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -34,6 +35,7 @@ import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialo
     MessageInputComponent,
     ChatRoomSettingsComponent,
     ChannelListComponent,
+    ChannelTopicComponent,
     ReactiveFormsModule,
     FormsModule,
   ],
@@ -305,5 +307,13 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
         }
       });
     });
+  }
+
+  onTopicChange(newTopic: string) {
+    const id = this.channelId();
+    if (!id) return;
+
+    // I'll add this logic later.
+    // this.wsService.editChannelTopic({ channelId: id, topic: newTopic });
   }
 }

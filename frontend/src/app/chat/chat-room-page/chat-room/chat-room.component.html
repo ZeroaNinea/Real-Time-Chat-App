@@ -30,3 +30,9 @@
   (addChannel)="addChannel()"
 >
 </app-channel-list>
+
+<app-channel-topic
+  [topic]="selectedChannel()?.topic"
+  [canEdit]="isAdmin() || isOwner()"
+  (topicChange)="onTopicChange($event)"
+></app-channel-topic>
