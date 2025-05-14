@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   OnDestroy,
+  OnInit,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -40,7 +41,7 @@ import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialo
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent implements OnDestroy {
+export class ChatRoomComponent implements OnDestroy, OnInit {
   message = signal('');
   messages = signal<string[]>([]);
   private wsService = inject(WebsocketService);
@@ -65,23 +66,40 @@ export class ChatRoomComponent implements OnDestroy {
   readonly currentUser = this.authService.currentUser;
 
   constructor() {
-    afterNextRender(() => {
-      this.route.paramMap.subscribe((params) => {
-        const id = params.get('chatId');
-        const channelId = params.get('channelId');
-        const prevId = this.chatId();
+    // afterNextRender(() => {
+    // this.route.paramMap.subscribe((params) => {
+    //   const id = params.get('chatId');
+    //   const channelId = params.get('channelId');
+    //   const prevId = this.chatId();
+    //   this.chatId.set(id);
+    //   this.channelId.set(channelId || '');
+    //   if (id && id !== prevId) {
+    //     this.fetchChatRoom(id);
+    //     this.connect();
+    //   } else if (!id) {
+    //     this.isOwner.set(true);
+    //     this.isAdmin.set(true);
+    //   }
+    // });
+    // });
+  }
 
-        this.chatId.set(id);
-        this.channelId.set(channelId || '');
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('chatId');
+      const channelId = params.get('channelId');
+      const prevId = this.chatId();
 
-        if (id && id !== prevId) {
-          this.fetchChatRoom(id);
-          this.connect();
-        } else if (!id) {
-          this.isOwner.set(true);
-          this.isAdmin.set(true);
-        }
-      });
+      this.chatId.set(id);
+      this.channelId.set(channelId || '');
+
+      if (id && id !== prevId) {
+        this.fetchChatRoom(id);
+        this.connect();
+      } else if (!id) {
+        this.isOwner.set(true);
+        this.isAdmin.set(true);
+      }
     });
   }
 
