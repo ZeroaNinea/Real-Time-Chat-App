@@ -23,7 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 export class ChannelTopicComponent {
   @Input() topic: string | undefined;
   @Input() canEdit = false;
-  @Input() channelId!: string | null;
+  @Input() channelId: string | null = null;
   @Output() topicChange = new EventEmitter<string>();
 
   editing = false;
