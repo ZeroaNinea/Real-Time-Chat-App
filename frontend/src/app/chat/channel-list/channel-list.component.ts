@@ -35,10 +35,10 @@ export class ChannelListComponent {
   }
 
   addNewChannel() {
-    const name = prompt('Channel name:');
-    console.log('New channel:', name);
-    if (name) {
-      this.addChannel.emit(name);
-    }
+    // const name = prompt('Channel name:');
+    // console.log('New channel:', name);
+    // if (name) {
+    this.addChannel.emit();
+    // }
   }
 }

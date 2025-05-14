@@ -24,12 +24,15 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class RenameChannelDialogComponent {
   newName: string;
+  isAddChannel: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<RenameChannelDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { currentName: string }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { currentName: string; isAddChannel: boolean }
   ) {
     this.newName = data.currentName;
+    this.isAddChannel = data.isAddChannel;
   }
 
   onCancel() {
