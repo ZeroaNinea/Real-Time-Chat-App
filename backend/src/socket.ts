@@ -138,13 +138,37 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('editChannelTopic', async ({ channelId, topic }) => {
-      const channel = await Channel.findByIdAndUpdate(
-        channelId,
-        { topic },
-        { new: true }
-      );
-      io.to(channel.chatId.toString()).emit('channelEdited', { channel });
+    socket.on('editChannelTopic', async ({ channelId, topic }, callback) => {
+      try {
+        const userId = socket.data.user._id;
+
+        const channel = await Channel.findById(channelId);
+        if (!channel) {
+          return callback?.({ error: 'Channel not found' });
+        }
+
+        const chat = await Chat.findById(channel.chatId);
+        if (!chat) {
+          return callback?.({ error: 'Chat not found' });
+        }
+
+        const member = chat.members.find((m: Member) => m.user.equals(userId));
+        const isAdmin =
+          member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+        if (!isAdmin) {
+          return callback?.({ error: 'Only admins can edit the topic' });
+        }
+
+        channel.topic = topic;
+        await channel.save();
+
+        io.to(chat._id.toString()).emit('channelEdited', { channel });
+        callback?.({ success: true, channel });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
     });
 
     socket.on('renameChannel', async ({ channelId, name }, callback) => {
