@@ -65,24 +65,24 @@ export class ChatRoomComponent implements OnDestroy, OnInit {
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
 
-  constructor() {
-    // afterNextRender(() => {
-    // this.route.paramMap.subscribe((params) => {
-    //   const id = params.get('chatId');
-    //   const channelId = params.get('channelId');
-    //   const prevId = this.chatId();
-    //   this.chatId.set(id);
-    //   this.channelId.set(channelId || '');
-    //   if (id && id !== prevId) {
-    //     this.fetchChatRoom(id);
-    //     this.connect();
-    //   } else if (!id) {
-    //     this.isOwner.set(true);
-    //     this.isAdmin.set(true);
-    //   }
-    // });
-    // });
-  }
+  // constructor() {
+  // afterNextRender(() => {
+  // this.route.paramMap.subscribe((params) => {
+  //   const id = params.get('chatId');
+  //   const channelId = params.get('channelId');
+  //   const prevId = this.chatId();
+  //   this.chatId.set(id);
+  //   this.channelId.set(channelId || '');
+  //   if (id && id !== prevId) {
+  //     this.fetchChatRoom(id);
+  //     this.connect();
+  //   } else if (!id) {
+  //     this.isOwner.set(true);
+  //     this.isAdmin.set(true);
+  //   }
+  // });
+  // });
+  // }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
