@@ -72,6 +72,17 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
   });
+  currentPermissions():
+    | never[]
+    | {
+        adminsOnly?: boolean | undefined;
+        readOnly?: boolean | undefined;
+        allowedUsers?: string[] | undefined;
+        allowedRoles?: string[] | undefined;
+      } {
+    const selected = this.selectedChannel();
+    return selected?.permissions || [];
+  }
 
   constructor() {
     afterNextRender(() => {
@@ -311,7 +322,9 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.wsService.emit('updatePermissions', this.channelId(), result);
+      if (result) {
+        this.wsService.emit('updatePermissions', this.channelId()!, result);
+      }
     });
   }
 }
