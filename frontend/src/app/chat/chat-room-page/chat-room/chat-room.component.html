@@ -37,3 +37,9 @@
   [channelId]="channelId()"
   (topicChange)="onTopicChange($event)"
 ></app-channel-topic>
+
+<app-permissions
+  [channelId]="channelId()"
+  [canEdit]="isAdmin() || isOwner()"
+  (openPermissionsDialog)="openPermissionsDialog()"
+></app-permissions>

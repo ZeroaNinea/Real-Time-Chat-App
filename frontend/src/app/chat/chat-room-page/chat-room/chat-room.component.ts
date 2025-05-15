@@ -26,6 +26,7 @@ import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
 import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
+import { PermissionsComponent } from '../permissions/permissions.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -35,6 +36,7 @@ import { ChannelTopicComponent } from '../channel-topic/channel-topic.component'
     ChatRoomSettingsComponent,
     ChannelListComponent,
     ChannelTopicComponent,
+    PermissionsComponent,
     ReactiveFormsModule,
     FormsModule,
   ],
@@ -297,5 +299,9 @@ export class ChatRoomComponent implements OnDestroy {
       channelId: id,
       topic: newTopic,
     });
+  }
+
+  openPermissionsDialog() {
+    console.log('openPermissionsDialog');
   }
 }

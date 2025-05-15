@@ -1,1 +1,7 @@
-<p>permissions works!</p>
+<button
+  mat-icon-button
+  (click)="openPermissionsDialog.emit()"
+  *ngIf="canManagePermissions"
+>
+  <mat-icon>shield</mat-icon>
+</button>
