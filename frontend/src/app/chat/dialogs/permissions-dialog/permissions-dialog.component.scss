@@ -1,0 +1,9 @@
+@use "@angular/material" as mat;
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
+}
