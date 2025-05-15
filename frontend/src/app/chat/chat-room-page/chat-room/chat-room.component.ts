@@ -22,11 +22,12 @@ import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
+import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
+import { PermissionsComponent } from '../permissions/permissions.component';
 
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
-import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
-import { PermissionsComponent } from '../permissions/permissions.component';
+import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/permissions-dialog.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -302,6 +303,12 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   openPermissionsDialog() {
-    console.log('openPermissionsDialog');
+    const dialogRef = this.dialog.open(PermissionsDialogComponent, {
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('openPermissionsDialog');
+    });
   }
 }
