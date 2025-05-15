@@ -1,8 +1,42 @@
-<h2 mat-dialog-title>Message Permissions</h2>
+<!-- <h2 mat-dialog-title>Message Permissions</h2>
 <mat-dialog-content>
   <p>This is a test text for permissions dialog windomw.</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button class="warn" (click)="onCancel()">Cancel</button>
   <button mat-button (click)="onSave()">Save</button>
+</mat-dialog-actions> -->
+<h2 mat-dialog-title>Edit Channel Permissions</h2>
+
+<mat-dialog-content>
+  <mat-checkbox [(ngModel)]="updatedPermissions.adminsOnly">
+    Admins Only
+  </mat-checkbox>
+  <br />
+  <mat-checkbox [(ngModel)]="updatedPermissions.readOnly">
+    Read Only
+  </mat-checkbox>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Allowed Users (IDs)</mat-label>
+    <input
+      matInput
+      [(ngModel)]="updatedPermissions.allowedUsers"
+      placeholder="userId1, userId2"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Allowed Roles</mat-label>
+    <input
+      matInput
+      [(ngModel)]="updatedPermissions.allowedRoles"
+      placeholder="Admin, Moderator"
+    />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button class="warn" (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
 </mat-dialog-actions>
