@@ -172,7 +172,7 @@ backend/
 <br />
 ✅ Step 9: Rename channel
 <br />
-➡️ Step 10: Edit permissions
+✅ Step 10: Edit permissions
 <br />
 ✅ Step 11: Delete channel
 <br />
