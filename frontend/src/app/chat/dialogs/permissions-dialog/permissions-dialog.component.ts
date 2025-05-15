@@ -26,6 +26,14 @@ export class PermissionsDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<PermissionsDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {}
+    public data: {
+      channelId: string;
+      currentPermissions: {
+        adminsOnly?: boolean;
+        readOnly?: boolean;
+        allowedUsers?: string[];
+        allowedRoles?: string[];
+      };
+    }
   ) {}
 }
