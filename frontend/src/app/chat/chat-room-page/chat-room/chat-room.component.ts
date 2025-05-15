@@ -304,11 +304,14 @@ export class ChatRoomComponent implements OnDestroy {
 
   openPermissionsDialog() {
     const dialogRef = this.dialog.open(PermissionsDialogComponent, {
-      data: {},
+      data: {
+        channelId: this.channelId(),
+        currentPermissions: this.currentPermissions(),
+      },
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('openPermissionsDialog');
+    dialogRef.afterClosed().subscribe((result) => {
+      this.wsService.emit('updatePermissions', this.channelId(), result);
     });
   }
 }
