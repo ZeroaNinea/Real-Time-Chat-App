@@ -37,12 +37,7 @@ export class PermissionsDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       channelId: string;
-      currentPermissions: {
-        adminsOnly?: boolean;
-        readOnly?: boolean;
-        allowedUsers?: string[];
-        allowedRoles?: string[];
-      };
+      currentPermissions: ChannelPermissions;
     }
   ) {
     this.updatedPermissions = {
