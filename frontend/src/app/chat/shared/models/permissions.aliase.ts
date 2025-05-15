@@ -4,3 +4,10 @@ export type ChannelPermissions = {
   allowedUsers?: string[] | undefined;
   allowedRoles?: string[] | undefined;
 };
+
+export type ChannelPermissionsString = {
+  adminsOnly?: boolean;
+  readOnly?: boolean;
+  allowedUsers?: string;
+  allowedRoles?: string;
+};
