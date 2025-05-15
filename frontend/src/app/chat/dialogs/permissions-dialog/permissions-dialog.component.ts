@@ -1,28 +1,38 @@
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialogModule,
   MatDialogRef,
+  MatDialogModule,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 
 @Component({
   selector: 'app-permissions-dialog',
+  standalone: true,
   imports: [
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
     MatButtonModule,
+    MatCheckboxModule,
+    FormsModule,
   ],
-  standalone: true,
   templateUrl: './permissions-dialog.component.html',
   styleUrl: './permissions-dialog.component.scss',
 })
 export class PermissionsDialogComponent {
+  updatedPermissions: {
+    adminsOnly?: boolean;
+    readOnly?: boolean;
+    allowedUsers?: string;
+    allowedRoles?: string;
+  };
+
   constructor(
     private dialogRef: MatDialogRef<PermissionsDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -35,11 +45,52 @@ export class PermissionsDialogComponent {
         allowedRoles?: string[];
       };
     }
-  ) {}
+  ) {
+    this.updatedPermissions = {
+      adminsOnly: this.data.currentPermissions.adminsOnly ?? false,
+      readOnly: this.data.currentPermissions.readOnly ?? false,
+      allowedUsers: (this.data.currentPermissions.allowedUsers || []).join(
+        ', '
+      ),
+      allowedRoles: (this.data.currentPermissions.allowedRoles || []).join(
+        ', '
+      ),
+    };
+  }
 
   onSave() {
-    console.log('Saving updated permissions...');
-    // this.dialogRef.close(this.updatedPermissionsForm.value);
+    const changes: any = {};
+    const current = this.data.currentPermissions;
+
+    if (this.updatedPermissions.adminsOnly !== current.adminsOnly) {
+      changes.adminsOnly = this.updatedPermissions.adminsOnly;
+    }
+    if (this.updatedPermissions.readOnly !== current.readOnly) {
+      changes.readOnly = this.updatedPermissions.readOnly;
+    }
+
+    const parsedUsers = this.updatedPermissions.allowedUsers
+      ?.split(',')
+      .map((s: string) => s.trim())
+      .filter(Boolean);
+    const parsedRoles = this.updatedPermissions.allowedRoles
+      ?.split(',')
+      .map((s: string) => s.trim())
+      .filter(Boolean);
+
+    if (
+      JSON.stringify(parsedUsers) !== JSON.stringify(current.allowedUsers || [])
+    ) {
+      changes.allowedUsers = parsedUsers;
+    }
+
+    if (
+      JSON.stringify(parsedRoles) !== JSON.stringify(current.allowedRoles || [])
+    ) {
+      changes.allowedRoles = parsedRoles;
+    }
+
+    this.dialogRef.close(changes);
   }
 
   onCancel() {
