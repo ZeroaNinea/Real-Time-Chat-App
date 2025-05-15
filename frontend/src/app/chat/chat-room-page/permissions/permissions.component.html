@@ -1,7 +1,5 @@
-<button
-  mat-icon-button
-  (click)="openPermissionsDialog.emit()"
-  *ngIf="canManagePermissions"
->
+@if (canEdit && channelId) {
+<button mat-icon-button (click)="openPermissionsDialog.emit()">
   <mat-icon>shield</mat-icon>
 </button>
+}
