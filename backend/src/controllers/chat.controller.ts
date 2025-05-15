@@ -154,7 +154,9 @@ export const getChat = async (req: Request, res: Response) => {
       const isUserAllowed = allowedUsers?.some((u) => u.equals(userId));
       const hasAllowedRole = allowedRoles?.some((r) => userRoles.includes(r));
       const isAdmin = userRoles.includes('Admin');
+      const isOwner = userRoles.includes('Owner');
 
+      if (isOwner) return true;
       if (adminsOnly && !isAdmin) return false;
       if (allowedUsers?.length && !isUserAllowed) return false;
       if (allowedRoles?.length && !hasAllowedRole) return false;
