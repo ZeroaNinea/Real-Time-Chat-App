@@ -9,7 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ChannelPermissions } from '../../shared/models/permissions.aliase';
+
+import {
+  ChannelPermissions,
+  ChannelPermissionsString,
+} from '../../shared/models/permissions.aliase';
 
 @Component({
   selector: 'app-permissions-dialog',
@@ -26,12 +30,7 @@ import { ChannelPermissions } from '../../shared/models/permissions.aliase';
   styleUrl: './permissions-dialog.component.scss',
 })
 export class PermissionsDialogComponent {
-  updatedPermissions: {
-    adminsOnly?: boolean;
-    readOnly?: boolean;
-    allowedUsers?: string;
-    allowedRoles?: string;
-  };
+  updatedPermissions: ChannelPermissionsString;
 
   constructor(
     private dialogRef: MatDialogRef<PermissionsDialogComponent>,
