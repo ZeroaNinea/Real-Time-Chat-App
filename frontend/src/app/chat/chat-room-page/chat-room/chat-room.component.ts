@@ -74,6 +74,7 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
   });
+
   currentPermissions(): never[] | ChannelPermissions {
     const selected = this.selectedChannel();
     return selected?.permissions || [];
