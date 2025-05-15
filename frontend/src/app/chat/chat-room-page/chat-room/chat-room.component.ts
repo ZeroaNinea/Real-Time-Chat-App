@@ -20,7 +20,6 @@ import { MessageInputComponent } from '../message-input/message-input.component'
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-settings.component';
-import { Channel } from '../../shared/models/channel.model';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
 import { PermissionsComponent } from '../permissions/permissions.component';
@@ -29,6 +28,7 @@ import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialo
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
 import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/permissions-dialog.component';
 
+import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 
 @Component({
