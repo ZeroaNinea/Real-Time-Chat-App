@@ -129,20 +129,6 @@ export const deleteChat = async (req: Request, res: Response) => {
   }
 };
 
-// export const getChat = async (req: Request, res: Response) => {
-//   try {
-//     const chat = await Chat.findById(req.params.chatId).populate('members');
-
-//     if (!chat) {
-//       return res.status(404).json({ message: 'Chat not found' });
-//     }
-
-//     res.json(chat);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Failed to get chat', error: err });
-//   }
-// };
 export const getChat = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
