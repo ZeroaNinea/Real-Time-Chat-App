@@ -1,4 +1,4 @@
-export type Permissions = {
+export type ChannelPermissions = {
   adminsOnly?: boolean | undefined;
   readOnly?: boolean | undefined;
   allowedUsers?: string[] | undefined;

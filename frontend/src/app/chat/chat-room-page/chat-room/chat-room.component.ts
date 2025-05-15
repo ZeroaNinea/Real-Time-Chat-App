@@ -29,6 +29,8 @@ import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialo
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
 import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/permissions-dialog.component';
 
+import { ChannelPermissions } from '../../shared/models/permissions.aliase';
+
 @Component({
   selector: 'app-chat-room',
   imports: [
@@ -72,14 +74,7 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
   });
-  currentPermissions():
-    | never[]
-    | {
-        adminsOnly?: boolean | undefined;
-        readOnly?: boolean | undefined;
-        allowedUsers?: string[] | undefined;
-        allowedRoles?: string[] | undefined;
-      } {
+  currentPermissions(): never[] | ChannelPermissions {
     const selected = this.selectedChannel();
     return selected?.permissions || [];
   }
