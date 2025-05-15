@@ -319,7 +319,11 @@ export class ChatRoomComponent implements OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.wsService.emit('updatePermissions', this.channelId()!, result);
+        this.wsService.emit(
+          'updateChannelPermissions',
+          this.channelId()!,
+          result
+        );
       }
     });
   }
