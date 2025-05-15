@@ -37,9 +37,10 @@ export class PermissionsDialogComponent {
     }
   ) {}
 
-  // onSave() {
-  //   this.dialogRef.close(this.updatedPermissionsForm.value);
-  // }
+  onSave() {
+    console.log('Saving updated permissions...');
+    // this.dialogRef.close(this.updatedPermissionsForm.value);
+  }
 
   onCancel() {
     this.dialogRef.close(null);
