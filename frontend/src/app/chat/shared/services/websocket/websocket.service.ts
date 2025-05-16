@@ -4,6 +4,7 @@ import { io, Socket } from 'socket.io-client';
 
 import { environment } from '../../../../../environments/environment';
 import { Channel } from '../../models/channel.model';
+import { Message } from '../../models/message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { Channel } from '../../models/channel.model';
 export class WebsocketService implements OnDestroy {
   private socket!: Socket;
   private isConnected = false;
-  private messageSubject = new BehaviorSubject<string[]>([]);
+  private messageSubject = new BehaviorSubject<Message[]>([]);
   private pendingJoins: string[] = [];
 
   private flushPendingJoins() {
