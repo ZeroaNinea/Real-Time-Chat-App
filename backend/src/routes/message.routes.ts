@@ -6,6 +6,6 @@ import { getMessages } from '../controllers/message.controller';
 const router = express.Router();
 
 // router.post('/', authMiddleware, asyncRoute(sendMessage));
-router.get('/:chatId', authMiddleware, asyncRoute(getMessages));
+router.get('/get-messages', authMiddleware, asyncRoute(getMessages));
 
 export default router;
