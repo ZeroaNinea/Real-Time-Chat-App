@@ -178,7 +178,7 @@ backend/
 <br />
 ➡️ Step: 12: Implement channel order changing
 <br />
-➡️ Step 13: Connect Socket.io to frontend, allow sending messages
+✅ Step 13: Connect Socket.io to frontend, allow sending messages
 <br />
 ➡️ Step 14: Display message history
 <br />
