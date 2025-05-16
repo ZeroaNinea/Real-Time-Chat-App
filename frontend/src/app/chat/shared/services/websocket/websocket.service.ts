@@ -143,6 +143,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  listenNewMessage(): Observable<Message> {
+    return new Observable((observer) => {
+      this.socket.on('message', (message: Message) => {
+        observer.next(message);
+      });
+    });
+  }
+
   joinChatRoom(chatId: string) {
     if (!this.isConnected) {
       this.pendingJoins.push(chatId);
