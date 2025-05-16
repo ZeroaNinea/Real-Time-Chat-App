@@ -12,6 +12,7 @@ import { findUserById } from './services/user.service';
 import { Channel } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.aliase';
+import { Message } from './models/message.model';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -68,9 +69,34 @@ export function setupSocket(server: HttpServer, app: Express) {
   io.on('connection', (socket) => {
     console.log('A user connected.');
 
-    socket.on('message', (data) => {
-      console.log('Received:', data);
-      io.emit('message', data);
+    // socket.on('message', (data) => {
+    //   console.log('Received:', data);
+    //   io.emit('message', data);
+    // });
+    socket.on('message', async ({ chatId, channelId, text }) => {
+      try {
+        const sender = socket.data.user._id;
+
+        const chat = await Chat.findById(chatId);
+        const isMember = chat?.members.some((m: Member) =>
+          m.user.equals(sender)
+        );
+        if (!isMember) {
+          return socket.emit('error', 'You are not a member of this chat.');
+        }
+
+        const message = await new Message({
+          chatId,
+          channelId,
+          sender,
+          text,
+        }).save();
+
+        io.to(chatId).emit('message', message);
+      } catch (err) {
+        console.error(err);
+        socket.emit('error', 'Message failed to send');
+      }
     });
 
     socket.on('disconnect', () => {
