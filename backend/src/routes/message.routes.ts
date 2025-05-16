@@ -8,7 +8,7 @@ const router = express.Router();
 
 // router.post('/', authMiddleware, asyncRoute(sendMessage));
 router.get(
-  '/get-messages?chatId=:chatId&channelId=:channelId',
+  '/get-messages/chat-room/:chatId/channel/:channelId',
   authMiddleware,
   asyncRoute(getMessages)
 );
