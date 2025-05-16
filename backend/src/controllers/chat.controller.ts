@@ -4,6 +4,7 @@ import { Chat } from '../models/chat.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.aliase';
 import { addChannelService } from '../services/chat.service';
+import { Message } from '../models/message.model';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -168,6 +169,28 @@ export const getChat = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to get chat', error: err });
+  }
+};
+
+// Messages
+
+export const getMessages = async (req: Request, res: Response) => {
+  try {
+    const { chatId, channelId } = req.query;
+    const userId = req.user._id;
+
+    const chat = await Chat.findById(chatId);
+    if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
+      return res.status(403).json({ error: 'Not authorized' });
+    }
+
+    const messages = await Message.find({ chatId, channelId }).sort({
+      createdAt: 1,
+    });
+
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get messages', error: err });
   }
 };
 
