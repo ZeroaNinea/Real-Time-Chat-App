@@ -12,7 +12,7 @@ import { Message } from '../../models/message.model';
 export class WebsocketService implements OnDestroy {
   private socket!: Socket;
   private isConnected = false;
-  private messageSubject = new BehaviorSubject<Message[]>([]);
+  // private messageSubject = new BehaviorSubject<Message[]>([]);
   private pendingJoins: string[] = [];
 
   private flushPendingJoins() {
@@ -72,9 +72,9 @@ export class WebsocketService implements OnDestroy {
     //   console.log('Received new channel:', channel);
     // });
 
-    this.socket.on('message', (message: Message) => {
-      this.messageSubject.next([...this.messageSubject.getValue(), message]);
-    });
+    // this.socket.on('message', (message: Message) => {
+    //   this.messageSubject.next([...this.messageSubject.getValue(), message]);
+    // });
 
     // this.socket.on('roomJoined', ({ chatId }) => {
     //   console.log(`Successfully joined room: ${chatId}`);
@@ -98,9 +98,9 @@ export class WebsocketService implements OnDestroy {
     this.socket.emit('message', { message, chatId, channelId });
   }
 
-  getMessages(): Observable<Message[]> {
-    return this.messageSubject.asObservable();
-  }
+  // getMessages(): Observable<Message[]> {
+  //   return this.messageSubject.asObservable();
+  // }
 
   ngOnDestroy() {
     if (this.socket) {
