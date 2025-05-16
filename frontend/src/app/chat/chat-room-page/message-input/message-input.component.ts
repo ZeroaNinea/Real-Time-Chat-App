@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class MessageInputComponent {
   @Input() message!: string;
+  @Input() chatId: string | null = null;
+  @Input() channelId: string | null = null;
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
 }
