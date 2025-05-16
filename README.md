@@ -180,7 +180,7 @@ backend/
 <br />
 ✅ Step 13: Connect Socket.io to frontend, allow sending messages
 <br />
-➡️ Step 14: Display message history
+✅ Step 14: Display message history
 <br />
 ➡️ Step 15: Add timestamps and online indicators
 <br />
