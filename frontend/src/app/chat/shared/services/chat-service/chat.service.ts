@@ -65,10 +65,7 @@ export class ChatService {
 
   getMessages(chatId: string, channelId: string): Observable<Message[]> {
     return this.http.get<Message[]>(
-      `${environment.backendUrl}/message/get-messages`,
-      {
-        params: { chatId, channelId },
-      }
+      `${environment.backendUrl}/message/get-messages?chatId=${chatId}&channelId=${channelId}`
     );
   }
 }

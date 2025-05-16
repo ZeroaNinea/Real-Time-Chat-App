@@ -27,7 +27,7 @@ import { Member } from '../../types/member.aliase';
 
 export const getMessages = async (req: Request, res: Response) => {
   try {
-    const { chatId, channelId } = req.query;
+    const { chatId, channelId } = req.params;
     const userId = req.user._id;
 
     if (!chatId || !channelId) {
