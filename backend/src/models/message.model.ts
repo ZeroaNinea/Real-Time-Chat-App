@@ -2,7 +2,7 @@ import mongoose from '../config/db';
 import { Document } from 'mongoose';
 
 export interface IMessage {
-  chatRoomId: mongoose.Types.ObjectId;
+  chatId: mongoose.Types.ObjectId;
   channelId: mongoose.Types.ObjectId;
   sender: mongoose.Types.ObjectId;
   text: string;
@@ -13,7 +13,7 @@ export interface MessageDocument extends IMessage, Document {}
 
 const MessageSchema = new mongoose.Schema<MessageDocument>(
   {
-    chatRoomId: {
+    chatId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Chat',
       required: true,
