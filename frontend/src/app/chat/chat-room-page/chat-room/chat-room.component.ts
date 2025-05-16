@@ -30,6 +30,7 @@ import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/per
 
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
+import { Message } from '../../shared/models/message.model';
 
 @Component({
   selector: 'app-chat-room',
@@ -49,7 +50,7 @@ import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 })
 export class ChatRoomComponent implements OnDestroy {
   message = signal('');
-  messages = signal<string[]>([]);
+  messages = signal<Message[]>([]);
   private wsService = inject(WebsocketService);
   private sub?: Subscription;
   private router = inject(Router);
