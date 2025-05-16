@@ -89,13 +89,13 @@ export class WebsocketService implements OnDestroy {
     }
   }
 
-  sendMessage(message: string) {
+  sendMessage(message: string, chatId: string, channelId: string) {
     if (!this.isConnected) {
       console.warn('Socket is not connected. Cannot send message.');
       return;
     }
     console.log('Sending:', message);
-    this.socket.emit('message', message);
+    this.socket.emit('message', { message, chatId, channelId });
   }
 
   getMessages(): Observable<Message[]> {
