@@ -73,7 +73,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     //   console.log('Received:', data);
     //   io.emit('message', data);
     // });
-    socket.on('message', async ({ chatId, channelId, text }) => {
+    socket.on('message', async ({ chatId, channelId, message: text }) => {
       try {
         const sender = socket.data.user._id;
 
