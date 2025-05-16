@@ -91,6 +91,12 @@ export class ChatRoomComponent implements OnDestroy {
         if (id && id !== prevId) {
           this.fetchChatRoom(id);
           this.connect();
+
+          if (channelId) {
+            this.chatService
+              .getMessages(this.chatId()!, this.channelId()!)
+              .subscribe((messages) => this.messages.set(messages));
+          }
         } else if (!id) {
           this.isOwner.set(true);
           this.isAdmin.set(true);
@@ -127,10 +133,6 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService.connect();
 
     this.wsService.joinChatRoom(this.chatId()!);
-
-    this.chatService
-      .getMessages(this.chatId()!, this.channelId()!)
-      .subscribe((messages) => this.messages.set(messages));
 
     this.wsService.getMessages().subscribe((msgs: Message[]) => {
       this.messages.set(msgs);
