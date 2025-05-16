@@ -30,6 +30,10 @@ export const getMessages = async (req: Request, res: Response) => {
     const { chatId, channelId } = req.query;
     const userId = req.user._id;
 
+    if (!chatId || !channelId) {
+      return res.status(400).json({ error: 'Missing chatId or channelId' });
+    }
+
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
       return res.status(403).json({ error: 'Not authorized' });
