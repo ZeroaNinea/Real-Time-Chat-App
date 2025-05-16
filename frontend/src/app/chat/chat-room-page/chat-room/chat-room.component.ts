@@ -91,12 +91,6 @@ export class ChatRoomComponent implements OnDestroy {
         if (id && id !== prevId) {
           this.fetchChatRoom(id);
           this.connect();
-
-          if (channelId) {
-            this.chatService
-              .getMessages(this.chatId()!, this.channelId()!)
-              .subscribe((messages) => this.messages.set(messages));
-          }
         } else if (!id) {
           this.isOwner.set(true);
           this.isAdmin.set(true);
@@ -112,6 +106,12 @@ export class ChatRoomComponent implements OnDestroy {
 
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
+
+      if (this.channelId()) {
+        this.chatService
+          .getMessages(this.chatId()!, this.channelId()!)
+          .subscribe((messages) => this.messages.set(messages));
+      }
 
       if (member) {
         // Found in members.
