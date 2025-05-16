@@ -7,6 +7,8 @@ import { Chat } from '../../models/chat.model';
 import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.aliase';
+import { getMessages } from '../../../../../../../backend/src/controllers/message.controller';
+import { Message } from '../../models/message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,4 +63,13 @@ export class ChatService {
   //     `${environment.backendUrl}/chat/delete-channel/${channelId}`
   //   );
   // }
+
+  getMessages(chatId: string, channelId: string): Observable<Message[]> {
+    return this.http.get<Message[]>(
+      `${environment.backendUrl}/message/get-messages`,
+      {
+        params: { chatId, channelId },
+      }
+    );
+  }
 }
