@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { Message } from '../../shared/models/message.model';
 
 @Component({
   selector: 'app-message-list',
