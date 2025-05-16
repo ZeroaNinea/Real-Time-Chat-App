@@ -184,6 +184,20 @@ backend/
 <br />
 ➡️ Step 15: Add timestamps and online indicators
 <br />
+➡️ Step 16: Add message pagination
+<br />
+➡️ Step 17: Add a Discord like input field for messages
+<br />
+➡️ Step 18: Display chat member list
+<br />
+➡️ Step 19: Add message editing and deleting
+<br />
+➡️ Step 20: Add display chat rooms on the `main` page
+<br />
+➡️ Step 21: Position the `chat-room` page's elements
+<br />
+➡️ Step 22: Add display user avatars and usernames
+<br />
 
 ### Main Components (likely pages or views)
 
