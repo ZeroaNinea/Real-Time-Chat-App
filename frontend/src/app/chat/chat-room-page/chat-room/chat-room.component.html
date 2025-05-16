@@ -4,6 +4,8 @@
   [message]="message()"
   (messageChange)="message.set($event)"
   (send)="sendMessage()"
+  [chatId]="chatId()"
+  [channelId]="channelId()"
 ></app-message-input>
 
 <app-chat-room-settings
