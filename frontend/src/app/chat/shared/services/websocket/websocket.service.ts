@@ -31,7 +31,7 @@ export class WebsocketService implements OnDestroy {
       console.warn('Socket is not connected. Cannot emit event.');
       return;
     }
-    this.socket?.emit(eventName, data, callback); // ← you missed passing the callback!
+    this.socket?.emit(eventName, data, callback);
   }
 
   on<T = any>(eventName: string, callback: (data: T) => void) {
@@ -72,7 +72,7 @@ export class WebsocketService implements OnDestroy {
     //   console.log('Received new channel:', channel);
     // });
 
-    this.socket.on('message', (message: string) => {
+    this.socket.on('message', (message: Message) => {
       this.messageSubject.next([...this.messageSubject.getValue(), message]);
     });
 
@@ -98,8 +98,7 @@ export class WebsocketService implements OnDestroy {
     this.socket.emit('message', message);
   }
 
-  getMessages() {
-    console.log('Getting messages...');
+  getMessages(): Observable<Message[]> {
     return this.messageSubject.asObservable();
   }
 
