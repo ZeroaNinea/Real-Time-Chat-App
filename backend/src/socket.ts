@@ -102,6 +102,19 @@ export function setupSocket(server: HttpServer, app: Express) {
       try {
         const userId = socket.data.user._id;
 
+        const chat = await Chat.findById(chatId);
+        if (!chat) {
+          throw new Error('Chat not found');
+        }
+
+        const member = chat.members.find((m: Member) => m.user.equals(userId));
+        const isAdmin =
+          member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+        if (!isAdmin) {
+          throw new Error('Only admins can add channels');
+        }
+
         const newChannel = await addChannelService(chatId, channelName, userId);
 
         io.to(chatId).emit('channelAdded', newChannel);
