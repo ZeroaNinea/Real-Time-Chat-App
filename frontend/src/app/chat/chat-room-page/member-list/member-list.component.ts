@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PopulatedUser } from '../../shared/models/populated-user.aliase';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-member-list',
@@ -10,4 +11,5 @@ import { PopulatedUser } from '../../shared/models/populated-user.aliase';
 })
 export class MemberListComponent {
   @Input() members: PopulatedUser[] = [];
+  environment = environment;
 }
