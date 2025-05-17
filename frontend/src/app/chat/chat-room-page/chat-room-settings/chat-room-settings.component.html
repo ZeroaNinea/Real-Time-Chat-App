@@ -1,15 +1,17 @@
-@if (isAdmin) {
-<div>
-  <input
-    [(ngModel)]="chatName"
-    (ngModelChange)="chatNameChange.emit($event)"
-    placeholder="Chat Room Name"
-  />
+<div class="chat-room-settings">
+  @if (isAdmin) {
+  <div>
+    <input
+      [(ngModel)]="chatName"
+      (ngModelChange)="chatNameChange.emit($event)"
+      placeholder="Chat Room Name"
+    />
 
-  <button mat-raised-button (click)="saveChanges.emit()">Save Changes</button>
+    <button mat-raised-button (click)="saveChanges.emit()">Save Changes</button>
+  </div>
+  } @if (isOwner && chatId) {
+  <button mat-raised-button (click)="deleteRoom.emit()" class="warn">
+    Delete Chat Room
+  </button>
+  }
 </div>
-} @if (isOwner && chatId) {
-<button mat-raised-button (click)="deleteRoom.emit()" class="warn">
-  Delete Chat Room
-</button>
-}
