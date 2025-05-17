@@ -8,6 +8,7 @@ import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.aliase';
 import { Message } from '../../models/message.model';
+import { PopulatedUser } from '../../models/populated-user.aliase';
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +36,7 @@ export class ChatService {
   getChatMembers(chatId: string) {
     return this.http.get<
       {
-        user: {
-          _id: string;
-          username: string;
-          avatar?: string;
-          pronouns?: string;
-        };
+        user: PopulatedUser;
         roles: string[];
       }[]
     >(`${environment.backendUrl}/chat/${chatId}/members`);
