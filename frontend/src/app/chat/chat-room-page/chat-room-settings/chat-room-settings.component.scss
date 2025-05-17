@@ -19,15 +19,17 @@
 
 .button-row {
   display: flex;
+  justify-content: space-around;
   // justify-content: flex-end;
   // gap: 1rem;
-  // @include mat.theme(
-  //   (
-  //     density: -5,
-  //   )
-  // );
+  @include mat.theme(
+    (
+      // density: -5,
+      // typography: (font-size: 1rem)
+    )
+  );
 
-  font-size: 0.5rem !important;
+  // font-size: 1rem !important;
 }
 
 mat-form-field {
@@ -36,10 +38,4 @@ mat-form-field {
       density: -5,
     )
   );
-
-  // @include mat.form-field-overrides(
-  //   (
-  //     filled-with-label-container-padding-bottom: 0rem,
-  //   )
-  // );
 }
