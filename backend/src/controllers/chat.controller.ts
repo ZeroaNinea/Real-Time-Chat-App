@@ -4,6 +4,7 @@ import { Chat } from '../models/chat.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.aliase';
 import { addChannelService } from '../services/chat.service';
+import { Message, MessageDocument } from '../models/message.model';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -99,8 +100,9 @@ export const deleteChat = async (req: Request, res: Response) => {
   try {
     const chat = await Chat.findById(req.params.chatId);
     const channels = await Channel.find({ chatId: req.params.chatId });
+    const messages = await Message.find({ chatId: req.params.chatId });
 
-    if (!chat) {
+    if (!chat || !channels) {
       return res.status(404).json({ message: 'Chat not found' });
     }
 
@@ -121,6 +123,11 @@ export const deleteChat = async (req: Request, res: Response) => {
     await Promise.all(
       channels.map((channel: ChannelDocument) => channel.deleteOne())
     );
+
+    await Promise.all(
+      messages.map((message: MessageDocument) => message.deleteOne())
+    );
+
     await chat.deleteOne();
 
     res.status(200).json({ message: 'Chat deleted successfully' });
