@@ -12,9 +12,11 @@
   }
   <div class="button-row">
     @if (isAdmin || isOwner) {
-    <button mat-button (click)="saveChanges.emit()">Save Changes</button>
+    <button mat-stroked-button (click)="saveChanges.emit()">
+      Save Changes
+    </button>
     } @if (isOwner && chatId) {
-    <button mat-button (click)="deleteRoom.emit()" class="warn">
+    <button mat-stroked-button (click)="deleteRoom.emit()" class="warn">
       Delete Chat Room
     </button>
     }
