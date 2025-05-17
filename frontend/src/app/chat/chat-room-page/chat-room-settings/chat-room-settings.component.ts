@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Channel } from '../../shared/models/channel.model';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -10,7 +12,13 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-chat-room-settings',
-  imports: [FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonToggleModule,
+  ],
   standalone: true,
   templateUrl: './chat-room-settings.component.html',
   styleUrl: './chat-room-settings.component.scss',
