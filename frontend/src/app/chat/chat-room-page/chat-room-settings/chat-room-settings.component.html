@@ -20,7 +20,12 @@
       Save Changes
     </button>
     } @if (isOwner && chatId) {
-    <button mat-stroked-button (click)="deleteRoom.emit()" class="warn">
+    <button
+      mat-stroked-button
+      (click)="deleteRoom.emit()"
+      class="warn"
+      disabled="isOwner && chatId"
+    >
       Delete Chat Room
     </button>
     }
