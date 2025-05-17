@@ -32,6 +32,20 @@ export class ChatService {
     }>(`${environment.backendUrl}/chat/${chatId}`);
   }
 
+  getChatMembers(chatId: string) {
+    return this.http.get<
+      {
+        user: {
+          _id: string;
+          username: string;
+          avatar?: string;
+          pronouns?: string;
+        };
+        roles: string[];
+      }[]
+    >(`${environment.backendUrl}/chat/${chatId}/members`);
+  }
+
   updateChatRoom(id: string, data: { name: string }) {
     return this.http.patch<Chat>(
       `${environment.backendUrl}/chat/update-chat/${id}`,
