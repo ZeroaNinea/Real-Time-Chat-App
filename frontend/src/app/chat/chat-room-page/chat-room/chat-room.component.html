@@ -1,49 +1,61 @@
-<app-message-list [messages]="messages()"></app-message-list>
+<div class="chat-room-layout">
+  <div class="top-left">
+    <app-chat-room-settings
+      [chatName]="chatName()"
+      [newChannel]="newChannel()"
+      [channels]="channels()"
+      [isAdmin]="isAdmin()"
+      [isOwner]="isOwner()"
+      [chatId]="chatId()"
+      (chatNameChange)="chatName.set($event)"
+      (newChannelChange)="newChannel.set($event)"
+      (saveChanges)="saveChanges()"
+      (deleteRoom)="deleteChatRoom()"
+      (onChannelEdit)="onChannelEdit($event)"
+    ></app-chat-room-settings>
+  </div>
 
-<app-message-input
-  [message]="message()"
-  (messageChange)="message.set($event)"
-  (send)="sendMessage()"
-  [chatId]="chatId()"
-  [channelId]="channelId()"
-></app-message-input>
+  <div class="top-center">
+    <app-channel-topic
+      [topic]="selectedChannel()?.topic"
+      [canEdit]="isAdmin() || isOwner()"
+      [channelId]="channelId()"
+      (topicChange)="onTopicChange($event)"
+    ></app-channel-topic>
 
-<app-chat-room-settings
-  [chatName]="chatName()"
-  [newChannel]="newChannel()"
-  [channels]="channels()"
-  [isAdmin]="isAdmin()"
-  [isOwner]="isOwner()"
-  [chatId]="chatId()"
-  (chatNameChange)="chatName.set($event)"
-  (newChannelChange)="newChannel.set($event)"
-  (saveChanges)="saveChanges()"
-  (deleteRoom)="deleteChatRoom()"
-  (onChannelEdit)="onChannelEdit($event)"
-></app-chat-room-settings>
+    <app-permissions
+      [channelId]="channelId()"
+      [canEdit]="isAdmin() || isOwner()"
+      (openPermissionsDialog)="openPermissionsDialog()"
+    ></app-permissions>
+  </div>
 
-<app-channel-list
-  [chatId]="chatId()"
-  [channels]="channels()"
-  [isAdmin]="isAdmin()"
-  [isOwner]="isOwner()"
-  (removeChannel)="onChannelRemove($event)"
-  (renameChannel)="onChannelRename($event)"
-  (addChannel)="addChannel()"
->
-</app-channel-list>
+  <div class="right-sidebar">
+    <app-channel-list
+      [chatId]="chatId()"
+      [channels]="channels()"
+      [isAdmin]="isAdmin()"
+      [isOwner]="isOwner()"
+      (removeChannel)="onChannelRemove($event)"
+      (renameChannel)="onChannelRename($event)"
+      (addChannel)="addChannel()"
+    >
+    </app-channel-list>
+  </div>
 
-<app-channel-topic
-  [topic]="selectedChannel()?.topic"
-  [canEdit]="isAdmin() || isOwner()"
-  [channelId]="channelId()"
-  (topicChange)="onTopicChange($event)"
-></app-channel-topic>
+  <div class="main">
+    <app-message-list [messages]="messages()"></app-message-list>
 
-<app-permissions
-  [channelId]="channelId()"
-  [canEdit]="isAdmin() || isOwner()"
-  (openPermissionsDialog)="openPermissionsDialog()"
-></app-permissions>
+    <app-message-input
+      [message]="message()"
+      (messageChange)="message.set($event)"
+      (send)="sendMessage()"
+      [chatId]="chatId()"
+      [channelId]="channelId()"
+    ></app-message-input>
+  </div>
 
-<app-member-list [members]="populatedUsers()"></app-member-list>
+  <div class="right-sidebar">
+    <app-member-list [members]="populatedUsers()"></app-member-list>
+  </div>
+</div>
