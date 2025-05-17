@@ -190,7 +190,7 @@ backend/
 <br />
 ➡️ Step 18: Add a Discord like input field for messages
 <br />
-➡️ Step 19: Display chat member list
+✅ Step 19: Display chat member list
 <br />
 ➡️ Step 20: Add message editing and deleting
 <br />
