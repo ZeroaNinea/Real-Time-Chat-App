@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Channel } from '../../shared/models/channel.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-chat-room-settings',
-  imports: [FormsModule],
+  imports: [FormsModule, MatButtonModule],
   standalone: true,
   templateUrl: './chat-room-settings.component.html',
   styleUrl: './chat-room-settings.component.scss',

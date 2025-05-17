@@ -6,8 +6,10 @@
     placeholder="Chat Room Name"
   />
 
-  <button (click)="saveChanges.emit()">Save Changes</button>
+  <button mat-raised-button (click)="saveChanges.emit()">Save Changes</button>
 </div>
 } @if (isOwner && chatId) {
-<button (click)="deleteRoom.emit()" class="danger">Delete Chat Room</button>
+<button mat-raised-button (click)="deleteRoom.emit()" class="warn">
+  Delete Chat Room
+</button>
 }
