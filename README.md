@@ -196,7 +196,7 @@ backend/
 <br />
 ➡️ Step 21: Add display chat rooms on the `main` page
 <br />
-➡️ Step 22: Position the `chat-room` page's elements
+✅ Step 22: Position the `chat-room` page's elements
 <br />
 ➡️ Step 23: Add display user avatars and usernames
 <br />
