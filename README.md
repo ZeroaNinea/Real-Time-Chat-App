@@ -198,7 +198,7 @@ backend/
 <br />
 ✅ Step 22: Position the `chat-room` page's elements
 <br />
-➡️ Step 23: Add display user avatars and usernames
+✅ Step 23: Add display user avatars and usernames
 <br />
 ➡️ Step 24: Design the messages list
 <br />
