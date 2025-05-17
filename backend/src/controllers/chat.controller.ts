@@ -5,6 +5,8 @@ import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.aliase';
 import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
+import { User } from '../models/user.model';
+import { Types } from 'mongoose';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -175,6 +177,51 @@ export const getChat = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to get chat', error: err });
+  }
+};
+
+export const getChatMembers = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user._id;
+    const chatId = req.params.chatId;
+
+    const chat = await Chat.findById(chatId);
+    if (!chat) return res.status(404).json({ message: 'Chat not found' });
+
+    const member = chat.members.find((m: Member) => m.user.equals(userId));
+    if (!member)
+      return res
+        .status(403)
+        .json({ message: 'You are not a member of this chat' });
+
+    // Get all user IDs from the members array.
+    const userIds = chat.members.map((m: Member) => m.user);
+
+    // Fetch all users from the User collection.
+    const users = await User.find({ _id: { $in: userIds } }).select(
+      '_id username avatar pronouns'
+    );
+
+    // Merge roles with user data.
+    const members = chat.members.map((member: Member) => {
+      const user = users.find(
+        (u: {
+          _id: Types.ObjectId;
+          username: string;
+          avatar: string;
+          pronouns: string;
+        }) => u._id.equals(member.user)
+      );
+      return {
+        user,
+        roles: member.roles,
+      };
+    });
+
+    res.json(members);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to get chat members', error: err });
   }
 };
 
