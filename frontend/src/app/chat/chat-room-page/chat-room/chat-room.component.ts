@@ -31,6 +31,7 @@ import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/per
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 import { Message } from '../../shared/models/message.model';
+import { Member } from '../../shared/models/member.aliase';
 
 @Component({
   selector: 'app-chat-room',
@@ -69,6 +70,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isAdmin = signal(false);
   readonly chatName = signal('');
   readonly channels = signal<Channel[]>([]);
+  readonly members = signal<Member[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
   readonly selectedChannel = computed(() => {
@@ -103,6 +105,7 @@ export class ChatRoomComponent implements OnDestroy {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
       this.channels.set(chat.channels);
+      this.members.set(chat.members);
 
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
