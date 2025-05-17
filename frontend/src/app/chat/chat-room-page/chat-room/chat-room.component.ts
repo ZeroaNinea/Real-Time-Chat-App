@@ -33,6 +33,7 @@ import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.aliase';
 import { PopulatedUser } from '../../shared/models/populated-user.aliase';
+import { MemberListComponent } from '../member-list/member-list.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -43,6 +44,7 @@ import { PopulatedUser } from '../../shared/models/populated-user.aliase';
     ChannelListComponent,
     ChannelTopicComponent,
     PermissionsComponent,
+    MemberListComponent,
     ReactiveFormsModule,
     FormsModule,
   ],
