@@ -10,6 +10,14 @@
 
 .chat-room-settings {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // justify-content: space-between;
+  // align-items: center;
+}
+
+mat-form-field {
+  @include mat.theme(
+    (
+      density: -5,
+    )
+  );
 }
