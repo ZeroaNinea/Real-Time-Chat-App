@@ -32,6 +32,7 @@ import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.aliase';
+import { PopulatedUser } from '../../shared/models/populated-user.aliase';
 
 @Component({
   selector: 'app-chat-room',
@@ -71,6 +72,9 @@ export class ChatRoomComponent implements OnDestroy {
   readonly chatName = signal('');
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
+  readonly populatedUsers = signal<{ user: PopulatedUser; roles: string[] }[]>(
+    []
+  );
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
   readonly selectedChannel = computed(() => {
@@ -115,6 +119,10 @@ export class ChatRoomComponent implements OnDestroy {
           .getMessages(this.chatId()!, this.channelId()!)
           .subscribe((messages) => this.messages.set(messages));
       }
+
+      this.chatService
+        .getChatMembers(this.chatId()!)
+        .subscribe((members) => this.populatedUsers.set(members));
 
       if (member) {
         // Found in members.
