@@ -6,7 +6,7 @@ import { Member } from '../../types/member.aliase';
 import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
-import { Types } from 'mongoose';
+import { PopulatedUser } from '../../types/populated-user.aliase';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -204,14 +204,7 @@ export const getChatMembers = async (req: Request, res: Response) => {
 
     // Merge roles with user data.
     const members = chat.members.map((member: Member) => {
-      const user = users.find(
-        (u: {
-          _id: Types.ObjectId;
-          username: string;
-          avatar: string;
-          pronouns: string;
-        }) => u._id.equals(member.user)
-      );
+      const user = users.find((u: PopulatedUser) => u._id.equals(member.user));
       return {
         user,
         roles: member.roles,
