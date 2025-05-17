@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { PopulatedUser } from '../../shared/models/populated-user.aliase';
 
 @Component({
   selector: 'app-member-list',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss',
 })
-export class MemberListComponent {}
+export class MemberListComponent {
+  @Input() members: PopulatedUser[] = [];
+}
