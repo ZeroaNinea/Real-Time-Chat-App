@@ -14,13 +14,11 @@
       (ngModelChange)="chatNameChange.emit($event)"
       placeholder="Chat Room Name"
     /> -->
-
-  <button mat-button (click)="saveChanges.emit()">Save Changes</button>
   <!-- </div> -->
+  <button mat-button (click)="saveChanges.emit()">Save Changes</button>
   } @if (isOwner && chatId) {
   <button mat-button (click)="deleteRoom.emit()" class="warn">
     Delete Chat Room
   </button>
-
   }
 </div>
