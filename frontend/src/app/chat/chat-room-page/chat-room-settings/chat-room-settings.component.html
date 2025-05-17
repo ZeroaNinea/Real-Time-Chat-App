@@ -1,5 +1,5 @@
 <div class="chat-room-settings">
-  @if (isAdmin) {
+  @if (isAdmin || isOwner) {
   <!-- <div class="chat-name-input"> -->
   <mat-form-field appearance="outline">
     <input
@@ -9,16 +9,14 @@
       placeholder="ChatRoomName"
     />
   </mat-form-field>
-  <!-- <input
-      [(ngModel)]="chatName"
-      (ngModelChange)="chatNameChange.emit($event)"
-      placeholder="Chat Room Name"
-    /> -->
-  <!-- </div> -->
-  <button mat-button (click)="saveChanges.emit()">Save Changes</button>
-  } @if (isOwner && chatId) {
-  <button mat-button (click)="deleteRoom.emit()" class="warn">
-    Delete Chat Room
-  </button>
   }
+  <div class="button-row">
+    @if (isAdmin || isOwner) {
+    <button mat-button (click)="saveChanges.emit()">Save Changes</button>
+    } @if (isOwner && chatId) {
+    <button mat-button (click)="deleteRoom.emit()" class="warn">
+      Delete Chat Room
+    </button>
+    }
+  </div>
 </div>
