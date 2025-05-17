@@ -34,12 +34,9 @@ export class ChatService {
   }
 
   getChatMembers(chatId: string) {
-    return this.http.get<
-      {
-        user: PopulatedUser;
-        roles: string[];
-      }[]
-    >(`${environment.backendUrl}/chat/${chatId}/members`);
+    return this.http.get<PopulatedUser[]>(
+      `${environment.backendUrl}/chat/${chatId}/members`
+    );
   }
 
   updateChatRoom(id: string, data: { name: string }) {
