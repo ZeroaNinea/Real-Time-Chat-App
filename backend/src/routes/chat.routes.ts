@@ -7,6 +7,7 @@ import {
   createChat,
   deleteChat,
   getChat,
+  getChatMembers,
   mine,
   privateMessages,
   updateChannel,
@@ -29,5 +30,7 @@ router.post(
   authMiddleware,
   asyncRoute(updateChannel)
 );
+
+router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
 
 export default router;
