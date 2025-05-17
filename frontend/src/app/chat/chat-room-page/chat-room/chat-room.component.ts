@@ -72,9 +72,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly chatName = signal('');
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
-  readonly populatedUsers = signal<{ user: PopulatedUser; roles: string[] }[]>(
-    []
-  );
+  readonly populatedUsers = signal<PopulatedUser[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly currentUser = this.authService.currentUser;
   readonly selectedChannel = computed(() => {
