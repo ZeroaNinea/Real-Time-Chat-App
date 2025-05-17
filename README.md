@@ -204,6 +204,8 @@ backend/
 <br />
 ➡️ Step 25: Design the members list
 <br />
+➡️ Step 26: Design the channel list
+<br />
 
 ### Main Components (likely pages or views)
 
