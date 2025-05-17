@@ -200,6 +200,10 @@ backend/
 <br />
 ➡️ Step 23: Add display user avatars and usernames
 <br />
+➡️ Step 24: Design the messages list
+<br />
+➡️ Step 25: Design the members list
+<br />
 
 ### Main Components (likely pages or views)
 
