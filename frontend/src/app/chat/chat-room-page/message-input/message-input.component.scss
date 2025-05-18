@@ -26,8 +26,12 @@
 .button-row {
   position: absolute;
   bottom: 0.5rem;
-  right: 0.5rem;
+  right: 0.75rem;
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
+}
+
+.message-input-container {
+  position: relative;
 }
