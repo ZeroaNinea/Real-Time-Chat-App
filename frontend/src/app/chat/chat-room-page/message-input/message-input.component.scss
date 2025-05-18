@@ -34,4 +34,9 @@
 
 .message-input-container {
   position: relative;
+
+  button {
+    // color: var(--mat-sys-on-surface);
+    color: var(--mat-sys-on-secondary-container);
+  }
 }
