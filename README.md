@@ -200,12 +200,29 @@ backend/
 <br />
 ✅ Step 23: Add display user avatars and usernames
 <br />
-➡️ Step 24: Design the messages list
-<br />
-➡️ Step 25: Design the members list
-<br />
-➡️ Step 26: Design the channel list
-<br />
+➡️ Step 24: Design the messages list:
+
+- Different background colors for sender vs. receiver.
+- Avatars and usernames.
+- Timestamps in subtle grey.
+- Hover actions: delete, edit, reply.
+- Styling replies (quoted messages, highlighted background).
+- Grouping messages by the same user.
+- Scroll behavior.
+  ➡️ Step 25: Design the members list
+  <br />
+  ➡️ Step 26: Design the channel list
+  <br />
+  ➡️ Step 27: Add a send button icon
+  <br />
+  ➡️ Step 28: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
+  <br />
+  ➡️ Step 29: Add an upload attachment button (images, videos, GIFs etc...)
+  <br />
+  ➡️ Step 30: Add a GIF picker button.
+  <br />
+  ➡️ Step 31: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
+  <br />
 
 ### Main Components (likely pages or views)
 
