@@ -25,7 +25,7 @@ export class MessageListComponent {
   hoveredMessageId: string | null = null;
 
   @Input() currentUserId!: string | undefined;
-  @Input() channelId!: string;
+  @Input() channelId!: string | null;
 
   getUsername(userId: string): string {
     return (
