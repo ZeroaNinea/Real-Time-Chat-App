@@ -71,10 +71,17 @@ export class MessageListComponent {
     const previous = this.filteredMessages[index - 1];
     const next = this.filteredMessages[index + 1];
 
-    const isSameSender = (a: any, b: any) => a && b && a.sender === b.sender;
+    const sameSender = (a?: Message, b?: Message) =>
+      a && b && a.sender === b.sender;
 
-    const isFirstInGroup = !isSameSender(current, previous);
-    const isLastInGroup = !isSameSender(current, next);
+    const sameMinute = (a?: Message, b?: Message) =>
+      a && b && this.isSameMinute(a, b);
+
+    const isFirstInGroup =
+      !sameSender(current, previous) || !sameMinute(current, previous);
+
+    const isLastInGroup =
+      !sameSender(current, next) || !sameMinute(current, next);
 
     return { isFirstInGroup, isLastInGroup };
   }
