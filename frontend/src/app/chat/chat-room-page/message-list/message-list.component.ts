@@ -28,22 +28,24 @@ export class MessageListComponent {
   @Input() channelId!: string | null;
 
   private isSameMinute(a: Message, b: Message): boolean {
-    return (
-      Math.abs(
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      ) < 60000
-    );
+    const timeA = new Date(a.createdAt).getTime();
+    const timeB = new Date(b.createdAt).getTime();
+    return Math.abs(timeA - timeB) < 60000;
   }
 
   get filteredMessages() {
     return this.messages.filter((msg) => msg.channelId === this.channelId);
   }
 
-  isGrouped(i: number): boolean {
+  isGrouped(index: number): boolean {
     return (
-      i > 0 &&
-      this.filteredMessages[i].sender === this.filteredMessages[i - 1].sender &&
-      this.isSameMinute(this.filteredMessages[i], this.filteredMessages[i - 1])
+      index === 0 ||
+      this.filteredMessages[index].sender !==
+        this.filteredMessages[index - 1].sender ||
+      !this.isSameMinute(
+        this.filteredMessages[index],
+        this.filteredMessages[index - 1]
+      )
     );
   }
 
