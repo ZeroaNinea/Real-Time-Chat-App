@@ -22,10 +22,25 @@
     .message-content {
       align-items: flex-end;
     }
+
+    .avatar-wrapper {
+      .user-avatar {
+        margin-right: 0;
+        margin-left: 0.75rem;
+      }
+    }
+
+    .message-content {
+      .message-header {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--mat-sys-outline-variant);
   }
 }
 
@@ -56,6 +71,7 @@
   .username {
     font-weight: 600;
     color: var(--mat-sys-on-surface);
+    // font-size: 1rem;
   }
 
   .timestamp {
