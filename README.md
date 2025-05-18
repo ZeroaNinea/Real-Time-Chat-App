@@ -203,11 +203,11 @@ backend/
 ➡️ Step 24: Design the messages list:
 
 - Different background colors for sender vs. receiver.
-- Avatars and usernames.
-- Timestamps in subtle grey.
+- Avatars and usernames. ✅
+- Timestamps in subtle grey. ✅
 - Hover actions: delete, edit, reply.
 - Styling replies (quoted messages, highlighted background).
-- Grouping messages by the same user.
+- Grouping messages by the same user. ✅
 - Scroll behavior.
   <br />
 
