@@ -26,11 +26,6 @@ export class MessageListComponent {
 
   @Input() currentUserId!: string | undefined;
 
-  constructor() {
-    // this.currentUserId = inject(AuthService).currentUser()?.id;
-    console.log('Current user ID:', this.currentUserId);
-  }
-
   getUsername(userId: string): string {
     return (
       this.members.find((m) => m.user._id === userId)?.user.username ??
