@@ -1,15 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, inject, Injectable, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { Observable, tap } from 'rxjs';
 
 import { User } from './shared/user.model';
 import { environment } from '../../environments/environment';
-import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private route = inject(ActivatedRoute);
 
   currentUser = signal<User | null>(null);
 
@@ -20,7 +23,15 @@ export class AuthService {
     //   })
     //   .subscribe({ next: console.log, error: console.error });
     // this.fetchUser();
-    afterNextRender(() => this.fetchUser());
+    afterNextRender(() => {
+      this.route.paramMap.subscribe((params) => {
+        const chatId = params.get('chatId');
+        const channelId = params.get('channelId');
+        if (chatId || channelId) {
+          this.fetchUser();
+        }
+      });
+    });
   }
 
   register(data: { username: string; password: string; email: string }) {
