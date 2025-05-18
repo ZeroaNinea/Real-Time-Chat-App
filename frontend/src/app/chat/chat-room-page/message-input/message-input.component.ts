@@ -37,8 +37,8 @@ export class MessageInputComponent implements AfterViewInit {
   }
 
   onEnter(event: Event) {
-    const eventNew = event as KeyboardEvent;
-    if (!eventNew.shiftKey) {
+    const keyboardEvent = event as KeyboardEvent;
+    if (!keyboardEvent.shiftKey) {
       event.preventDefault();
       this.send.emit();
     }
