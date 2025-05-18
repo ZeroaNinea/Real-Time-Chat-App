@@ -125,6 +125,10 @@
   }
 
   .message-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+
     display: flex;
     gap: 0.25rem;
     margin-top: 0.25rem;
