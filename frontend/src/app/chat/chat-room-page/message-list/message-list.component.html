@@ -1,6 +1,6 @@
 @for (msg of filteredMessages; track [msg._id, $index]) { @if (hoveredMessageId
 === msg._id) {
-<div class="message-actions">
+<div class="message-actions" [class.grouped]="isGrouped($index)">
   <button mat-icon-button (click)="onReply(msg)">
     <mat-icon>reply</mat-icon>
   </button>

@@ -9,6 +9,14 @@
   transition: background-color 0.2s;
   position: relative;
 
+  .grouped {
+    &.own {
+      border-right: 5px solid var(--mat-sys-on-primary-container);
+      border-top-right-radius: 0rem;
+      border-bottom-right-radius: 0rem;
+    }
+  }
+
   &.own {
     background-color: var(--mat-sys-secondary-container);
     border-right: 5px solid var(--mat-sys-on-primary-container);
