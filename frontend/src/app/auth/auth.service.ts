@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { afterNextRender, inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 import { User } from './shared/user.model';
@@ -20,6 +20,7 @@ export class AuthService {
     //   })
     //   .subscribe({ next: console.log, error: console.error });
     // this.fetchUser();
+    afterNextRender(() => this.fetchUser());
   }
 
   register(data: { username: string; password: string; email: string }) {
