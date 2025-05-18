@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, inject, Injectable, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { Observable, tap } from 'rxjs';
 
 import { User } from './shared/user.model';
 import { environment } from '../../environments/environment';
-import { after } from 'node:test';
 
 @Injectable({
   providedIn: 'root',
@@ -26,14 +25,35 @@ export class AuthService {
   }
 
   constructor() {
-    afterNextRender(() => {
-      this.router.events.subscribe(() => {
-        const route = this.getDeepestChild(this.router.routerState.root);
-        const chatId = route.snapshot.paramMap.get('chatId');
-        const channelId = route.snapshot.paramMap.get('channelId');
+    // afterNextRender(() => {
+    //   this.router.events.subscribe(() => {
+    //     const route = this.getDeepestChild(this.router.routerState.root);
+    //     const chatId = route.snapshot.paramMap.get('chatId');
+    //     const channelId = route.snapshot.paramMap.get('channelId');
 
-        if (chatId || channelId) {
-          this.fetchUser();
+    //     if (chatId || channelId) {
+    //       this.fetchUser();
+    //     }
+    //   });
+    // });
+    afterNextRender(() => {
+      const route = this.getDeepestChild(this.router.routerState.root);
+      const chatId = route.snapshot.paramMap.get('chatId');
+      const channelId = route.snapshot.paramMap.get('channelId');
+
+      if (chatId || channelId) {
+        this.fetchUser();
+      }
+
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          const newRoute = this.getDeepestChild(this.router.routerState.root);
+          const newChatId = newRoute.snapshot.paramMap.get('chatId');
+          const newChannelId = newRoute.snapshot.paramMap.get('channelId');
+
+          if (newChatId || newChannelId) {
+            this.fetchUser();
+          }
         }
       });
     });
