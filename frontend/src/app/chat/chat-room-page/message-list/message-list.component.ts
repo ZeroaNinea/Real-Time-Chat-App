@@ -37,14 +37,13 @@ export class MessageListComponent {
   }
 
   isGrouped(index: number): boolean {
+    const current = this.filteredMessages[index];
+    const previous = this.filteredMessages[index - 1];
+
     return (
       index === 0 ||
-      this.filteredMessages[index].sender !==
-        this.filteredMessages[index - 1].sender ||
-      !this.isSameMinute(
-        this.filteredMessages[index],
-        this.filteredMessages[index - 1]
-      )
+      current.sender !== previous.sender ||
+      !this.isSameMinute(current, previous)
     );
   }
 
