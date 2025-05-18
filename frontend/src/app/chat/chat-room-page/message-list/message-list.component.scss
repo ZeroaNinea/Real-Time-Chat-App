@@ -78,18 +78,24 @@
   .message-actions {
     position: absolute;
     top: 0;
-    right: 89%;
+    left: 1%;
+    width: 100%;
+
+    justify-content: flex-start;
 
     display: flex;
+
     gap: 0.25rem;
     margin-top: 0.25rem;
 
     button {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      padding-top: 0.25rem;
 
       mat-icon {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
     }
   }
