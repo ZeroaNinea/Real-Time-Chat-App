@@ -41,7 +41,7 @@ export class MessageInputComponent implements AfterViewInit {
     if (!keyboardEvent.shiftKey) {
       event.preventDefault();
       this.send.emit();
-      this.textarea.nativeElement.style.height = '2.5rem';
+      this.textarea.nativeElement.style.height = '3.5rem';
     }
   }
 }
