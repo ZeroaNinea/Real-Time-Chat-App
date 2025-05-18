@@ -47,6 +47,7 @@
     <app-message-list
       [messages]="messages()"
       [members]="populatedUsers()"
+      [currentUserId]="currentUser()?.id"
     ></app-message-list>
 
     <app-message-input

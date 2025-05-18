@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-message-list',
@@ -23,7 +24,7 @@ export class MessageListComponent {
 
   hoveredMessageId: string | null = null;
 
-  @Input() currentUserId!: string;
+  @Input() currentUserId!: string | undefined;
 
   getUsername(userId: string): string {
     return (
