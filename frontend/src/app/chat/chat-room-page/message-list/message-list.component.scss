@@ -13,6 +13,8 @@
     background-color: var(--mat-sys-secondary-container);
     border-right: 5px solid var(--mat-sys-on-primary-container);
     flex-direction: row-reverse;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
 
     @include mat.theme(
       (
