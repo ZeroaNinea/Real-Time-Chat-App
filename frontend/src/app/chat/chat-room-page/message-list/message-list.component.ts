@@ -23,7 +23,7 @@ export class MessageListComponent {
 
   hoveredMessageId: string | null = null;
 
-  @Input() currentUserId!: string; // required for `.own` logic.
+  @Input() currentUserId!: string;
 
   getUsername(userId: string): string {
     return (
