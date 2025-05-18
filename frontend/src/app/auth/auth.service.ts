@@ -25,17 +25,6 @@ export class AuthService {
   }
 
   constructor() {
-    // afterNextRender(() => {
-    //   this.router.events.subscribe(() => {
-    //     const route = this.getDeepestChild(this.router.routerState.root);
-    //     const chatId = route.snapshot.paramMap.get('chatId');
-    //     const channelId = route.snapshot.paramMap.get('channelId');
-
-    //     if (chatId || channelId) {
-    //       this.fetchUser();
-    //     }
-    //   });
-    // });
     afterNextRender(() => {
       const route = this.getDeepestChild(this.router.routerState.root);
       const chatId = route.snapshot.paramMap.get('chatId');
