@@ -1,6 +1,13 @@
-<input
+<!-- <input
   [ngModel]="message"
   (ngModelChange)="messageChange.emit($event)"
   (keyup.enter)="send.emit()"
   placeholder="Type a message"
-/>
+/> -->
+<textarea
+  [(ngModel)]="message"
+  (ngModelChange)="messageChange.emit($event)"
+  (keydown.enter)="send.emit()"
+  placeholder="Type a message"
+  class="message-textarea"
+></textarea>
