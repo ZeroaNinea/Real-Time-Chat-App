@@ -16,4 +16,19 @@ export class MessageInputComponent {
   @Input() channelId: string | null = null;
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
+
+  ngAfterViewInit() {
+    const textarea = this.textarea.nativeElement;
+    textarea.addEventListener('input', () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px';
+    });
+  }
+
+  onEnter(event: KeyboardEvent) {
+    if (!event.shiftKey) {
+      event.preventDefault();
+      this.send.emit();
+    }
+  }
 }

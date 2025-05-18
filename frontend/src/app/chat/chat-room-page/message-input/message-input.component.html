@@ -5,9 +5,10 @@
   placeholder="Type a message"
 /> -->
 <textarea
+  #textarea
   [(ngModel)]="message"
   (ngModelChange)="messageChange.emit($event)"
-  (keydown.enter)="send.emit()"
+  (keydown.enter)="onEnter($event)"
   placeholder="Type a message"
   class="message-textarea"
 ></textarea>
