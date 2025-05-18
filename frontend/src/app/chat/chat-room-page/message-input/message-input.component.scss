@@ -11,9 +11,8 @@
   line-height: 1.5;
   border: none;
   outline: none;
-  // background-color: #2f3136;
-  // color: white;
   background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-neutral10);
 
   &::-webkit-scrollbar {
     width: 6px;
