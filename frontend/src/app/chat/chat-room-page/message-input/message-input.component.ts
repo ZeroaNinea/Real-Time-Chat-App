@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
-export class MessageInputComponent {
+export class MessageInputComponent implements AfterViewInit {
   @Input() message!: string;
   @Input() chatId: string | null = null;
   @Input() channelId: string | null = null;
