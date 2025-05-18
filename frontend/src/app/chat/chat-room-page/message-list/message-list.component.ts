@@ -8,7 +8,6 @@ import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-message-list',
