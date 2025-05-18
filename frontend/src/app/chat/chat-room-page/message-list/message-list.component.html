@@ -15,7 +15,12 @@
 <div
   class="message"
   [class.own]="msg.sender === currentUserId"
-  [class.grouped]="!isGrouped($index)"
+  [class.first]="getMessagePosition($index).isFirstInGroup"
+  [class.last]="getMessagePosition($index).isLastInGroup"
+  [class.middle]="
+    !getMessagePosition($index).isFirstInGroup &&
+    !getMessagePosition($index).isLastInGroup
+  "
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
@@ -34,8 +39,10 @@
     }
 
     <!-- @if (msg.replyTo) {
-        <div class="quoted-message">Replying to: {{ getQuotedText(msg.replyTo) }}</div>
-      } -->
+    <div class="quoted-message">
+      Replying to: {{ getQuotedText(msg.replyTo) }}
+    </div>
+    } -->
 
     <div class="text">{{ msg.text }}</div>
   </div>

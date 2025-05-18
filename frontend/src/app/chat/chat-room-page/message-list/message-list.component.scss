@@ -9,23 +9,26 @@
   transition: background-color 0.2s;
   position: relative;
 
-  &.grouped {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-top-left-radius: 0rem !important;
+  &.first {
+    border-top-left-radius: 0.3rem !important;
+    border-top-right-radius: 0.3rem !important;
     border-bottom-left-radius: 0rem !important;
+    border-bottom-right-radius: 0rem !important;
   }
 
-  &.grouped:last-child {
-    border-bottom-right-radius: 0.3rem !important;
-    border-top-left-radius: 0rem !important;
-    border-bottom-left-radius: 0.5rem !important;
+  &.middle {
+    border-radius: 0rem !important;
   }
 
-  &.grouped:only-child {
+  &.last {
+    border-bottom-left-radius: 0.3rem !important;
     border-bottom-right-radius: 0.3rem !important;
     border-top-left-radius: 0rem !important;
-    border-bottom-left-radius: 0.5rem !important;
+    border-top-right-radius: 0rem !important;
+  }
+
+  &:hover {
+    background-color: var(--mat-sys-outline-variant);
   }
 
   &.own {
