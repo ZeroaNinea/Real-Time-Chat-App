@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PopulatedUser } from '../../shared/models/populated-user.aliase';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
 
 @Component({

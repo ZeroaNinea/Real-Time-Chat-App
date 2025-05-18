@@ -32,7 +32,7 @@ import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.aliase';
-import { PopulatedUser } from '../../shared/models/populated-user.aliase';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { MemberListComponent } from '../member-list/member-list.component';
 
 @Component({

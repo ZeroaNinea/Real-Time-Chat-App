@@ -8,7 +8,7 @@ import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.aliase';
 import { Message } from '../../models/message.model';
-import { PopulatedUser } from '../../models/populated-user.aliase';
+import { PopulatedUser } from '../../models/populated-user.model';
 
 @Injectable({
   providedIn: 'root',
