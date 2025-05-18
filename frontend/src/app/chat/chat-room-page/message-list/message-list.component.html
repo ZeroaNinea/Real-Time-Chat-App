@@ -1,11 +1,3 @@
-<!-- @for (msg of messages; track msg._id) {
-<div class="message">
-  <strong>{{ msg.sender }}</strong
-  >: {{ msg.text }}
-  <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
-</div>
-} -->
-
 @for (msg of messages; track msg._id) {
 <div
   class="message"

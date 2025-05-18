@@ -1,15 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-message-list',
-  imports: [DatePipe, MatIconModule],
+  imports: [DatePipe, MatIconModule, MatButtonModule],
   standalone: true,
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
