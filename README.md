@@ -215,7 +215,7 @@ backend/
 <br />
 ➡️ Step 26: Design the channel list
 <br />
-➡️ Step 27: Add a send button icon
+✅ Step 27: Add a send button icon
 <br />
 ➡️ Step 28: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
 <br />
