@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { Message } from '../../shared/models/message.model';
+import { PopulatedUser } from '../../shared/models/populated-user.aliase';
 
 @Component({
   selector: 'app-message-list',
@@ -12,4 +13,5 @@ import { Message } from '../../shared/models/message.model';
 })
 export class MessageListComponent {
   @Input() messages!: Message[];
+  @Input() members!: PopulatedUser[];
 }
