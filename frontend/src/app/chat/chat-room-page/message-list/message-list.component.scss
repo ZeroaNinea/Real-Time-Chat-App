@@ -72,7 +72,7 @@
   }
 
   &:hover {
-    background-color: var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-dim);
   }
 
   .message-actions {
@@ -93,6 +93,12 @@
       height: 1.75rem;
       padding: 0;
       padding-top: 0.25rem;
+
+      @include mat.theme(
+        (
+          color: mat.$blue-palette,
+        )
+      );
 
       mat-icon {
         font-size: 1.1rem;
