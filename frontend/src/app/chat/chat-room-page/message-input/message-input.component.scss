@@ -22,3 +22,12 @@
     border-radius: 3px;
   }
 }
+
+.button-row {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
