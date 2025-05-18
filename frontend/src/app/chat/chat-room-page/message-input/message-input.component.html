@@ -1,14 +1,19 @@
 <div class="message-input-container">
-  <textarea
-    #textarea
-    [(ngModel)]="message"
-    (ngModelChange)="messageChange.emit($event)"
-    (keydown.enter)="onEnter($event)"
-    placeholder="Type a message"
-    class="message-textarea"
-  ></textarea>
-  <div class="button-row">
-    <button mat-icon-button><mat-icon>insert_emoticon</mat-icon></button>
-    <button mat-icon-button><mat-icon>send</mat-icon></button>
+  <div class="input-row">
+    <textarea
+      #textarea
+      [(ngModel)]="message"
+      (ngModelChange)="messageChange.emit($event)"
+      (keydown.enter)="onEnter($event)"
+      placeholder="Type a message"
+      class="message-textarea"
+    ></textarea>
+
+    <div class="button-row">
+      <button mat-icon-button><mat-icon>insert_emoticon</mat-icon></button>
+      <button mat-icon-button (click)="send.emit()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
