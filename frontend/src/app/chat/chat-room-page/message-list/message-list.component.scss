@@ -88,6 +88,7 @@
 }
 
 .message-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -125,9 +126,10 @@
   }
 
   .message-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: absolute !important;
+    top: 0 !important;
+    // right: 10 !important;
+    left: 100 !important;
 
     display: flex;
     gap: 0.25rem;
