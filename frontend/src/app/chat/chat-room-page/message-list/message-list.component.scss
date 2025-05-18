@@ -1,5 +1,7 @@
+@use "@angular/material" as mat;
+
 .message {
-  width: 100%;
+  width: 97.5%;
   display: flex;
   align-items: flex-start;
   padding: 0.5rem;
@@ -9,8 +11,14 @@
 
   &.own {
     background-color: var(--mat-sys-secondary-container);
+    border-right: 5px solid var(--mat-sys-on-primary-container);
     flex-direction: row-reverse;
 
+    @include mat.theme(
+      (
+        color: mat.$blue-palette,
+      )
+    );
     .message-content {
       align-items: flex-end;
     }
