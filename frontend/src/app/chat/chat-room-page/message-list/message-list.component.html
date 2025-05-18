@@ -18,15 +18,19 @@ msg._id) {
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
+  @for (msg of filteredMessages; track $index) { @if (isGrouped($index)) {
   <div class="avatar-wrapper">
     <img [src]="getAvatarUrl(msg.sender)" alt="Avatar" class="user-avatar" />
   </div>
+  } }
 
   <div class="message-content">
+    @for (msg of filteredMessages; track $index) { @if (isGrouped($index)) {
     <div class="message-header">
       <span class="username">{{ getUsername(msg.sender) }}</span>
       <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
     </div>
+    } }
 
     <!-- @if (msg.replyTo) {
         <div class="quoted-message">Replying to: {{ getQuotedText(msg.replyTo) }}</div>

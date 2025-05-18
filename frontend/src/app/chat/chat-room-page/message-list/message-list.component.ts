@@ -27,8 +27,24 @@ export class MessageListComponent {
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
 
+  private isSameMinute(a: Message, b: Message): boolean {
+    return (
+      Math.abs(
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      ) < 60000
+    );
+  }
+
   get filteredMessages() {
     return this.messages.filter((msg) => msg.channelId === this.channelId);
+  }
+
+  isGrouped(i: number): boolean {
+    return (
+      i > 0 &&
+      this.filteredMessages[i].sender === this.filteredMessages[i - 1].sender &&
+      this.isSameMinute(this.filteredMessages[i], this.filteredMessages[i - 1])
+    );
   }
 
   getUsername(userId: string): string {
