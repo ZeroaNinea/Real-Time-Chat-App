@@ -44,7 +44,11 @@
   </div>
 
   <div class="main">
-    <app-message-list [messages]="messages()"></app-message-list>
+    <app-message-list
+      [messages]="messages()"
+      [members="populatedUsers()"
+      ]
+    ></app-message-list>
 
     <app-message-input
       [message]="message()"
