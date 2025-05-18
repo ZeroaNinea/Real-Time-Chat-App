@@ -8,10 +8,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-message-input',
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule],
   // inputs: ['message'], // Hey girl! You can specify the `@Input` this way if you want.
   // outputs: ['messageChange', 'send'], // Same for `@Output`.
   standalone: true,

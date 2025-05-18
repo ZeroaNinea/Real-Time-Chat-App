@@ -1,8 +1,14 @@
-<textarea
-  #textarea
-  [(ngModel)]="message"
-  (ngModelChange)="messageChange.emit($event)"
-  (keydown.enter)="onEnter($event)"
-  placeholder="Type a message"
-  class="message-textarea"
-></textarea>
+<div class="message-input-container">
+  <textarea
+    #textarea
+    [(ngModel)]="message"
+    (ngModelChange)="messageChange.emit($event)"
+    (keydown.enter)="onEnter($event)"
+    placeholder="Type a message"
+    class="message-textarea"
+  ></textarea>
+  <div class="button-row">
+    <button><mat-icon>send</mat-icon></button>
+    <button><mat-icon>insert_emoticon</mat-icon></button>
+  </div>
+</div>
