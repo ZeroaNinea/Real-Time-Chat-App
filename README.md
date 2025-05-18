@@ -188,7 +188,7 @@ backend/
 <br />
 ➡️ Step 17: Add message pagination
 <br />
-➡️ Step 18: Add a Discord like input field for messages
+✅ Step 18: Add a Discord like input field for messages
 <br />
 ✅ Step 19: Display chat member list
 <br />
