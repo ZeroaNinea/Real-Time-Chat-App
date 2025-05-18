@@ -50,3 +50,8 @@
   border-radius: 8px;
   overflow-y: auto;
 }
+
+.message-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
