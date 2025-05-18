@@ -209,6 +209,7 @@ backend/
 - Styling replies (quoted messages, highlighted background).
 - Grouping messages by the same user.
 - Scroll behavior.
+  <br />
   ➡️ Step 25: Design the members list
   <br />
   ➡️ Step 26: Design the channel list
