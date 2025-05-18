@@ -31,22 +31,20 @@
     </div>
     } -->
 
-    @if (hoveredMessageId === msg._id) {
-
-    <div class="message-actions">
-      <button mat-icon-button (click)="onReply(msg)">
-        <mat-icon>reply</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onEdit(msg)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDelete(msg)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-    }
-
     <div class="text">{{ msg.text }}</div>
   </div>
+  @if (hoveredMessageId === msg._id) {
+  <div class="message-actions">
+    <button mat-icon-button (click)="onReply(msg)">
+      <mat-icon>reply</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onEdit(msg)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onDelete(msg)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  }
 </div>
 }

@@ -74,6 +74,25 @@
   &:hover {
     background-color: var(--mat-sys-outline-variant);
   }
+
+  .message-actions {
+    position: absolute;
+    top: 0;
+    right: 89%;
+
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+
+    button {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      mat-icon {
+        font-size: 1rem;
+      }
+    }
+  }
 }
 
 .avatar-wrapper {
@@ -88,7 +107,6 @@
 }
 
 .message-content {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -123,25 +141,5 @@
   .text {
     white-space: pre-wrap;
     word-break: break-word;
-  }
-
-  .message-actions {
-    position: absolute !important;
-    top: 0 !important;
-    // right: 10 !important;
-    left: 100 !important;
-
-    display: flex;
-    gap: 0.25rem;
-    margin-top: 0.25rem;
-
-    button {
-      width: 1.5rem;
-      height: 1.5rem;
-
-      mat-icon {
-        font-size: 1rem;
-      }
-    }
   }
 }
