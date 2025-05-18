@@ -153,5 +153,13 @@
   .text {
     white-space: pre-wrap;
     word-break: break-word;
+
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 1rem;
+
+    .timestamp {
+      color: gray;
+    }
   }
 }
