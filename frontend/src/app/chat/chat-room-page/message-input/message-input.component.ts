@@ -45,13 +45,13 @@ export class MessageInputComponent implements AfterViewInit {
     if (!keyboardEvent.shiftKey) {
       event.preventDefault();
       this.send.emit();
-      this.textarea.nativeElement.style.height = '3rem';
+      this.textarea.nativeElement.style.height = '4.5rem';
     }
   }
 
   onClick(event: Event) {
-    // event.preventDefault();
+    event.preventDefault();
     this.send.emit();
-    this.textarea.nativeElement.style.height = '3rem';
+    this.textarea.nativeElement.style.height = '4.5rem';
   }
 }
