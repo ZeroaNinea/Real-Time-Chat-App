@@ -27,6 +27,10 @@ export class MessageListComponent {
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
 
+  get filteredMessages() {
+    return this.messages.filter((msg) => msg.channelId === this.channelId);
+  }
+
   getUsername(userId: string): string {
     return (
       this.members.find((m) => m.user._id === userId)?.user.username ??

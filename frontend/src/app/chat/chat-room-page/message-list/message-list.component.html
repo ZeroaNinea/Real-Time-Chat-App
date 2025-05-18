@@ -1,4 +1,5 @@
-@for (msg of messages; track msg._id) { @if (hoveredMessageId === msg._id) {
+@for (msg of filteredMessages; track msg._id) { @if (hoveredMessageId ===
+msg._id) {
 <div class="message-actions">
   <button mat-icon-button (click)="onReply(msg)">
     <mat-icon>reply</mat-icon>
