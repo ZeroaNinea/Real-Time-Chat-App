@@ -5,6 +5,7 @@
   <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
 </div>
 } -->
+
 @for (msg of messages; track msg._id) {
 <div
   class="message"
