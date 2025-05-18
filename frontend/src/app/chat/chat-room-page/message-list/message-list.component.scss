@@ -9,12 +9,23 @@
   transition: background-color 0.2s;
   position: relative;
 
-  .grouped {
-    &.own {
-      border-right: 5px solid var(--mat-sys-on-primary-container);
-      border-top-right-radius: 0rem;
-      border-bottom-right-radius: 0rem;
-    }
+  &.grouped {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0rem !important;
+    border-bottom-left-radius: 0rem !important;
+  }
+
+  &.grouped:last-child {
+    border-bottom-right-radius: 0.3rem !important;
+    border-top-left-radius: 0rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+  }
+
+  &.grouped:only-child {
+    border-bottom-right-radius: 0.3rem !important;
+    border-top-left-radius: 0rem !important;
+    border-bottom-left-radius: 0.5rem !important;
   }
 
   &.own {

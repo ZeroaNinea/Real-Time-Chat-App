@@ -66,6 +66,19 @@ export class MessageListComponent {
     return this.messages.find((m) => m._id === messageId)?.text ?? '[deleted]';
   }
 
+  getMessagePosition(index: number) {
+    const current = this.filteredMessages[index];
+    const previous = this.filteredMessages[index - 1];
+    const next = this.filteredMessages[index + 1];
+
+    const isSameSender = (a: any, b: any) => a && b && a.sender === b.sender;
+
+    const isFirstInGroup = !isSameSender(current, previous);
+    const isLastInGroup = !isSameSender(current, next);
+
+    return { isFirstInGroup, isLastInGroup };
+  }
+
   onReply(msg: Message): void {
     // Emit or set state to trigger reply.
   }
