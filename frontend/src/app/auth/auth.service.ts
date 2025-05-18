@@ -1,32 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, inject, Injectable, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, tap } from 'rxjs';
 
 import { User } from './shared/user.model';
 import { environment } from '../../environments/environment';
+import { after } from 'node:test';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   currentUser = signal<User | null>(null);
 
+  private getDeepestChild(route: ActivatedRoute): ActivatedRoute {
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route;
+  }
+
   constructor() {
-    // this.http
-    //   .put('http://localhost:5000/auth/update-email', {
-    //     email: 'another@example.com',
-    //   })
-    //   .subscribe({ next: console.log, error: console.error });
-    // this.fetchUser();
     afterNextRender(() => {
-      this.route.paramMap.subscribe((params) => {
-        const chatId = params.get('chatId');
-        const channelId = params.get('channelId');
+      this.router.events.subscribe(() => {
+        const route = this.getDeepestChild(this.router.routerState.root);
+        const chatId = route.snapshot.paramMap.get('chatId');
+        const channelId = route.snapshot.paramMap.get('channelId');
+
         if (chatId || channelId) {
           this.fetchUser();
         }
