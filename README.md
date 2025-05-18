@@ -210,20 +210,21 @@ backend/
 - Grouping messages by the same user.
 - Scroll behavior.
   <br />
-  ➡️ Step 25: Design the members list
-  <br />
-  ➡️ Step 26: Design the channel list
-  <br />
-  ➡️ Step 27: Add a send button icon
-  <br />
-  ➡️ Step 28: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
-  <br />
-  ➡️ Step 29: Add an upload attachment button (images, videos, GIFs etc...)
-  <br />
-  ➡️ Step 30: Add a GIF picker button.
-  <br />
-  ➡️ Step 31: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
-  <br />
+
+➡️ Step 25: Design the members list
+<br />
+➡️ Step 26: Design the channel list
+<br />
+➡️ Step 27: Add a send button icon
+<br />
+➡️ Step 28: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
+<br />
+➡️ Step 29: Add an upload attachment button (images, videos, GIFs etc...)
+<br />
+➡️ Step 30: Add a GIF picker button.
+<br />
+➡️ Step 31: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
+<br />
 
 ### Main Components (likely pages or views)
 
