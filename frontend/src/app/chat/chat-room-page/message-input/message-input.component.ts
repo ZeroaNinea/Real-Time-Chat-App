@@ -33,6 +33,8 @@ export class MessageInputComponent implements AfterViewInit {
   ngAfterViewInit() {
     const textarea = this.textarea.nativeElement;
     textarea.addEventListener('input', () => {
+      console.log('Input event fired');
+      this.textarea.nativeElement.style.height = '1.5rem';
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px';
     });
@@ -45,5 +47,11 @@ export class MessageInputComponent implements AfterViewInit {
       this.send.emit();
       this.textarea.nativeElement.style.height = '1.5rem';
     }
+  }
+
+  onClick(event: Event) {
+    event.preventDefault();
+    this.send.emit();
+    this.textarea.nativeElement.style.height = '1.5rem';
   }
 }
