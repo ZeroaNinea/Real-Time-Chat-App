@@ -50,6 +50,7 @@
         [members]="populatedUsers()"
         [currentUserId]="currentUser()?.id"
         [channelId]="channelId()"
+        (onDelete)="deleteMessage($event)"
       ></app-message-list>
     </div>
 

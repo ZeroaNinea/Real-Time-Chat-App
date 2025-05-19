@@ -26,7 +26,7 @@ export class MessageListComponent {
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
 
-  @Output() onDelete = new EventEmitter<void>();
+  @Output() onDelete = new EventEmitter<string>();
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
