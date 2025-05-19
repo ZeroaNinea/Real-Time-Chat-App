@@ -103,15 +103,11 @@ export class MessageListComponent {
   startEditing(msg: Message): void {
     this.editingMessageId = msg._id;
     this.editedText = msg.text;
-
-    console.log('Editing started:', msg);
   }
 
   cancelEditing(): void {
     this.editingMessageId = null;
     this.editedText = '';
-
-    console.log('Editing canceled');
   }
 
   submitEdit(msg: Message): void {
@@ -119,8 +115,6 @@ export class MessageListComponent {
     if (trimmedText !== msg.text) {
       this.onEdit.emit({ ...msg, text: trimmedText });
     }
-
-    console.log('Editing submitted:', msg);
 
     this.cancelEditing();
   }
