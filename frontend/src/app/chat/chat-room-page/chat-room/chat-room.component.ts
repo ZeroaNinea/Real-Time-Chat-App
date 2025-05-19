@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  afterRender,
   AfterViewChecked,
   AfterViewInit,
   Component,
@@ -96,6 +97,7 @@ export class ChatRoomComponent
 
   constructor() {
     afterNextRender(() => {
+      this.scrollToBottom();
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
         const channelId = params.get('channelId');
@@ -123,11 +125,11 @@ export class ChatRoomComponent
   }
 
   ngAfterViewInit() {
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   fetchChatRoom(chatId: string) {
