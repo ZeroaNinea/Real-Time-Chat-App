@@ -1,8 +1,5 @@
 import {
   afterNextRender,
-  afterRender,
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   computed,
   effect,
@@ -60,9 +57,7 @@ import { MemberListComponent } from '../member-list/member-list.component';
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent
-  implements OnDestroy, AfterViewChecked, AfterViewInit
-{
+export class ChatRoomComponent implements OnDestroy {
   message = signal('');
   messages = signal<Message[]>([]);
   private wsService = inject(WebsocketService);
@@ -158,12 +153,6 @@ export class ChatRoomComponent
     const position = container.scrollTop + container.clientHeight;
     const height = container.scrollHeight;
     this.isAtBottom.set(position + threshold >= height);
-  }
-
-  ngAfterViewInit() {}
-
-  ngAfterViewChecked() {
-    // this.scrollToBottom();
   }
 
   fetchChatRoom(chatId: string) {
