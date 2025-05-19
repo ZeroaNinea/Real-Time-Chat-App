@@ -408,8 +408,20 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   deleteMessage(messageId: string) {
-    this.wsService.emit('deleteMessage', {
-      messageId,
-    });
+    this.wsService.emit(
+      'deleteMessage',
+      {
+        messageId,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to delete message',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
   }
 }
