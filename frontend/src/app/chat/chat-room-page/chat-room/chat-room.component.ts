@@ -109,6 +109,23 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
+  private scrollToBottom(): void {
+    try {
+      this.scrollContainer.nativeElement.scrollTop =
+        this.scrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Scroll error:', err);
+    }
+  }
+
+  ngAfterViewInit() {
+    this.scrollToBottom();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
