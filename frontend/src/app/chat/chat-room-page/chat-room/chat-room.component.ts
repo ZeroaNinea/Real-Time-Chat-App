@@ -227,6 +227,7 @@ export class ChatRoomComponent implements OnDestroy {
       });
 
     this.wsService.listenMessageEdits().subscribe((msg) => {
+      console.log('The listener is called. Message:', msg);
       this.messages.update((msgs) =>
         msgs.map((m) => (m._id === msg._id ? msg : m))
       );
@@ -432,6 +433,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   editMessage(message: Message) {
+    console.log('Trigger edit:', message);
     this.wsService.emit(
       'editMessage',
       {

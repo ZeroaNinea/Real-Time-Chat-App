@@ -120,6 +120,8 @@ export class MessageListComponent {
       this.onEdit.emit({ ...msg, text: trimmedText });
     }
 
+    console.log('Editing submitted:', msg);
+
     this.cancelEditing();
   }
 
