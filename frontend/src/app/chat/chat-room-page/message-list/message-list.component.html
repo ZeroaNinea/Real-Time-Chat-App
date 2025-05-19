@@ -25,18 +25,6 @@
     </div>
     }
 
-    <!-- @if (msg.replyTo) {
-    <div class="quoted-message">
-      Replying to: {{ getQuotedText(msg.replyTo) }}
-    </div>
-    } -->
-
-    <!-- <div class="text">
-      <span>{{ msg.text }}</span>
-      @if (!isGrouped($index) && hoveredMessageId === msg._id) {
-      <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
-      }
-    </div> -->
     <div class="text">
       @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
