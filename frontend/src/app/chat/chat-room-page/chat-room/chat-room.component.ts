@@ -229,7 +229,12 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService.listenMessageEdits().subscribe((msg) => {
       console.log('The listener is called. Message:', msg);
       this.messages.update((msgs) =>
-        msgs.map((m) => (m._id === msg._id ? msg : m))
+        msgs.map((m) => {
+          m._id === msg._id
+            ? console.log('Message from map `msg`:', msg)
+            : console.log('Message from map `m`:', m);
+          return m._id === msg._id ? msg : m;
+        })
       );
     });
   }
