@@ -324,7 +324,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('editMessage', async ({ messageId, text }, callback) => {
-      console.log('Editing message:', messageId, text);
       try {
         const message = await Message.findById(messageId);
         if (!message) {
