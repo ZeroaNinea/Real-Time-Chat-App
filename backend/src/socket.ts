@@ -303,12 +303,13 @@ export function setupSocket(server: HttpServer, app: Express) {
           m.user.equals(socket.data.user._id)
         );
 
-        const canEdit =
+        const isSender = message.sender.equals(socket.data.user._id);
+        const isPrivileged =
           member?.roles.includes('Admin') ||
           member?.roles.includes('Owner') ||
           member?.roles.includes('Moderator');
 
-        if (!canEdit) {
+        if (!isSender && !isPrivileged) {
           return callback?.({ error: 'Only admins can delete messages' });
         }
 
@@ -338,13 +339,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           m.user.equals(socket.data.user._id)
         );
 
-        const canEdit =
+        const isSender = message.sender.equals(socket.data.user._id);
+        const isPrivileged =
           member?.roles.includes('Admin') ||
           member?.roles.includes('Owner') ||
           member?.roles.includes('Moderator');
 
-        if (!canEdit) {
-          return callback?.({ error: 'Only admins can edit messages' });
+        if (!isSender && !isPrivileged) {
+          return callback?.({
+            error: 'You are not allowed to edit this message',
+          });
         }
 
         message.text = text;
