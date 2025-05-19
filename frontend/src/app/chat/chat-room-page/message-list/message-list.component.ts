@@ -94,8 +94,4 @@ export class MessageListComponent {
   onEdit(msg: Message): void {
     // Trigger edit UI.
   }
-
-  // onDelete(msg: Message): void {
-  //   // Emit delete event or call delete service.
-  // }
 }
