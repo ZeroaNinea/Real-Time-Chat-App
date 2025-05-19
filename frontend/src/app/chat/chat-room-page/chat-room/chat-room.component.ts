@@ -230,9 +230,8 @@ export class ChatRoomComponent implements OnDestroy {
       console.log('The listener is called. Message:', msg);
       this.messages.update((msgs) =>
         msgs.map((m) => {
-          m._id === msg._id
-            ? console.log('Message from map `msg`:', msg)
-            : console.log('Message from map `m`:', m);
+          console.log('Mapping message `m`:', m);
+          console.log('Mapping message `msg`:', msg);
           return m._id === msg._id ? msg : m;
         })
       );
