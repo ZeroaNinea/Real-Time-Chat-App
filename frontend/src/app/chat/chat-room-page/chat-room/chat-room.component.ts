@@ -447,6 +447,10 @@ export class ChatRoomComponent implements OnDestroy {
             'Close',
             { duration: 3000 }
           );
+        } else {
+          this._snackbar.open('Message edited successfully', 'Close', {
+            duration: 3000,
+          });
         }
       }
     );
