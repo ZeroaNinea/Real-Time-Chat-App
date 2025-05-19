@@ -433,7 +433,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   editMessage(message: Message) {
-    console.log('Trigger edit:', message);
     this.wsService.emit(
       'editMessage',
       {
