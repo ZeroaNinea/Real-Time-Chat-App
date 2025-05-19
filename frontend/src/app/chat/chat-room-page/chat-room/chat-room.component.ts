@@ -1,5 +1,7 @@
 import {
   afterNextRender,
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   computed,
   ElementRef,
@@ -54,7 +56,9 @@ import { MemberListComponent } from '../member-list/member-list.component';
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
-export class ChatRoomComponent implements OnDestroy {
+export class ChatRoomComponent
+  implements OnDestroy, AfterViewChecked, AfterViewInit
+{
   message = signal('');
   messages = signal<Message[]>([]);
   private wsService = inject(WebsocketService);
