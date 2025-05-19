@@ -3,13 +3,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
-import { FormsModule } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-message-list',
@@ -18,7 +19,8 @@ import { MatFormField } from '@angular/material/form-field';
     MatIconModule,
     MatButtonModule,
     FormsModule,
-    MatFormField,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   standalone: true,
   templateUrl: './message-list.component.html',
