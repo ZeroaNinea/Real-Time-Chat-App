@@ -167,6 +167,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'Only admins can delete channels' });
         }
 
+        await Message.deleteMany({ channelId });
         await channel.deleteOne();
 
         io.to(chat._id.toString()).emit('channelDeleted', { channelId });
