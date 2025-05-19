@@ -44,7 +44,7 @@
   </div>
 
   <div class="main">
-    <div class="message-list" #scrollContainer>
+    <div class="message-list" #scrollContainer (scroll)="onScroll()">
       <app-message-list
         [messages]="messages()"
         [members]="populatedUsers()"

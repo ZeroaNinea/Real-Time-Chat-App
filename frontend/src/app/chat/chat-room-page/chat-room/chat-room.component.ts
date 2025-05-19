@@ -89,7 +89,11 @@ export class ChatRoomComponent
     return id ? this.channels().find((c) => c._id === id) : null;
   });
 
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+  @ViewChild('scrollContainer')
+  private scrollContainer!: ElementRef<HTMLDivElement>;
+
+  private isAtBottom = signal(true);
+  private lastMessageCount = 0;
 
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
@@ -97,7 +101,6 @@ export class ChatRoomComponent
 
   constructor() {
     afterNextRender(() => {
-      this.scrollToBottom();
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
         const channelId = params.get('channelId');
@@ -115,13 +118,12 @@ export class ChatRoomComponent
     });
   }
 
-  private scrollToBottom(): void {
-    try {
-      this.scrollContainer.nativeElement.scrollTop =
-        this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) {
-      console.error('Scroll error:', err);
-    }
+  onScroll() {
+    const container = this.scrollContainer.nativeElement;
+    const threshold = 100; // px from bottom to still count as "at bottom"
+    const position = container.scrollTop + container.clientHeight;
+    const height = container.scrollHeight;
+    this.isAtBottom.set(position + threshold >= height);
   }
 
   ngAfterViewInit() {
