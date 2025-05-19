@@ -344,4 +344,10 @@ export class ChatRoomComponent implements OnDestroy {
       }
     });
   }
+
+  deleteMessage(messageId: string) {
+    this.wsService.emit('deleteMessage', {
+      messageId,
+    });
+  }
 }
