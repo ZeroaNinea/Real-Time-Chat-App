@@ -22,6 +22,8 @@ export class MessageListComponent {
   environment = environment;
 
   hoveredMessageId: string | null = null;
+  editingMessageId: string | null = null;
+  editedText: string = '';
 
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
@@ -86,6 +88,25 @@ export class MessageListComponent {
       !sameSender(current, next) || !sameMinute(current, next);
 
     return { isFirstInGroup, isLastInGroup };
+  }
+
+  startEditing(msg: Message): void {
+    this.editingMessageId = msg._id;
+    this.editedText = msg.text;
+  }
+
+  cancelEditing(): void {
+    this.editingMessageId = null;
+    this.editedText = '';
+  }
+
+  submitEdit(msg: Message): void {
+    const trimmedText = this.editedText.trim();
+    if (trimmedText !== msg.text) {
+      this.onEdit.emit({ ...msg, text: trimmedText });
+    }
+
+    this.cancelEditing();
   }
 
   onReply(msg: Message): void {
