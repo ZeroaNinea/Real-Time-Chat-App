@@ -424,4 +424,23 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
+
+  editMessage(messageId: string, content: string) {
+    this.wsService.emit(
+      'editMessage',
+      {
+        messageId,
+        content,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to edit message',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
 }
