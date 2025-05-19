@@ -321,6 +321,42 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('editMessage', async ({ messageId, text }, callback) => {
+      try {
+        const message = await Message.findById(messageId);
+        if (!message) {
+          return callback?.({ error: 'Message not found' });
+        }
+
+        const chat = await Chat.findById(message.chatId);
+        if (!chat) {
+          return callback?.({ error: 'Chat not found' });
+        }
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        const canEdit =
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Owner') ||
+          member?.roles.includes('Moderator');
+
+        if (!canEdit) {
+          return callback?.({ error: 'Only admins can edit messages' });
+        }
+
+        message.text = text;
+        await message.save();
+
+        io.to(chat._id.toString()).emit('messageEdited', { message });
+        callback?.({ success: true, message });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
