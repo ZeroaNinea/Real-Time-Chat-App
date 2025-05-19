@@ -8,10 +8,18 @@ import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
+import { FormsModule } from '@angular/forms';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-message-list',
-  imports: [DatePipe, MatIconModule, MatButtonModule],
+  imports: [
+    DatePipe,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormField,
+  ],
   standalone: true,
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
