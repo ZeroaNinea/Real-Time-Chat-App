@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
@@ -120,14 +121,30 @@ export class ChatRoomComponent
 
   onScroll() {
     const container = this.scrollContainer.nativeElement;
-    const threshold = 100; // px from bottom to still count as "at bottom"
+    const threshold = 100;
     const position = container.scrollTop + container.clientHeight;
     const height = container.scrollHeight;
     this.isAtBottom.set(position + threshold >= height);
   }
 
   ngAfterViewInit() {
-    // this.scrollToBottom();
+    effect(() => {
+      const msgs = this.messages();
+      const container = this.scrollContainer?.nativeElement;
+
+      if (!container) return;
+
+      const newMessageCount = msgs.length;
+
+      if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
+        // New message arrived and user was at bottom.
+        queueMicrotask(() => {
+          container.scrollTop = container.scrollHeight;
+        });
+      }
+
+      this.lastMessageCount = newMessageCount;
+    });
   }
 
   ngAfterViewChecked() {
