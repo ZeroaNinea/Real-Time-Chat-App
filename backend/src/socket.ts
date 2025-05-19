@@ -170,6 +170,9 @@ export function setupSocket(server: HttpServer, app: Express) {
         await Message.deleteMany({ channelId });
         await channel.deleteOne();
 
+        io.to(chat._id.toString()).emit('channelMessagesDeleted', {
+          channelId,
+        });
         io.to(chat._id.toString()).emit('channelDeleted', { channelId });
         callback?.({ success: true });
       } catch (err) {
