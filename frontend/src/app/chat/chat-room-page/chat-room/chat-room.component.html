@@ -51,6 +51,7 @@
         [currentUserId]="currentUser()?.id"
         [channelId]="channelId()"
         (onDelete)="deleteMessage($event)"
+        (onEdit)="editMessage($event)"
       ></app-message-list>
     </div>
 

@@ -425,12 +425,12 @@ export class ChatRoomComponent implements OnDestroy {
     );
   }
 
-  editMessage(messageId: string, content: string) {
+  editMessage(message: Message) {
     this.wsService.emit(
       'editMessage',
       {
-        messageId,
-        content,
+        messageId: message._id,
+        text: message.text,
       },
       (res) => {
         if (res?.error) {
