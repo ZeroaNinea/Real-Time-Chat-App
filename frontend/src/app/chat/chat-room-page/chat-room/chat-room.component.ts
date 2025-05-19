@@ -2,9 +2,11 @@ import {
   afterNextRender,
   Component,
   computed,
+  ElementRef,
   inject,
   OnDestroy,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
@@ -81,6 +83,8 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
   });
+
+  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
