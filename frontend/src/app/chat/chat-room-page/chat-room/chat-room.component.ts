@@ -225,6 +225,12 @@ export class ChatRoomComponent implements OnDestroy {
           msgs.filter((m) => m.channelId !== channelId)
         );
       });
+
+    this.wsService.listenMessageEdits().subscribe((msg) => {
+      this.messages.update((msgs) =>
+        msgs.map((m) => (m._id === msg._id ? msg : m))
+      );
+    });
   }
 
   sendMessage() {
