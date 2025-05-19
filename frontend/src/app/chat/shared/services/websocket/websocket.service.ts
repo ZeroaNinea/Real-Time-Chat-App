@@ -149,4 +149,12 @@ export class WebsocketService implements OnDestroy {
     }
     this.socket.emit('joinChatRoom', { chatId });
   }
+
+  listenMessageDeletions(): Observable<{ messageId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('messageDeleted', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
