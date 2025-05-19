@@ -103,22 +103,52 @@ export class ChatRoomComponent
   }
 
   constructor() {
+    // effect(() => {
+    //   const msgs = this.messages();
+    //   const container = this.scrollContainer?.nativeElement;
+
+    //   if (!container) return;
+
+    //   const newMessageCount = msgs.length;
+
+    //   if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
+    //     // New message arrived and user was at bottom.
+    //     queueMicrotask(() => {
+    //       container.scrollTop = container.scrollHeight;
+    //     });
+    //   }
+
+    //   this.lastMessageCount = newMessageCount;
+    // });
     effect(() => {
+      // Scroll when messages change and user is at bottom.
       const msgs = this.messages();
       const container = this.scrollContainer?.nativeElement;
-
       if (!container) return;
 
       const newMessageCount = msgs.length;
 
       if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
-        // New message arrived and user was at bottom.
         queueMicrotask(() => {
           container.scrollTop = container.scrollHeight;
         });
       }
 
       this.lastMessageCount = newMessageCount;
+    });
+
+    effect(() => {
+      const currentChannel = this.channelId();
+      this.isAtBottom.set(true);
+
+      queueMicrotask(() => {
+        const container = this.scrollContainer?.nativeElement;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
+
+      this.lastMessageCount = this.messages().length;
     });
 
     afterNextRender(() => {
