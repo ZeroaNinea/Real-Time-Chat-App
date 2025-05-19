@@ -27,6 +27,7 @@ export class MessageListComponent {
   @Input() channelId!: string | null;
 
   @Output() onDelete = new EventEmitter<string>();
+  @Output() onEdit = new EventEmitter<{ messageId: string; text: string }>();
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
@@ -89,9 +90,5 @@ export class MessageListComponent {
 
   onReply(msg: Message): void {
     // Emit or set state to trigger reply.
-  }
-
-  onEdit(msg: Message): void {
-    // Trigger edit UI.
   }
 }

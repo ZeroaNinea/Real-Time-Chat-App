@@ -43,7 +43,10 @@
     <button mat-icon-button (click)="onReply(msg)">
       <mat-icon>reply</mat-icon>
     </button>
-    <button mat-icon-button (click)="onEdit(msg)">
+    <button
+      mat-icon-button
+      (click)="onEdit.emit({ messageId: msg._id, text: msg.text })"
+    >
       <mat-icon>edit</mat-icon>
     </button>
     <button mat-icon-button (click)="onDelete.emit(msg._id)">
