@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,8 @@ export class MessageListComponent {
 
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
+
+  @Output() onDelete = new EventEmitter<void>();
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
@@ -93,7 +95,7 @@ export class MessageListComponent {
     // Trigger edit UI.
   }
 
-  onDelete(msg: Message): void {
-    // Emit delete event or call delete service.
-  }
+  // onDelete(msg: Message): void {
+  //   // Emit delete event or call delete service.
+  // }
 }
