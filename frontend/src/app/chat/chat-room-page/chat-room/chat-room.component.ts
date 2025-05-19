@@ -8,6 +8,7 @@ import {
   effect,
   ElementRef,
   inject,
+  Injectable,
   OnDestroy,
   signal,
   ViewChild,
@@ -41,6 +42,7 @@ import { Member } from '../../shared/models/member.aliase';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { MemberListComponent } from '../member-list/member-list.component';
 
+@Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-chat-room',
   imports: [
@@ -101,6 +103,24 @@ export class ChatRoomComponent
   }
 
   constructor() {
+    effect(() => {
+      const msgs = this.messages();
+      const container = this.scrollContainer?.nativeElement;
+
+      if (!container) return;
+
+      const newMessageCount = msgs.length;
+
+      if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
+        // New message arrived and user was at bottom.
+        queueMicrotask(() => {
+          container.scrollTop = container.scrollHeight;
+        });
+      }
+
+      this.lastMessageCount = newMessageCount;
+    });
+
     afterNextRender(() => {
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
@@ -127,25 +147,7 @@ export class ChatRoomComponent
     this.isAtBottom.set(position + threshold >= height);
   }
 
-  ngAfterViewInit() {
-    effect(() => {
-      const msgs = this.messages();
-      const container = this.scrollContainer?.nativeElement;
-
-      if (!container) return;
-
-      const newMessageCount = msgs.length;
-
-      if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
-        // New message arrived and user was at bottom.
-        queueMicrotask(() => {
-          container.scrollTop = container.scrollHeight;
-        });
-      }
-
-      this.lastMessageCount = newMessageCount;
-    });
-  }
+  ngAfterViewInit() {}
 
   ngAfterViewChecked() {
     // this.scrollToBottom();
