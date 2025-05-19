@@ -46,7 +46,7 @@
     <button mat-icon-button (click)="onEdit(msg)">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="onDelete(msg)">
+    <button mat-icon-button (click)="onDelete.emit(msg._id)">
       <mat-icon>delete</mat-icon>
     </button>
   </div>
