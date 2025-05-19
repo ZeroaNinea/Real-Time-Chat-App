@@ -157,4 +157,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenChannelMessageDeletions(): Observable<{ channelId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('channelMessagesDeleted', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
