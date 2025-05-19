@@ -355,7 +355,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         message.text = text;
         await message.save();
 
-        io.to(chat._id.toString()).emit('messageEdited', { message });
+        io.to(chat._id.toString()).emit('messageEdited', message);
         callback?.({ success: true, message });
       } catch (err) {
         console.error(err);

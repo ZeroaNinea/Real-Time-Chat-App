@@ -229,11 +229,7 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService.listenMessageEdits().subscribe((msg) => {
       console.log('The listener is called. Message:', msg);
       this.messages.update((msgs) =>
-        msgs.map((m) => {
-          console.log('Mapping message `m`:', m);
-          console.log('Mapping message `msg`:', msg);
-          return m._id === msg._id ? msg : m;
-        })
+        msgs.map((m) => (m._id === msg._id ? msg : m))
       );
     });
   }
@@ -451,10 +447,6 @@ export class ChatRoomComponent implements OnDestroy {
             'Close',
             { duration: 3000 }
           );
-        } else {
-          this._snackbar.open('Message edited successfully', 'Close', {
-            duration: 3000,
-          });
         }
       }
     );
