@@ -458,21 +458,24 @@ export class ChatRoomComponent implements OnDestroy {
 
   replyMessage(message: Message) {
     this.replyingToMessage.set(message);
-    this.wsService.emit(
-      'reply',
-      {
-        messageId: message._id,
-        text: message.text,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to reply message',
-            'Close',
-            { duration: 3000 }
-          );
+
+    if (this.replyingToMessage()) {
+      this.wsService.emit(
+        'reply',
+        {
+          messageId: message._id,
+          text: message.text,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to reply message',
+              'Close',
+              { duration: 3000 }
+            );
+          }
         }
-      }
-    );
+      );
+    }
   }
 }
