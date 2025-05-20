@@ -4,5 +4,6 @@ export interface Message {
   channelId: string;
   sender: string;
   text: string;
+  isEdited: boolean;
   createdAt: string;
 }
