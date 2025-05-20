@@ -25,7 +25,7 @@
     </div>
     }
 
-    <div class="text">
+    <!-- <div class="text">
       @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
         <input
@@ -47,6 +47,35 @@
       <span>{{ msg.text }}</span>
       @if (!isGrouped($index) && hoveredMessageId === msg._id) {
       <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
+      } }
+    </div> -->
+    <div class="text">
+      @if (editingMessageId === msg._id) {
+      <mat-form-field class="edit-input" appearance="fill">
+        <input
+          matInput
+          [(ngModel)]="editedText"
+          (keydown.enter)="submitEdit(msg)"
+          (keydown.escape)="cancelEditing()"
+        />
+      </mat-form-field>
+      <div class="edit-actions">
+        <button mat-icon-button color="primary" (click)="submitEdit(msg)">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="cancelEditing()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      } @else {
+      <span class="message-text">{{ msg.text }}</span>
+
+      @if (msg.isEdited) {
+      <span class="edited">(Edited)</span>
+      } @if (hoveredMessageId === msg._id) {
+      <span class="timestamp">
+        {{ msg.createdAt | date : "shortTime" }}
+      </span>
       } }
     </div>
   </div>
