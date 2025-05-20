@@ -24,6 +24,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() message!: string;
   @Input() chatId: string | null = null;
   @Input() channelId: string | null = null;
+  @Input() replyingToMessage: string | null = null;
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
