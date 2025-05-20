@@ -453,4 +453,22 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
+
+  replyMessage(message: Message) {
+    this.wsService.emit(
+      'replyMessage',
+      {
+        messageId: message._id,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to reply message',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
 }
