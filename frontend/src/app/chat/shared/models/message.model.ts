@@ -5,5 +5,6 @@ export interface Message {
   sender: string;
   text: string;
   isEdited: boolean;
+  replyTo: string;
   createdAt: string;
 }
