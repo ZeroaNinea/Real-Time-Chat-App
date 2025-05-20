@@ -97,6 +97,8 @@ export class ChatRoomComponent implements OnDestroy {
     return this.selectedChannel()?.permissions || {};
   }
 
+  replyingToMessage = signal<Message | null>(null);
+
   constructor() {
     effect(() => {
       // Scroll when messages change and user is at bottom.
