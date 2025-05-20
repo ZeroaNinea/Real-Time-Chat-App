@@ -20,12 +20,8 @@
   <div class="message-content">
     @if (isGrouped($index)) {
     <div class="message-header">
-      <span class="username" style="z-index: 10">{{
-        getUsername(msg.sender)
-      }}</span>
-      <span class="timestamp" style="z-index: 10">{{
-        msg.createdAt | date : "shortTime"
-      }}</span>
+      <span class="username">{{ getUsername(msg.sender) }}</span>
+      <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
     </div>
     }
 
@@ -48,7 +44,7 @@
         </button>
       </div>
       } @else {
-      <span style="z-index: 10">{{ msg.text }}</span>
+      <span>{{ msg.text }}</span>
       @if (msg.isEdited) {
       <span class="edited">(Edited)</span>
       } @if (!isGrouped($index) && hoveredMessageId === msg._id) {

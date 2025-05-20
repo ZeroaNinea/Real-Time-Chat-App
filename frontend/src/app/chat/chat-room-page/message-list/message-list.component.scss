@@ -130,6 +130,7 @@
     justify-content: space-between;
     font-size: 0.85rem;
     color: gray;
+    z-index: 1;
   }
 
   .username {
@@ -159,7 +160,14 @@
     flex-direction: row-reverse;
     gap: 1rem;
 
+    z-index: 1;
+
     .timestamp {
+      color: gray;
+    }
+
+    .edited {
+      font-size: 0.75rem;
       color: gray;
     }
   }
@@ -174,9 +182,4 @@
   display: flex;
   gap: 4px;
   margin-top: 4px;
-}
-
-.edited {
-  font-size: 0.75rem;
-  color: gray;
 }
