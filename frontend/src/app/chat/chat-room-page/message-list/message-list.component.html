@@ -26,7 +26,14 @@
     }
 
     <div class="text">
-      @if (editingMessageId === msg._id) {
+      @if (msg.replyTo) {
+      <div class="reply-preview">
+        <span class="replied-username">{{
+          // getUsername(msg.replyTo.sender)
+        }}</span>
+        <span class="replied-text">"{{ msg.replyTo }}"</span>
+      </div>
+      } @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
         <textarea
           matInput
