@@ -28,12 +28,12 @@
     <div class="text">
       @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
-        <input
+        <textarea
           matInput
           [(ngModel)]="editedText"
           (keydown.enter)="submitEdit(msg)"
           (keydown.escape)="cancelEditing()"
-        />
+        ></textarea>
       </mat-form-field>
       <div class="edit-actions">
         <button mat-icon-button color="primary" (click)="submitEdit(msg)">
