@@ -7,6 +7,7 @@ export interface IMessage {
   sender: mongoose.Types.ObjectId;
   text: string;
   isEdited: boolean;
+  replyTo: mongoose.Types.ObjectId;
   timestamp?: Date;
 }
 
@@ -36,6 +37,11 @@ const MessageSchema = new mongoose.Schema<MessageDocument>(
     isEdited: {
       type: Boolean,
       default: false,
+    },
+    replyTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Message',
+      default: null,
     },
   },
   {
