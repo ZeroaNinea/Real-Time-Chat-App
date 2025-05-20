@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { Message } from '../../shared/models/message.model';
+
 @Component({
   selector: 'app-message-input',
   imports: [FormsModule, MatIconModule, MatButtonModule],
@@ -24,7 +26,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() message!: string;
   @Input() chatId: string | null = null;
   @Input() channelId: string | null = null;
-  @Input() replyingToMessage: string | null = null;
+  @Input() replyingToMessage: Message | null = null;
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
