@@ -352,6 +352,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
 
         message.text = text;
+        message.isEdited = true;
         await message.save();
 
         io.to(chat._id.toString()).emit('messageEdited', message);
