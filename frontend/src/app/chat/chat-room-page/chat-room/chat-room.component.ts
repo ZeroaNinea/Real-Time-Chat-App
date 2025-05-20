@@ -459,6 +459,7 @@ export class ChatRoomComponent implements OnDestroy {
       'replyMessage',
       {
         messageId: message._id,
+        text: message.text,
       },
       (res) => {
         if (res?.error) {

@@ -141,6 +141,7 @@ export class MessageListComponent {
     //     console.error(res.error);
     //     return;
     //   }
+    this.onReply.emit({ ...this.replyToMessage, text });
 
     this.replyToMessage = null;
   }
