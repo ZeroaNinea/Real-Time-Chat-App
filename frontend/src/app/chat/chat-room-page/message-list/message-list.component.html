@@ -62,6 +62,10 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
+  } @if (msg.isEdited) {
+  <div class="edited-indicator">
+    <span class="edited">Edited</span>
+  </div>
   }
 </div>
 }
