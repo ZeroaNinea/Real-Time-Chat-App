@@ -69,6 +69,10 @@
         width: 100%;
         gap: 0.5rem;
       }
+
+      .text {
+        flex-direction: row-reverse;
+      }
     }
   }
 
@@ -162,7 +166,7 @@
     word-break: break-word;
 
     display: flex;
-    flex-direction: row-reverse;
+    // flex-direction: row-reverse;
     gap: 1rem;
 
     z-index: 1;

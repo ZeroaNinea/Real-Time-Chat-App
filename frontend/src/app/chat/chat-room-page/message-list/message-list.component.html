@@ -45,11 +45,14 @@
       </div>
       } @else {
       <span>{{ msg.text }}</span>
-      @if (msg.isEdited) {
-      <span class="edited">(Edited)</span>
-      } @if (!isGrouped($index) && hoveredMessageId === msg._id) {
-      <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
-      } }
+      <div>
+        @if (msg.isEdited) {
+        <span class="edited">(Edited)</span>
+        } @if (!isGrouped($index) && hoveredMessageId === msg._id) {
+        <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
+        }
+      </div>
+      }
     </div>
   </div>
   @if (hoveredMessageId === msg._id) {
