@@ -456,7 +456,7 @@ export class ChatRoomComponent implements OnDestroy {
 
   replyMessage(message: Message) {
     this.wsService.emit(
-      'replyMessage',
+      'reply',
       {
         messageId: message._id,
         text: message.text,
