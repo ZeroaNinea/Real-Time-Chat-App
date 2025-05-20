@@ -74,6 +74,13 @@
         flex-direction: row-reverse;
       }
     }
+
+    .message-actions {
+      position: absolute;
+      top: 0;
+      left: 1%;
+      width: 100%;
+    }
   }
 
   &:hover {
@@ -83,10 +90,11 @@
   .message-actions {
     position: absolute;
     top: 0;
-    left: 1%;
-    width: 100%;
+    // left: 1%;
+    right: 1%;
+    width: 12%;
 
-    justify-content: flex-start;
+    // justify-content: flex-start;
 
     display: flex;
 
@@ -178,6 +186,7 @@
     .edited {
       font-size: 0.75rem;
       color: gray;
+      margin-right: 0.5rem;
     }
 
     .edit-input {
