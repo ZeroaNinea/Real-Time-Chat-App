@@ -52,7 +52,7 @@
         [channelId]="channelId()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
-        (onReply)="replyMessage($event)"
+        (onReply)="startReplyingToMessage($event)"
       ></app-message-list>
     </div>
 
@@ -64,6 +64,7 @@
       [channelId]="channelId()"
       [replyingToMessage]="replyingToMessage()"
       (cancelReply)="cancelReply()"
+      (onReply)="replyToMessage($event)"
     ></app-message-input>
   </div>
 

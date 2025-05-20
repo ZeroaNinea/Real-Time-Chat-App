@@ -31,6 +31,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
   @Output() cancelReply = new EventEmitter<void>();
+  @Output() onReply = new EventEmitter<Message>();
 
   @ViewChild('textarea') textarea!: ElementRef<HTMLTextAreaElement>;
 

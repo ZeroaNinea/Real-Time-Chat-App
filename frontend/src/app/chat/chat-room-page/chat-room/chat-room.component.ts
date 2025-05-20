@@ -456,9 +456,16 @@ export class ChatRoomComponent implements OnDestroy {
     );
   }
 
-  replyMessage(message: Message) {
+  startReplyingToMessage(message: Message) {
     this.replyingToMessage.set(message);
+  }
 
+  cancelReply() {
+    console.log('cancel reply');
+    this.replyingToMessage.set(null);
+  }
+
+  replyToMessage(message: Message) {
     if (this.replyingToMessage()) {
       this.wsService.emit(
         'reply',
@@ -477,10 +484,5 @@ export class ChatRoomComponent implements OnDestroy {
         }
       );
     }
-  }
-
-  cancelReply() {
-    console.log('cancel reply');
-    this.replyingToMessage.set(null);
   }
 }
