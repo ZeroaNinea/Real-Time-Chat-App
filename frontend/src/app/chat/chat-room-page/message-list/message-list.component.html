@@ -25,7 +25,7 @@
     </div>
     }
 
-    <!-- <div class="text">
+    <div class="text">
       @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
         <input
@@ -45,11 +45,13 @@
       </div>
       } @else {
       <span>{{ msg.text }}</span>
-      @if (!isGrouped($index) && hoveredMessageId === msg._id) {
+      @if (msg.isEdited) {
+      <span class="edited">(Edited)</span>
+      } @if (!isGrouped($index) && hoveredMessageId === msg._id) {
       <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
       } }
-    </div> -->
-    <div class="text">
+    </div>
+    <!-- <div class="text">
       @if (editingMessageId === msg._id) {
       <mat-form-field class="edit-input" appearance="fill">
         <input
@@ -77,7 +79,7 @@
         {{ msg.createdAt | date : "shortTime" }}
       </span>
       } }
-    </div>
+    </div> -->
   </div>
   @if (hoveredMessageId === msg._id) {
   <div class="message-actions">
@@ -91,8 +93,6 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
-  } @if (msg.isEdited) {
-  <span class="edited">(Edited)</span>
   }
 </div>
 }
