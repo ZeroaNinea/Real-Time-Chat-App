@@ -13,6 +13,7 @@ import { Channel } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.aliase';
 import { Message } from './models/message.model';
+import { User } from './models/user.model';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -356,6 +357,49 @@ export function setupSocket(server: HttpServer, app: Express) {
         await message.save();
 
         io.to(chat._id.toString()).emit('messageEdited', message);
+        callback?.({ success: true, message });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
+
+    socket.on('reply', async ({ messageId, text }, callback) => {
+      try {
+        const message = await Message.findById(messageId);
+        if (!message) {
+          return callback?.({ error: 'Message not found' });
+        }
+
+        const chat = await Chat.findById(message.chatId);
+        if (!chat) {
+          return callback?.({ error: 'Chat not found' });
+        }
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        if (!member) {
+          return callback?.({ error: 'You are not a member of this chat' });
+        }
+
+        if (message.sender.equals(socket.data.user._id)) {
+          return callback?.({
+            error: 'You cannot reply to your own message',
+          });
+        }
+
+        const reply = await Message.create({
+          chatId: message.chatId,
+          sender: socket.data.user._id,
+          text,
+        });
+
+        message.replyTo = reply._id;
+        await message.save();
+
+        io.to(chat._id.toString()).emit('messageReplied', message);
         callback?.({ success: true, message });
       } catch (err) {
         console.error(err);
