@@ -392,15 +392,14 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         const reply = await Message.create({
           chatId: message.chatId,
+          channelId: message.channelId, // ✅ include this!
           sender: socket.data.user._id,
           text,
+          replyTo: message._id, // ✅ reply points to original
         });
 
-        message.replyTo = reply._id;
-        await message.save();
-
-        io.to(chat._id.toString()).emit('messageReplied', message);
-        callback?.({ success: true, message });
+        io.to(chat._id.toString()).emit('messageReplied', reply); // ✅ emit the new message, not the original
+        callback?.({ success: true, message: reply });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
