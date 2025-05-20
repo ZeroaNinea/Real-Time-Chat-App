@@ -54,7 +54,7 @@
   </div>
   @if (hoveredMessageId === msg._id) {
   <div class="message-actions">
-    <button mat-icon-button (click)="startReplying(msg)">
+    <button mat-icon-button (click)="onReply.emit(msg)">
       <mat-icon>reply</mat-icon>
     </button>
     <button mat-icon-button (click)="startEditing(msg)">
