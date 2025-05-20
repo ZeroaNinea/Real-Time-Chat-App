@@ -123,6 +123,7 @@ export class MessageListComponent {
   }
 
   startReplying(message: Message): void {
+    console.log('Replying to message:', message);
     this.replyToMessage = message;
   }
 
