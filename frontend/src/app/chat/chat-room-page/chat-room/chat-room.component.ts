@@ -478,4 +478,8 @@ export class ChatRoomComponent implements OnDestroy {
       );
     }
   }
+
+  cancelReply() {
+    this.replyingToMessage.set(null);
+  }
 }
