@@ -480,6 +480,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   cancelReply() {
+    console.log('cancel reply');
     this.replyingToMessage.set(null);
   }
 }
