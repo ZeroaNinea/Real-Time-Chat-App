@@ -40,6 +40,9 @@ export class MessageListComponent {
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
+  @Output() onReply = new EventEmitter<Message>();
+
+  replyToMessage: Message | null = null;
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
@@ -119,7 +122,26 @@ export class MessageListComponent {
     this.cancelEditing();
   }
 
-  onReply(msg: Message): void {
-    // Emit or set state to trigger reply.
+  startReplying(message: Message): void {
+    this.replyToMessage = message;
+  }
+
+  cancelReply(): void {
+    this.replyToMessage = null;
+  }
+
+  sendReply(text: string): void {
+    if (!this.replyToMessage) return;
+
+    // this.websocketService.emit('reply', {
+    //   messageId: this.replyToMessage._id,
+    //   text,
+    // }, (res) => {
+    //   if (res?.error) {
+    //     console.error(res.error);
+    //     return;
+    //   }
+
+    this.replyToMessage = null;
   }
 }
