@@ -13,14 +13,21 @@
       #textarea
       [(ngModel)]="message"
       (ngModelChange)="messageChange.emit($event)"
-      (keydown.enter)="onEnter($event)"
+      (keydown.enter)="
+        replyingToMessage ? onReply.emit(replyingToMessage) : onEnter($event)
+      "
       placeholder="Type a message"
       class="message-textarea"
     ></textarea>
 
     <div class="button-row">
       <button mat-icon-button><mat-icon>insert_emoticon</mat-icon></button>
-      <button mat-icon-button (click)="onClick($event)">
+      <button
+        mat-icon-button
+        (click)="
+          replyingToMessage ? onReply.emit(replyingToMessage) : onClick($event)
+        "
+      >
         <mat-icon>send</mat-icon>
       </button>
     </div>
