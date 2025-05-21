@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Message } from '../../shared/models/message.model';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 @Component({
   selector: 'app-message-input',
@@ -27,6 +28,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() chatId: string | null = null;
   @Input() channelId: string | null = null;
   @Input() replyingToMessage: Message | null = null;
+  @Input() members: PopulatedUser[] = [];
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();

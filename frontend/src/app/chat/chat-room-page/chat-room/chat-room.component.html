@@ -59,6 +59,7 @@
     <app-message-input
       [message]="message()"
       (messageChange)="message.set($event)"
+      [members]="populatedUsers()"
       (send)="sendMessage()"
       [chatId]="chatId()"
       [channelId]="channelId()"
