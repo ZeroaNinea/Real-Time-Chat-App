@@ -61,4 +61,13 @@ export class MessageInputComponent implements AfterViewInit {
     this.send.emit();
     this.textarea.nativeElement.style.height = '4.5rem';
   }
+
+  getRecipientUsername() {
+    if (this.replyingToMessage) {
+      return this.members.find(
+        (m) => m.user._id === this.replyingToMessage?.sender
+      )?.user.username;
+    }
+    return '';
+  }
 }

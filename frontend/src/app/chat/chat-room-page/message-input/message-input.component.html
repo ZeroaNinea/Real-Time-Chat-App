@@ -1,9 +1,7 @@
 @if (replyingToMessage) {
 <div class="reply-indicator">
   Replying to
-  <strong
-    >{{ members.map((m) => m.id === replyingToMessage.sender ? m.username :
-    'Eror finding the user.') } }</strong
+  <strong>{{ getRecipientUsername() }}</strong
   >: "{{ replyingToMessage.text }}"
   <button mat-icon-button (click)="cancelReply.emit()">
     <mat-icon>close</mat-icon>
