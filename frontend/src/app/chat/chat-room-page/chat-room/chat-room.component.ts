@@ -469,12 +469,13 @@ export class ChatRoomComponent implements OnDestroy {
   replyToMessage(message: Message) {
     console.log('Reply to message: ', message);
     console.log('Current replying to message: ', this.replyingToMessage());
+    const msg = this.message().trim();
     if (this.replyingToMessage()) {
       this.wsService.emit(
         'reply',
         {
           messageId: this.replyingToMessage()?._id,
-          text: message.text,
+          text: msg,
         },
         (res) => {
           if (res?.error) {
