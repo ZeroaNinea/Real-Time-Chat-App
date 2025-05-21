@@ -52,15 +52,28 @@ export class MessageListComponent {
     return this.messages.filter((msg) => msg.channelId === this.channelId);
   }
 
+  // isGrouped(index: number): boolean {
+  //   const current = this.filteredMessages[index];
+  //   const previous = this.filteredMessages[index - 1];
+
+  //   return (
+  //     index === 0 ||
+  //     current.sender !== previous.sender ||
+  //     !this.isSameMinute(current, previous)
+  //   );
+  // }
+
   isGrouped(index: number): boolean {
+    if (index === 0) return true;
+
     const current = this.filteredMessages[index];
     const previous = this.filteredMessages[index - 1];
 
-    return (
-      index === 0 ||
-      current.sender !== previous.sender ||
-      !this.isSameMinute(current, previous)
-    );
+    const sameSender = current.sender === previous.sender;
+    const sameTime = this.isSameMinute(current, previous);
+    const sameReplyStatus = !!current.replyTo === !!previous.replyTo;
+
+    return !(sameSender && sameTime && sameReplyStatus);
   }
 
   getUsername(userId: string): string {
