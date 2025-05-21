@@ -457,15 +457,18 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   startReplyingToMessage(message: Message) {
+    console.log('Start replying to message: ', message);
     this.replyingToMessage.set(message);
   }
 
   cancelReply() {
-    console.log('cancel reply');
+    console.log('Cancel replying.');
     this.replyingToMessage.set(null);
   }
 
   replyToMessage(message: Message) {
+    console.log('Reply to message: ', message);
+    console.log('Current replying to message: ', this.replyingToMessage());
     if (this.replyingToMessage()) {
       this.wsService.emit(
         'reply',
