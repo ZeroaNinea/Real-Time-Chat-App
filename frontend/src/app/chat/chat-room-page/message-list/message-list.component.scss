@@ -85,6 +85,14 @@
     }
   }
 
+  &.reply {
+    @include mat.theme(
+      (
+        color: mat.$yellow-palette,
+      )
+    );
+  }
+
   &:hover {
     background-color: var(--mat-sys-surface-dim);
   }
