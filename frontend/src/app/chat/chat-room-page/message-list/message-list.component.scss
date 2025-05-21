@@ -84,7 +84,8 @@
     }
 
     &.reply {
-      background-color: var(--mat-sys-secondary-container);
+      // background-color: var(--mat-sys-secondary-container);
+      background-color: var(--mat-sys-surface-variant);
       border-left: none;
 
       &:hover {
@@ -100,7 +101,8 @@
       )
     );
 
-    background-color: var(--mat-sys-surface-variant);
+    // background-color: var(--mat-sys-surface-variant);
+    background-color: var(--mat-sys-secondary-container);
     border-left: 5px solid var(--mat-sys-on-primary-container);
     border-top-left-radius: 0.3rem !important;
     border-bottom-left-radius: 0.3rem !important;
