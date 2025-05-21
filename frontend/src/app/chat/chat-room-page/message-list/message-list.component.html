@@ -8,6 +8,7 @@
     !getMessagePosition($index).isFirstInGroup &&
     !getMessagePosition($index).isLastInGroup
   "
+  [class.reply]="msg.replyTo"
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
