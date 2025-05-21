@@ -52,17 +52,6 @@ export class MessageListComponent {
     return this.messages.filter((msg) => msg.channelId === this.channelId);
   }
 
-  // isGrouped(index: number): boolean {
-  //   const current = this.filteredMessages[index];
-  //   const previous = this.filteredMessages[index - 1];
-
-  //   return (
-  //     index === 0 ||
-  //     current.sender !== previous.sender ||
-  //     !this.isSameMinute(current, previous)
-  //   );
-  // }
-
   isGrouped(index: number): boolean {
     if (index === 0) return true;
 
@@ -93,26 +82,6 @@ export class MessageListComponent {
   getQuotedText(messageId: string): string {
     return this.messages.find((m) => m._id === messageId)?.text ?? '[deleted]';
   }
-
-  // getMessagePosition(index: number) {
-  //   const current = this.filteredMessages[index];
-  //   const previous = this.filteredMessages[index - 1];
-  //   const next = this.filteredMessages[index + 1];
-
-  //   const sameSender = (a?: Message, b?: Message) =>
-  //     a && b && a.sender === b.sender;
-
-  //   const sameMinute = (a?: Message, b?: Message) =>
-  //     a && b && this.isSameMinute(a, b);
-
-  //   const isFirstInGroup =
-  //     !sameSender(current, previous) || !sameMinute(current, previous);
-
-  //   const isLastInGroup =
-  //     !sameSender(current, next) || !sameMinute(current, next);
-
-  //   return { isFirstInGroup, isLastInGroup };
-  // }
 
   getMessagePosition(index: number) {
     const current = this.filteredMessages[index];
