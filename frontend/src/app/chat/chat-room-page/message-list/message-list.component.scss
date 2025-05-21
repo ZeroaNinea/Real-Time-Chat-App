@@ -88,6 +88,11 @@
       background-color: var(--mat-sys-surface-variant);
       border-left: none;
 
+      &.first.last.own {
+        border-bottom-left-radius: 0.5rem !important;
+        border-top-left-radius: 0.5rem !important;
+      }
+
       &.last.own {
         border-top-left-radius: 0 !important;
       }
