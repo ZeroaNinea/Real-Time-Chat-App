@@ -119,6 +119,19 @@
     border-left: 5px solid var(--mat-sys-on-primary-container);
     border-top-left-radius: 0.3rem !important;
     border-bottom-left-radius: 0.3rem !important;
+
+    &.last {
+      border-top-left-radius: 0 !important;
+    }
+
+    &.first.reply {
+      border-bottom-left-radius: 0rem !important;
+    }
+
+    &.middle {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0rem !important;
+    }
   }
 
   &:hover {
