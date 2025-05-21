@@ -87,8 +87,12 @@ export class MessageListComponent {
     const sender =
       this.messages.find((m) => m._id === messageId)?.sender ?? '[deleted]';
     return this.getUsername(sender);
-    // return this.members.find((m) => m.user._id === message.sender)?.user.username ??
-    //   'Unknown';
+  }
+
+  getRecipientAvatarUrl(messageId: string): string {
+    const sender =
+      this.messages.find((m) => m._id === messageId)?.sender ?? '[deleted]';
+    return this.getAvatarUrl(sender);
   }
 
   getMessagePosition(index: number) {
