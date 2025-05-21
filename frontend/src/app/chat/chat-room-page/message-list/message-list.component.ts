@@ -83,6 +83,14 @@ export class MessageListComponent {
     return this.messages.find((m) => m._id === messageId)?.text ?? '[deleted]';
   }
 
+  getRecipientUsername(messageId: string): string {
+    const sender =
+      this.messages.find((m) => m._id === messageId)?.sender ?? '[deleted]';
+    return this.getUsername(sender);
+    // return this.members.find((m) => m.user._id === message.sender)?.user.username ??
+    //   'Unknown';
+  }
+
   getMessagePosition(index: number) {
     const current = this.filteredMessages[index];
     const previous = this.filteredMessages[index - 1];
