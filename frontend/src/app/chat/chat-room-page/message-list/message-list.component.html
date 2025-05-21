@@ -12,7 +12,13 @@
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
-  @if (isGrouped($index)) {
+  @if (isGrouped($index)) { @if (msg.replyTo) {
+  <div class="reply-link">
+    Replying to
+    <strong>{{ getUsername(msg.sender) }}</strong
+    >: "{{ getQuotedText(msg._id) }}"
+  </div>
+  }
   <div class="avatar-wrapper">
     <img [src]="getAvatarUrl(msg.sender)" alt="Avatar" class="user-avatar" />
   </div>
