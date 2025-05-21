@@ -3,7 +3,7 @@ isGrouped($index)) {
 <div class="reply-link" [class.own]="msg.sender === currentUserId">
   Replying to&nbsp;
   <strong>{{ getUsername(msg.sender) }}</strong
-  >: "{{ getQuotedText(msg._id) }}"
+  >: "{{ getQuotedText(msg.replyTo).slice(0, 100) }} . . ."
 </div>
 }
 <div
