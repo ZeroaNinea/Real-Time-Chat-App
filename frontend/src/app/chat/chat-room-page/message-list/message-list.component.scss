@@ -88,6 +88,19 @@
       background-color: var(--mat-sys-surface-variant);
       border-left: none;
 
+      &.last.own {
+        border-top-left-radius: 0 !important;
+      }
+
+      &.first.own {
+        border-bottom-left-radius: 0rem !important;
+      }
+
+      &.middle.own {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0rem !important;
+      }
+
       &:hover {
         background-color: var(--mat-sys-surface-dim);
       }
