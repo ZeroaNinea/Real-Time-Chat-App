@@ -470,7 +470,7 @@ export class ChatRoomComponent implements OnDestroy {
     console.log('Reply to message: ', message);
     console.log('Current replying to message: ', this.replyingToMessage());
     const msg = this.message().trim();
-    if (this.replyingToMessage()) {
+    if (this.replyingToMessage() && msg) {
       this.wsService.emit(
         'reply',
         {
@@ -487,6 +487,8 @@ export class ChatRoomComponent implements OnDestroy {
           }
         }
       );
+
+      this.message.set('');
     }
   }
 }
