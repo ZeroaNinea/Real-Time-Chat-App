@@ -2,7 +2,11 @@
 isGrouped($index)) {
 <div class="reply-link" [class.own]="msg.sender === currentUserId">
   <div class="avatar-wrapper">
-    <img [src]="getAvatarUrl(msg.sender)" alt="Avatar" class="user-avatar" />
+    <img
+      [src]="getRecipientAvatarUrl(msg.replyTo)"
+      alt="Avatar"
+      class="recipient-avatar"
+    />
   </div>
   Replying to&nbsp;
   <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
