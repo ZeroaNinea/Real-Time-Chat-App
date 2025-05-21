@@ -14,7 +14,9 @@
       [(ngModel)]="message"
       (ngModelChange)="messageChange.emit($event)"
       (keydown.enter)="
-        replyingToMessage ? onReply.emit(replyingToMessage) : onEnter($event)
+        replyingToMessage
+          ? replyToMessage.emit(replyingToMessage)
+          : onEnter($event)
       "
       placeholder="Type a message"
       class="message-textarea"
@@ -25,7 +27,9 @@
       <button
         mat-icon-button
         (click)="
-          replyingToMessage ? onReply.emit(replyingToMessage) : onClick($event)
+          replyingToMessage
+            ? replyToMessage.emit(replyingToMessage)
+            : onClick($event)
         "
       >
         <mat-icon>send</mat-icon>
