@@ -37,10 +37,6 @@
     border-top-right-radius: 0.3rem !important;
   }
 
-  &:hover {
-    background-color: var(--mat-sys-outline-variant);
-  }
-
   &.own {
     background-color: var(--mat-sys-secondary-container);
     border-right: 5px solid var(--mat-sys-on-primary-container);
@@ -83,6 +79,14 @@
       left: 1%;
       width: 100%;
     }
+
+    &.reply {
+      background-color: var(--mat-sys-secondary-container);
+
+      &:hover {
+        background-color: var(--mat-sys-surface-dim);
+      }
+    }
   }
 
   &.reply {
@@ -91,6 +95,8 @@
         color: mat.$yellow-palette,
       )
     );
+
+    background-color: var(--mat-sys-surface-variant);
   }
 
   &:hover {
