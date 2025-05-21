@@ -1,4 +1,11 @@
-@for (msg of filteredMessages; track [msg._id, $index]) {
+@for (msg of filteredMessages; track [msg._id, $index]) { @if (msg.replyTo &&
+isGrouped($index)) {
+<div class="reply-link" [class.own]="msg.sender === currentUserId">
+  Replying to&nbsp;
+  <strong>{{ getUsername(msg.sender) }}</strong
+  >: "{{ getQuotedText(msg._id) }}"
+</div>
+}
 <div
   class="message"
   [class.own]="msg.sender === currentUserId"
@@ -12,13 +19,7 @@
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
-  @if (isGrouped($index)) { @if (msg.replyTo) {
-  <div class="reply-link">
-    Replying to
-    <strong>{{ getUsername(msg.sender) }}</strong
-    >: "{{ getQuotedText(msg._id) }}"
-  </div>
-  }
+  @if (isGrouped($index)) {
   <div class="avatar-wrapper">
     <img [src]="getAvatarUrl(msg.sender)" alt="Avatar" class="user-avatar" />
   </div>

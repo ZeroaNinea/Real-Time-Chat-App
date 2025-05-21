@@ -177,6 +177,22 @@
   }
 }
 
+.reply-link {
+  display: flex;
+  margin-top: 1rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.own {
+    justify-content: flex-end;
+  }
+}
+
 .avatar-wrapper {
   flex-shrink: 0;
 
