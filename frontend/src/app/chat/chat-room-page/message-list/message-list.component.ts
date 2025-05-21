@@ -94,6 +94,26 @@ export class MessageListComponent {
     return this.messages.find((m) => m._id === messageId)?.text ?? '[deleted]';
   }
 
+  // getMessagePosition(index: number) {
+  //   const current = this.filteredMessages[index];
+  //   const previous = this.filteredMessages[index - 1];
+  //   const next = this.filteredMessages[index + 1];
+
+  //   const sameSender = (a?: Message, b?: Message) =>
+  //     a && b && a.sender === b.sender;
+
+  //   const sameMinute = (a?: Message, b?: Message) =>
+  //     a && b && this.isSameMinute(a, b);
+
+  //   const isFirstInGroup =
+  //     !sameSender(current, previous) || !sameMinute(current, previous);
+
+  //   const isLastInGroup =
+  //     !sameSender(current, next) || !sameMinute(current, next);
+
+  //   return { isFirstInGroup, isLastInGroup };
+  // }
+
   getMessagePosition(index: number) {
     const current = this.filteredMessages[index];
     const previous = this.filteredMessages[index - 1];
@@ -105,11 +125,18 @@ export class MessageListComponent {
     const sameMinute = (a?: Message, b?: Message) =>
       a && b && this.isSameMinute(a, b);
 
+    const sameReplyStatus = (a?: Message, b?: Message) =>
+      !!a?.replyTo === !!b?.replyTo;
+
     const isFirstInGroup =
-      !sameSender(current, previous) || !sameMinute(current, previous);
+      !sameSender(current, previous) ||
+      !sameMinute(current, previous) ||
+      !sameReplyStatus(current, previous);
 
     const isLastInGroup =
-      !sameSender(current, next) || !sameMinute(current, next);
+      !sameSender(current, next) ||
+      !sameMinute(current, next) ||
+      !sameReplyStatus(current, next);
 
     return { isFirstInGroup, isLastInGroup };
   }
