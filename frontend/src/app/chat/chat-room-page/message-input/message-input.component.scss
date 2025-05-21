@@ -61,7 +61,11 @@
   padding: 0.5rem;
   background-color: var(--mat-sys-surface-container);
   border-left: 5px solid var(--mat-sys-on-primary-container);
+  border-radius: 0.75rem;
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
   margin-bottom: 0.5rem;
+  padding-left: 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
