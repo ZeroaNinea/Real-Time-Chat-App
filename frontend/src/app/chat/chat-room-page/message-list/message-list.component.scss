@@ -306,3 +306,8 @@ div.reply.first:not(.own) {
   border-top-left-radius: 0.3rem !important;
   border-bottom-left-radius: 0.3rem !important;
 }
+
+.highlighted {
+  background-color: #ffffcc;
+  transition: background-color 0.5s;
+}
