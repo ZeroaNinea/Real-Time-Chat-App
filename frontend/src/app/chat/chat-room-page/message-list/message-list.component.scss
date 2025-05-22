@@ -131,6 +131,7 @@
 
     &.first.reply {
       border-bottom-left-radius: 0rem !important;
+      margin-top: 0;
     }
 
     &.first.last {
@@ -181,7 +182,7 @@
   display: flex;
   align-items: center;
 
-  margin-top: 1rem;
+  margin-top: 0.6rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   font-size: 0.8rem;
