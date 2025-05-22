@@ -182,11 +182,13 @@
   display: flex;
   align-items: center;
 
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+  padding-top: 0.25rem;
   font-size: 0.8rem;
   color: var(--mat-sys-secondary);
+  transition: background 0.3s;
 
   p {
     cursor: pointer;
@@ -196,6 +198,10 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
   }
 
   &.own {
