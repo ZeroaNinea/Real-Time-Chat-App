@@ -189,6 +189,11 @@
   color: var(--mat-sys-secondary);
   cursor: pointer;
 
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
   &:hover {
     text-decoration: underline;
   }

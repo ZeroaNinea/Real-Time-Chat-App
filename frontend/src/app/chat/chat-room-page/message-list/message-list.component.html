@@ -1,6 +1,10 @@
 @for (msg of filteredMessages; track [msg._id, $index]) { @if (msg.replyTo &&
 isGrouped($index)) {
-<div class="reply-link" [class.own]="msg.sender === currentUserId">
+<div
+  class="reply-link"
+  [class.own]="msg.sender === currentUserId"
+  (click)="scrollToMessage(msg.replyTo)"
+>
   <div class="avatar-wrapper">
     <img
       [src]="getRecipientAvatarUrl(msg.replyTo)"
@@ -8,9 +12,10 @@ isGrouped($index)) {
       class="recipient-avatar"
     />
   </div>
-  Replying to&nbsp;
-  <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
-  >: "{{ getQuotedText(msg.replyTo).slice(0, 100) }} . . ."
+  <p class="reply-text">
+    Replying to&nbsp; <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
+    >: "{{ getQuotedText(msg.replyTo).slice(0, 100) }} . . ."
+  </p>
 </div>
 }
 <div
