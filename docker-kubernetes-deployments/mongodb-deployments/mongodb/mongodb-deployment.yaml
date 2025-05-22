@@ -18,11 +18,14 @@ spec:
       containers:
         - name: mongodb
           image: mongo:8.0 # MongoDB image.
-          args: ["--bind_ip", "0.0.0.0"] # Listen all network interfaces. It's impossible to connect with `nodePort` without this setup.
+          args: ['--bind_ip', '0.0.0.0'] # Listen all network interfaces. It's impossible to connect with `nodePort` without this setup.
           resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
             limits:
-              memory: "512Mi" # Specifies the max memory.
-              cpu: "500m" # Specifies the max CPU.
+              memory: '512Mi'
+              cpu: '500m'
           ports:
             - containerPort: 27017 # Container's port.
           env:
@@ -68,6 +71,5 @@ spec:
         - name: mongodb-storage
           persistentVolumeClaim:
             claimName: mongodb-pvc
-
 # To open MongoDB shell.
 # kubectl exec -it mongodb-deployment-677b68df9d-mldjz -n mongodb-express -- mongosh -u username -p password --authenticationDatabase admin
