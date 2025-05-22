@@ -307,7 +307,7 @@ div.reply.first:not(.own) {
   border-bottom-left-radius: 0.3rem !important;
 }
 
-.highlighted {
-  background-color: #ffffcc;
+.message.highlighted {
+  background-color: rgb(243, 243, 200) !important;
   transition: background-color 0.5s;
 }
