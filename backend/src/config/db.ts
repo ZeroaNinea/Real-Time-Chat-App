@@ -13,8 +13,9 @@ export const connectToDatabase = async () => {
       });
       console.log(' ✅ In-memory MongoDB connected!');
     } else {
-      const uri = `${config.DIALECT}://${config.DB_USER}:${config.DB_PASSWORD}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
-      // const uri = `mongodb+srv://ZeroaNinea:${config.DB_PASSWORD}@cluster0.mongodb.net/chatapp?retryWrites=true&w=majority`;
+      // const uri = `${config.DIALECT}://${config.DB_USER}:${config.DB_PASSWORD}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
+      const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
+      const uri = `mongodb+srv://ZeroaNinea:${encodedPassword}@cluster0.hgnxmlu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
       await mongoose.connect(uri, {
         serverSelectionTimeoutMS: 5000,
       });
