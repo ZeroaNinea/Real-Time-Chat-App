@@ -13,11 +13,10 @@ export const connectToDatabase = async () => {
       });
       console.log(' ✅ In-memory MongoDB connected!');
     } else {
-      // const uri = `${config.DIALECT}://${config.DB_USER}:${config.DB_PASSWORD}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
+      const uri = `${config.DIALECT}://${config.DB_USER}:${config.DB_PASSWORD}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
-      const uri = `mongodb+srv://ZeroaNinea:${encodedPassword}@cluster0.hgnxmlu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
       await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 10000,
+        // serverSelectionTimeoutMS: 100000,
       });
       console.log(' ✅ MongoDB connected!');
     }
@@ -26,6 +25,12 @@ export const connectToDatabase = async () => {
   }
 };
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Disconnects the MongoDB connection and stops the in-memory MongoDB server.
+ * @returns {Promise<void>}
+ */
+/*******  b789820a-ddea-4633-a81a-fdaa1a69e7dd  *******/
 export const disconnectDatabase = async () => {
   try {
     await mongoose.disconnect();
