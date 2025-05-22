@@ -17,7 +17,7 @@ export const connectToDatabase = async () => {
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
       const uri = `mongodb+srv://ZeroaNinea:${encodedPassword}@cluster0.hgnxmlu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
       await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 5000,
+        serverSelectionTimeoutMS: 10000,
       });
       console.log(' ✅ MongoDB connected!');
     }
