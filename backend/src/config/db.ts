@@ -25,12 +25,6 @@ export const connectToDatabase = async () => {
   }
 };
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Disconnects the MongoDB connection and stops the in-memory MongoDB server.
- * @returns {Promise<void>}
- */
-/*******  b789820a-ddea-4633-a81a-fdaa1a69e7dd  *******/
 export const disconnectDatabase = async () => {
   try {
     await mongoose.disconnect();
