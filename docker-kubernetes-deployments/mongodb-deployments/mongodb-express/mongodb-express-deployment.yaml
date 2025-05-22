@@ -20,17 +20,20 @@ spec:
           # image: mongo-express
           # image: mongo-express:1.1.0-rc-3
           resources:
+            requests:
+              memory: '128Mi'
+              cpu: '100m'
             limits:
               # Memory.
-              memory: "128Mi"
-              cpu: "500m"
+              memory: '128Mi'
+              cpu: '500m'
           ports:
             - containerPort: 8081
           env:
             - name: ME_CONFIG_MONGODB_AUTH_DATABASE
-              value: "admin"
-            - name: ME_CONFIG_MONGODB_ENABLE_ADMIN 
-              value: "true"
+              value: 'admin'
+            - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
+              value: 'true'
             # Set login and password with environment variables.
             - name: ME_CONFIG_MONGODB_ADMINUSERNAME
               valueFrom:
