@@ -146,7 +146,7 @@ export class MessageListComponent {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       element.classList.add('highlighted');
-      setTimeout(() => element.classList.remove('highlighted'), 2000);
+      setTimeout(() => element.classList.remove('highlighted'), 1000);
     }
   }
 }
