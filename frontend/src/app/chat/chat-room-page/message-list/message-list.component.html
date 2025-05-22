@@ -23,6 +23,7 @@ isGrouped($index)) {
     !getMessagePosition($index).isLastInGroup
   "
   [class.reply]="msg.replyTo"
+  [attr.id]="'message-' + msg._id"
   (mouseenter)="hoveredMessageId = msg._id"
   (mouseleave)="hoveredMessageId = null"
 >
