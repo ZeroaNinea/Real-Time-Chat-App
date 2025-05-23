@@ -1,11 +1,7 @@
 @for (member of members; track $index) {
 <div>
   @if (member.user.avatar) {
-  <img
-    [src]="environment.backendUrl + '/' + member.user.avatar"
-    alt="Avatar"
-    class="user-avatar"
-  />
+  <img [src]="getAvatarUrl(member.user._id)" alt="Avatar" class="user-avatar" />
   } @else {
   <img [src]="'assets/camera.svg'" alt="Avatar" class="user-avatar" />
   }
