@@ -405,6 +405,29 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('editStatus', async ({ status }, callback) => {
+      try {
+        const user = await User.findById(socket.data.user._id);
+        if (!user) {
+          return callback?.({ error: 'User not found' });
+        }
+
+        if (!user._id.equals(socket.data.user._id)) {
+          return callback?.({
+            error: 'You are not allowed to edit this status',
+          });
+        }
+
+        user.status = status;
+        await user.save();
+
+        callback?.({ success: true, user });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
