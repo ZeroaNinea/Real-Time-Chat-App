@@ -9,6 +9,7 @@ export interface IUser {
   avatar?: string;
   bio?: string;
   pronouns?: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -41,6 +42,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       default: '',
     },
     pronouns: {
+      type: String,
+      default: '',
+    },
+    status: {
       type: String,
       default: '',
     },
