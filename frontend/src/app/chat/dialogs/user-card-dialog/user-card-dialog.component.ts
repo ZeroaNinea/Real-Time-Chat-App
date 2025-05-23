@@ -48,21 +48,16 @@ export class UserCardDialogComponent {
   }
 
   saveStatus(): void {
-    this.wsService.emit(
-      'editStatus',
-      {
-        status: this.data.selectedUser.user.status,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to reply message',
-            'Close',
-            { duration: 3000 }
-          );
-        }
+    console.log('Saving status...');
+    this.wsService.emit('editStatus', { status: this.updatedStatus }, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to reply message',
+          'Close',
+          { duration: 3000 }
+        );
       }
-    );
+    });
   }
 
   getAvatarUrl(): string {
