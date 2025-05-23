@@ -6,11 +6,9 @@
   </mat-card-header>
 
   <mat-card-content>
-    @if (data.user.status) {
     <div><strong>Status:</strong> {{ data.user.status }}</div>
-    } @if (data.user.bio) {
     <div><strong>Bio:</strong> {{ data.user.bio }}</div>
-    } @if (data.roles.length > 0) {
+    @if (data.roles.length > 0) {
     <div>
       <strong>Roles:</strong>
       @for (role of data.roles; track $index) {
