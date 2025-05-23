@@ -414,11 +414,9 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         console.log(user);
 
-        // filter the user and send only the `PopulatedUser` interface's properties
         const filteredUser = {
           _id: user._id,
           username: user.username,
-          email: user.email,
           avatar: user.avatar,
           bio: user.bio,
           pronouns: user.pronouns,
