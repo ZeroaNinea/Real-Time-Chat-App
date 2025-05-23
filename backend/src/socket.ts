@@ -365,7 +365,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('reply', async ({ messageId, text }, callback) => {
-      console.log('Replying to message:', messageId, text);
       try {
         const message = await Message.findById(messageId);
         if (!message) {
