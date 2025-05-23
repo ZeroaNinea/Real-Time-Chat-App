@@ -404,7 +404,6 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('editStatus', async ({ status }, callback) => {
       console.log('Editing status...', status);
-      console.log(status ? true : false);
       try {
         const user = await User.findById(socket.data.user._id);
         if (!user) return callback?.({ error: 'User not found' });
@@ -412,7 +411,9 @@ export function setupSocket(server: HttpServer, app: Express) {
         user.status = status;
         await user.save();
 
-        io.to(user._id.toString()).emit('userUpdated', user);
+        console.log(user);
+
+        io.emit('userUpdated', user);
         callback?.({ success: true, user });
       } catch (err) {
         console.error(err);
