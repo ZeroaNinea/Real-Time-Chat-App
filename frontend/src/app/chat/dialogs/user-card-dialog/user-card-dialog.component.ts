@@ -58,6 +58,8 @@ export class UserCardDialogComponent {
         );
       }
     });
+
+    this.editStatusMode = false;
   }
 
   getAvatarUrl(): string {
