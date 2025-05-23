@@ -10,12 +10,15 @@
       <strong>Status:</strong>
 
       @if (editStatusMode) {
-      <input
-        [(ngModel)]="updatedStatus"
-        maxlength="120"
-        class="status-input"
-        placeholder="Set a new status..."
-      />
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [(ngModel)]="updatedStatus"
+          maxlength="120"
+          class="status-input"
+          placeholder="Set a new status..."
+        />
+      </mat-form-field>
       <button mat-icon-button (click)="saveStatus()" aria-label="Save status">
         <mat-icon>check</mat-icon>
       </button>
