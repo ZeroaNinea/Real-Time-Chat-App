@@ -6,7 +6,40 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div><strong>Status:</strong> {{ data.selectedUser.user.status }}</div>
+    <!-- <div><strong>Status:</strong> {{ data.selectedUser.user.status }}</div> -->
+    <div class="status-line">
+      <strong>Status:</strong>
+
+      @if (editStatusMode) {
+      <input
+        [(ngModel)]="updatedStatus"
+        maxlength="120"
+        class="status-input"
+        placeholder="Set a new status..."
+      />
+      <button mat-icon-button (click)="saveStatus()" aria-label="Save status">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="editStatusMode = false"
+        aria-label="Cancel"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      } @else {
+      <span>{{ data.selectedUser.user.status }}</span>
+      @if (isOwnProfile) {
+      <button
+        mat-icon-button
+        (click)="editStatusMode = true"
+        aria-label="Edit status"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      } }
+    </div>
+
     <div class="bio">
       <strong>Bio:</strong> {{ data.selectedUser.user.bio }}
     </div>

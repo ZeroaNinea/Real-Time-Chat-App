@@ -29,6 +29,7 @@ export class UserCardDialogComponent {
   private _snackbar = inject(MatSnackBar);
 
   editStatusMode = false;
+  updatedStatus!: string;
   environment = environment;
 
   constructor(
@@ -39,7 +40,7 @@ export class UserCardDialogComponent {
       currentUserId: string;
     }
   ) {
-    const updatedStatus = this.data.selectedUser.user.status;
+    this.updatedStatus = this.data.selectedUser.user.status;
   }
 
   get isOwnProfile(): boolean {
