@@ -47,7 +47,6 @@ export class ChatService {
   }
 
   addChannel(chatId: string, channelName: string): Observable<Channel> {
-    console.log('Adding channel:', channelName);
     return this.http.post<Channel>(
       `${environment.backendUrl}/chat/add-channel/${chatId}`,
       {
@@ -56,19 +55,9 @@ export class ChatService {
     );
   }
 
-  updateChannel(channelId: string, changes: Partial<Channel>): Observable<any> {
-    return this.http.patch(`/chat/update-channel/${channelId}`, changes);
-  }
-
   deleteChatRoom(chatId: string): Observable<void> {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
-
-  // deleteChannel(chatId: string, channelId: string): Observable<void> {
-  //   return this.http.delete<void>(
-  //     `${environment.backendUrl}/chat/delete-channel/${channelId}`
-  //   );
-  // }
 
   getMessages(chatId: string, channelId: string): Observable<Message[]> {
     return this.http.get<Message[]>(
