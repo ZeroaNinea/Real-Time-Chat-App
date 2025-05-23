@@ -2,6 +2,9 @@ import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
@@ -9,7 +12,13 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
 
 @Component({
   selector: 'app-user-card-dialog',
-  imports: [MatCardModule, MatChipsModule],
+  imports: [
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+  ],
   standalone: true,
   templateUrl: './user-card-dialog.component.html',
   styleUrl: './user-card-dialog.component.scss',
@@ -17,6 +26,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
 export class UserCardDialogComponent {
   private wsService = inject(WebsocketService);
 
+  editStatusMode = false;
   environment = environment;
   getAvatarUrl(): string {
     const avatar = this.data.selectedUser.user.avatar;
@@ -32,5 +42,11 @@ export class UserCardDialogComponent {
       selectedUser: PopulatedUser;
       currentUserId: string;
     }
-  ) {}
+  ) {
+    const updatedStatus = this.data.selectedUser.user.status;
+  }
+
+  get isOwnProfile(): boolean {
+    return this.data.selectedUser.user._id === this.data.currentUserId;
+  }
 }
