@@ -1,1 +1,22 @@
-<p>user-card-dialog works!</p>
+<mat-card class="user-card">
+  <mat-card-header>
+    <img mat-card-avatar [src]="data.user.avatar" alt="Avatar" />
+    <mat-card-title>{{ data.user.username }}</mat-card-title>
+    <mat-card-subtitle>{{ data.user.pronouns }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (data.roles.length > 0) {
+    <div>
+      <strong>Roles:</strong>
+      <mat-chip>
+        <mat-chip *ngFor="let role of data.roles">{{ role }}</mat-chip>
+      </mat-chip>
+    </div>
+    }
+
+    <div class="user-actions">
+      <!-- Later: status, friend request, PM, etc. -->
+    </div>
+  </mat-card-content>
+</mat-card>
