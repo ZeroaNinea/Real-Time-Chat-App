@@ -10,11 +10,11 @@ export interface PopulatedUser {
   roles: string[];
 }
 
-export interface AbbreviatedPopulatedUser {
+export type AbbreviatedPopulatedUser = {
   _id: string;
   username: string;
   avatar: string;
   bio: string;
   pronouns: string;
   status: string;
-}
+};
