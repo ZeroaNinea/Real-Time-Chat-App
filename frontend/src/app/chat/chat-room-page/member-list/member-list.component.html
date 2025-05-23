@@ -1,18 +1,9 @@
-<!-- @for (member of members; track $index) {
-<div>
-  @if (member.user.avatar) {
-  <img [src]="getAvatarUrl(member.user._id)" alt="Avatar" class="user-avatar" />
-  } @else {
-  <img [src]="'assets/camera.svg'" alt="Avatar" class="user-avatar" />
-  }
-  <span>{{ member.user.username }}</span>
-  <small>{{ member.roles.join(", ") }}</small>
-</div>
-} -->
 <mat-nav-list>
   @for (member of members; track $index) {
   <mat-list-item (click)="openUserDialog(member)">
-    <img matListAvatar [src]="getAvatarUrl(member.user._id)" alt="Avatar" />
+    <div class="avatar-wrapper">
+      <img matListAvatar [src]="getAvatarUrl(member.user._id)" alt="Avatar" />
+    </div>
     <div matLine>{{ member.user.username }}</div>
     <div matLine class="secondary-text">{{ member.user.pronouns }}</div>
   </mat-list-item>
