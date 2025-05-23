@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-card-dialog',
@@ -13,6 +14,14 @@ import { PopulatedUser } from '../../shared/models/populated-user.model';
   styleUrl: './user-card-dialog.component.scss',
 })
 export class UserCardDialogComponent {
+  environment = environment;
+  getAvatarUrl(userId: string): string {
+    const avatar = this.data.user.avatar;
+    return avatar
+      ? `${this.environment.backendUrl}/${avatar}`
+      : 'assets/camera.svg';
+  }
+
   constructor(
     private dialogRef: MatDialogRef<UserCardDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
