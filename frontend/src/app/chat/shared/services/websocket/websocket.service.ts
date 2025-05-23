@@ -187,7 +187,6 @@ export class WebsocketService implements OnDestroy {
   }
 
   listenUserUpdates(): Observable<any> {
-    console.log('Listening for user updates...');
     return new Observable((observer) => {
       this.socket.on('userUpdated', (data) => {
         observer.next(data);
