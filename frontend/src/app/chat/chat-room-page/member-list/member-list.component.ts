@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
+import { MatDialog } from '@angular/material/dialog';
+
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
-import { MatListModule } from '@angular/material/list';
+
+import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 
 @Component({
   selector: 'app-member-list',
@@ -11,6 +15,8 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './member-list.component.scss',
 })
 export class MemberListComponent {
+  private dialog = inject(MatDialog);
+
   @Input() members: PopulatedUser[] = [];
   environment = environment;
 
@@ -21,5 +27,10 @@ export class MemberListComponent {
       : 'assets/camera.svg';
   }
 
-  openUserDialog(member: PopulatedUser) {}
+  openUserDialog(member: PopulatedUser) {
+    this.dialog.open(UserCardDialogComponent, {
+      data: member,
+      width: '400px',
+    });
+  }
 }
