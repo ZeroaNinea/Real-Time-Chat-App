@@ -11,8 +11,20 @@
         />
       </div>
       <div class="user-info">
-        <p>{{ member.user.username }}</p>
-        <p class="secondary-text">{{ member.user.pronouns }}</p>
+        <div class="user-name-pronouns">
+          <p>{{ member.user.username }}</p>
+          @if (member.user.pronouns.length < 12) {
+          <p class="secondary-text">{{ member.user.pronouns }}</p>
+          } @else {
+          <p class="secondary-text">
+            {{ member.user.pronouns.slice(0, 11) }}...
+          </p>
+          }
+        </div>
+        @if (member.user.status) {
+        <p class="secondary-text">{{ member.user.status.slice(0, 20) }}...</p>
+        }
+        <p class="secondary-text"></p>
       </div>
     </div>
   </mat-list-item>
