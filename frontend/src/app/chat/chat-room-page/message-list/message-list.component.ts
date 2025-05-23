@@ -1,16 +1,18 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
+import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 
 @Component({
   selector: 'app-message-list',
@@ -42,6 +44,8 @@ export class MessageListComponent {
   @Output() onEdit = new EventEmitter<Message>();
   @Output() onReply = new EventEmitter<Message>();
 
+  private dialog = inject(MatDialog);
+
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
     const timeB = new Date(b.createdAt).getTime();
@@ -63,6 +67,10 @@ export class MessageListComponent {
     const sameReplyStatus = !!current.replyTo === !!previous.replyTo;
 
     return !(sameSender && sameTime && sameReplyStatus);
+  }
+
+  getUser(userId: string): PopulatedUser | undefined {
+    return this.members.find((m) => m.user._id === userId);
   }
 
   getUsername(userId: string): string {
@@ -148,5 +156,12 @@ export class MessageListComponent {
       element.classList.add('highlighted');
       setTimeout(() => element.classList.remove('highlighted'), 2000);
     }
+  }
+
+  openUserDialog(member: PopulatedUser | undefined) {
+    this.dialog.open(UserCardDialogComponent, {
+      data: member,
+      width: '400px',
+    });
   }
 }

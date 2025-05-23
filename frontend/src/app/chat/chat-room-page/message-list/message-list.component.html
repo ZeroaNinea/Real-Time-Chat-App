@@ -37,7 +37,13 @@ isGrouped($index)) {
   <div class="message-content">
     @if (isGrouped($index)) {
     <div class="message-header">
+      @if (getUser(msg.sender)) {
+      <span class="username" (click)="openUserDialog(getUser(msg.sender))">{{
+        getUsername(msg.sender)
+      }}</span>
+      } @else {
       <span class="username">{{ getUsername(msg.sender) }}</span>
+      }
       <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
     </div>
     }
