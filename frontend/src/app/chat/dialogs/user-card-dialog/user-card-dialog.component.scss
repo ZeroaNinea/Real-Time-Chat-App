@@ -1,3 +1,15 @@
 .bio {
   white-space: pre-line;
 }
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  input.status-input {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
