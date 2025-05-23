@@ -404,15 +404,12 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('editStatus', async ({ status }, callback) => {
-      console.log('Editing status...', status);
       try {
         const user = await User.findById(socket.data.user._id);
         if (!user) return callback?.({ error: 'User not found' });
 
         user.status = status;
         await user.save();
-
-        console.log(user);
 
         const filteredUser = {
           _id: user._id,
@@ -421,7 +418,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           bio: user.bio,
           pronouns: user.pronouns,
           status: user.status,
-        } as PopulatedUser;
+        };
 
         io.emit('userUpdated', filteredUser);
         callback?.({ success: true, user });
