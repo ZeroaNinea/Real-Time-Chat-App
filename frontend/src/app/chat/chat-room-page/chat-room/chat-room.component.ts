@@ -239,6 +239,7 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenUserUpdates().subscribe((updatedUser) => {
+      console.log('Updated user:', updatedUser);
       this.populatedUsers.update((users) =>
         users.map((u) =>
           u.user._id === updatedUser.user._id ? updatedUser : u

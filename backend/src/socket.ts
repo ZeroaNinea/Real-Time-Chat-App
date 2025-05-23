@@ -14,6 +14,7 @@ import { Chat } from './models/chat.model';
 import { Member } from '../types/member.aliase';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
+import { PopulatedUser } from '../types/populated-user.interface';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -413,7 +414,18 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         console.log(user);
 
-        io.emit('userUpdated', user);
+        // filter the user and send only the `PopulatedUser` interface's properties
+        const filteredUser = {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          avatar: user.avatar,
+          bio: user.bio,
+          pronouns: user.pronouns,
+          status: user.status,
+        } as PopulatedUser;
+
+        io.emit('userUpdated', filteredUser);
         callback?.({ success: true, user });
       } catch (err) {
         console.error(err);
