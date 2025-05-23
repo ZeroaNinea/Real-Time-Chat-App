@@ -15,7 +15,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class UserCardDialogComponent {
   environment = environment;
-  getAvatarUrl(userId: string): string {
+  getAvatarUrl(): string {
     const avatar = this.data.user.avatar;
     return avatar
       ? `${this.environment.backendUrl}/${avatar}`
