@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-member-list',
-  imports: [],
+  imports: [MatListModule],
   standalone: true,
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss',
@@ -19,4 +20,6 @@ export class MemberListComponent {
       ? `${this.environment.backendUrl}/${avatar}`
       : 'assets/camera.svg';
   }
+
+  openUserDialog(member: PopulatedUser) {}
 }
