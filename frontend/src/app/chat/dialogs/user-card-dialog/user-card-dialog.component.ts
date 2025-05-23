@@ -5,6 +5,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
@@ -25,15 +26,10 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
 })
 export class UserCardDialogComponent {
   private wsService = inject(WebsocketService);
+  private _snackbar = inject(MatSnackBar);
 
   editStatusMode = false;
   environment = environment;
-  getAvatarUrl(): string {
-    const avatar = this.data.selectedUser.user.avatar;
-    return avatar
-      ? `${this.environment.backendUrl}/${avatar}`
-      : 'assets/camera.svg';
-  }
 
   constructor(
     private dialogRef: MatDialogRef<UserCardDialogComponent>,
@@ -48,5 +44,30 @@ export class UserCardDialogComponent {
 
   get isOwnProfile(): boolean {
     return this.data.selectedUser.user._id === this.data.currentUserId;
+  }
+
+  saveStatus(): void {
+    this.wsService.emit(
+      'editStatus',
+      {
+        status: this.data.selectedUser.user.status,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to reply message',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
+
+  getAvatarUrl(): string {
+    const avatar = this.data.selectedUser.user.avatar;
+    return avatar
+      ? `${this.environment.backendUrl}/${avatar}`
+      : 'assets/camera.svg';
   }
 }
