@@ -200,15 +200,15 @@ backend/
 <br />
 ✅ Step 23: Add display user avatars and usernames
 <br />
-➡️ Step 24: Design the messages list:
+✅ Step 24: Design the messages list:
 
-- Different background colors for sender vs. receiver.
+- Different background colors for sender vs. receiver. ✅
 - Avatars and usernames. ✅
 - Timestamps in subtle grey. ✅
-- Hover actions: delete, edit, reply.
-- Styling replies (quoted messages, highlighted background).
+- Hover actions: delete, edit, reply. ✅
+- Styling replies (quoted messages, highlighted background). ✅
 - Grouping messages by the same user. ✅
-- Scroll behavior.
+- Scroll behavior. ✅
   <br />
 
 ➡️ Step 25: Design the members list
