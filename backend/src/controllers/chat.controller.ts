@@ -6,7 +6,7 @@ import { Member } from '../../types/member.aliase';
 import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
-import { PopulatedUser } from '../../types/populated-user.aliase';
+import { PopulatedUser } from '../../types/populated-user.interface';
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
