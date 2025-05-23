@@ -5,6 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../../../environments/environment';
 import { Channel } from '../../models/channel.model';
 import { Message } from '../../models/message.model';
+import { PopulatedUser } from '../../models/populated-user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -177,6 +178,14 @@ export class WebsocketService implements OnDestroy {
   listenMessageReplies(): Observable<Message> {
     return new Observable((observer) => {
       this.socket.on('messageReplied', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  listenUserUpdates(): Observable<PopulatedUser> {
+    return new Observable((observer) => {
+      this.socket.on('userUpdated', (data) => {
         observer.next(data);
       });
     });

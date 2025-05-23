@@ -412,6 +412,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         user.status = status;
         await user.save();
 
+        io.to(user._id.toString()).emit('userUpdated', user);
         callback?.({ success: true, user });
       } catch (err) {
         console.error(err);
