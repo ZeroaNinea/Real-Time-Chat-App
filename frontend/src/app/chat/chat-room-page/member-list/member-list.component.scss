@@ -1,0 +1,10 @@
+.avatar-wrapper {
+  flex-shrink: 0;
+
+  .user-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+  }
+}

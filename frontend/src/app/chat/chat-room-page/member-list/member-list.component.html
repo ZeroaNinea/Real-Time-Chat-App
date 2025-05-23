@@ -1,8 +1,13 @@
 <mat-nav-list>
   @for (member of members; track $index) {
-  <mat-list-item (click)="openUserDialog(member)">
+  <mat-list-item (click)="openUserDialog(member)" class="member">
     <div class="avatar-wrapper">
-      <img matListAvatar [src]="getAvatarUrl(member.user._id)" alt="Avatar" />
+      <img
+        matListAvatar
+        [src]="getAvatarUrl(member.user._id)"
+        alt="Avatar"
+        class="user-avatar"
+      />
     </div>
     <div matLine>{{ member.user.username }}</div>
     <div matLine class="secondary-text">{{ member.user.pronouns }}</div>
