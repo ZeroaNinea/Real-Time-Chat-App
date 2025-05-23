@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-user-card-dialog',
@@ -14,6 +15,8 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './user-card-dialog.component.scss',
 })
 export class UserCardDialogComponent {
+  private wsService = inject(WebsocketService);
+
   environment = environment;
   getAvatarUrl(): string {
     const avatar = this.data.selectedUser.user.avatar;
