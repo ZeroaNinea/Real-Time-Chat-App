@@ -12,4 +12,11 @@ import { environment } from '../../../../environments/environment';
 export class MemberListComponent {
   @Input() members: PopulatedUser[] = [];
   environment = environment;
+
+  getAvatarUrl(userId: string): string {
+    const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
+    return avatar
+      ? `${this.environment.backendUrl}/${avatar}`
+      : 'assets/camera.svg';
+  }
 }
