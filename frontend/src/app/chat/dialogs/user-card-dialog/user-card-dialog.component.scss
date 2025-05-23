@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .bio {
   white-space: pre-line;
 }
@@ -6,6 +8,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
+  .status-input-field {
+    @include mat.theme(
+      (
+        density: -5,
+      )
+    );
+  }
 
   input.status-input {
     flex: 1;
