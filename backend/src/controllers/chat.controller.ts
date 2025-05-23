@@ -40,8 +40,6 @@ export const createChat = async (req: Request, res: Response) => {
   try {
     const { name, channels } = req.body;
 
-    // console.log(req.body, '============');
-
     const chat = await Chat.create({
       name,
       isPrivate: false,
@@ -119,9 +117,6 @@ export const deleteChat = async (req: Request, res: Response) => {
         .json({ message: 'Only the owner can delete this chat' });
     }
 
-    // await channels.forEach(async (channel: ChannelDocument) => {
-    //   await channel.deleteOne();
-    // });
     await Promise.all(
       channels.map((channel: ChannelDocument) => channel.deleteOne())
     );
