@@ -160,7 +160,7 @@ export class MessageListComponent {
 
   openUserDialog(member: PopulatedUser | undefined) {
     this.dialog.open(UserCardDialogComponent, {
-      data: member,
+      data: { selectedUser: member, currentUserId: this.currentUserId },
       width: '400px',
     });
   }

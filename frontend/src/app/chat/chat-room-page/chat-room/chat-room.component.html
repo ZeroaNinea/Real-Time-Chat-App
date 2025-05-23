@@ -70,6 +70,9 @@
   </div>
 
   <div class="right-sidebar">
-    <app-member-list [members]="populatedUsers()"></app-member-list>
+    <app-member-list
+      [members]="populatedUsers()"
+      [currentUserId]="currentUser()?.id"
+    ></app-member-list>
   </div>
 </div>

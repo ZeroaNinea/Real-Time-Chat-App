@@ -18,6 +18,7 @@ export class MemberListComponent {
   private dialog = inject(MatDialog);
 
   @Input() members: PopulatedUser[] = [];
+  @Input() currentUserId: string | undefined;
   environment = environment;
 
   getAvatarUrl(userId: string): string {
@@ -29,7 +30,7 @@ export class MemberListComponent {
 
   openUserDialog(member: PopulatedUser) {
     this.dialog.open(UserCardDialogComponent, {
-      data: member,
+      data: { selectedUser: member, currentUserId: this.currentUserId },
       width: '400px',
     });
   }

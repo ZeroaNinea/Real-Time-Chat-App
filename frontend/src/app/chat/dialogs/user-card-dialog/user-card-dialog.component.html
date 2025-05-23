@@ -1,17 +1,19 @@
 <mat-card class="user-card">
   <mat-card-header>
     <img mat-card-avatar [src]="getAvatarUrl()" alt="Avatar" />
-    <mat-card-title>{{ data.user.username }}</mat-card-title>
-    <mat-card-subtitle>{{ data.user.pronouns }}</mat-card-subtitle>
+    <mat-card-title>{{ data.selectedUser.user.username }}</mat-card-title>
+    <mat-card-subtitle>{{ data.selectedUser.user.pronouns }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
-    <div><strong>Status:</strong> {{ data.user.status }}</div>
-    <div class="bio"><strong>Bio:</strong> {{ data.user.bio }}</div>
-    @if (data.roles.length > 0) {
+    <div><strong>Status:</strong> {{ data.selectedUser.user.status }}</div>
+    <div class="bio">
+      <strong>Bio:</strong> {{ data.selectedUser.user.bio }}
+    </div>
+    @if (data.selectedUser.roles.length > 0) {
     <div>
       <strong>Roles:</strong>
-      @for (role of data.roles; track $index) {
+      @for (role of data.selectedUser.roles; track $index) {
       <mat-chip>{{ role }}</mat-chip>
       }
     </div>

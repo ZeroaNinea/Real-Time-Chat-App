@@ -16,7 +16,7 @@ import { environment } from '../../../../environments/environment';
 export class UserCardDialogComponent {
   environment = environment;
   getAvatarUrl(): string {
-    const avatar = this.data.user.avatar;
+    const avatar = this.data.selectedUser.user.avatar;
     return avatar
       ? `${this.environment.backendUrl}/${avatar}`
       : 'assets/camera.svg';
@@ -25,6 +25,9 @@ export class UserCardDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<UserCardDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: PopulatedUser
+    public data: {
+      selectedUser: PopulatedUser;
+      currentUserId: string;
+    }
   ) {}
 }
