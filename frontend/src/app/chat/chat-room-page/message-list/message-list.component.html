@@ -10,7 +10,7 @@ isGrouped($index)) {
   </div>
   <p class="reply-text" (click)="scrollToMessage(msg.replyTo)">
     Replying to&nbsp; <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
-    >: "{{ getQuotedText(msg.replyTo).slice(0, 100) }} . . ."
+    >: "{{ getQuotedText(msg.replyTo) }}"
   </p>
 </div>
 }
