@@ -34,4 +34,10 @@ export class MemberListComponent {
       width: '400px',
     });
   }
+
+  trimText(text: string, max = 20): string {
+    if (!text) return '';
+    const trimmed = text.slice(0, max).trimEnd();
+    return trimmed.endsWith('.') ? trimmed : trimmed + '...';
+  }
 }
