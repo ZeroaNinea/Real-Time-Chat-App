@@ -1,5 +1,14 @@
 @use "@angular/material" as mat;
 
+.user-card {
+  mat-card-header {
+    mat-card-subtitle {
+      color: var(--mat-sys-outline);
+      font-size: 0.8rem;
+    }
+  }
+}
+
 .bio {
   white-space: pre-line;
 }
@@ -26,7 +35,7 @@
 
   &::before {
     top: -40px;
-    left: 70%;
+    left: 71.5%;
     width: 10px;
     height: 10px;
   }
