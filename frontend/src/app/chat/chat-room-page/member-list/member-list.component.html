@@ -13,9 +13,9 @@
       <div class="user-info">
         <div class="user-name-pronouns">
           <p>{{ member.user.username }}</p>
-          <p class="secondary-text">{{ trimText(member.user.pronouns, 12) }}</p>
+          <p class="secondary-text">{{ member.user.pronouns }}</p>
         </div>
-        <p class="secondary-text">{{ trimText(member.user.status, 20) }}</p>
+        <p class="secondary-text status">{{ member.user.status }}</p>
       </div>
     </div>
   </mat-list-item>
