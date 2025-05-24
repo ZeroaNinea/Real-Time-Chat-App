@@ -72,4 +72,11 @@ export class UserCardDialogComponent {
       ? `${this.environment.backendUrl}/${avatar}`
       : 'assets/camera.svg';
   }
+
+  trimText(text: string, max: number): string {
+    if (!text) return '';
+    const trimmed = text.slice(0, max).trim();
+    if (trimmed.length === text.length) return trimmed;
+    return trimmed.replace(/\.+$/, '') + '...';
+  }
 }
