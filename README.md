@@ -231,7 +231,7 @@ backend/
 <br />
 ➡️ Step 34: Implement role choosing
 <br />
-➡️ Step 35: Implement status editing
+✅ Step 35: Implement status editing
 <br />
 
 #### **The chat room's URL:** http://localhost:4200/chat-room/6829e659be0550e0e63405ca/channel/6829e65fbe0550e0e63405f2
