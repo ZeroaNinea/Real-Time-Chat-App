@@ -39,6 +39,20 @@ mat-list-item:hover {
     .user-name-pronouns {
       display: flex;
       gap: 0.5rem;
+
+      .user-name {
+        max-width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .pronouns {
+        max-width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .status {
