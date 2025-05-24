@@ -1,3 +1,13 @@
+mat-list-item:hover {
+  .member {
+    .user-info {
+      .secondary-text {
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+}
+
 .member {
   display: flex;
 
@@ -21,12 +31,12 @@
 
     p.secondary-text {
       color: gray;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+    }
+
+    .user-name-pronouns {
+      display: flex;
+      gap: 0.5rem;
     }
   }
-}
-
-.user-name-pronouns {
-  display: flex;
-  gap: 0.5rem;
 }
