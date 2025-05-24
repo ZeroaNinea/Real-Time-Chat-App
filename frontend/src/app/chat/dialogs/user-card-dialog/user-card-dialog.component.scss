@@ -49,10 +49,10 @@
     overflow: hidden;
     background-color: var(--mat-sys-background);
     border: 1px solid var(--mat-sys-outline);
-    border-radius: 25px;
+    border-radius: 15px;
     white-space: nowrap;
     box-sizing: border-box;
-    transition: max-height 0.2s ease, padding 0.2s ease;
+    transition: max-height 0.3s ease, padding 0.3s ease;
     z-index: 1;
   }
 
@@ -61,6 +61,12 @@
     white-space: normal;
     overflow: hidden;
     padding: 1rem;
+
+    .status-text {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+    }
   }
 
   .status-input-field {
