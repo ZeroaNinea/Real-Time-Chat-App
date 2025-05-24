@@ -7,7 +7,7 @@
 
   <mat-card-content>
     <div class="status-bubble">
-      <div class="bubble-content">
+      <div class="bubble-content" [class.editing]="editStatusMode">
         @if (editStatusMode) {
         <mat-form-field appearance="outline" class="status-input-field">
           <input

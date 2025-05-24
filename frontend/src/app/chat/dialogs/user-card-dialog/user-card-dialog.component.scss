@@ -72,6 +72,14 @@
     }
   }
 
+  .bubble-content.editing {
+    display: flex;
+    align-items: flex-start;
+
+    max-height: 10rem;
+    padding: 1rem;
+  }
+
   &:hover .bubble-content {
     max-height: 10rem;
     white-space: normal;
