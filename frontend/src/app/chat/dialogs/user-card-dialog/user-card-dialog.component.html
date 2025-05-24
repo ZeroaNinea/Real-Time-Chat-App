@@ -7,37 +7,40 @@
 
   <mat-card-content>
     <div class="status-bubble" [title]="data.selectedUser.user.status">
-      @if (editStatusMode) {
-      <mat-form-field appearance="outline" class="status-input-field">
-        <input
-          matInput
-          [(ngModel)]="updatedStatus"
-          maxlength="120"
-          class="status-input"
-          placeholder="Set a new status..."
-        />
-      </mat-form-field>
-      <button mat-icon-button (click)="saveStatus()" aria-label="Save status">
-        <mat-icon>check</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        (click)="editStatusMode = false"
-        aria-label="Cancel"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      } @else {
-      <span>{{ trimText(data.selectedUser.user.status, 120) }}</span>
-      @if (isOwnProfile) {
-      <button
-        mat-icon-button
-        (click)="editStatusMode = true"
-        aria-label="Edit status"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      } }
+      <div class="bubble-content">
+        @if (editStatusMode) {
+        <mat-form-field appearance="outline" class="status-input-field">
+          <input
+            matInput
+            [(ngModel)]="updatedStatus"
+            maxlength="120"
+            class="status-input"
+            placeholder="Set a new status..."
+          />
+        </mat-form-field>
+        <button mat-icon-button (click)="saveStatus()" aria-label="Save status">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="editStatusMode = false"
+          aria-label="Cancel"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        } @else {
+        <span>{{ trimText(data.selectedUser.user.status, 1) }}</span>
+        @if (isOwnProfile) {
+        <button
+          mat-icon-button
+          (click)="editStatusMode = true"
+          aria-label="Edit status"
+          class="edit-status-button"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        } }
+      </div>
     </div>
 
     <div class="bio">
