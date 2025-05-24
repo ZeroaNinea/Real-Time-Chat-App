@@ -37,8 +37,8 @@ export class MemberListComponent {
 
   trimText(text: string, max: number): string {
     if (!text) return '';
-    const trimmed = text.slice(0, max).trimEnd();
+    const trimmed = text.slice(0, max).trim();
     if (trimmed.length === text.length) return trimmed;
-    return trimmed.endsWith('.') ? trimmed : trimmed + '...';
+    return trimmed.replace(/\.+$/, '') + '...';
   }
 }
