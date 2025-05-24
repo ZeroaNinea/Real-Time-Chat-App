@@ -35,7 +35,7 @@ export class MemberListComponent {
     });
   }
 
-  trimText(text: string, max = 20): string {
+  trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trimEnd();
     return trimmed.endsWith('.') ? trimmed : trimmed + '...';
