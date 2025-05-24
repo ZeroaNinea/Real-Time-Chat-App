@@ -56,6 +56,17 @@
     z-index: 1;
   }
 
+  .bubble-content {
+    .status-text {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 90%;
+      transition: all 0.3s ease;
+    }
+  }
+
   &:hover .bubble-content {
     max-height: 10rem;
     white-space: normal;
@@ -63,9 +74,11 @@
     padding: 1rem;
 
     .status-text {
+      display: inline-block;
+      overflow: auto;
       white-space: normal;
-      overflow: visible;
-      text-overflow: unset;
+      text-overflow: clip;
+      max-width: 90%;
     }
   }
 

@@ -29,9 +29,7 @@
           <mat-icon>close</mat-icon>
         </button>
         } @else {
-        <span class="status-text">{{
-          trimText(data.selectedUser.user.status, 120)
-        }}</span>
+        <span class="status-text">{{ data.selectedUser.user.status }}</span>
         @if (isOwnProfile) {
         <button
           mat-icon-button
