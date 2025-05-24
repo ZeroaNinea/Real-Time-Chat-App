@@ -20,19 +20,20 @@
     background-color: var(--mat-sys-background);
     border: 1px solid var(--mat-sys-outline);
     border-radius: 50%;
+    opacity: 0.8;
     z-index: 2;
   }
 
   &::before {
-    top: -50px;
-    left: 35%;
+    top: -40px;
+    left: 70%;
     width: 10px;
     height: 10px;
   }
 
   &::after {
     top: -30px;
-    left: 40%;
+    left: 80%;
     width: 20px;
     height: 20px;
   }
@@ -41,7 +42,6 @@
     position: relative;
     max-height: 3rem;
     padding-left: 1rem;
-    // padding-right: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
