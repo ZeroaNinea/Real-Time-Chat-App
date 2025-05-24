@@ -57,8 +57,13 @@
   }
 
   .bubble-content {
+    min-height: 3.25rem;
+
+    .edit-status-button {
+      margin-bottom: 0.28rem;
+    }
+
     .status-text {
-      display: inline-block;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
