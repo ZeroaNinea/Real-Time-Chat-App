@@ -6,7 +6,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div class="status-line">
+    <div class="status-bubble" [title]="data.selectedUser.user.status">
       <strong>Status:</strong>
 
       @if (editStatusMode) {
@@ -30,7 +30,7 @@
         <mat-icon>close</mat-icon>
       </button>
       } @else {
-      <span>{{ data.selectedUser.user.status }}</span>
+      <span>{{ trimText(data.selectedUser.user.status, 120) }}</span>
       @if (isOwnProfile) {
       <button
         mat-icon-button
