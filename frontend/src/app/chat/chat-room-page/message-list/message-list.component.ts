@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
@@ -34,6 +35,7 @@ export class MessageListComponent {
   @Input() isAdmin: boolean = false;
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
+  @Input() chatRoomRoles: ChatRoomRole[] = [];
   environment = environment;
 
   hoveredMessageId: string | null = null;

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
+import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 
@@ -23,6 +24,7 @@ export class MemberListComponent {
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
   @Input() chatId: string | null = null;
+  @Input() chatRoomRoles: ChatRoomRole[] = [];
   environment = environment;
 
   getAvatarUrl(userId: string): string {
