@@ -453,11 +453,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'User already has this role' });
         }
 
-        if (
-          (!canEditRole(member?.roles, role) && role === 'Owner') ||
-          role === 'Admin' ||
-          role === 'Moderator'
-        ) {
+        if (!canEditRole(member?.roles, role)) {
           return callback?.({
             error: 'You are not allowed to assign this role',
           });
@@ -511,12 +507,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'Member not found' });
         }
 
-        if (
-          !canEditRole(updatedMember.roles, role) ||
-          role === 'Owner' ||
-          role === 'Admin' ||
-          role === 'Moderator'
-        ) {
+        if (!canEditRole(member?.roles, role)) {
           return callback?.({
             error: 'You are not allowed to remove this role',
           });
