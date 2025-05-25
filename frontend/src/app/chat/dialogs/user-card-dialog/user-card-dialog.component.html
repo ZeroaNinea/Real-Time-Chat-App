@@ -56,9 +56,9 @@
         <mat-label>Add Role</mat-label>
         <mat-select [(ngModel)]="selectedRoleToAdd">
           @for (role of availableRoles; track $index) {
-          <option [value]="role">
+          <mat-option [value]="role">
             {{ role }}
-          </option>
+          </mat-option>
           }
         </mat-select>
       </mat-form-field>
