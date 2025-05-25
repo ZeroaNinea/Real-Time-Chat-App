@@ -101,6 +101,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   replyingToMessage = signal<Message | null>(null);
+  chatRoomRoles = signal<PopulatedUser[]>([]);
 
   constructor() {
     effect(() => {
@@ -165,6 +166,8 @@ export class ChatRoomComponent implements OnDestroy {
       this.chatName.set(chat.name);
       this.channels.set(chat.channels);
       this.members.set(chat.members);
+
+      console.log('Chat:', chat);
 
       const currentUserId = this.authService.currentUser()?.id;
       console.log('Current user ID:', currentUserId);
