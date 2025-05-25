@@ -72,6 +72,18 @@ export const createChat = async (req: Request, res: Response) => {
           permissions: ['sendMessage'],
           canBeSelfAssigned: false,
         },
+        {
+          name: 'Muted',
+          description: 'User cannot send messages',
+          permissions: [],
+          canBeSelfAssigned: false,
+        },
+        {
+          name: 'Banned',
+          description: 'User is banned from the chat',
+          permissions: [],
+          canBeSelfAssigned: false,
+        },
       ],
       members: [
         {
