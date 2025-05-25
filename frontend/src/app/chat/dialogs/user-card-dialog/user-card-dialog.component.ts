@@ -58,6 +58,28 @@ export class UserCardDialogComponent implements OnChanges {
   updatedStatus!: string;
   environment = environment;
 
+  roleRanks: Record<string, number> = {
+    Owner: 3,
+    Admin: 2,
+    Moderator: 1,
+  };
+
+  canEditRole(assignerRoles: string[], targetRole: string): boolean {
+    const targetRank = this.roleRanks[targetRole] ?? 0;
+    const highestAssignerRank = Math.max(
+      ...assignerRoles.map((r) => this.roleRanks[r] ?? 0)
+    );
+
+    if (
+      targetRank <= highestAssignerRank &&
+      (targetRole === 'Banned' || targetRole === 'Muted')
+    ) {
+      return false;
+    }
+
+    return targetRank <= highestAssignerRank;
+  }
+
   constructor(
     private dialogRef: MatDialogRef<UserCardDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -77,30 +99,11 @@ export class UserCardDialogComponent implements OnChanges {
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
-    const rolePriority: Record<string, number> = {
-      Owner: 3,
-      Admin: 2,
-      Moderator: 1,
-    };
-
-    this.availableRoles = this.data.chatRoomRoles;
-    console.log('Available roles:', this.availableRoles);
-
-    this.availableRoles.sort(
-      (a, b) => rolePriority[a.name] - rolePriority[b.name]
+    this.availableRoles = this.data.chatRoomRoles.filter(
+      (role) =>
+        role.name !== 'Owner' &&
+        this.canEditRole(this.data.selectedUser.roles, role.name)
     );
-
-    if (this.data.selectedUser.user._id === this.data.currentUserId) {
-      this.availableRoles = this.availableRoles.filter(
-        (role) => role.name !== 'Banned' && role.name !== 'Muted'
-      );
-    }
-
-    if (this.data.selectedUser.user._id !== this.data.currentUserId) {
-      this.availableRoles = this.availableRoles.filter(
-        (role) => role.name !== 'Owner'
-      );
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
