@@ -99,6 +99,12 @@ export class UserCardDialogComponent implements OnChanges {
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
+    if (this.data.selectedUser.user._id === this.data.currentUserId) {
+      this.availableRoles = this.availableRoles.filter(
+        (role) => role.name !== 'Banned' && role.name !== 'Muted'
+      );
+    }
+
     this.availableRoles = this.data.chatRoomRoles.filter(
       (role) =>
         role.name !== 'Owner' &&
