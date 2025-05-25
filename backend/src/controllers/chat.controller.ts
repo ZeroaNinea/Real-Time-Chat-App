@@ -40,12 +40,17 @@ export const createChat = async (req: Request, res: Response) => {
   try {
     const { name, channels } = req.body;
 
+    if (!name) {
+      return res.status(400).json({ message: 'Chat name is required' });
+    }
+
     const chat = await Chat.create({
       name,
       isPrivate: false,
       roles: [
         { name: 'Owner', description: 'Full permissions' },
         { name: 'Admin', description: 'Manage channels and users' },
+        { name: 'Moderator', description: 'Manage channels' },
         { name: 'Member', description: 'Basic access' },
       ],
       members: [
