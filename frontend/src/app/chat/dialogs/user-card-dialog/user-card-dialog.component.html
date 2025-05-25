@@ -50,7 +50,7 @@
       <mat-chip>{{ role }}</mat-chip>
       }
     </div>
-    } @if (availableRoles.length > 0) {
+    } @if (availableRoles.length > 0 && isAdmin || isOwner || isModerator) {
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Add Role</mat-label>
