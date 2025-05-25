@@ -22,6 +22,7 @@ export class MemberListComponent {
   @Input() isAdmin: boolean = false;
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
+  @Input() chatId: string | null = null;
   environment = environment;
 
   getAvatarUrl(userId: string): string {
@@ -36,6 +37,7 @@ export class MemberListComponent {
       data: {
         selectedUser: member,
         currentUserId: this.currentUserId,
+        chatId: this.chatId,
         isAdmin: this.isAdmin,
         isOwner: this.isOwner,
         isModerator: this.isModerator,

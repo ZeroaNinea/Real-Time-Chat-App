@@ -53,6 +53,7 @@ export class UserCardDialogComponent {
     public data: {
       selectedUser: PopulatedUser;
       currentUserId: string;
+      chatId: string;
       isAdmin: boolean;
       isOwner: boolean;
       isModerator: boolean;
@@ -101,6 +102,7 @@ export class UserCardDialogComponent {
       'assignRole',
       {
         userId: this.data.selectedUser.user._id,
+        chatId: this.data.chatId,
         role: this.selectedRoleToAdd,
       },
       (res: any) => {
