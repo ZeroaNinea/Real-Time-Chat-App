@@ -10,11 +10,11 @@ import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 import { Channel } from './models/channel.model';
-import { Chat } from './models/chat.model';
+import { Chat, ChatDocument } from './models/chat.model';
 import { Member } from '../types/member.aliase';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
-import { PopulatedUser } from '../types/populated-user.interface';
+import { canAssignRole } from './helpers/check-role-assignment-permissions';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -422,6 +422,56 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         io.emit('userUpdated', filteredUser);
         callback?.({ success: true, user });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
+
+    socket.on('assignRole', async ({ userId, role }, callback) => {
+      try {
+        const user = await User.findById(userId);
+        if (!user) return callback?.({ error: 'User not found' });
+
+        const chat = await Chat.findById(socket.data.chat._id);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        const isPrivileged =
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Owner') ||
+          member?.roles.includes('Moderator');
+
+        if (!isPrivileged) {
+          return callback?.({ error: 'You are not allowed to assign roles' });
+        }
+
+        if (member?.roles.includes(role)) {
+          return callback?.({ error: 'User already has this role' });
+        }
+
+        if (!canAssignRole(member?.roles, role)) {
+          return callback?.({
+            error: 'You are not allowed to assign this role',
+          });
+        }
+
+        const updatedMember = chat.members.find((m: Member) =>
+          m.user.equals(userId)
+        );
+
+        if (!updatedMember) {
+          return callback?.({ error: 'Member not found' });
+        }
+
+        updatedMember.roles.push(role);
+        await chat.save();
+
+        io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
+        callback?.({ success: true, member: updatedMember });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
