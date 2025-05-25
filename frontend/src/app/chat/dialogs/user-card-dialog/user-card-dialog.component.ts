@@ -87,6 +87,26 @@ export class UserCardDialogComponent {
       : 'assets/camera.svg';
   }
 
+  addRole() {
+    if (!this.selectedRoleToAdd) return;
+
+    this.wsService.emit(
+      'assignRole',
+      {
+        userId: this.data.selectedUser.user._id,
+        role: this.selectedRoleToAdd,
+      },
+      (res: any) => {
+        if (res?.error) {
+          this._snackbar.open(res.error, 'Close', { duration: 3000 });
+        } else {
+          this._snackbar.open('Role added!', 'Close', { duration: 2000 });
+          this.selectedRoleToAdd = null;
+        }
+      }
+    );
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();
