@@ -33,7 +33,13 @@ export class MemberListComponent {
 
   openUserDialog(member: PopulatedUser) {
     this.dialog.open(UserCardDialogComponent, {
-      data: { selectedUser: member, currentUserId: this.currentUserId },
+      data: {
+        selectedUser: member,
+        currentUserId: this.currentUserId,
+        isAdmin: this.isAdmin,
+        isOwner: this.isOwner,
+        isModerator: this.isModerator,
+      },
       width: '400px',
     });
   }
