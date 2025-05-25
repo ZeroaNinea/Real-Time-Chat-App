@@ -184,6 +184,8 @@ export const getChat = async (req: Request, res: Response) => {
         .status(403)
         .json({ message: 'You are not a member of this chat' });
 
+    const chatRoles = chat.roles;
+
     const userRoles = member.roles;
 
     const channels = await Channel.find({ chatId });
@@ -205,7 +207,7 @@ export const getChat = async (req: Request, res: Response) => {
       return true;
     });
 
-    res.json({ ...chat.toObject(), channels: accessibleChannels });
+    res.json({ ...chat.toObject(), channels: accessibleChannels, chatRoles });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to get chat', error: err });
