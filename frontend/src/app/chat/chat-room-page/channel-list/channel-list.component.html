@@ -1,3 +1,7 @@
+<span class="role-management">
+  <a [routerLink]="['/chat-room', chatId]">Roles</a>
+</span>
+
 @if (isAdmin && chatId) {
 <button mat-button (click)="addNewChannel()">Add Channel</button>
 
