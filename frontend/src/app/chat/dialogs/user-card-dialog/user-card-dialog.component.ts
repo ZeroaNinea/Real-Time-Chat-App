@@ -49,7 +49,6 @@ export class UserCardDialogComponent implements OnChanges {
   selectedRoleToAdd: string | null = null;
   availableRoles: ChatRoomRole[] = [];
   chatRoomRoles: ChatRoomRole[] = [];
-  // readonly allRoles = ['Owner', 'Admin', 'Moderator'];
 
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
