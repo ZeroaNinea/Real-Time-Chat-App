@@ -83,6 +83,12 @@ export class UserCardDialogComponent implements OnChanges {
 
     this.availableRoles = this.data.chatRoomRoles;
     console.log('Available roles:', this.availableRoles);
+
+    if (this.data.selectedUser.user._id === this.data.currentUserId) {
+      this.availableRoles = this.availableRoles.filter(
+        (role) => role.name !== 'Banned' && role.name !== 'Muted'
+      );
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
