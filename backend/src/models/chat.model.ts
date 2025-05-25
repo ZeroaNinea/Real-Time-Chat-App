@@ -12,6 +12,9 @@ export interface IChat {
     name: string;
     description?: string;
     permissions?: string[];
+    allowedUserIds?: string[];
+    allowedRoles?: string[];
+    canBeSelfAssigned?: boolean;
   }[];
 }
 
@@ -38,6 +41,9 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
         name: { type: String, required: true },
         description: { type: String },
         permissions: [String],
+        allowedUserIds: [String],
+        allowedRoles: [String],
+        canBeSelfAssigned: { type: Boolean, default: false },
       },
     ],
   },
