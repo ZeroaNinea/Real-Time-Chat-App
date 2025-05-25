@@ -50,6 +50,27 @@
       <mat-chip>{{ role }}</mat-chip>
       }
     </div>
+    } @if (availableRoles.length > 0) {
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Add Role</mat-label>
+        <select [(ngModel)]="selectedRoleToAdd">
+          @for (role of availableRoles; track $index) {
+          <option [value]="role">
+            {{ role }}
+          </option>
+          }
+        </select>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addRole()"
+        [disabled]="!selectedRoleToAdd"
+      >
+        Add
+      </button>
+    </div>
     }
 
     <div class="user-actions">
