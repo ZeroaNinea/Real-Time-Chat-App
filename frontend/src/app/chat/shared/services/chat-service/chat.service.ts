@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.alias';
 import { Message } from '../../models/message.model';
 import { PopulatedUser } from '../../models/populated-user.model';
+import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,7 @@ export class ChatService {
       name: string;
       members: Member[];
       channels: Channel[];
+      chatRoles: ChatRoomRole[];
     }>(`${environment.backendUrl}/chat/${chatId}`);
   }
 
