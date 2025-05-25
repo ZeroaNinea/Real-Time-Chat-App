@@ -31,13 +31,14 @@ import { PermissionsComponent } from '../permissions/permissions.component';
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
 import { PermissionsDialogComponent } from '../../dialogs/permissions-dialog/permissions-dialog.component';
+import { MemberListComponent } from '../member-list/member-list.component';
+import { RoleManagementComponent } from '../role-management/role-management.component';
 
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.aliase';
 import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.aliase';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
-import { MemberListComponent } from '../member-list/member-list.component';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -50,6 +51,7 @@ import { MemberListComponent } from '../member-list/member-list.component';
     ChannelTopicComponent,
     PermissionsComponent,
     MemberListComponent,
+    RoleManagementComponent,
     ReactiveFormsModule,
     FormsModule,
   ],

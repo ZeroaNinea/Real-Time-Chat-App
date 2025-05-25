@@ -44,6 +44,7 @@
   </div>
 
   <div class="main">
+    @if (channelId()) {
     <div class="message-list" #scrollContainer (scroll)="onScroll()">
       <app-message-list
         [isAdmin]="isAdmin()"
@@ -71,6 +72,9 @@
       (cancelReply)="cancelReply()"
       (replyToMessage)="replyToMessage()"
     ></app-message-input>
+    } @else {
+    <app-role-management></app-role-management>
+    }
   </div>
 
   <div class="right-sidebar">
