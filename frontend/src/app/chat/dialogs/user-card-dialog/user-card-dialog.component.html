@@ -51,7 +51,7 @@
       }
     </div>
     } @if (availableRoles.length > 0 && isAdmin || isOwner || isModerator) {
-    <div>
+    <div class="role-actions">
       <mat-form-field appearance="fill">
         <mat-label>Add Role</mat-label>
         <mat-select [(ngModel)]="selectedRoleToAdd">

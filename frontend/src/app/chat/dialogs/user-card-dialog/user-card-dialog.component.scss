@@ -7,6 +7,12 @@
       font-size: 0.8rem;
     }
   }
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 
 .bio {
@@ -35,7 +41,7 @@
 
   &::before {
     top: -40px;
-    left: 80%;
+    left: 82%;
     width: 10px;
     height: 10px;
   }
@@ -122,4 +128,17 @@
   .edit-status-button {
     align-self: flex-end;
   }
+}
+
+.role-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 0.75rem;
+
+  @include mat.theme(
+    (
+      density: -1,
+    )
+  );
 }
