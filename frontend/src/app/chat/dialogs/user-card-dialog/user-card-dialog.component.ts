@@ -42,6 +42,9 @@ export class UserCardDialogComponent {
     public data: {
       selectedUser: PopulatedUser;
       currentUserId: string;
+      isAdmin: boolean;
+      isOwner: boolean;
+      isModerator: boolean;
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
