@@ -11,7 +11,7 @@ const assignableRoles: AssignableRoles = {
   moderator: [],
 };
 
-export function canAssignRole(
+export function canEditRole(
   assignerRoles: string[] | never[],
   targetRole: string
 ): boolean {

@@ -14,7 +14,7 @@ import { Chat, ChatDocument } from './models/chat.model';
 import { Member } from '../types/member.aliase';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
-import { canAssignRole } from './helpers/check-role-assignment-permissions';
+import { canEditRole } from './helpers/check-role-assignment-permissions';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -453,7 +453,11 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'User already has this role' });
         }
 
-        if (!canAssignRole(member?.roles, role)) {
+        if (
+          (!canEditRole(member?.roles, role) && role === 'Owner') ||
+          role === 'Admin' ||
+          role === 'Moderator'
+        ) {
           return callback?.({
             error: 'You are not allowed to assign this role',
           });
@@ -507,11 +511,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'Member not found' });
         }
 
-        // if (!canAssignRole(updatedMember.roles, role)) {
-        //   return callback?.({
-        //     error: 'You are not allowed to remove this role',
-        //   });
-        // }
+        if (
+          !canEditRole(updatedMember.roles, role) ||
+          role === 'Owner' ||
+          role === 'Admin' ||
+          role === 'Moderator'
+        ) {
+          return callback?.({
+            error: 'You are not allowed to remove this role',
+          });
+        }
 
         updatedMember.roles = updatedMember.roles.filter(
           (r: string) => r !== role
