@@ -13,7 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   ChannelPermissions,
   ChannelPermissionsString,
-} from '../../shared/models/permissions.aliase';
+} from '../../shared/models/permissions.alias';
 
 @Component({
   selector: 'app-permissions-dialog',

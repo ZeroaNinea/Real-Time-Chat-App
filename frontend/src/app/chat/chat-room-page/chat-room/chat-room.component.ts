@@ -35,7 +35,7 @@ import { MemberListComponent } from '../member-list/member-list.component';
 import { RoleManagementComponent } from '../role-management/role-management.component';
 
 import { Channel } from '../../shared/models/channel.model';
-import { ChannelPermissions } from '../../shared/models/permissions.aliase';
+import { ChannelPermissions } from '../../shared/models/permissions.alias';
 import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.aliase';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
