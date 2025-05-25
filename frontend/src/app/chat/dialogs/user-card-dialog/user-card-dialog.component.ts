@@ -29,6 +29,13 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   styleUrl: './user-card-dialog.component.scss',
 })
 export class UserCardDialogComponent {
+  isAdmin: boolean = false;
+  isOwner: boolean = false;
+  isModerator: boolean = false;
+  canEditRoles: boolean = false;
+  editRolesMode: boolean = false;
+  selectedRoleToAdd: string | null = null;
+
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
 
@@ -48,6 +55,10 @@ export class UserCardDialogComponent {
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
+    this.isAdmin = this.data.isAdmin;
+    this.isOwner = this.data.isOwner;
+    this.isModerator = this.data.isModerator;
+    this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
   }
 
   get isOwnProfile(): boolean {
