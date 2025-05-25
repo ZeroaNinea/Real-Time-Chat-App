@@ -1,4 +1,12 @@
-import { Component, inject, Inject } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  inject,
+  Inject,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -32,7 +40,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   templateUrl: './user-card-dialog.component.html',
   styleUrl: './user-card-dialog.component.scss',
 })
-export class UserCardDialogComponent {
+export class UserCardDialogComponent implements OnChanges {
   isAdmin: boolean = false;
   isOwner: boolean = false;
   isModerator: boolean = false;
@@ -73,8 +81,14 @@ export class UserCardDialogComponent {
     // );
     // this.chatRoomRoles = this.data.chatRoomRoles;
 
-    this.availableRoles = this.chatRoomRoles;
+    this.availableRoles = this.data.chatRoomRoles;
     console.log('Available roles:', this.availableRoles);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['chatRoomRoles']) {
+      console.log('Received chatRoomRoles:', this.chatRoomRoles);
+    }
   }
 
   get isOwnProfile(): boolean {
