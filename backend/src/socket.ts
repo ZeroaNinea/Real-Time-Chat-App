@@ -429,19 +429,16 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
-      console.log('assignRole', userId, chatId, role);
       try {
         const user = await User.findById(userId);
         if (!user) return callback?.({ error: 'User not found' });
 
         const chat = await Chat.findById(chatId);
-        console.log('Chat ID:', chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
         const member = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
         );
-        console.log('User ID:', socket.data.user._id);
 
         const isPrivileged =
           member?.roles.includes('Admin') ||
