@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Chat } from '../../models/chat.model';
 import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
-import { Member } from '../../models/member.aliase';
+import { Member } from '../../models/member.alias';
 import { Message } from '../../models/message.model';
 import { PopulatedUser } from '../../models/populated-user.model';
 

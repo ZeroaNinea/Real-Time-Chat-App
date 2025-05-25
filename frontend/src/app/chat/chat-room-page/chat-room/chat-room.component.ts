@@ -37,8 +37,9 @@ import { RoleManagementComponent } from '../role-management/role-management.comp
 import { Channel } from '../../shared/models/channel.model';
 import { ChannelPermissions } from '../../shared/models/permissions.alias';
 import { Message } from '../../shared/models/message.model';
-import { Member } from '../../shared/models/member.aliase';
+import { Member } from '../../shared/models/member.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -101,7 +102,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   replyingToMessage = signal<Message | null>(null);
-  chatRoomRoles = signal<PopulatedUser[]>([]);
+  chatRoomRoles = signal<ChatRoomRole[]>([]);
 
   constructor() {
     effect(() => {

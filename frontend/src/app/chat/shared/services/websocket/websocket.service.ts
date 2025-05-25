@@ -9,7 +9,7 @@ import {
   AbbreviatedPopulatedUser,
   PopulatedUser,
 } from '../../models/populated-user.model';
-import { Member } from '../../models/member.aliase';
+import { Member } from '../../models/member.alias';
 
 @Injectable({
   providedIn: 'root',
