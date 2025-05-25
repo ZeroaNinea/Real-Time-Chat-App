@@ -53,6 +53,7 @@
         [members]="populatedUsers()"
         [currentUserId]="currentUser()?.id"
         [channelId]="channelId()"
+        [chatId]="chatId()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
         (onReply)="startReplyingToMessage($event)"

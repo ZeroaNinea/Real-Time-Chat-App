@@ -42,6 +42,7 @@ export class MessageListComponent {
 
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
+  @Input() chatId: string | null = null;
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
@@ -166,6 +167,7 @@ export class MessageListComponent {
       data: {
         selectedUser: member,
         currentUserId: this.currentUserId,
+        chatId: this.chatId,
         isAdmin: false,
         isOwner: false,
         isModerator: false,
