@@ -13,5 +13,12 @@ export function canEditRole(
     ...assignerRoles.map((r) => roleRanks[r] ?? 0)
   );
 
+  if (
+    (targetRank <= highestAssignerRank && targetRole === 'Banned') ||
+    targetRole === 'Muted'
+  ) {
+    return false;
+  }
+
   return targetRank <= highestAssignerRank;
 }
