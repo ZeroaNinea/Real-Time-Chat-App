@@ -9,6 +9,7 @@ import {
   AbbreviatedPopulatedUser,
   PopulatedUser,
 } from '../../models/populated-user.model';
+import { Member } from '../../models/member.aliase';
 
 @Injectable({
   providedIn: 'root',
@@ -189,6 +190,14 @@ export class WebsocketService implements OnDestroy {
   listenUserUpdates(): Observable<AbbreviatedPopulatedUser> {
     return new Observable((observer) => {
       this.socket.on('userUpdated', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  listenMemberUpdates(): Observable<Member> {
+    return new Observable((observer) => {
+      this.socket.on('memberUpdated', (data) => {
         observer.next(data);
       });
     });
