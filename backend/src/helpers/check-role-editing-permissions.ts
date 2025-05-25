@@ -14,8 +14,8 @@ export function canEditRole(
   );
 
   if (
-    (targetRank <= highestAssignerRank && targetRole === 'Banned') ||
-    targetRole === 'Muted'
+    targetRank <= highestAssignerRank &&
+    (targetRole === 'Banned' || targetRole === 'Muted')
   ) {
     return false;
   }
