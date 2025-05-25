@@ -39,8 +39,9 @@ export class UserCardDialogComponent {
   canEditRoles: boolean = false;
   editRolesMode: boolean = false;
   selectedRoleToAdd: string | null = null;
-  availableRoles: string[] = [];
-  readonly allRoles = ['Owner', 'Admin', 'Moderator'];
+  availableRoles: ChatRoomRole[] = [];
+  chatRoomRoles: ChatRoomRole[] = [];
+  // readonly allRoles = ['Owner', 'Admin', 'Moderator'];
 
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
@@ -67,9 +68,13 @@ export class UserCardDialogComponent {
     this.isOwner = this.data.isOwner;
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
-    this.availableRoles = this.allRoles.filter(
-      (role) => !this.data.selectedUser.roles.includes(role)
-    );
+    // this.availableRoles = this.allRoles.filter(
+    //   (role) => !this.data.selectedUser.roles.includes(role)
+    // );
+    // this.chatRoomRoles = this.data.chatRoomRoles;
+
+    this.availableRoles = this.chatRoomRoles;
+    console.log('Available roles:', this.availableRoles);
   }
 
   get isOwnProfile(): boolean {

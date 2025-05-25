@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -24,8 +24,15 @@ export class MemberListComponent {
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
   @Input() chatId: string | null = null;
-  @Input() chatRoomRoles: ChatRoomRole[] = [];
+  @Input() chatRoomRoles: any;
   environment = environment;
+
+  constructor() {
+    console.log(
+      'Chat room roles from the `MemberListComponent`:',
+      this.chatRoomRoles
+    );
+  }
 
   getAvatarUrl(userId: string): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;

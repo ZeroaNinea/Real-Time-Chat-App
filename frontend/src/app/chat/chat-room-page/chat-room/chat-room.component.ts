@@ -85,6 +85,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly members = signal<Member[]>([]);
   readonly populatedUsers = signal<PopulatedUser[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
+  readonly chatRoomRoles = signal<ChatRoomRole[]>([]);
   readonly currentUser = this.authService.currentUser;
   readonly selectedChannel = computed(() => {
     const id = this.channelId();
@@ -102,7 +103,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   replyingToMessage = signal<Message | null>(null);
-  chatRoomRoles = signal<ChatRoomRole[]>([]);
 
   constructor() {
     effect(() => {
@@ -168,6 +168,9 @@ export class ChatRoomComponent implements OnDestroy {
       this.channels.set(chat.channels);
       this.members.set(chat.members);
       this.chatRoomRoles.set(chat.chatRoles);
+
+      console.log(chat.chatRoles);
+      console.log('Chat:', this.chatRoomRoles());
 
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
