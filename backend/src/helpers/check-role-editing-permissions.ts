@@ -13,5 +13,5 @@ export function canEditRole(
     ...assignerRoles.map((r) => roleRanks[r] ?? 0)
   );
 
-  return targetRank < highestAssignerRank;
+  return targetRank <= highestAssignerRank;
 }
