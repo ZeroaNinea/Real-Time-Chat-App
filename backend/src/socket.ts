@@ -549,6 +549,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
+        member.roles = member.roles.filter((r: string) => r !== 'Owner');
         const updatedMember = chat.members.find((m: Member) =>
           m.user.equals(userId)
         );
