@@ -76,17 +76,29 @@ export class UserCardDialogComponent implements OnChanges {
     this.isOwner = this.data.isOwner;
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
-    // this.availableRoles = this.allRoles.filter(
-    //   (role) => !this.data.selectedUser.roles.includes(role)
-    // );
-    // this.chatRoomRoles = this.data.chatRoomRoles;
+
+    const rolePriority: Record<string, number> = {
+      Owner: 3,
+      Admin: 2,
+      Moderator: 1,
+    };
 
     this.availableRoles = this.data.chatRoomRoles;
     console.log('Available roles:', this.availableRoles);
 
+    this.availableRoles.sort(
+      (a, b) => rolePriority[a.name] - rolePriority[b.name]
+    );
+
     if (this.data.selectedUser.user._id === this.data.currentUserId) {
       this.availableRoles = this.availableRoles.filter(
         (role) => role.name !== 'Banned' && role.name !== 'Muted'
+      );
+    }
+
+    if (this.data.selectedUser.user._id !== this.data.currentUserId) {
+      this.availableRoles = this.availableRoles.filter(
+        (role) => role.name !== 'Owner'
       );
     }
   }
