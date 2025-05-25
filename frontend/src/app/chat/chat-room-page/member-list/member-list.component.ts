@@ -19,6 +19,9 @@ export class MemberListComponent {
 
   @Input() members: PopulatedUser[] = [];
   @Input() currentUserId: string | undefined;
+  @Input() isAdmin: boolean = false;
+  @Input() isOwner: boolean = false;
+  @Input() isModerator: boolean = false;
   environment = environment;
 
   getAvatarUrl(userId: string): string {

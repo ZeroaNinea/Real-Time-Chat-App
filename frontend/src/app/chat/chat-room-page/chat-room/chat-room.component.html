@@ -73,6 +73,9 @@
     <app-member-list
       [members]="populatedUsers()"
       [currentUserId]="currentUser()?.id"
+      [isAdmin]="isAdmin()"
+      [isOwner]="isOwner()"
+      [isModerator]="isModerator()"
     ></app-member-list>
   </div>
 </div>
