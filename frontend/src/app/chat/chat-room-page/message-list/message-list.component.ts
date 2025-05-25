@@ -173,6 +173,7 @@ export class MessageListComponent {
         isAdmin: false,
         isOwner: false,
         isModerator: false,
+        chatRoomRoles: this.chatRoomRoles,
       },
       width: '400px',
     });

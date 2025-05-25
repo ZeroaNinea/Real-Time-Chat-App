@@ -43,6 +43,7 @@ export class MemberListComponent {
         isAdmin: this.isAdmin,
         isOwner: this.isOwner,
         isModerator: this.isModerator,
+        chatRoomRoles: this.chatRoomRoles,
       },
       width: '400px',
     });
