@@ -225,7 +225,7 @@ backend/
 <br />
 ➡️ Step 31: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
 <br />
-➡️ Step 32: Implement role assignment
+✅ Step 32: Implement role assignment
 <br />
 ➡️ Step 33: Implement bio and pronouns editing
 <br />
