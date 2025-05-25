@@ -167,8 +167,9 @@ export class ChatRoomComponent implements OnDestroy {
       this.chatName.set(chat.name);
       this.channels.set(chat.channels);
       this.members.set(chat.members);
+      this.chatRoomRoles.set(chat.chatRoles);
 
-      console.log('Chat:', chat);
+      console.log('Chat:', chat.chatRoles);
 
       const currentUserId = this.authService.currentUser()?.id;
       console.log('Current user ID:', currentUserId);
