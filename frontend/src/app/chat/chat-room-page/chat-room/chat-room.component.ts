@@ -76,6 +76,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isCreatingNewRoom = computed(() => !this.chatId());
   readonly isOwner = signal(false);
   readonly isAdmin = signal(false);
+  readonly isModerator = signal(false);
   readonly chatName = signal('');
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
@@ -183,6 +184,7 @@ export class ChatRoomComponent implements OnDestroy {
         this.isAdmin.set(
           member.roles.includes('Admin') || member.roles.includes('Owner')
         );
+        this.isModerator.set(member.roles.includes('Moderator'));
       } else {
         // Not found in members.
         // If user is not listed (maybe because they just created the room), fallback.
