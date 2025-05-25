@@ -163,7 +163,13 @@ export class MessageListComponent {
 
   openUserDialog(member: PopulatedUser | undefined) {
     this.dialog.open(UserCardDialogComponent, {
-      data: { selectedUser: member, currentUserId: this.currentUserId },
+      data: {
+        selectedUser: member,
+        currentUserId: this.currentUserId,
+        isAdmin: false,
+        isOwner: false,
+        isModerator: false,
+      },
       // width: '400px',
     });
   }
