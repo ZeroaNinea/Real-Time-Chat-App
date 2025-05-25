@@ -40,7 +40,7 @@ export class MemberListComponent {
         isOwner: this.isOwner,
         isModerator: this.isModerator,
       },
-      width: '400px',
+      // width: '400px',
     });
   }
 
