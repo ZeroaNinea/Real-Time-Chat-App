@@ -258,6 +258,7 @@ export class ChatRoomComponent implements OnDestroy {
         if (user) {
           user.roles = updatedMember.roles;
         }
+
         return users;
       });
     });
