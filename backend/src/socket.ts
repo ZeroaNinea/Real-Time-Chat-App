@@ -429,7 +429,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
-      console.log('assignRole', userId, role);
+      console.log('assignRole', userId, chatId, role);
       try {
         const user = await User.findById(userId);
         if (!user) return callback?.({ error: 'User not found' });
@@ -456,9 +456,9 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'User already has this role' });
         }
 
-        if (!canEditRole(member?.roles, role)) {
+        if (!canEditRole(member?.roles || [], role)) {
           return callback?.({
-            error: 'You are not allowed to assign this role',
+            error: 'You cannot edit roles higher than your own',
           });
         }
 
@@ -510,9 +510,9 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'Member not found' });
         }
 
-        if (!canEditRole(member?.roles, role)) {
+        if (!canEditRole(member?.roles || [], role)) {
           return callback?.({
-            error: 'You are not allowed to remove this role',
+            error: 'You cannot remove roles higher than your own',
           });
         }
 
