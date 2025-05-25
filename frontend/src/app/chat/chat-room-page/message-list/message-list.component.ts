@@ -170,7 +170,7 @@ export class MessageListComponent {
         isOwner: false,
         isModerator: false,
       },
-      // width: '400px',
+      width: '400px',
     });
   }
 
