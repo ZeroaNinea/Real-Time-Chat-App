@@ -54,13 +54,13 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Add Role</mat-label>
-        <select [(ngModel)]="selectedRoleToAdd">
+        <mat-select [(ngModel)]="selectedRoleToAdd">
           @for (role of availableRoles; track $index) {
           <option [value]="role">
             {{ role }}
           </option>
           }
-        </select>
+        </mat-select>
       </mat-form-field>
       <button
         mat-raised-button

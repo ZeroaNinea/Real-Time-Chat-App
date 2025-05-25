@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
@@ -23,6 +24,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   standalone: true,
   templateUrl: './user-card-dialog.component.html',
