@@ -45,7 +45,7 @@
 
     <div class="bio">{{ data.selectedUser.user.bio }}</div>
     @if (data.selectedUser.roles.length > 0) {
-    <div>
+    <div class="roles">
       @for (role of data.selectedUser.roles; track $index) {
       <mat-chip>{{ role }}</mat-chip>
       }
