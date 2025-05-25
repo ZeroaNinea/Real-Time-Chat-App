@@ -48,10 +48,30 @@ export const createChat = async (req: Request, res: Response) => {
       name,
       isPrivate: false,
       roles: [
-        { name: 'Owner', description: 'Full permissions' },
-        { name: 'Admin', description: 'Manage channels and users' },
-        { name: 'Moderator', description: 'Manage channels' },
-        { name: 'Member', description: 'Basic access' },
+        {
+          name: 'Owner',
+          description: 'Full permissions',
+          permissions: ['manageEverything'],
+          canBeSelfAssigned: false,
+        },
+        {
+          name: 'Admin',
+          description: 'Manage channels and users',
+          permissions: ['manageChannels', 'manageUsers'],
+          canBeSelfAssigned: false,
+        },
+        {
+          name: 'Moderator',
+          description: 'Moderate users and messages',
+          permissions: ['moderateMessages', 'banUsers'],
+          canBeSelfAssigned: false,
+        },
+        {
+          name: 'Member',
+          description: 'Basic access',
+          permissions: ['sendMessage'],
+          canBeSelfAssigned: false,
+        },
       ],
       members: [
         {
