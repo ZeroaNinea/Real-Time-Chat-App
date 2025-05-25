@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
+
 import { environment } from '../../../../environments/environment';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
@@ -57,6 +59,7 @@ export class UserCardDialogComponent {
       isAdmin: boolean;
       isOwner: boolean;
       isModerator: boolean;
+      chatRoomRoles: ChatRoomRole[];
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
