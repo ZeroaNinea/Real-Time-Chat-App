@@ -93,9 +93,8 @@
           <button
             mat-icon-button
             type="button"
-            matSuffix
             tabindex="-1"
-            (mousedown)="$event.preventDefault()"
+            (click)="deleteRole(role); $event.stopPropagation()"
           >
             <mat-icon>delete</mat-icon>
           </button>
