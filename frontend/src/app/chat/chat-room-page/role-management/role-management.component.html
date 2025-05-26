@@ -1,78 +1,86 @@
 <div class="role-management-container">
-  <h2>Manage Roles</h2>
+  <div class="create-role">
+    <h2>Manage Roles</h2>
 
-  <form>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Role Name</mat-label>
-      <input
-        matInput
-        placeholder="e.g., Moderator"
-        [(ngModel)]="role.name"
-        name="name"
-        required
-      />
-    </mat-form-field>
+    <form>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Role Name</mat-label>
+        <input
+          matInput
+          placeholder="e.g., Moderator"
+          [(ngModel)]="role.name"
+          name="name"
+          required
+        />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        placeholder="Optional description"
-        [(ngModel)]="role.description"
-        name="description"
-        rows="3"
-      ></textarea>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          placeholder="Optional description"
+          [(ngModel)]="role.description"
+          name="description"
+          rows="3"
+        ></textarea>
+      </mat-form-field>
 
-    <h3>Permissions</h3>
-    <mat-selection-list [(ngModel)]="role.permissions" name="permissions">
-      @for (permission of allPermissions; track $index) {
-      <mat-list-option [value]="permission">
-        {{ permission }}
-      </mat-list-option>
-      }
-    </mat-selection-list>
+      <h3>Permissions</h3>
+      <mat-selection-list [(ngModel)]="role.permissions" name="permissions">
+        @for (permission of allPermissions; track $index) {
+        <mat-list-option [value]="permission">
+          {{ permission }}
+        </mat-list-option>
+        }
+      </mat-selection-list>
 
-    <h3>Allowed User IDs</h3>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Select Users</mat-label>
-      <mat-select
-        multiple
-        [(ngModel)]="role.allowedUserIds"
-        name="allowedUserIds"
+      <h3>Allowed User IDs</h3>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select Users</mat-label>
+        <input
+          matInput
+          [(ngModel)]="role.allowedUserIds"
+          name="allowedUserIds"
+          placeholder="Enter User IDs (comma-separated)"
+        />
+      </mat-form-field>
+
+      <h3>Allowed Roles</h3>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Which roles can assign this?</mat-label>
+        <mat-select
+          multiple
+          [(ngModel)]="role.allowedRoles"
+          name="allowedRoles"
+        >
+          @for (existingRole of roles; track $index) {
+          <mat-option [value]="existingRole.name">
+            {{ existingRole.name }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-slide-toggle
+        [(ngModel)]="role.canBeSelfAssigned"
+        name="canBeSelfAssigned"
       >
-        @for (member of members; track $index) {
-        <mat-option [value]="member.user._id">
-          {{ member.user.username }}
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+        Can be self-assigned
+      </mat-slide-toggle>
 
-    <h3>Allowed Roles</h3>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Which roles can assign this?</mat-label>
-      <mat-select multiple [(ngModel)]="role.allowedRoles" name="allowedRoles">
-        @for (existingRole of roles; track $index) {
-        <mat-option [value]="existingRole.name">
-          {{ existingRole.name }}
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-slide-toggle
-      [(ngModel)]="role.canBeSelfAssigned"
-      name="canBeSelfAssigned"
-    >
-      Can be self-assigned
-    </mat-slide-toggle>
-
-    <div class="actions">
-      <button mat-raised-button color="primary" type="submit">Save Role</button>
-      <button mat-stroked-button type="button" (click)="cancel()">
-        Cancel
-      </button>
-    </div>
-  </form>
+      <div class="actions">
+        <button mat-raised-button class="primary" type="submit">
+          Save Role
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="cancel()"
+          class="warn"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
