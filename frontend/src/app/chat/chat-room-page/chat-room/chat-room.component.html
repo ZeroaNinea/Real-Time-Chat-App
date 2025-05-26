@@ -43,7 +43,7 @@
     </app-channel-list>
   </div>
 
-  <div class="main">
+  <div class="main" [class.no-channel]="channelId()">
     @if (channelId()) {
     <div class="message-list" #scrollContainer (scroll)="onScroll()">
       <app-message-list
