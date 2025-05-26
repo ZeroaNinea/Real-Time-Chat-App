@@ -74,7 +74,11 @@
       (replyToMessage)="replyToMessage()"
     ></app-message-input>
     } @else {
-    <app-role-management></app-role-management>
+    <app-role-management
+      [isAdmin]="isAdmin()"
+      [isOwner]="isOwner()"
+      [isModerator]="isModerator()"
+    ></app-role-management>
     }
   </div>
 

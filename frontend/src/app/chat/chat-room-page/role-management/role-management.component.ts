@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-role-management',
@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './role-management.component.html',
   styleUrl: './role-management.component.scss',
 })
-export class RoleManagementComponent {}
+export class RoleManagementComponent {
+  @Input() isAdmin: boolean = false;
+  @Input() isOwner: boolean = false;
+  @Input() isModerator: boolean = false;
+}
