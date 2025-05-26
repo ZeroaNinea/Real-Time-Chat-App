@@ -15,9 +15,9 @@ mat-form-field {
 .actions {
   display: flex;
   justify-content: flex-end;
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-  gap: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  gap: 1.5rem;
 
   .primary {
     @include mat.theme(
