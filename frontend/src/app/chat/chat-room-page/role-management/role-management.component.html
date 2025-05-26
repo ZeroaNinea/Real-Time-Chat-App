@@ -41,9 +41,11 @@
         [(ngModel)]="role.allowedUserIds"
         name="allowedUserIds"
       >
-        <mat-option *ngFor="let user of users" [value]="user._id">
-          {{ user.username }}
+        @for (member of members; track $index) {
+        <mat-option [value]="member.user._id">
+          {{ member.user.username }}
         </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
