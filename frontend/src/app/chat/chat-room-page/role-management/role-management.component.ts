@@ -1,12 +1,13 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
 
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
@@ -22,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatSlideToggleModule,
     MatButtonModule,
     MatIconModule,
+    MatRippleModule,
     FormsModule,
   ],
   standalone: true,
@@ -44,6 +46,7 @@ export class RoleManagementComponent {
     'canDeleteMessages',
     'canEditChannels',
   ];
+  rippleDisabled: boolean = false;
 
   cancel() {
     console.log('Cancel');

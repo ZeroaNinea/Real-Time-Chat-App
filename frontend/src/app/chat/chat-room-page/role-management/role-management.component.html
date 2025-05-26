@@ -87,9 +87,9 @@
     <h2>Choose Your Roles</h2>
     <mat-selection-list [(ngModel)]="role.name" name="permissions">
       @for (role of roles; track $index) {
-      <mat-list-option [value]="role.name">
-        <div class="role-item">
-          {{ role.name }}
+      <mat-list-option [value]="role.name" [disableRipple]="true">
+        <div matRipple [matRippleTrigger]="trigger" class="role-item">
+          <span #trigger>{{ role.name }}</span>
           <button
             mat-icon-button
             type="button"
