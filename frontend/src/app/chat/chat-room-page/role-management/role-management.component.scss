@@ -12,6 +12,11 @@ mat-form-field {
   margin-left: 0.5rem;
 }
 
+.role-item {
+  display: flex;
+  justify-content: space-between;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;

@@ -83,4 +83,25 @@
       </div>
     </form>
   </div>
+  <div class="choose-role">
+    <h2>Choose Your Roles</h2>
+    <mat-selection-list [(ngModel)]="role.name" name="permissions">
+      @for (role of roles; track $index) {
+      <mat-list-option [value]="role.name">
+        <div class="role-item">
+          {{ role.name }}
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            tabindex="-1"
+            (mousedown)="$event.preventDefault()"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-option>
+      }
+    </mat-selection-list>
+  </div>
 </div>
