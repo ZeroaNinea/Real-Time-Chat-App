@@ -9,6 +9,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-role-management',
@@ -18,6 +19,7 @@ import { PopulatedUser } from '../../shared/models/populated-user.model';
     MatSelectModule,
     MatInputModule,
     MatSlideToggleModule,
+    MatButtonModule,
     FormsModule,
   ],
   standalone: true,
