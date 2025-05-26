@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-logout',
-  imports: [],
+  imports: [MatRippleModule],
   standalone: true,
   templateUrl: './logout.component.html',
   styleUrl: './logout.component.scss',

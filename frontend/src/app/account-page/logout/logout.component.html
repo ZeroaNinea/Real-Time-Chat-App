@@ -4,9 +4,15 @@
     <p>Are you sure you want to log out?</p>
   </div>
 
-  <button class="rainbow-button" (click)="logout()">
-    A Big Rainbow Button
-  </button>
+  <div
+    matRipple
+    [matRippleTrigger]="logoutButton"
+    class="logout-button-container"
+  >
+    <button #logoutButton class="rainbow-button" (click)="logout()">
+      A Big Rainbow Button
+    </button>
+  </div>
   @if (logoutInProgress) {
   <div id="fade-out-message">Logging out...</div>
   }

@@ -1,3 +1,18 @@
+.logout-button-container {
+  border-radius: 1.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+      0 0 25px rgba(255, 100, 200, 0.5), 0 0 50px rgba(100, 150, 255, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
 .rainbow-button {
   display: inline-block;
   padding: 3rem 6rem;
