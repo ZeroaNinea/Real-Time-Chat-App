@@ -26,12 +26,11 @@
 
     <h3>Permissions</h3>
     <mat-selection-list [(ngModel)]="role.permissions" name="permissions">
-      <mat-list-option
-        *ngFor="let permission of allPermissions"
-        [value]="permission"
-      >
+      @for (permission of allPermissions; track $index) {
+      <mat-list-option [value]="permission">
         {{ permission }}
       </mat-list-option>
+      }
     </mat-selection-list>
 
     <h3>Allowed User IDs</h3>
@@ -52,12 +51,11 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Which roles can assign this?</mat-label>
       <mat-select multiple [(ngModel)]="role.allowedRoles" name="allowedRoles">
-        <mat-option
-          *ngFor="let existingRole of roles"
-          [value]="existingRole.name"
-        >
+        @for (existingRole of roles; track $index) {
+        <mat-option [value]="existingRole.name">
           {{ existingRole.name }}
         </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 

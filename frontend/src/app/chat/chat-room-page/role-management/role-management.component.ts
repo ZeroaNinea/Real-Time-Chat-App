@@ -31,6 +31,12 @@ export class RoleManagementComponent {
   @Input() isModerator = false;
 
   role: Partial<ChatRoomRole> = {};
+  allPermissions = [
+    'canBan',
+    'canMute',
+    'canDeleteMessages',
+    'canEditChannels',
+  ];
 
   cancel() {
     console.log('Cancel');
