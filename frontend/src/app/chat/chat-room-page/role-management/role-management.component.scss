@@ -1,4 +1,11 @@
 .role-management-container {
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 85vh;
+}
+
+mat-form-field {
+  width: 95%;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
