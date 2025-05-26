@@ -78,6 +78,10 @@
       [isAdmin]="isAdmin()"
       [isOwner]="isOwner()"
       [isModerator]="isModerator()"
+      [roles]="chatRoomRoles()"
+      [members]="populatedUsers()"
+      [currentUserId]="currentUser()?.id"
+      [chatId]="chatId()"
     ></app-role-management>
     }
   </div>
