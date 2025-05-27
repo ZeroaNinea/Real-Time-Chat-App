@@ -92,23 +92,25 @@
           <mat-list-option [value]="role.name" disableRipple="true">
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
-              <button
-                mat-icon-button
-                matTooltip="Rename"
-                type="button"
-                (click)="editRole(role); $event.stopPropagation()"
-                aria-label="Edit role"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                type="button"
-                tabindex="-1"
-                (click)="deleteRole(role); $event.stopPropagation()"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
+              <div class="role-actions">
+                <button
+                  mat-icon-button
+                  matTooltip="Rename"
+                  type="button"
+                  (click)="editRole(role); $event.stopPropagation()"
+                  aria-label="Edit role"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  tabindex="-1"
+                  (click)="deleteRole(role); $event.stopPropagation()"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
           </mat-list-option>
           <div class="role-description">
