@@ -616,7 +616,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'Member not found' });
         }
 
-        updatedMember.roles.push(role);
+        updatedMember.roles.push(role.name);
         await chat.save();
 
         io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
