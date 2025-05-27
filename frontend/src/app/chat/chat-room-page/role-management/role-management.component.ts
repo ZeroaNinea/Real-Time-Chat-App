@@ -46,7 +46,13 @@ export class RoleManagementComponent {
     'canBan',
     'canMute',
     'canDeleteMessages',
+    'canCreateChannels',
     'canEditChannels',
+    'canDeleteChannels',
+    'deleteChatroom',
+    'canAggignRoles',
+    'canAssignAdmins',
+    'canAssignModerators',
   ];
   rippleDisabled: boolean = false;
 
