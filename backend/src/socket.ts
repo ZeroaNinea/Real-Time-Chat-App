@@ -615,16 +615,18 @@ export function setupSocket(server: HttpServer, app: Express) {
           }
         );
 
-        if (
-          !canAssignPermissionsBelowOwnLevel(
-            memberPermissions,
-            role.permissions
-          )
-        ) {
-          return callback?.({
-            error:
-              'You cannot assign permissions equal to or stronger than your own',
-          });
+        if (role.permissions) {
+          if (
+            !canAssignPermissionsBelowOwnLevel(
+              memberPermissions,
+              role.permissions
+            )
+          ) {
+            return callback?.({
+              error:
+                'You cannot assign permissions equal to or stronger than your own',
+            });
+          }
         }
 
         chat.roles.push(role);
