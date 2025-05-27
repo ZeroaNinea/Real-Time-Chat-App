@@ -52,6 +52,10 @@ export class RoleManagementComponent {
     console.log('Cancel');
   }
 
+  editRole(role: ChatRoomRole) {
+    console.log('Edit', role.name);
+  }
+
   deleteRole(role: ChatRoomRole) {
     console.log('Delete role', role.name);
   }
