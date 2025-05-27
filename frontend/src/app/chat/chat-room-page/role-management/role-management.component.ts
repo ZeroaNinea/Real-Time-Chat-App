@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -40,6 +40,8 @@ export class RoleManagementComponent {
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() isModerator = false;
+
+  @Output() createRole = new EventEmitter<ChatRoomRole>();
 
   role: Partial<ChatRoomRole> = {};
   allPermissions = [
