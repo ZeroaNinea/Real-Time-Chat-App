@@ -1,6 +1,6 @@
 import { Chat } from '../models/chat.model';
 import { Channel } from '../models/channel.model';
-import { Member } from '../../types/member.aliase';
+import { Member } from '../../types/member.alias';
 
 export async function addChannelService(
   chatId: string,

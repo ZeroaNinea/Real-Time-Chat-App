@@ -11,14 +11,14 @@ import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 import { Channel } from './models/channel.model';
 import { Chat } from './models/chat.model';
-import { Member } from '../types/member.aliase';
+import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
 import {
   canAssignPermissions,
   canEditRole,
 } from './helpers/check-role-editing-permissions';
-import { ChatRoomRole } from '../types/chat-room-role.anliase';
+import { ChatRoomRole } from '../types/chat-room-role.alias';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {

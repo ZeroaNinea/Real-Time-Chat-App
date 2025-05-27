@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Message } from '../models/message.model';
 import { Chat } from '../models/chat.model';
-import { Member } from '../../types/member.aliase';
+import { Member } from '../../types/member.alias';
 
 // export const sendMessage = async (req: Request, res: Response) => {
 //   const { chatId, text } = req.body;
