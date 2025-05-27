@@ -22,3 +22,43 @@ export function canEditRole(
 
   return targetRank <= highestAssignerRank;
 }
+
+export type Permission =
+  | 'canBan'
+  | 'canMute'
+  | 'canDeleteMessages'
+  | 'canCreateChannels'
+  | 'canEditChannels'
+  | 'canDeleteChannels'
+  | 'canDeleteChatroom'
+  | 'canAssignRoles'
+  | 'canAssignAdmins'
+  | 'canAssignModerators';
+
+export function hasPermission(
+  userPermissions: Permission[],
+  required: Permission
+): boolean {
+  return userPermissions.includes(required);
+}
+
+export function hasAllPermissions(
+  userPermissions: Permission[],
+  required: Permission[]
+): boolean {
+  return required.every((p) => userPermissions.includes(p));
+}
+
+export function hasAnyPermission(
+  userPermissions: Permission[],
+  required: Permission[]
+): boolean {
+  return required.some((p) => userPermissions.includes(p));
+}
+
+export function canAssignPermissions(
+  assignerPermissions: Permission[],
+  targetPermissions: Permission[]
+): boolean {
+  return hasAllPermissions(assignerPermissions, targetPermissions);
+}
