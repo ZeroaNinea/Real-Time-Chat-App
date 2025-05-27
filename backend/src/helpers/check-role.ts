@@ -1,19 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+// import mongoose from 'mongoose';
+// import { ChatDocument } from '../models/chat.model';
+// import { Member } from '../../types/member.alias';
 
-import { ChatDocument } from '../models/chat.model';
+// export function getMemberPermissionsFromChat(
+//   chat: ChatDocument,
+//   userId: mongoose.Types.ObjectId
+// ): string[] {
+//   const member = chat.members.find((m: Member) => m.user.equals(userId));
+//   if (!member) return [];
 
-// export function hasRequiredRole(requiredRoles: string[]) {
-//   return (req: Request, res: Response, next: NextFunction) => {
-//     const chat = req.chat as ChatDocument;
-//     const member = chat.members.find((m: any) => m.user.equals(req.user._id));
-//     const hasRole = member?.roles.some((r: string) =>
-//       requiredRoles.includes(r)
-//     );
-
-//     if (!hasRole) {
-//       return res.status(403).json({ message: 'Insufficient role' });
-//     }
-
-//     next();
-//   };
+//   return member.roles.flatMap((roleName) => {
+//     return chat.roles.find((r) => r.name === roleName)?.permissions || [];
+//   });
 // }

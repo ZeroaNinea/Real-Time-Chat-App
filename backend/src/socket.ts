@@ -14,7 +14,10 @@ import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
-import { canEditRole } from './helpers/check-role-editing-permissions';
+import {
+  canAssignPermissionsBelowOwnLevel,
+  canEditRole,
+} from './helpers/check-role-editing-permissions';
 import { ChatRoomRole } from '../types/chat-room-role.alias';
 
 // This function sets up the Socket.io server and handles events.
@@ -599,13 +602,30 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        // if (
-        //   !canAssignPermissions(member?.permissions || [], role.permissions)
-        // ) {
-        //   return callback?.({
-        //     error: 'You cannot assign permissions you do not have',
-        //   });
-        // }
+        const memberRoles = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        )?.roles;
+
+        const memberPermissions: string[] = (memberRoles || []).flatMap(
+          (role: string) => {
+            return (
+              chat.roles.find((r: ChatRoomRole) => r.name === role)
+                ?.permissions || []
+            );
+          }
+        );
+
+        if (
+          !canAssignPermissionsBelowOwnLevel(
+            memberPermissions,
+            role.permissions
+          )
+        ) {
+          return callback?.({
+            error:
+              'You cannot assign permissions equal to or stronger than your own',
+          });
+        }
 
         chat.roles.push(role);
         const updatedRole = chat.roles.find(
