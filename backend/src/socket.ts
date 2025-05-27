@@ -572,6 +572,49 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('createRole', async ({ role }, callback) => {
+      try {
+        const chat = await Chat.findById(socket.data.chat._id);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        const isPrivileged =
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Owner') ||
+          member?.roles.includes('Moderator');
+
+        if (!isPrivileged) {
+          return callback?.({ error: 'You are not allowed to create roles' });
+        }
+
+        if (!canEditRole(member?.roles || [], role)) {
+          return callback?.({
+            error: 'You cannot create roles higher than your own',
+          });
+        }
+
+        const updatedMember = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        if (!updatedMember) {
+          return callback?.({ error: 'Member not found' });
+        }
+
+        updatedMember.roles.push(role);
+        await chat.save();
+
+        io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
+        callback?.({ success: true, member: updatedMember });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
