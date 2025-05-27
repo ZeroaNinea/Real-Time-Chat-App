@@ -20,6 +20,17 @@ mat-form-field {
   padding: 0;
 }
 
+mat-list-option {
+  .role-description {
+    height: 0;
+    transition: all 0.3s ease;
+  }
+
+  &:hover .role-description {
+    height: auto;
+  }
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
