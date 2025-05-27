@@ -23,42 +23,29 @@ export function canEditRole(
   return targetRank <= highestAssignerRank;
 }
 
-export type Permission =
-  | 'canBan'
-  | 'canMute'
-  | 'canDeleteMessages'
-  | 'canCreateChannels'
-  | 'canEditChannels'
-  | 'canDeleteChannels'
-  | 'canDeleteChatroom'
-  | 'canAssignRoles'
-  | 'canAssignAdmins'
-  | 'canAssignModerators';
+const PERMISSION_RANKS: Record<string, number> = {
+  canBan: 1,
+  canMute: 1,
+  canDeleteMessages: 1,
+  canCreateChannels: 2,
+  canEditChannels: 2,
+  canDeleteChannels: 3,
+  canDeleteChatroom: 4,
+  canAssignRoles: 5,
+  canAssignModerators: 6,
+  canAssignAdmins: 7,
+};
 
-export function hasPermission(
-  userPermissions: Permission[],
-  required: Permission
-): boolean {
-  return userPermissions.includes(required);
+export function getMaxPermissionRank(permissions: string[]): number {
+  return Math.max(...permissions.map((p) => PERMISSION_RANKS[p] || 0));
 }
 
-export function hasAllPermissions(
-  userPermissions: Permission[],
-  required: Permission[]
+export function canAssignPermissionsBelowOwnLevel(
+  assignerPermissions: string[],
+  targetPermissions: string[]
 ): boolean {
-  return required.every((p) => userPermissions.includes(p));
-}
+  const assignerMax = getMaxPermissionRank(assignerPermissions);
+  const targetMax = getMaxPermissionRank(targetPermissions);
 
-export function hasAnyPermission(
-  userPermissions: Permission[],
-  required: Permission[]
-): boolean {
-  return required.some((p) => userPermissions.includes(p));
-}
-
-export function canAssignPermissions(
-  assignerPermissions: Permission[],
-  targetPermissions: Permission[]
-): boolean {
-  return hasAllPermissions(assignerPermissions, targetPermissions);
+  return targetMax < assignerMax;
 }

@@ -14,10 +14,7 @@ import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
-import {
-  canAssignPermissions,
-  canEditRole,
-} from './helpers/check-role-editing-permissions';
+import { canEditRole } from './helpers/check-role-editing-permissions';
 import { ChatRoomRole } from '../types/chat-room-role.alias';
 
 // This function sets up the Socket.io server and handles events.
