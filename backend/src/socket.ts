@@ -18,6 +18,7 @@ import {
   canAssignPermissions,
   canEditRole,
 } from './helpers/check-role-editing-permissions';
+import { ChatRoomRole } from '../types/chat-room-role.anliase';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -608,19 +609,19 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        const updatedMember = chat.members.find((m: Member) =>
-          m.user.equals(socket.data.user._id)
+        const updatedRole = chat.roles.find(
+          (r: ChatRoomRole) => r.name === role.name
         );
 
-        if (!updatedMember) {
-          return callback?.({ error: 'Member not found' });
+        if (updatedRole) {
+          return callback?.({ error: 'Role already exists' });
         }
 
-        updatedMember.roles.push(role.name);
+        updatedRole.roles.push(role);
         await chat.save();
 
-        io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
-        callback?.({ success: true, member: updatedMember });
+        io.to(chat._id.toString()).emit('memberUpdated', updatedRole);
+        callback?.({ success: true, member: updatedRole });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
