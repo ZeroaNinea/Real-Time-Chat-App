@@ -30,10 +30,10 @@ const PERMISSION_RANKS: Record<string, number> = {
   canCreateChannels: 2,
   canEditChannels: 2,
   canDeleteChannels: 3,
-  canDeleteChatroom: 4,
-  canAssignRoles: 5,
-  canAssignModerators: 6,
-  canAssignAdmins: 7,
+  canDeleteChatroom: 7,
+  canAssignRoles: 4,
+  canAssignModerators: 5,
+  canAssignAdmins: 6,
 };
 
 export function getMaxPermissionRank(permissions: string[]): number {
