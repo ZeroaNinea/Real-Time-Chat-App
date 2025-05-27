@@ -85,11 +85,11 @@
   </div>
   <div class="choose-role">
     <h2>Choose Your Roles</h2>
-    <mat-selection-list [(ngModel)]="role.name" name="permissions">
+    <mat-selection-list name="permissions">
       @for (role of roles; track $index) {
       <div matRipple [matRippleTrigger]="trigger">
         <div #trigger class="role-item-container">
-          <mat-list-option [value]="role.name" disableRipple="true">
+          <mat-list-option disableRipple="true">
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
               <div class="role-actions">
