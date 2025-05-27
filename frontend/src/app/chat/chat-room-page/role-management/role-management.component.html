@@ -102,7 +102,11 @@
               </button>
             </div>
           </mat-list-option>
-          <div class="role-description">{{ role.description }}</div>
+          <div class="role-description">
+            <span>{{ role.description }}</span>
+            <strong>Permissions:</strong>
+            <span class="permissions">{{ role.permissions.join(", ") }}</span>
+          </div>
         </div>
       </div>
       }

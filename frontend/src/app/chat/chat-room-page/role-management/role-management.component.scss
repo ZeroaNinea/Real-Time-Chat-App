@@ -13,8 +13,37 @@ mat-form-field {
 }
 
 .role-item-container {
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+    )
+  );
+
   &:hover {
-    background-color: #ededed;
+    background-color: var(--mat-sys-surface-container);
+  }
+
+  &:hover .role-description {
+    height: 3rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 0.25rem;
+    overflow: visible;
+  }
+
+  .role-description {
+    font-size: 0.9rem;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    span {
+      display: block;
+    }
+
+    span.permissions {
+      font-style: italic;
+    }
   }
 }
 
@@ -24,6 +53,21 @@ mat-form-field {
   align-items: center;
   margin: 0;
   padding: 0;
+}
+
+mat-selection-list {
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+    )
+  );
+
+  @include mat.list-overrides(
+    (
+      list-item-hover-state-layer-color: transparent,
+      list-item-focus-state-layer-color: var(--mat-sys-primary),
+    )
+  );
 }
 
 .actions {
