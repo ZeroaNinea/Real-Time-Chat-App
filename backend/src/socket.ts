@@ -601,23 +601,18 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        if (
-          !canAssignPermissions(member?.permissions || [], role.permissions)
-        ) {
-          return callback?.({
-            error: 'You cannot assign permissions you do not have',
-          });
-        }
+        // if (
+        //   !canAssignPermissions(member?.permissions || [], role.permissions)
+        // ) {
+        //   return callback?.({
+        //     error: 'You cannot assign permissions you do not have',
+        //   });
+        // }
 
+        chat.roles.push(role);
         const updatedRole = chat.roles.find(
           (r: ChatRoomRole) => r.name === role.name
         );
-
-        if (updatedRole) {
-          return callback?.({ error: 'Role already exists' });
-        }
-
-        updatedRole.roles.push(role);
         await chat.save();
 
         io.to(chat._id.toString()).emit('memberUpdated', updatedRole);
