@@ -8,10 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-role-management',
@@ -24,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
+    MatChipsModule,
     FormsModule,
   ],
   standalone: true,

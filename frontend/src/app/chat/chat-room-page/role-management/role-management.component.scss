@@ -23,27 +23,29 @@ mat-form-field {
     background-color: var(--mat-sys-surface-container);
   }
 
-  &:hover .role-description {
-    height: 3rem;
+  &:hover div.role-description {
+    height: auto;
     padding-left: 1rem;
     padding-bottom: 1rem;
     padding-top: 0.25rem;
     overflow: visible;
+    pointer-events: all;
   }
 
   .role-description {
     font-size: 0.9rem;
     height: 0;
     overflow: hidden;
+    pointer-events: none;
     transition: all 0.2s ease;
 
     span {
       display: block;
     }
 
-    span.permissions {
-      font-style: italic;
-    }
+    // mat-chip-set .permission {
+    //   margin-bottom: 1rem;
+    // }
   }
 }
 
