@@ -12,23 +12,18 @@ mat-form-field {
   margin-left: 0.5rem;
 }
 
+.role-item-container {
+  &:hover {
+    background-color: #ededed;
+  }
+}
+
 .role-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0;
   padding: 0;
-}
-
-mat-list-option {
-  .role-description {
-    height: 0;
-    transition: all 0.3s ease;
-  }
-
-  &:hover .role-description {
-    height: auto;
-  }
 }
 
 .actions {
