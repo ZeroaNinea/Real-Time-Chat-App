@@ -529,23 +529,4 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.message.set('');
   }
-
-  createRole(role: ChatRoomRole) {
-    this.wsService.emit(
-      'createRole',
-      {
-        chatId: this.chatId(),
-        role,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to create role',
-            'Close',
-            { duration: 3000 }
-          );
-        }
-      }
-    );
-  }
 }

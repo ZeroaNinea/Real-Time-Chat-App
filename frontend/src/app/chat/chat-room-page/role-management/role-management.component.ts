@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -10,9 +10,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-role-management',
@@ -33,6 +35,9 @@ import { PopulatedUser } from '../../shared/models/populated-user.model';
   styleUrl: './role-management.component.scss',
 })
 export class RoleManagementComponent {
+  private wsService = inject(WebsocketService);
+  private _snackbar = inject(MatSnackBar);
+
   @Input() chatId!: string | null;
   @Input() roles: ChatRoomRole[] = [];
   @Input() members: PopulatedUser[] = [];
@@ -40,8 +45,6 @@ export class RoleManagementComponent {
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() isModerator = false;
-
-  @Output() createRole = new EventEmitter<ChatRoomRole>();
 
   role: Partial<ChatRoomRole> = {};
   allPermissions = [
@@ -63,10 +66,29 @@ export class RoleManagementComponent {
   }
 
   editRole(role: ChatRoomRole) {
-    console.log('Edit', role.name);
+    console.log('Edit role', role.name);
   }
 
   deleteRole(role: ChatRoomRole) {
     console.log('Delete role', role.name);
+  }
+
+  saveRole() {
+    this.wsService.emit(
+      'createRole',
+      {
+        chatId: this.chatId,
+        role: this.role,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to create role',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
   }
 }

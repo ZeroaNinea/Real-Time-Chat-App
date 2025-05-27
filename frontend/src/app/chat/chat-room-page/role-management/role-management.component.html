@@ -69,7 +69,12 @@
       </mat-slide-toggle>
 
       <div class="actions">
-        <button mat-raised-button class="primary" type="submit">
+        <button
+          mat-raised-button
+          (click)="saveRole()"
+          class="primary"
+          type="submit"
+        >
           Save Role
         </button>
         <button
