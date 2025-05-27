@@ -95,7 +95,8 @@
               <button
                 mat-icon-button
                 matTooltip="Rename"
-                (click)="editRole(role)"
+                type="button"
+                (click)="editRole(role); $event.stopPropagation()"
                 aria-label="Edit role"
               >
                 <mat-icon>edit</mat-icon>
