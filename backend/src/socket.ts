@@ -573,9 +573,9 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('createRole', async ({ role }, callback) => {
+    socket.on('createRole', async ({ role, chatId }, callback) => {
       try {
-        const chat = await Chat.findById(socket.data.chat._id);
+        const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
         const member = chat.members.find((m: Member) =>
