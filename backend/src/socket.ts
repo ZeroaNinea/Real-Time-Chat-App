@@ -433,6 +433,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
+      console.log('Assigning role:', role, userId, chatId);
       try {
         const user = await User.findById(userId);
         if (!user) return callback?.({ error: 'User not found' });
