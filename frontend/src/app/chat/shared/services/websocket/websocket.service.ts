@@ -5,11 +5,9 @@ import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../../../environments/environment';
 import { Channel } from '../../models/channel.model';
 import { Message } from '../../models/message.model';
-import {
-  AbbreviatedPopulatedUser,
-  PopulatedUser,
-} from '../../models/populated-user.model';
+import { AbbreviatedPopulatedUser } from '../../models/populated-user.model';
 import { Member } from '../../models/member.alias';
+import { Chat } from '../../models/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -203,7 +201,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenChatUpdates(): Observable<{ chatId: string }> {
+  listenChatUpdates(): Observable<Chat> {
     return new Observable((observer) => {
       this.socket.on('chatUpdated', (data) => {
         observer.next(data);
