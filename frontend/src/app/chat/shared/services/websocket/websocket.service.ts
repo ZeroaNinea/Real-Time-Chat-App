@@ -202,4 +202,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenChatUpdates(): Observable<{ chatId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('chatUpdated', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
