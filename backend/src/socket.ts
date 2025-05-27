@@ -10,11 +10,14 @@ import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 import { Channel } from './models/channel.model';
-import { Chat, ChatDocument } from './models/chat.model';
+import { Chat } from './models/chat.model';
 import { Member } from '../types/member.aliase';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
-import { canEditRole } from './helpers/check-role-editing-permissions';
+import {
+  canAssignPermissions,
+  canEditRole,
+} from './helpers/check-role-editing-permissions';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -594,6 +597,14 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (!canEditRole(member?.roles || [], role)) {
           return callback?.({
             error: 'You cannot create roles higher than your own',
+          });
+        }
+
+        if (
+          !canAssignPermissions(member?.permissions || [], role.permissions)
+        ) {
+          return callback?.({
+            error: 'You cannot assign permissions you do not have',
           });
         }
 
