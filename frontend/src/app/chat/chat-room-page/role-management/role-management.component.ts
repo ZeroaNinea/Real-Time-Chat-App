@@ -65,6 +65,7 @@ export class RoleManagementComponent {
 
   cancel() {
     this.resetForm();
+    this.editingRole = null;
   }
 
   editRole(role: ChatRoomRole) {
