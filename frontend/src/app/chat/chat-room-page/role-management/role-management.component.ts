@@ -102,6 +102,8 @@ export class RoleManagementComponent {
             'Close',
             { duration: 3000 }
           );
+        } else {
+          this._snackbar.open('Role deleted!', 'Close', { duration: 2000 });
         }
       }
     );
