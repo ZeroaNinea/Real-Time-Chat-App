@@ -69,10 +69,6 @@ export class RoleManagementComponent {
     console.log('Edit role', role.name);
   }
 
-  deleteRole(role: ChatRoomRole) {
-    console.log('Delete role', role.name);
-  }
-
   saveRole() {
     this.wsService.emit(
       'createRole',
@@ -84,6 +80,25 @@ export class RoleManagementComponent {
         if (res?.error) {
           this._snackbar.open(
             res.error.message || 'Failed to create role',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
+
+  deleteRole(role: ChatRoomRole) {
+    this.wsService.emit(
+      'deleteRole',
+      {
+        chatId: this.chatId,
+        role: role,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to delete role',
             'Close',
             { duration: 3000 }
           );
