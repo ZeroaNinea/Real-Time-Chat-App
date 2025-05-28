@@ -268,9 +268,18 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenChatUpdates().subscribe((updatedChat) => {
+      console.log('Chat updated:', updatedChat);
       this.chatName.set(updatedChat.name);
       this.members.set(updatedChat.members);
       this.chatRoomRoles.set(updatedChat.roles as ChatRoomRole[]);
+
+      const validRoleNames = updatedChat.roles.map((r) => r.name);
+      this.populatedUsers.update((users) => {
+        return users.map((user) => ({
+          ...user,
+          roles: user.roles.filter((role) => validRoleNames.includes(role)),
+        }));
+      });
     });
 
     // I'll implement this later.
