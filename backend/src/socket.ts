@@ -655,8 +655,6 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('deleteRole', async ({ role, chatId }, callback) => {
       try {
-        // `deleteRole` is the name of the Socket.io event that will be called on the frontend.
-        // The logic that manipulates with backend data.
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
@@ -729,8 +727,8 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         await chat.save();
 
-        io.to(chat._id.toString()).emit('chatUpdated', chat); // Sends the updated chat to the frontend.
-        callback?.({ success: true }); // Sends a callback about success to the frontend.
+        io.to(chat._id.toString()).emit('chatUpdated', chat);
+        callback?.({ success: true });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
