@@ -59,7 +59,8 @@ export class RoleManagementComponent {
     'canAssignAdmins',
     'canAssignModerators',
   ];
-  rippleDisabled: boolean = false;
+
+  isEditing = false;
 
   cancel() {
     console.log('Cancel');
@@ -67,6 +68,8 @@ export class RoleManagementComponent {
 
   editRole(role: ChatRoomRole) {
     console.log('Edit role', role.name);
+    this.role = { ...role };
+    this.isEditing = true;
   }
 
   saveRole() {
