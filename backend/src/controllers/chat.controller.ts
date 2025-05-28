@@ -58,7 +58,7 @@ export const createChat = async (req: Request, res: Response) => {
             'canCreateChannels',
             'canEditChannels',
             'canDeleteChannels',
-            'candeleteChatroom',
+            'canDeleteChatroom',
             'canAssignRoles',
             'canAssignAdmins',
             'canAssignModerators',
