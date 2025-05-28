@@ -652,6 +652,49 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('deleteRole', async ({ role, chatId }, callback) => {
+      try {
+        const chat = await Chat.findById(chatId);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        const isPrivileged =
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Owner') ||
+          member?.roles.includes('Moderator');
+
+        if (!isPrivileged) {
+          return callback?.({ error: 'You are not allowed to delete roles' });
+        }
+
+        if (!canEditRole(member?.roles || [], role)) {
+          return callback?.({
+            error: 'You cannot delete roles higher than your own',
+          });
+        }
+
+        if (role.name === 'Owner' || role.name === 'Admin') {
+          return callback?.({
+            error: 'You cannot delete roles called Owner or Admin',
+          });
+        }
+
+        chat.roles = chat.roles.filter(
+          (r: ChatRoomRole) => r.name !== role.name
+        );
+        await chat.save();
+
+        io.to(chat._id.toString()).emit('chatUpdated', chat);
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
