@@ -772,9 +772,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        const memberRoles = chat.members.find((m: Member) =>
-          m.user.equals(socket.data.user._id)
-        )?.roles;
+        const memberRoles = member?.roles || [];
 
         const memberPermissions: string[] = (memberRoles || []).flatMap(
           (role: string) => {
