@@ -63,7 +63,7 @@ export class RoleManagementComponent {
   isEditing = false;
 
   cancel() {
-    console.log('Cancel');
+    this.resetForm();
   }
 
   editRole(role: ChatRoomRole) {
@@ -72,9 +72,16 @@ export class RoleManagementComponent {
     this.isEditing = true;
   }
 
+  resetForm() {
+    this.role = {};
+    this.isEditing = false;
+  }
+
   saveRole() {
+    const event = this.isEditing ? 'editRole' : 'createRole';
+
     this.wsService.emit(
-      'createRole',
+      event,
       {
         chatId: this.chatId,
         role: this.role,
@@ -86,6 +93,9 @@ export class RoleManagementComponent {
             'Close',
             { duration: 3000 }
           );
+        } else {
+          this._snackbar.open('Role saved!', 'Close', { duration: 2000 });
+          this.resetForm();
         }
       }
     );
