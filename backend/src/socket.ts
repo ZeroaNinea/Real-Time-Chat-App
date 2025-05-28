@@ -587,6 +587,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           m.user.equals(socket.data.user._id)
         );
 
+        if (
+          role.name === 'Admin' ||
+          role.name === 'Owner' ||
+          role.name === 'Moderator'
+        ) {
+          return callback?.({
+            error: 'You cannot create roles called Owner, Admin or Moderator',
+          });
+        }
+
         const isPrivileged =
           member?.roles.includes('Admin') ||
           member?.roles.includes('Owner') ||
