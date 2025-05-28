@@ -233,7 +233,7 @@ backend/
 <br />
 ✅ Step 35: Implement status editing
 <br />
-➡️ Step 34: Implement role deleting
+✅ Step 34: Implement role deleting
 <br />
 ➡️ Step 34: Implement role creating
 <br />
