@@ -634,7 +634,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           ) {
             return callback?.({
               error:
-                'You cannot assign permissions equal to or stronger than your own',
+                'You cannot assign permissions equal to or greater than your own',
             });
           }
         }
@@ -705,7 +705,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           ) {
             return callback?.({
               error:
-                'You cannot delete permissions equal to or stronger than your own',
+                'You cannot delete permissions equal to or greater than your own',
             });
           }
         }
