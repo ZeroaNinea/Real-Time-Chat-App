@@ -763,12 +763,11 @@ export function setupSocket(server: HttpServer, app: Express) {
           role.name === 'Owner' ||
           role.name === 'Admin' ||
           role.name === 'Moderator' ||
-          role.name === 'Member' ||
           role.name === 'Muted' ||
           role.name === 'Banned'
         ) {
           return callback?.({
-            error: 'You cannot edit default roles',
+            error: 'You cannot edit default roles except the Member',
           });
         }
 
