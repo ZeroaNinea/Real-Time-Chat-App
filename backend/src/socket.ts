@@ -713,6 +713,11 @@ export function setupSocket(server: HttpServer, app: Express) {
         chat.roles = chat.roles.filter(
           (r: ChatRoomRole) => r.name !== role.name
         );
+
+        chat.members.forEach((m: Member) => {
+          m.roles = m.roles.filter((r: string) => r !== role.name);
+        });
+
         await chat.save();
 
         io.to(chat._id.toString()).emit('chatUpdated', chat);
