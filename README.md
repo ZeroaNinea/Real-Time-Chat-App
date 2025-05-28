@@ -201,6 +201,11 @@ backend/
 ✅ Step 23: Add display user avatars and usernames
 <br />
 ✅ Step 24: Design the messages list:
+<br />
+➡️ Step 25: Implement role removing from the user
+<br />
+➡️ Step 26: Implement ownership transferring
+<br />
 
 - Different background colors for sender vs. receiver. ✅
 - Avatars and usernames. ✅
