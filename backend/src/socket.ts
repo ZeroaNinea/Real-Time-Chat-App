@@ -683,6 +683,33 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
+        const memberRoles = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        )?.roles;
+
+        const memberPermissions: string[] = (memberRoles || []).flatMap(
+          (role: string) => {
+            return (
+              chat.roles.find((r: ChatRoomRole) => r.name === role)
+                ?.permissions || []
+            );
+          }
+        );
+
+        if (role.permissions) {
+          if (
+            !canAssignPermissionsBelowOwnLevel(
+              memberPermissions,
+              role.permissions
+            )
+          ) {
+            return callback?.({
+              error:
+                'You cannot delete permissions equal to or stronger than your own',
+            });
+          }
+        }
+
         chat.roles = chat.roles.filter(
           (r: ChatRoomRole) => r.name !== role.name
         );
