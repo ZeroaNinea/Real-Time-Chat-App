@@ -268,6 +268,7 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenChatUpdates().subscribe((updatedChat) => {
+      // Call the listener to update the frontend's data.
       console.log('Chat updated:', updatedChat);
       this.chatName.set(updatedChat.name);
       this.members.set(updatedChat.members);

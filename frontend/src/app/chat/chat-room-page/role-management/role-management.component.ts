@@ -89,6 +89,7 @@ export class RoleManagementComponent {
   }
 
   deleteRole(role: ChatRoomRole) {
+    // Triggers the `delteRole` event from the frontend.
     this.wsService.emit(
       'deleteRole',
       {
@@ -96,6 +97,7 @@ export class RoleManagementComponent {
         role: role,
       },
       (res) => {
+        // If callback is failed shows the error message in a snackbar.
         if (res?.error) {
           this._snackbar.open(
             res.error.message || 'Failed to delete role',
@@ -103,6 +105,7 @@ export class RoleManagementComponent {
             { duration: 3000 }
           );
         } else {
+          // If callback is successful shows the success message in a snackbar.
           this._snackbar.open('Role deleted!', 'Close', { duration: 2000 });
         }
       }

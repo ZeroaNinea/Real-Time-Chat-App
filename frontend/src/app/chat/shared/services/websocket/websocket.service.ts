@@ -202,6 +202,7 @@ export class WebsocketService implements OnDestroy {
   }
 
   listenChatUpdates(): Observable<Chat> {
+    // This is a listener. It gets the updated data from the backend.
     return new Observable((observer) => {
       this.socket.on('chatUpdated', (data) => {
         observer.next(data);
