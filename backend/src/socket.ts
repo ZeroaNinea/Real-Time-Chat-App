@@ -677,9 +677,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        if (role.name === 'Owner' || role.name === 'Admin') {
+        if (
+          role.name === 'Owner' ||
+          role.name === 'Admin' ||
+          role.name === 'Moderator' ||
+          role.name === 'Member' ||
+          role.name === 'Muted' ||
+          role.name === 'Banned'
+        ) {
           return callback?.({
-            error: 'You cannot delete roles called Owner, Admin or Moderator',
+            error: 'You cannot delete default roles',
           });
         }
 
