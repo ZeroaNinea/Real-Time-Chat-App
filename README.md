@@ -192,7 +192,7 @@ backend/
 <br />
 ✅ Step 19: Display chat member list
 <br />
-➡️ Step 20: Add message editing and deleting
+✅ Step 20: Add message editing and deleting
 <br />
 ➡️ Step 21: Add display chat rooms on the `main` page
 <br />
