@@ -43,6 +43,16 @@ mat-form-field {
       display: block;
     }
   }
+
+  &.accent {
+    @include mat.theme(
+      (
+        color: mat.$yellow-palette,
+      )
+    );
+
+    background-color: var(--mat-sys-primary);
+  }
 }
 
 .role-item {

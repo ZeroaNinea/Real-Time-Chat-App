@@ -61,6 +61,7 @@ export class RoleManagementComponent {
   ];
 
   isEditing = false;
+  editingRole: ChatRoomRole | null = null;
 
   cancel() {
     this.resetForm();
@@ -70,6 +71,7 @@ export class RoleManagementComponent {
     console.log('Edit role', role.name);
     this.role = { ...role };
     this.isEditing = true;
+    this.editingRole = role;
   }
 
   resetForm() {

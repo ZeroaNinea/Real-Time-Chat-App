@@ -93,7 +93,11 @@
     <mat-selection-list name="permissions">
       @for (role of roles; track $index) {
       <div matRipple [matRippleTrigger]="trigger">
-        <div #trigger class="role-item-container">
+        <div
+          #trigger
+          class="role-item-container"
+          [class.accent]="editingRole === role"
+        >
           <mat-list-option disableRipple="true">
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
