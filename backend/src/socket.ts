@@ -679,7 +679,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         if (role.name === 'Owner' || role.name === 'Admin') {
           return callback?.({
-            error: 'You cannot delete roles called Owner or Admin',
+            error: 'You cannot delete roles called Owner, Admin or Moderator',
           });
         }
 
