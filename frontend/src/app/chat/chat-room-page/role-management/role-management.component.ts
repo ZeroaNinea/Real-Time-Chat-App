@@ -56,6 +56,8 @@ export class RoleManagementComponent {
     'canDeleteChannels',
     'canDeleteChatroom',
     'canAssignRoles',
+    'canCreateRoles',
+    'canDeleteRoles',
     'canAssignAdmins',
     'canAssignModerators',
   ];
