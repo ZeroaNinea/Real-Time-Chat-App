@@ -1,4 +1,51 @@
 <div class="role-management-container">
+  <div class="choose-role">
+    <h2>Choose Your Roles</h2>
+    <mat-selection-list name="permissions">
+      @for (role of roles; track $index) {
+      <div matRipple [matRippleTrigger]="trigger">
+        <div
+          #trigger
+          class="role-item-container"
+          [class.accent]="editingRole === role"
+        >
+          <mat-list-option disableRipple="true">
+            <div class="role-item">
+              <span class="role-name">{{ role.name }}</span>
+              <div class="role-actions">
+                <button
+                  mat-icon-button
+                  matTooltip="Rename"
+                  type="button"
+                  (click)="editRole(role); $event.stopPropagation()"
+                  aria-label="Edit role"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  tabindex="-1"
+                  (click)="deleteRole(role); $event.stopPropagation()"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-list-option>
+          <div class="role-description">
+            <span>{{ role.description }}</span>
+            <mat-chip-set aria-label="permissions">
+              @for (permission of role.permissions; track $index) {
+              <mat-chip class="permission">{{ permission }}</mat-chip>
+              }
+            </mat-chip-set>
+          </div>
+        </div>
+      </div>
+      }
+    </mat-selection-list>
+  </div>
   <div class="create-role">
     <h2>Manage Roles</h2>
 
@@ -87,52 +134,5 @@
         </button>
       </div>
     </form>
-  </div>
-  <div class="choose-role">
-    <h2>Choose Your Roles</h2>
-    <mat-selection-list name="permissions">
-      @for (role of roles; track $index) {
-      <div matRipple [matRippleTrigger]="trigger">
-        <div
-          #trigger
-          class="role-item-container"
-          [class.accent]="editingRole === role"
-        >
-          <mat-list-option disableRipple="true">
-            <div class="role-item">
-              <span class="role-name">{{ role.name }}</span>
-              <div class="role-actions">
-                <button
-                  mat-icon-button
-                  matTooltip="Rename"
-                  type="button"
-                  (click)="editRole(role); $event.stopPropagation()"
-                  aria-label="Edit role"
-                >
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  type="button"
-                  tabindex="-1"
-                  (click)="deleteRole(role); $event.stopPropagation()"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </mat-list-option>
-          <div class="role-description">
-            <span>{{ role.description }}</span>
-            <mat-chip-set aria-label="permissions">
-              @for (permission of role.permissions; track $index) {
-              <mat-chip class="permission">{{ permission }}</mat-chip>
-              }
-            </mat-chip-set>
-          </div>
-        </div>
-      </div>
-      }
-    </mat-selection-list>
   </div>
 </div>
