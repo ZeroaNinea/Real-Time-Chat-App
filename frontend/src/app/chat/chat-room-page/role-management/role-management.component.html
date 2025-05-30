@@ -9,7 +9,11 @@
           class="role-item-container"
           [class.accent]="editingRole === role"
         >
-          <mat-list-option disableRipple="true">
+          <mat-list-option
+            disableRipple="true"
+            [disabled]="!role.canBeSelfAssigned"
+            [selected]="getCurrentUserRoles().includes(role.name)"
+          >
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
               <div class="role-actions">

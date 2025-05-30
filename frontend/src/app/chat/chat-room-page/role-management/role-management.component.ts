@@ -63,6 +63,14 @@ export class RoleManagementComponent {
   isEditing = false;
   editingRole: ChatRoomRole | null = null;
 
+  getCurrentUserRoles(): string[] {
+    return (
+      this.members
+        .find((member) => member.user._id === this.currentUserId)
+        ?.roles.map((role) => role) || []
+    );
+  }
+
   cancel() {
     this.resetForm();
     this.editingRole = null;
