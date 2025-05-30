@@ -901,7 +901,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
           await chat.save();
 
-          io.to(chat._id.toString()).emit('chatUpdated', chat);
+          io.to(chat._id.toString()).emit('memberUpdated', member);
           callback?.({ success: true });
         } catch (err) {
           console.error(err);
