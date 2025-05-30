@@ -433,7 +433,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
-      console.log('Assigning role:', role, userId, chatId);
       try {
         const user = await User.findById(userId);
         if (!user) return callback?.({ error: 'User not found' });
@@ -454,10 +453,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'You are not allowed to assign roles' });
         }
 
-        if (member?.roles.includes(role)) {
-          return callback?.({ error: 'User already has this role' });
-        }
-
         if (!canEditRole(member?.roles || [], role)) {
           return callback?.({
             error: 'You cannot edit roles higher than your own',
@@ -470,6 +465,10 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         if (!updatedMember) {
           return callback?.({ error: 'Member not found' });
+        }
+
+        if (updatedMember?.roles.includes(role.name)) {
+          return callback?.({ error: 'User already has this role' });
         }
 
         updatedMember.roles.push(role.name);
