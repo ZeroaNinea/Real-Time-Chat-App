@@ -161,10 +161,24 @@ export class RoleManagementComponent implements OnChanges {
     const selected = changedOption.selected;
     console.log('Toggle role', roleName, selected);
 
-    // this.wsService.emit('toggleRole', {
-    //   chatId: this.chatId,
-    //   role: roleName,
-    //   selected,
-    // });
+    this.wsService.emit(
+      'toggleRole',
+      {
+        chatId: this.chatId,
+        roleName,
+        selected,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to toggle role',
+            'Close',
+            { duration: 3000 }
+          );
+        } else {
+          this._snackbar.open('Role toggled!', 'Close', { duration: 2000 });
+        }
+      }
+    );
   }
 }
