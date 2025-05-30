@@ -135,4 +135,13 @@ export class RoleManagementComponent {
       }
     );
   }
+
+  onRoleToggle(roleName: string, selected: boolean) {
+    console.log(roleName, selected);
+    // this.wsService.emit('toggleRole', {
+    //   chatId: this.chatId,
+    //   role: roleName,
+    //   selected,
+    // });
+  }
 }
