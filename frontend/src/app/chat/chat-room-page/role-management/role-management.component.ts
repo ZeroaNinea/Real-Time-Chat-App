@@ -1,9 +1,13 @@
 import {
+  AfterContentInit,
   afterNextRender,
   afterRender,
+  AfterViewInit,
   Component,
   inject,
   Input,
+  OnChanges,
+  OnInit,
 } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,7 +44,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   templateUrl: './role-management.component.html',
   styleUrl: './role-management.component.scss',
 })
-export class RoleManagementComponent {
+export class RoleManagementComponent implements OnChanges {
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
 
@@ -70,10 +74,12 @@ export class RoleManagementComponent {
   editingRole: ChatRoomRole | null = null;
   currentUserRoles: string[] = [];
 
-  constructor() {
-    afterRender(() => {
-      this.currentUserRoles = this.getCurrentUserRoles();
-    });
+  constructor() {}
+
+  ngOnChanges() {
+    // const member = this.members.find((m) => m.user._id === this.currentUserId);
+    // this.currentUserRoles = member?.roles ?? [];
+    this.currentUserRoles = this.getCurrentUserRoles();
   }
 
   getCurrentUserRoles(): string[] {
@@ -150,7 +156,8 @@ export class RoleManagementComponent {
   }
 
   onRoleToggle(roleName: string, selected: Event) {
-    console.log(roleName, selected);
+    console.log('onRoleToggle called');
+    console.log('Toggle role', roleName, selected);
     // this.wsService.emit('toggleRole', {
     //   chatId: this.chatId,
     //   role: roleName,
