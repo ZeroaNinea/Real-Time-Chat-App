@@ -206,6 +206,8 @@ backend/
 <br />
 ➡️ Step 26: Implement ownership transferring
 <br />
+✅ Step 25: Implement role self-assignment
+<br />
 
 - Different background colors for sender vs. receiver. ✅
 - Avatars and usernames. ✅
