@@ -1,4 +1,5 @@
 <div class="role-management-container">
+  @if (isOwner || isAdmin || isModerator) {
   <div class="create-role">
     <h2>Manage Roles</h2>
 
@@ -88,6 +89,7 @@
       </div>
     </form>
   </div>
+  }
   <div class="choose-role">
     <h2>Choose Your Roles</h2>
     <mat-selection-list
