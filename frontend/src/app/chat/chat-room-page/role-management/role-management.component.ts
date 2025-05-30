@@ -63,9 +63,11 @@ export class RoleManagementComponent implements OnChanges {
   isEditing = false;
   editingRole: ChatRoomRole | null = null;
   currentUserRoles: string[] = [];
+  currentUserPermissions: string[] = [];
 
   ngOnChanges() {
     this.currentUserRoles = this.getCurrentUserRoles();
+    this.currentUserPermissions = this.getCurrentUserPermissions();
   }
 
   getCurrentUserRoles(): string[] {
@@ -74,6 +76,39 @@ export class RoleManagementComponent implements OnChanges {
         .find((member) => member.user._id === this.currentUserId)
         ?.roles.map((role) => role) || []
     );
+  }
+
+  getCurrentUserPermissions(): string[] {
+    return this.getCurrentUserRoles().flatMap((role) => {
+      return this.roles.find((r) => r.name === role)?.permissions || [];
+    });
+  }
+
+  PERMISSION_RANKS: Record<string, number> = {
+    canBan: 1,
+    canMute: 1,
+    canDeleteMessages: 1,
+    canCreateChannels: 2,
+    canEditChannels: 2,
+    canDeleteChannels: 3,
+    canAssignRoles: 4,
+    canAssignModerators: 5,
+    canAssignAdmins: 6,
+    canDeleteChatroom: 7,
+  };
+
+  getMaxPermissionRank(permissions: string[]): number {
+    return Math.max(...permissions.map((p) => this.PERMISSION_RANKS[p] || 0));
+  }
+
+  canAssignPermissionsBelowOwnLevel(
+    assignerPermissions: string[],
+    targetPermissions: string[]
+  ): boolean {
+    const assignerMax = this.getMaxPermissionRank(assignerPermissions);
+    const targetMax = this.getMaxPermissionRank(targetPermissions);
+
+    return targetMax < assignerMax;
   }
 
   cancel() {

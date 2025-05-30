@@ -105,7 +105,13 @@
         >
           <mat-list-option
             disableRipple="true"
-            [disabled]="!role.canBeSelfAssigned"
+            [disabled]="
+              !role.canBeSelfAssigned ||
+              !canAssignPermissionsBelowOwnLevel(
+                role.permissions,
+                currentUserPermissions
+              )
+            "
             [value]="role.name"
             [selected]="currentUserRoles.includes(role.name)"
           >
