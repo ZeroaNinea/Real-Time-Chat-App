@@ -870,6 +870,12 @@ export function setupSocket(server: HttpServer, app: Express) {
             (r: ChatRoomRole) => r.name === roleName
           );
 
+          if (!role.canBeSelfAssigned) {
+            return callback?.({
+              error: 'You cannot toggle this role',
+            });
+          }
+
           if (role.permissions) {
             if (
               !canAssignPermissionsBelowOwnLevel(
