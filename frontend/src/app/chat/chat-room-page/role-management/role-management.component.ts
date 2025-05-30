@@ -1,14 +1,4 @@
-import {
-  AfterContentInit,
-  afterNextRender,
-  afterRender,
-  AfterViewInit,
-  Component,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -74,11 +64,7 @@ export class RoleManagementComponent implements OnChanges {
   editingRole: ChatRoomRole | null = null;
   currentUserRoles: string[] = [];
 
-  constructor() {}
-
   ngOnChanges() {
-    // const member = this.members.find((m) => m.user._id === this.currentUserId);
-    // this.currentUserRoles = member?.roles ?? [];
     this.currentUserRoles = this.getCurrentUserRoles();
   }
 
@@ -132,7 +118,6 @@ export class RoleManagementComponent implements OnChanges {
   }
 
   deleteRole(role: ChatRoomRole) {
-    // Triggers the `delteRole` event from the frontend.
     this.wsService.emit(
       'deleteRole',
       {
@@ -140,7 +125,6 @@ export class RoleManagementComponent implements OnChanges {
         role: role,
       },
       (res) => {
-        // If callback is failed shows the error message in a snackbar.
         if (res?.error) {
           this._snackbar.open(
             res.error.message || 'Failed to delete role',
@@ -148,7 +132,6 @@ export class RoleManagementComponent implements OnChanges {
             { duration: 3000 }
           );
         } else {
-          // If callback is successful shows the success message in a snackbar.
           this._snackbar.open('Role deleted!', 'Close', { duration: 2000 });
         }
       }
