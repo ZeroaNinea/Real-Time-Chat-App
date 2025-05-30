@@ -12,7 +12,7 @@
           <mat-list-option
             disableRipple="true"
             [disabled]="!role.canBeSelfAssigned"
-            [selected]="getCurrentUserRoles().includes(role.name)"
+            [selected]="currentUserRoles.includes(role.name)"
             (selectionChange)="onRoleToggle(role.name, $event)"
           >
             <div class="role-item">

@@ -62,6 +62,12 @@ export class RoleManagementComponent {
 
   isEditing = false;
   editingRole: ChatRoomRole | null = null;
+  currentUserRoles: string[] = [];
+
+  ngOnInit() {
+    const member = this.members.find((m) => m.user._id === this.currentUserId);
+    this.currentUserRoles = member?.roles || [];
+  }
 
   getCurrentUserRoles(): string[] {
     return (
