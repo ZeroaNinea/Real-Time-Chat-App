@@ -823,6 +823,84 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('toggleRole', async ({ role, selected, chatId }, callback) => {
+      try {
+        const chat = await Chat.findById(chatId);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+
+        const isPrivileged =
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Owner') ||
+          member?.roles.includes('Moderator');
+
+        if (!isPrivileged) {
+          return callback?.({ error: 'You are not allowed to toggle roles' });
+        }
+
+        if (!canEditRole(member?.roles || [], role)) {
+          return callback?.({
+            error: 'You cannot toggle roles higher than your own',
+          });
+        }
+
+        if (
+          role.name === 'Owner' ||
+          role.name === 'Admin' ||
+          role.name === 'Moderator' ||
+          role.name === 'Member' ||
+          role.name === 'Muted' ||
+          role.name === 'Banned'
+        ) {
+          return callback?.({
+            error: 'You cannot toggle default roles',
+          });
+        }
+
+        const memberRoles = member?.roles || [];
+
+        const memberPermissions: string[] = (memberRoles || []).flatMap(
+          (role: string) => {
+            return (
+              chat.roles.find((r: ChatRoomRole) => r.name === role)
+                ?.permissions || []
+            );
+          }
+        );
+
+        if (role.permissions) {
+          if (
+            !canAssignPermissionsBelowOwnLevel(
+              memberPermissions,
+              role.permissions
+            )
+          ) {
+            return callback?.({
+              error:
+                'You cannot toggle permissions equal to or greater than your own',
+            });
+          }
+        }
+
+        if (selected) {
+          member.roles.push(role.name);
+        } else {
+          member.roles = member.roles.filter((r: string) => r !== role.name);
+        }
+
+        await chat.save();
+
+        io.to(chat._id.toString()).emit('chatUpdated', chat);
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
