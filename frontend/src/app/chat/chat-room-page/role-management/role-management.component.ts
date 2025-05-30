@@ -1,4 +1,10 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  afterNextRender,
+  afterRender,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -64,9 +70,10 @@ export class RoleManagementComponent {
   editingRole: ChatRoomRole | null = null;
   currentUserRoles: string[] = [];
 
-  ngOnInit() {
-    const member = this.members.find((m) => m.user._id === this.currentUserId);
-    this.currentUserRoles = member?.roles || [];
+  constructor() {
+    afterRender(() => {
+      this.currentUserRoles = this.getCurrentUserRoles();
+    });
   }
 
   getCurrentUserRoles(): string[] {
