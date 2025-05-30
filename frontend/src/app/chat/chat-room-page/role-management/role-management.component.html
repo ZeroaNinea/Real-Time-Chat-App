@@ -1,7 +1,7 @@
 <div class="role-management-container">
   <div class="choose-role">
     <h2>Choose Your Roles</h2>
-    <mat-selection-list name="permissions">
+    <mat-selection-list name="selfAssignedRoles">
       @for (role of roles; track $index) {
       <div matRipple [matRippleTrigger]="trigger">
         <div
