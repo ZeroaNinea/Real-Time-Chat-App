@@ -833,14 +833,14 @@ export function setupSocket(server: HttpServer, app: Express) {
           m.user.equals(socket.data.user._id)
         );
 
-        const isPrivileged =
-          member?.roles.includes('Admin') ||
-          member?.roles.includes('Owner') ||
-          member?.roles.includes('Moderator');
+        // const isPrivileged =
+        //   member?.roles.includes('Admin') ||
+        //   member?.roles.includes('Owner') ||
+        //   member?.roles.includes('Moderator');
 
-        if (!isPrivileged) {
-          return callback?.({ error: 'You are not allowed to toggle roles' });
-        }
+        // if (!isPrivileged) {
+        //   return callback?.({ error: 'You are not allowed to toggle roles' });
+        // }
 
         if (!canEditRole(member?.roles || [], role)) {
           return callback?.({
