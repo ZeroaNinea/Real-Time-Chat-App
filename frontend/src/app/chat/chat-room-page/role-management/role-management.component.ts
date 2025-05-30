@@ -136,7 +136,7 @@ export class RoleManagementComponent {
     );
   }
 
-  onRoleToggle(roleName: string, selected: boolean) {
+  onRoleToggle(roleName: string, selected: Event) {
     console.log(roleName, selected);
     // this.wsService.emit('toggleRole', {
     //   chatId: this.chatId,
