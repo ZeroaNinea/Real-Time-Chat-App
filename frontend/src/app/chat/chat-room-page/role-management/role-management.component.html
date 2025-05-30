@@ -117,6 +117,7 @@
           >
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
+              @if (isOwner || isAdmin || isModerator) {
               <div class="role-actions">
                 <button
                   mat-icon-button
@@ -136,6 +137,7 @@
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
+              }
             </div>
           </mat-list-option>
           <div class="role-description">
