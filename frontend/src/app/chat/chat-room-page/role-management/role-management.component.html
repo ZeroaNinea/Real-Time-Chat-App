@@ -1,7 +1,10 @@
 <div class="role-management-container">
   <div class="choose-role">
     <h2>Choose Your Roles</h2>
-    <mat-selection-list name="selfAssignedRoles">
+    <mat-selection-list
+      name="selfAssignedRoles"
+      (selectionChange)="onSelectionChange($event)"
+    >
       @for (role of roles; track $index) {
       <div matRipple [matRippleTrigger]="trigger">
         <div
@@ -12,8 +15,8 @@
           <mat-list-option
             disableRipple="true"
             [disabled]="!role.canBeSelfAssigned"
+            [value]="role.name"
             [selected]="currentUserRoles.includes(role.name)"
-            (selectionChange)="onRoleToggle(role.name, $event)"
           >
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>

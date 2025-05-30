@@ -12,7 +12,7 @@ import {
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -155,9 +155,11 @@ export class RoleManagementComponent implements OnChanges {
     );
   }
 
-  onRoleToggle(roleName: string, selected: Event) {
-    console.log('onRoleToggle called');
+  onSelectionChange(event: MatSelectionListChange) {
+    const roleName = event.options[0].value;
+    const selected = event.options[0].selected;
     console.log('Toggle role', roleName, selected);
+
     // this.wsService.emit('toggleRole', {
     //   chatId: this.chatId,
     //   role: roleName,
