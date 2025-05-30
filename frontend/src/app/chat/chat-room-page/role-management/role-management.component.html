@@ -107,7 +107,7 @@
             disableRipple="true"
             [disabled]="
               !role.canBeSelfAssigned ||
-              !canAssignPermissionsBelowOwnLevel(
+              canAssignPermissionsBelowOwnLevel(
                 role.permissions,
                 currentUserPermissions
               )
