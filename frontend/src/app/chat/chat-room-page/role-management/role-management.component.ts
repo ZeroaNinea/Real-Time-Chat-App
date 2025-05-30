@@ -156,8 +156,9 @@ export class RoleManagementComponent implements OnChanges {
   }
 
   onSelectionChange(event: MatSelectionListChange) {
-    const roleName = event.options[0].value;
-    const selected = event.options[0].selected;
+    const changedOption = event.options[0];
+    const roleName = changedOption.value;
+    const selected = changedOption.selected;
     console.log('Toggle role', roleName, selected);
 
     // this.wsService.emit('toggleRole', {
