@@ -47,5 +47,5 @@ export function canAssignPermissionsBelowOwnLevel(
   const assignerMax = getMaxPermissionRank(assignerPermissions);
   const targetMax = getMaxPermissionRank(targetPermissions);
 
-  return targetMax < assignerMax;
+  return targetMax <= assignerMax;
 }
