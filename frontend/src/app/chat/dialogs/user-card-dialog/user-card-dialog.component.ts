@@ -266,6 +266,21 @@ export class UserCardDialogComponent implements OnChanges {
     );
   }
 
+  copyUserId(): void {
+    const id = this.data.selectedUser.user._id;
+    navigator.clipboard
+      .writeText(id)
+      .then(() => {
+        this._snackbar.open('User ID copied to clipboard!', 'Close', {
+          duration: 2000,
+        });
+      })
+      .catch((err) => {
+        console.error('Failed to copy user ID', err);
+        this._snackbar.open('Failed to copy ID', 'Close', { duration: 2000 });
+      });
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();
