@@ -253,7 +253,7 @@ export class UserCardDialogComponent implements OnChanges {
           this._snackbar.open(res.error, 'Close', { duration: 3000 });
         } else {
           this._snackbar.open(
-            `Ownership transferred to ${res.member}!`,
+            `Ownership transferred to ${this.data.selectedUser.user.username}!`,
             'Close',
             {
               duration: 2000,
