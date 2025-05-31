@@ -517,7 +517,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           });
         }
 
-        // Actually remove the role
         if (!targetMember.roles.includes(role)) {
           return callback?.({ error: 'User does not have this role' });
         }
