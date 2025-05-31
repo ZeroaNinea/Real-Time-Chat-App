@@ -535,47 +535,95 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
+    // socket.on('transferOwnership', async ({ userId }, callback) => {
+    //   try {
+    //     const user = await User.findById(userId);
+    //     if (!user) return callback?.({ error: 'User not found' });
+
+    //     const chat = await Chat.findById(socket.data.chat._id);
+    //     if (!chat) return callback?.({ error: 'Chat not found' });
+
+    //     const member = chat.members.find((m: Member) =>
+    //       m.user.equals(socket.data.user._id)
+    //     );
+
+    //     const isPrivileged =
+    //       member?.roles.includes('Admin') ||
+    //       member?.roles.includes('Owner') ||
+    //       member?.roles.includes('Moderator');
+
+    //     if (!isPrivileged) {
+    //       return callback?.({
+    //         error: 'You are not allowed to transfer ownership',
+    //       });
+    //     }
+
+    //     member.roles = member.roles.filter((r: string) => r !== 'Owner');
+    //     const updatedMember = chat.members.find((m: Member) =>
+    //       m.user.equals(userId)
+    //     );
+
+    //     if (!updatedMember) {
+    //       return callback?.({ error: 'Member not found' });
+    //     }
+
+    //     if (updatedMember.roles.includes('Owner')) {
+    //       return callback?.({ error: 'User already has ownership' });
+    //     }
+
+    //     updatedMember.roles = ['Owner'];
+    //     await chat.save();
+
+    //     io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
+    //     callback?.({ success: true, member: updatedMember });
+    //   } catch (err) {
+    //     console.error(err);
+    //     callback?.({ error: 'Server error' });
+    //   }
+    // });
+
     socket.on('transferOwnership', async ({ userId }, callback) => {
       try {
-        const user = await User.findById(userId);
-        if (!user) return callback?.({ error: 'User not found' });
-
         const chat = await Chat.findById(socket.data.chat._id);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
-        const member = chat.members.find((m: Member) =>
+        const requester = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
         );
 
-        const isPrivileged =
-          member?.roles.includes('Admin') ||
-          member?.roles.includes('Owner') ||
-          member?.roles.includes('Moderator');
-
-        if (!isPrivileged) {
+        if (!requester || !requester.roles.includes('Owner')) {
           return callback?.({
-            error: 'You are not allowed to transfer ownership',
+            error: 'Only the current owner can transfer ownership',
           });
         }
 
-        member.roles = member.roles.filter((r: string) => r !== 'Owner');
-        const updatedMember = chat.members.find((m: Member) =>
+        const newOwner = chat.members.find((m: Member) =>
           m.user.equals(userId)
         );
 
-        if (!updatedMember) {
-          return callback?.({ error: 'Member not found' });
+        if (!newOwner) {
+          return callback?.({ error: 'User is not a member of this chat' });
         }
 
-        if (updatedMember.roles.includes('Owner')) {
-          return callback?.({ error: 'User already has ownership' });
+        if (newOwner.roles.includes('Owner')) {
+          return callback?.({ error: 'User is already the owner' });
         }
 
-        updatedMember.roles = ['Owner'];
+        requester.roles = requester.roles.filter((r: string) => r !== 'Owner');
+        if (!requester.roles.includes('Admin')) {
+          requester.roles.push('Admin');
+        }
+
+        if (!newOwner.roles.includes('Owner')) {
+          newOwner.roles.push('Owner');
+        }
+
         await chat.save();
 
-        io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
-        callback?.({ success: true, member: updatedMember });
+        io.to(chat._id.toString()).emit('memberUpdated', requester);
+        io.to(chat._id.toString()).emit('memberUpdated', newOwner);
+
+        callback?.({ success: true, member: newOwner });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
