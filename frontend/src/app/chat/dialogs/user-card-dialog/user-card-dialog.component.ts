@@ -113,7 +113,7 @@ export class UserCardDialogComponent implements OnChanges {
     const assignerMax = this.getMaxPermissionRank(assignerPermissions);
     const targetMax = this.getMaxPermissionRank(targetPermissions);
 
-    return targetMax < assignerMax;
+    return targetMax <= assignerMax;
   }
 
   constructor(
@@ -155,8 +155,24 @@ export class UserCardDialogComponent implements OnChanges {
     }
   }
 
-  get selectedUserRoles(): string[] {
+  get currentUserRoles(): string[] {
     return this.data.currentUserRoles;
+  }
+
+  get currentUserPermissions(): string[] {
+    return this.currentUserRoles.flatMap((roleName) => {
+      return (
+        this.data.chatRoomRoles.find((r: ChatRoomRole) => r.name === roleName)
+          ?.permissions || []
+      );
+    });
+  }
+
+  getRolePermissions(role: string): string[] {
+    return (
+      this.data.chatRoomRoles.find((r: ChatRoomRole) => r.name === role)
+        ?.permissions || []
+    );
   }
 
   get isOwnProfile(): boolean {
