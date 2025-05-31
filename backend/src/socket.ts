@@ -484,56 +484,51 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('removeRole', async ({ userId, role }, callback) => {
       try {
-        const user = await User.findById(userId);
-        if (!user) return callback?.({ error: 'User not found' });
-
         const chat = await Chat.findById(socket.data.chat._id);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
-        const member = chat.members.find((m: Member) =>
+        const actingMember = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
         );
+        const targetMember = chat.members.find((m: Member) =>
+          m.user.equals(userId)
+        );
+
+        if (!actingMember || !targetMember) {
+          return callback?.({ error: 'Member not found' });
+        }
 
         const isPrivileged =
-          member?.roles.includes('Admin') ||
-          member?.roles.includes('Owner') ||
-          member?.roles.includes('Moderator');
+          actingMember.roles.includes('Admin') ||
+          actingMember.roles.includes('Owner') ||
+          actingMember.roles.includes('Moderator');
 
         if (!isPrivileged) {
           return callback?.({ error: 'You are not allowed to remove roles' });
         }
 
-        if (!canEditRole(member?.roles || [], role)) {
+        // if (actingMember.user.equals(userId)) {
+        //   return callback?.({ error: 'You cannot remove your own role' });
+        // }
+
+        if (!canEditRole(actingMember.roles, role)) {
           return callback?.({
             error: 'You cannot remove roles higher than your own',
           });
         }
 
-        if (member?.roles.includes(role.name)) {
-          return callback?.({ error: 'You cannot remove your own role' });
+        // Actually remove the role
+        if (!targetMember.roles.includes(role)) {
+          return callback?.({ error: 'User does not have this role' });
         }
 
-        const updatedMember = chat.members.find((m: Member) =>
-          m.user.equals(userId)
-        );
-
-        if (!updatedMember) {
-          return callback?.({ error: 'Member not found' });
-        }
-
-        if (!canEditRole(member?.roles || [], role)) {
-          return callback?.({
-            error: 'You cannot remove roles higher than your own',
-          });
-        }
-
-        updatedMember.roles = updatedMember.roles.filter(
+        targetMember.roles = targetMember.roles.filter(
           (r: string) => r !== role
         );
         await chat.save();
 
-        io.to(chat._id.toString()).emit('memberUpdated', updatedMember);
-        callback?.({ success: true, member: updatedMember });
+        io.to(chat._id.toString()).emit('memberUpdated', targetMember);
+        callback?.({ success: true, member: targetMember });
       } catch (err) {
         console.error(err);
         callback?.({ error: 'Server error' });
