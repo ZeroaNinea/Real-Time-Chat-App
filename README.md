@@ -202,7 +202,7 @@ backend/
 <br />
 ✅ Step 24: Design the messages list:
 <br />
-➡️ Step 25: Implement role removing from the user
+✅ Step 25: Implement role removing from the user
 <br />
 ✅ Step 26: Implement ownership transferring
 <br />
