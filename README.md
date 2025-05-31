@@ -236,7 +236,7 @@ backend/
 <br />
 ➡️ Step 36: Implement bio and pronouns editing
 <br />
-➡️ Step 37: Implement role choosing
+✅ Step 37: Implement role choosing
 <br />
 ✅ Step 38: Implement status editing
 <br />
