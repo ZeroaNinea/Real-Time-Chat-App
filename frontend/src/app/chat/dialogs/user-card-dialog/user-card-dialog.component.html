@@ -101,9 +101,7 @@
       } @if (!isOwnProfile) {
       <button mat-stroked-button>Firend Request</button>
       }
-      <button mat-stroked-button>
-        Copy ID: {{ data.selectedUser.user._id }}
-      </button>
+      <button mat-stroked-button (click)="copyUserId()">Copy ID</button>
       <button mat-stroked-button>PM</button>
     </div>
   </mat-card-content>
