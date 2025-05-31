@@ -51,7 +51,7 @@
         color="primary"
         selected
         [removable]="
-          canEditRole(currentUserRoles, role) &&
+          canEditRole(currentUserRoles, role) ||
           canAssignPermissionsBelowOwnLevel(
             currentUserPermissions,
             getRolePermissions(role)
@@ -60,7 +60,7 @@
         (removed)="removeRole(role)"
       >
         {{ role }}
-        @if (canEditRole(currentUserRoles, role) &&
+        @if (canEditRole(currentUserRoles, role) ||
         canAssignPermissionsBelowOwnLevel( currentUserPermissions,
         getRolePermissions(role))) {
         <button matChipRemove aria-label="Remove role">
