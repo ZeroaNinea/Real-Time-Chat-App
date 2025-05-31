@@ -206,7 +206,7 @@ backend/
 <br />
 ✅ Step 26: Implement ownership transferring
 <br />
-✅ Step 25: Implement role self-assignment
+✅ Step 27: Implement role self-assignment
 <br />
 
 - Different background colors for sender vs. receiver. ✅
@@ -218,31 +218,31 @@ backend/
 - Scroll behavior. ✅
   <br />
 
-✅ Step 25: Design the members list
+✅ Step 28: Design the members list
 <br />
-➡️ Step 26: Design the channel list
+➡️ Step 29: Design the channel list
 <br />
-✅ Step 27: Add a send button icon
+✅ Step 30: Add a send button icon
 <br />
-➡️ Step 28: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
+➡️ Step 31: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
 <br />
-➡️ Step 29: Add an upload attachment button (images, videos, GIFs etc...)
+➡️ Step 32: Add an upload attachment button (images, videos, GIFs etc...)
 <br />
-➡️ Step 30: Add a GIF picker button.
+➡️ Step 33: Add a GIF picker button.
 <br />
-➡️ Step 31: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
+➡️ Step 34: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
 <br />
-✅ Step 32: Implement role assignment
+✅ Step 35: Implement role assignment
 <br />
-➡️ Step 33: Implement bio and pronouns editing
+➡️ Step 36: Implement bio and pronouns editing
 <br />
-➡️ Step 34: Implement role choosing
+➡️ Step 37: Implement role choosing
 <br />
-✅ Step 35: Implement status editing
+✅ Step 38: Implement status editing
 <br />
-✅ Step 34: Implement role deleting
+✅ Step 39: Implement role deleting
 <br />
-✅ Step 34: Implement role creating
+✅ Step 40: Implement role creating
 <br />
 
 #### **The chat room's URL:** http://localhost:4200/chat-room/6829e659be0550e0e63405ca/channel/6829e65fbe0550e0e63405f2
