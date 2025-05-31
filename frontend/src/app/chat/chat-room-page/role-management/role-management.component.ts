@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   templateUrl: './role-management.component.html',
   styleUrl: './role-management.component.scss',
 })
-export class RoleManagementComponent implements OnChanges {
+export class RoleManagementComponent {
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
 
@@ -62,25 +62,16 @@ export class RoleManagementComponent implements OnChanges {
 
   isEditing = false;
   editingRole: ChatRoomRole | null = null;
-  currentUserRoles: string[] = [];
-  currentUserPermissions: string[] = [];
 
-  ngOnChanges() {
-    this.currentUserRoles = this.getCurrentUserRoles();
-    this.currentUserPermissions = this.getCurrentUserPermissions();
-  }
-
-  getCurrentUserRoles(): string[] {
+  get currentUserRoles(): string[] {
     return (
-      this.members
-        .find((member) => member.user._id === this.currentUserId)
-        ?.roles.map((role) => role) || []
+      this.members.find((m) => m.user._id === this.currentUserId)?.roles || []
     );
   }
 
-  getCurrentUserPermissions(): string[] {
-    return this.getCurrentUserRoles().flatMap((role) => {
-      return this.roles.find((r) => r.name === role)?.permissions || [];
+  get currentUserPermissions(): string[] {
+    return this.currentUserRoles.flatMap((roleName) => {
+      return this.roles.find((r) => r.name === roleName)?.permissions || [];
     });
   }
 
