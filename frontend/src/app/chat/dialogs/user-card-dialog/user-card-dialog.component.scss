@@ -27,6 +27,38 @@
           margin-right: 4px;
         }
       }
+
+      button.warn {
+        @include mat.theme(
+          (
+            color: mat.$red-palette,
+          )
+        );
+      }
+
+      button.primary {
+        @include mat.theme(
+          (
+            color: mat.$blue-palette,
+          )
+        );
+      }
+
+      button.accent {
+        @include mat.theme(
+          (
+            color: mat.$yellow-palette,
+          )
+        );
+      }
+
+      button.roze {
+        @include mat.theme(
+          (
+            color: mat.$rose-palette,
+          )
+        );
+      }
     }
   }
 }

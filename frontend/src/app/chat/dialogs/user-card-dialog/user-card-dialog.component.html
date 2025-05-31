@@ -104,18 +104,18 @@
       <button mat-stroked-button (click)="copyUserId()">Copy ID</button>
       <button mat-stroked-button>PM</button>
       <button mat-stroked-button>Block</button> -->
-      <button mat-stroked-button (click)="copyUserId()">
+      <button mat-stroked-button (click)="copyUserId()" class="primary">
         <mat-icon>content_copy</mat-icon>
         Copy ID
       </button>
 
       @if (!isOwnProfile && isOwner) {
-      <button mat-stroked-button (click)="transferOwnership()">
+      <button mat-stroked-button (click)="transferOwnership()" class="roze">
         <mat-icon>sync_alt</mat-icon>
         Transfer Ownership
       </button>
       } @if (!isOwnProfile) {
-      <button mat-stroked-button>
+      <button mat-stroked-button class="accent">
         <mat-icon>person_add</mat-icon>
         Friend Request
       </button>
@@ -123,7 +123,7 @@
         <mat-icon>chat</mat-icon>
         PM
       </button>
-      <button mat-stroked-button>
+      <button mat-stroked-button class="warn">
         <mat-icon>block</mat-icon>
         Block
       </button>
