@@ -882,6 +882,16 @@ export function setupSocket(server: HttpServer, app: Express) {
             });
           }
 
+          if (
+            role.allowedRoles &&
+            role.allowedRoles.length &&
+            !role.allowedRoles.some((r: string) => memberRoles.includes(r))
+          ) {
+            return callback?.({
+              error: 'You do not meet the requirements to assign this role',
+            });
+          }
+
           if (!member?.user.equals(socket.data.user._id)) {
             return callback?.({
               error: "You cannot modify another user's roles",
