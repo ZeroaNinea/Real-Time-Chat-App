@@ -829,53 +829,150 @@ export function setupSocket(server: HttpServer, app: Express) {
       async ({ roleName, selected, chatId }, callback) => {
         console.log('Toggle role', roleName, selected);
         try {
+          // const chat = await Chat.findById(chatId);
+          // if (!chat) return callback?.({ error: 'Chat not found' });
+
+          // const member = chat.members.find((m: Member) =>
+          //   m.user.equals(socket.data.user._id)
+          // );
+
+          // if (!canEditRole(member?.roles || [], roleName)) {
+          //   return callback?.({
+          //     error: 'You cannot toggle roles higher than your own',
+          //   });
+          // }
+
+          // if (
+          //   roleName.name === 'Owner' ||
+          //   roleName.name === 'Admin' ||
+          //   roleName.name === 'Moderator' ||
+          //   roleName.name === 'Member' ||
+          //   roleName.name === 'Muted' ||
+          //   roleName.name === 'Banned'
+          // ) {
+          //   return callback?.({
+          //     error: 'You cannot toggle default roles',
+          //   });
+          // }
+
+          // const memberRoles = member?.roles || [];
+
+          // const memberPermissions: string[] = (memberRoles || []).flatMap(
+          //   (role: string) => {
+          //     return (
+          //       chat.roles.find((r: ChatRoomRole) => r.name === role)
+          //         ?.permissions || []
+          //     );
+          //   }
+          // );
+
+          // const role = chat.roles.find(
+          //   (r: ChatRoomRole) => r.name === roleName
+          // );
+
+          // if (
+          //   role.allowedUserIds &&
+          //   role.allowedUserIds.length &&
+          //   !role.allowedUserIds.some(
+          //     (id: string) => id === socket.data.user._id.toString()
+          //   )
+          // ) {
+          //   return callback?.({
+          //     error: 'You are not allowed to assign yourself this role',
+          //   });
+          // }
+
+          // if (
+          //   role.allowedRoles &&
+          //   role.allowedRoles.length &&
+          //   !role.allowedRoles.some((r: string) => memberRoles.includes(r))
+          // ) {
+          //   return callback?.({
+          //     error: 'You do not meet the requirements to assign this role',
+          //   });
+          // }
+
+          // if (!member?.user.equals(socket.data.user._id)) {
+          //   return callback?.({
+          //     error: "You cannot modify another user's roles",
+          //   });
+          // }
+
+          // if (!role.canBeSelfAssigned) {
+          //   return callback?.({
+          //     error: 'You cannot toggle this role',
+          //   });
+          // }
+
+          // if (role.permissions) {
+          //   if (
+          //     !canAssignPermissionsBelowOwnLevel(
+          //       memberPermissions,
+          //       role.permissions
+          //     )
+          //   ) {
+          //     return callback?.({
+          //       error:
+          //         'You cannot toggle permissions equal to or greater than your own',
+          //     });
+          //   }
+          // }
+
+          // if (selected && !member.roles.includes(role.name)) {
+          //   member.roles.push(role.name);
+          // } else {
+          //   member.roles = member.roles.filter((r: string) => r !== role.name);
+          // }
+
+          // await chat.save();
+
+          // io.to(chat._id.toString()).emit('memberUpdated', member);
+          // callback?.({ success: true });
           const chat = await Chat.findById(chatId);
           if (!chat) return callback?.({ error: 'Chat not found' });
 
           const member = chat.members.find((m: Member) =>
             m.user.equals(socket.data.user._id)
           );
+          if (!member)
+            return callback?.({ error: 'You are not a member of this chat' });
 
-          if (!canEditRole(member?.roles || [], roleName)) {
+          if (!member.user.equals(socket.data.user._id)) {
             return callback?.({
-              error: 'You cannot toggle roles higher than your own',
+              error: "You cannot modify another user's roles",
             });
           }
 
-          if (
-            roleName.name === 'Owner' ||
-            roleName.name === 'Admin' ||
-            roleName.name === 'Moderator' ||
-            roleName.name === 'Member' ||
-            roleName.name === 'Muted' ||
-            roleName.name === 'Banned'
-          ) {
+          const role = chat.roles.find(
+            (r: ChatRoomRole) => r.name === roleName
+          );
+          if (!role) return callback?.({ error: 'Role not found' });
+
+          const defaultRoles = [
+            'Owner',
+            'Admin',
+            'Moderator',
+            'Member',
+            'Muted',
+            'Banned',
+          ];
+          if (defaultRoles.includes(role.name)) {
             return callback?.({
               error: 'You cannot toggle default roles',
             });
           }
 
-          const memberRoles = member?.roles || [];
+          const memberRoles = member.roles || [];
 
-          const memberPermissions: string[] = (memberRoles || []).flatMap(
-            (role: string) => {
-              return (
-                chat.roles.find((r: ChatRoomRole) => r.name === role)
-                  ?.permissions || []
-              );
-            }
-          );
-
-          const role = chat.roles.find(
-            (r: ChatRoomRole) => r.name === roleName
+          const memberPermissions: string[] = memberRoles.flatMap(
+            (role: string) =>
+              chat.roles.find((r: ChatRoomRole) => r.name === role)
+                ?.permissions || []
           );
 
           if (
-            role.allowedUserIds &&
-            role.allowedUserIds.length &&
-            !role.allowedUserIds.some(
-              (id: string) => id === socket.data.user._id.toString()
-            )
+            role.allowedUserIds?.length &&
+            !role.allowedUserIds.includes(socket.data.user._id.toString())
           ) {
             return callback?.({
               error: 'You are not allowed to assign yourself this role',
@@ -883,18 +980,11 @@ export function setupSocket(server: HttpServer, app: Express) {
           }
 
           if (
-            role.allowedRoles &&
-            role.allowedRoles.length &&
+            role.allowedRoles?.length &&
             !role.allowedRoles.some((r: string) => memberRoles.includes(r))
           ) {
             return callback?.({
               error: 'You do not meet the requirements to assign this role',
-            });
-          }
-
-          if (!member?.user.equals(socket.data.user._id)) {
-            return callback?.({
-              error: "You cannot modify another user's roles",
             });
           }
 
@@ -904,18 +994,17 @@ export function setupSocket(server: HttpServer, app: Express) {
             });
           }
 
-          if (role.permissions) {
-            if (
-              !canAssignPermissionsBelowOwnLevel(
-                memberPermissions,
-                role.permissions
-              )
-            ) {
-              return callback?.({
-                error:
-                  'You cannot toggle permissions equal to or greater than your own',
-              });
-            }
+          if (
+            role.permissions &&
+            !canAssignPermissionsBelowOwnLevel(
+              memberPermissions,
+              role.permissions
+            )
+          ) {
+            return callback?.({
+              error:
+                'You cannot toggle permissions equal to or greater than your own',
+            });
           }
 
           if (selected && !member.roles.includes(role.name)) {
@@ -925,7 +1014,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           }
 
           await chat.save();
-
           io.to(chat._id.toString()).emit('memberUpdated', member);
           callback?.({ success: true });
         } catch (err) {
