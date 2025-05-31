@@ -503,6 +503,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           return callback?.({ error: 'You are not allowed to remove roles' });
         }
 
+        if (!canEditRole(member?.roles || [], role)) {
+          return callback?.({
+            error: 'You cannot remove roles higher than your own',
+          });
+        }
+
+        if (member?.roles.includes(role.name)) {
+          return callback?.({ error: 'You cannot remove your own role' });
+        }
+
         const updatedMember = chat.members.find((m: Member) =>
           m.user.equals(userId)
         );
