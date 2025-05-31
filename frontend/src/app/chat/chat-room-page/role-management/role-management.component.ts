@@ -84,6 +84,28 @@ export class RoleManagementComponent implements OnChanges {
     });
   }
 
+  canSelfAssign(role: ChatRoomRole): boolean {
+    if (!role.canBeSelfAssigned) return false;
+
+    if (
+      role.allowedUserIds?.length &&
+      !role.allowedUserIds.includes(
+        this.currentUserId ? this.currentUserId : ''
+      )
+    ) {
+      return false;
+    }
+
+    if (
+      role.allowedRoles?.length &&
+      !role.allowedRoles.some((r: string) => this.currentUserRoles.includes(r))
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   PERMISSION_RANKS: Record<string, number> = {
     canBan: 1,
     canMute: 1,
