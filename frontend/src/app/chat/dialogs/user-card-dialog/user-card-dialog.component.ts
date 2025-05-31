@@ -87,19 +87,21 @@ export class UserCardDialogComponent implements OnChanges {
   };
 
   canEditRole(assignerRoles: string[], targetRole: string): boolean {
+    if (targetRole === 'Owner') return false;
+
     const targetRank = this.roleRanks[targetRole] ?? 0;
     const highestAssignerRank = Math.max(
       ...assignerRoles.map((r) => this.roleRanks[r] ?? 0)
     );
 
     if (
-      targetRank <= highestAssignerRank &&
+      targetRank < highestAssignerRank &&
       (targetRole === 'Banned' || targetRole === 'Muted')
     ) {
       return false;
     }
 
-    return targetRank <= highestAssignerRank;
+    return targetRank < highestAssignerRank;
   }
 
   getMaxPermissionRank(permissions: string[]): number {
@@ -113,7 +115,7 @@ export class UserCardDialogComponent implements OnChanges {
     const assignerMax = this.getMaxPermissionRank(assignerPermissions);
     const targetMax = this.getMaxPermissionRank(targetPermissions);
 
-    return targetMax <= assignerMax;
+    return targetMax < assignerMax;
   }
 
   constructor(

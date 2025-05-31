@@ -14,13 +14,13 @@ export function canEditRole(
   );
 
   if (
-    targetRank <= highestAssignerRank &&
+    targetRank < highestAssignerRank &&
     (targetRole === 'Banned' || targetRole === 'Muted')
   ) {
     return false;
   }
 
-  return targetRank <= highestAssignerRank;
+  return targetRank < highestAssignerRank;
 }
 
 const PERMISSION_RANKS: Record<string, number> = {
@@ -47,5 +47,5 @@ export function canAssignPermissionsBelowOwnLevel(
   const assignerMax = getMaxPermissionRank(assignerPermissions);
   const targetMax = getMaxPermissionRank(targetPermissions);
 
-  return targetMax <= assignerMax;
+  return targetMax < assignerMax;
 }
