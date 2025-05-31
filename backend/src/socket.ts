@@ -581,9 +581,9 @@ export function setupSocket(server: HttpServer, app: Express) {
     //   }
     // });
 
-    socket.on('transferOwnership', async ({ userId }, callback) => {
+    socket.on('transferOwnership', async ({ userId, chatId }, callback) => {
       try {
-        const chat = await Chat.findById(socket.data.chat._id);
+        const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
         const requester = chat.members.find((m: Member) =>
