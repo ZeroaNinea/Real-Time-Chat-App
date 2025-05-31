@@ -98,10 +98,11 @@
       <button mat-stroked-button (click)="transferOwnership()">
         Transfer Ownership
       </button>
-      }
+      } @if (!isOwnProfile) {
       <button mat-stroked-button>Firend Request</button>
-      <button mat-strocked-button>Copy ID</button>
-      <button mat-strocked-button>PM</button>
+      }
+      <button mat-stroked-button>Copy ID</button>
+      <button mat-stroked-button>PM</button>
     </div>
   </mat-card-content>
 </mat-card>
