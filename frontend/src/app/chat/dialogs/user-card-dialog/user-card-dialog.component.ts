@@ -127,6 +127,7 @@ export class UserCardDialogComponent implements OnChanges {
       isOwner: boolean;
       isModerator: boolean;
       chatRoomRoles: ChatRoomRole[];
+      currentUserRoles: string[];
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
@@ -155,7 +156,7 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   get selectedUserRoles(): string[] {
-    return this.data.selectedUser.roles;
+    return this.data.currentUserRoles;
   }
 
   get isOwnProfile(): boolean {

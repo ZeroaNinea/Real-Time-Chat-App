@@ -20,6 +20,7 @@ export class MemberListComponent {
 
   @Input() members: PopulatedUser[] = [];
   @Input() currentUserId: string | undefined;
+  @Input() currentUserRoles: string[] = [];
   @Input() isAdmin: boolean = false;
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
@@ -44,6 +45,7 @@ export class MemberListComponent {
         isOwner: this.isOwner,
         isModerator: this.isModerator,
         chatRoomRoles: this.chatRoomRoles,
+        currentUserRoles: this.currentUserRoles,
       },
       width: '400px',
     });

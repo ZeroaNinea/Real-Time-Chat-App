@@ -20,7 +20,7 @@ export function canEditRole(
     return false;
   }
 
-  return targetRank < highestAssignerRank;
+  return targetRank <= highestAssignerRank;
 }
 
 const PERMISSION_RANKS: Record<string, number> = {

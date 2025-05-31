@@ -91,6 +91,11 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
   });
+  readonly currentUserRoles = computed(() => {
+    const id = this.currentUser()?.id;
+    const member = this.members().find((m) => m.user === id);
+    return member?.roles || [];
+  });
 
   @ViewChild('scrollContainer')
   private scrollContainer!: ElementRef<HTMLDivElement>;
