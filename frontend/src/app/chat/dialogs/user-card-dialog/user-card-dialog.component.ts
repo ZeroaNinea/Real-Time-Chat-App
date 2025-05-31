@@ -241,6 +241,25 @@ export class UserCardDialogComponent implements OnChanges {
     );
   }
 
+  transferOwnership() {
+    this.wsService.emit(
+      'transferOwnership',
+      {
+        userId: this.data.selectedUser.user._id,
+        chatId: this.data.chatId,
+      },
+      (res: any) => {
+        if (res?.error) {
+          this._snackbar.open(res.error, 'Close', { duration: 3000 });
+        } else {
+          this._snackbar.open('Ownership transferred!', 'Close', {
+            duration: 2000,
+          });
+        }
+      }
+    );
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();
