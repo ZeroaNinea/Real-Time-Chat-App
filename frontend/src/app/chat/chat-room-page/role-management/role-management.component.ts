@@ -59,6 +59,18 @@ export class RoleManagementComponent {
     'canAssignAdmins',
     'canAssignModerators',
   ];
+  PERMISSION_RANKS: Record<string, number> = {
+    canBan: 1,
+    canMute: 1,
+    canDeleteMessages: 1,
+    canCreateChannels: 2,
+    canEditChannels: 2,
+    canDeleteChannels: 3,
+    canAssignRoles: 4,
+    canAssignModerators: 5,
+    canAssignAdmins: 6,
+    canDeleteChatroom: 7,
+  };
 
   isEditing = false;
   editingRole: ChatRoomRole | null = null;
@@ -96,19 +108,6 @@ export class RoleManagementComponent {
 
     return true;
   }
-
-  PERMISSION_RANKS: Record<string, number> = {
-    canBan: 1,
-    canMute: 1,
-    canDeleteMessages: 1,
-    canCreateChannels: 2,
-    canEditChannels: 2,
-    canDeleteChannels: 3,
-    canAssignRoles: 4,
-    canAssignModerators: 5,
-    canAssignAdmins: 6,
-    canDeleteChatroom: 7,
-  };
 
   getMaxPermissionRank(permissions: string[]): number {
     return Math.max(...permissions.map((p) => this.PERMISSION_RANKS[p] || 0));

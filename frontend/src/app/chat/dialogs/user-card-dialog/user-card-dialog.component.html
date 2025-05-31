@@ -47,7 +47,21 @@
     @if (data.selectedUser.roles.length > 0) {
     <div class="roles">
       @for (role of data.selectedUser.roles; track $index) {
-      <mat-chip>{{ role }}</mat-chip>
+      <mat-chip
+        color="primary"
+        selected
+        [removable]="canEditRole(selectedUserRoles, role)"
+        (removed)="removeRole(role)"
+      >
+        {{ role }}
+        <button
+          matChipRemove
+          *ngIf="canRemoveRole(role)"
+          aria-label="Remove role"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
       }
     </div>
     } @if (availableRoles.length > 0 && isAdmin || isOwner || isModerator) {

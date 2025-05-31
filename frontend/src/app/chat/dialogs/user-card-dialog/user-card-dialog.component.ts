@@ -61,6 +61,31 @@ export class UserCardDialogComponent implements OnChanges {
     Moderator: 1,
   };
 
+  allPermissions = [
+    'canBan',
+    'canMute',
+    'canDeleteMessages',
+    'canCreateChannels',
+    'canEditChannels',
+    'canDeleteChannels',
+    'canDeleteChatroom',
+    'canAssignRoles',
+    'canAssignAdmins',
+    'canAssignModerators',
+  ];
+  PERMISSION_RANKS: Record<string, number> = {
+    canBan: 1,
+    canMute: 1,
+    canDeleteMessages: 1,
+    canCreateChannels: 2,
+    canEditChannels: 2,
+    canDeleteChannels: 3,
+    canAssignRoles: 4,
+    canAssignModerators: 5,
+    canAssignAdmins: 6,
+    canDeleteChatroom: 7,
+  };
+
   canEditRole(assignerRoles: string[], targetRole: string): boolean {
     const targetRank = this.roleRanks[targetRole] ?? 0;
     const highestAssignerRank = Math.max(
@@ -75,6 +100,20 @@ export class UserCardDialogComponent implements OnChanges {
     }
 
     return targetRank <= highestAssignerRank;
+  }
+
+  getMaxPermissionRank(permissions: string[]): number {
+    return Math.max(...permissions.map((p) => this.PERMISSION_RANKS[p] || 0));
+  }
+
+  canAssignPermissionsBelowOwnLevel(
+    assignerPermissions: string[],
+    targetPermissions: string[]
+  ): boolean {
+    const assignerMax = this.getMaxPermissionRank(assignerPermissions);
+    const targetMax = this.getMaxPermissionRank(targetPermissions);
+
+    return targetMax < assignerMax;
   }
 
   constructor(
@@ -113,6 +152,10 @@ export class UserCardDialogComponent implements OnChanges {
     if (changes['chatRoomRoles']) {
       console.log('Received chatRoomRoles:', this.chatRoomRoles);
     }
+  }
+
+  get selectedUserRoles(): string[] {
+    return this.data.selectedUser.roles;
   }
 
   get isOwnProfile(): boolean {
@@ -160,6 +203,25 @@ export class UserCardDialogComponent implements OnChanges {
         }
       }
     );
+  }
+
+  removeRole(role: string) {
+    console.log('Removing role:', role);
+    // this.wsService.emit(
+    //   'removeRole',
+    //   {
+    //     userId: this.data.selectedUser.user._id,
+    //     chatId: this.data.chatId,
+    //     role,
+    //   },
+    //   (res: any) => {
+    //     if (res?.error) {
+    //       this._snackbar.open(res.error, 'Close', { duration: 3000 });
+    //     } else {
+    //       this._snackbar.open('Role removed!', 'Close', { duration: 2000 });
+    //     }
+    //   }
+    // );
   }
 
   trimText(text: string, max: number): string {
