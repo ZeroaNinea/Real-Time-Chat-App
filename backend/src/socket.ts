@@ -870,6 +870,18 @@ export function setupSocket(server: HttpServer, app: Express) {
             (r: ChatRoomRole) => r.name === roleName
           );
 
+          if (
+            role.allowedUserIds &&
+            role.allowedUserIds.length &&
+            !role.allowedUserIds.some(
+              (id: string) => id === socket.data.user._id.toString()
+            )
+          ) {
+            return callback?.({
+              error: 'You are not allowed to assign yourself this role',
+            });
+          }
+
           if (!member?.user.equals(socket.data.user._id)) {
             return callback?.({
               error: "You cannot modify another user's roles",
