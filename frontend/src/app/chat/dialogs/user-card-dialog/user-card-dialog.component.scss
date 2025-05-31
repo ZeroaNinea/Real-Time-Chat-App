@@ -148,6 +148,9 @@
 }
 
 .roles {
+  width: 100%;
+  overflow-x: hidden;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }

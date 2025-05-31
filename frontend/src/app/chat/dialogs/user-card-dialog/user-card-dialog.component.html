@@ -54,13 +54,11 @@
         (removed)="removeRole(role)"
       >
         {{ role }}
-        <button
-          matChipRemove
-          *ngIf="canRemoveRole(role)"
-          aria-label="Remove role"
-        >
+        @if (canEditRole(selectedUserRoles, role)) {
+        <button matChipRemove aria-label="Remove role">
           <mat-icon>cancel</mat-icon>
         </button>
+        }
       </mat-chip>
       }
     </div>
