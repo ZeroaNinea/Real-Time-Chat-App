@@ -482,9 +482,9 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('removeRole', async ({ userId, role }, callback) => {
+    socket.on('removeRole', async ({ userId, chatId, role }, callback) => {
       try {
-        const chat = await Chat.findById(socket.data.chat._id);
+        const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
 
         const actingMember = chat.members.find((m: Member) =>

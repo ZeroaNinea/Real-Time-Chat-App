@@ -224,21 +224,21 @@ export class UserCardDialogComponent implements OnChanges {
 
   removeRole(role: string) {
     console.log('Removing role:', role);
-    // this.wsService.emit(
-    //   'removeRole',
-    //   {
-    //     userId: this.data.selectedUser.user._id,
-    //     chatId: this.data.chatId,
-    //     role,
-    //   },
-    //   (res: any) => {
-    //     if (res?.error) {
-    //       this._snackbar.open(res.error, 'Close', { duration: 3000 });
-    //     } else {
-    //       this._snackbar.open('Role removed!', 'Close', { duration: 2000 });
-    //     }
-    //   }
-    // );
+    this.wsService.emit(
+      'removeRole',
+      {
+        userId: this.data.selectedUser.user._id,
+        chatId: this.data.chatId,
+        role,
+      },
+      (res: any) => {
+        if (res?.error) {
+          this._snackbar.open(res.error, 'Close', { duration: 3000 });
+        } else {
+          this._snackbar.open('Role removed!', 'Close', { duration: 2000 });
+        }
+      }
+    );
   }
 
   trimText(text: string, max: number): string {
