@@ -870,6 +870,12 @@ export function setupSocket(server: HttpServer, app: Express) {
             (r: ChatRoomRole) => r.name === roleName
           );
 
+          if (!member?.user.equals(socket.data.user._id)) {
+            return callback?.({
+              error: "You cannot modify another user's roles",
+            });
+          }
+
           if (!role.canBeSelfAssigned) {
             return callback?.({
               error: 'You cannot toggle this role',
@@ -890,7 +896,7 @@ export function setupSocket(server: HttpServer, app: Express) {
             }
           }
 
-          if (selected) {
+          if (selected && !member.roles.includes(role.name)) {
             member.roles.push(role.name);
           } else {
             member.roles = member.roles.filter((r: string) => r !== role.name);
