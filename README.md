@@ -204,7 +204,7 @@ backend/
 <br />
 ➡️ Step 25: Implement role removing from the user
 <br />
-➡️ Step 26: Implement ownership transferring
+✅ Step 26: Implement ownership transferring
 <br />
 ✅ Step 25: Implement role self-assignment
 <br />
