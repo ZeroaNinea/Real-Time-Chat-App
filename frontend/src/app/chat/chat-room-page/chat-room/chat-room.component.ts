@@ -103,10 +103,6 @@ export class ChatRoomComponent implements OnDestroy {
   private isAtBottom = signal(true);
   private lastMessageCount = 0;
 
-  oldestMessageTimestamp: string | null = null;
-  hasMoreMessages = true;
-  isLoadingMessages = false;
-
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
   }
@@ -145,15 +141,15 @@ export class ChatRoomComponent implements OnDestroy {
       this.lastMessageCount = this.messages().length;
     });
 
-    effect(() => {
-      const channelId = this.channelId();
-      if (channelId) {
-        this.messages.set([]);
-        this.oldestMessageTimestamp = null;
-        this.hasMoreMessages = true;
-        this.loadInitialMessages();
-      }
-    });
+    // effect(() => {
+    //   const channelId = this.channelId();
+    //   if (channelId) {
+    //     this.messages.set([]);
+    //     // this.oldestMessageTimestamp = null;
+    //     this.hasMoreMessages = true;
+    //     this.loadInitialMessages();
+    //   }
+    // });
 
     afterNextRender(() => {
       this.route.paramMap.subscribe((params) => {
@@ -180,10 +176,10 @@ export class ChatRoomComponent implements OnDestroy {
     const height = container.scrollHeight;
     this.isAtBottom.set(position + threshold >= height);
 
-    const el = event.target as HTMLElement;
-    if (el.scrollTop < 100) {
-      this.loadOlderMessages();
-    }
+    // const el = event.target as HTMLElement;
+    // if (el.scrollTop < 100) {
+    //   this.loadOlderMessages();
+    // }
   }
 
   fetchChatRoom(chatId: string) {
@@ -196,15 +192,15 @@ export class ChatRoomComponent implements OnDestroy {
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
 
-      // if (this.channelId()) {
-      //   this.chatService
-      //     .getMessages(this.chatId()!, this.channelId()!)
-      //     .subscribe((messages) => this.messages.set(messages));
-      // }
-
       if (this.channelId()) {
-        this.loadInitialMessages();
+        this.chatService
+          .getMessages(this.chatId()!, this.channelId()!)
+          .subscribe((messages) => this.messages.set(messages));
       }
+
+      // if (this.channelId()) {
+      //   this.loadInitialMessages();
+      // }
 
       this.chatService
         .getChatMembers(this.chatId()!)
@@ -321,56 +317,54 @@ export class ChatRoomComponent implements OnDestroy {
     // });
   }
 
-  loadInitialMessages() {
-    this.isLoadingMessages = true;
+  // loadInitialMessages() {
+  //   this.isLoadingMessages = true;
 
-    this.chatService
-      .getMessages(this.chatId()!, this.channelId()!)
-      .subscribe((messages) => {
-        this.messages.set(messages.reverse());
-        if (messages.length > 0) {
-          this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
-        }
+  //   this.chatService
+  //     .getMessages(this.chatId()!, this.channelId()!, 20)
+  //     .subscribe((messages) => {
+  //       messages = messages.reverse(); // Newest at bottom
 
-        this.hasMoreMessages = messages.length >= 20;
-        this.isLoadingMessages = false;
-      });
-  }
+  //       this.messages.set(messages);
 
-  loadOlderMessages() {
-    if (
-      this.isLoadingMessages ||
-      !this.hasMoreMessages ||
-      !this.oldestMessageTimestamp
-    )
-      return;
+  //       if (messages.length > 0) {
+  //         // ✅ Set ID instead of timestamp
+  //         this.oldestMessageId = messages[0]._id;
+  //       }
 
-    this.isLoadingMessages = true;
+  //       this.hasMoreMessages = messages.length === 20;
+  //       this.isLoadingMessages = false;
+  //     });
+  // }
 
-    this.chatService
-      .getMessages(
-        this.chatId()!,
-        this.channelId()!,
-        20,
-        this.oldestMessageTimestamp
-      )
-      .subscribe((olderMessages) => {
-        olderMessages = olderMessages.reverse();
-        const currentMessages = this.messages();
+  // loadOlderMessages() {
+  //   if (
+  //     this.isLoadingMessages ||
+  //     !this.hasMoreMessages ||
+  //     !this.oldestMessageId
+  //   )
+  //     return;
 
-        this.messages.set([...olderMessages, ...currentMessages]);
+  //   this.isLoadingMessages = true;
 
-        if (olderMessages.length > 0) {
-          this.oldestMessageTimestamp =
-            olderMessages[olderMessages.length - 1].createdAt;
-          this.hasMoreMessages = olderMessages.length === 20;
-        } else {
-          this.hasMoreMessages = false;
-        }
+  //   this.chatService
+  //     .getMessages(this.chatId()!, this.channelId()!, 20, this.oldestMessageId)
+  //     .subscribe((olderMessages) => {
+  //       olderMessages = olderMessages.reverse();
 
-        this.isLoadingMessages = false;
-      });
-  }
+  //       const currentMessages = this.messages();
+  //       this.messages.set([...olderMessages, ...currentMessages]);
+
+  //       if (olderMessages.length > 0) {
+  //         this.oldestMessageId = olderMessages[0]._id;
+  //         this.hasMoreMessages = olderMessages.length === 20;
+  //       } else {
+  //         this.hasMoreMessages = false;
+  //       }
+
+  //       this.isLoadingMessages = false;
+  //     });
+  // }
 
   sendMessage() {
     const msg = this.message().trim();
