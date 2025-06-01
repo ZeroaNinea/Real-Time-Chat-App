@@ -139,7 +139,8 @@ export class ChatRoomComponent implements OnDestroy {
       queueMicrotask(() => {
         const container = this.scrollContainer?.nativeElement;
         if (container) {
-          container.scrollTop = container.scrollHeight;
+          // container.scrollTop = container.scrollHeight;
+          container.scrollTop += 200;
         }
       });
 
@@ -366,6 +367,8 @@ export class ChatRoomComponent implements OnDestroy {
         this.messages.set([
           ...new Map(this.messages().map((m) => [m._id, m])).values(),
         ]);
+
+        console.log(this.messages());
 
         if (olderMessages.length > 0) {
           this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
