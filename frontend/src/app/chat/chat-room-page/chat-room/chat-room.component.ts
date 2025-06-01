@@ -103,6 +103,10 @@ export class ChatRoomComponent implements OnDestroy {
   private isAtBottom = signal(true);
   private lastMessageCount = 0;
 
+  oldestMessageTimestamp: string | null = null;
+  hasMoreMessages = true;
+  isLoadingMessages = false;
+
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
   }
@@ -159,12 +163,17 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
-  onScroll() {
+  onScroll(event: Event) {
     const container = this.scrollContainer.nativeElement;
     const threshold = 100;
     const position = container.scrollTop + container.clientHeight;
     const height = container.scrollHeight;
     this.isAtBottom.set(position + threshold >= height);
+
+    const el = event.target as HTMLElement;
+    if (el.scrollTop < 100) {
+      this.loadOlderMessages();
+    }
   }
 
   fetchChatRoom(chatId: string) {
@@ -177,10 +186,14 @@ export class ChatRoomComponent implements OnDestroy {
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
 
+      // if (this.channelId()) {
+      //   this.chatService
+      //     .getMessages(this.chatId()!, this.channelId()!)
+      //     .subscribe((messages) => this.messages.set(messages));
+      // }
+
       if (this.channelId()) {
-        this.chatService
-          .getMessages(this.chatId()!, this.channelId()!)
-          .subscribe((messages) => this.messages.set(messages));
+        this.loadInitialMessages();
       }
 
       this.chatService
@@ -296,6 +309,57 @@ export class ChatRoomComponent implements OnDestroy {
     //     users.filter((u) => u._id !== userId)
     //   );
     // });
+  }
+
+  loadInitialMessages() {
+    this.isLoadingMessages = true;
+
+    this.chatService
+      .getMessages(this.chatId()!, this.channelId()!)
+      .subscribe((messages) => {
+        this.messages.set(messages);
+        if (messages.length > 0) {
+          this.oldestMessageTimestamp =
+            messages[messages[messages.length - 1].createdAt];
+        }
+        this.hasMoreMessages = messages.length >= 20;
+        this.isLoadingMessages = false;
+      });
+  }
+
+  loadOlderMessages() {
+    if (
+      this.isLoadingMessages ||
+      !this.hasMoreMessages ||
+      !this.oldestMessageTimestamp
+    )
+      return;
+
+    this.isLoadingMessages = true;
+
+    this.chatService
+      .getMessages(
+        this.chatId()!,
+        this.channelId()!,
+        20,
+        this.oldestMessageTimestamp
+      )
+      .subscribe((olderMessages) => {
+        const currentMessages = this.messages();
+
+        // Add older messages to the beginning
+        this.messages.set([...currentMessages, ...olderMessages]);
+
+        if (olderMessages.length > 0) {
+          this.oldestMessageTimestamp =
+            olderMessages[olderMessages.length - 1].createdAt;
+          this.hasMoreMessages = olderMessages.length === 20;
+        } else {
+          this.hasMoreMessages = false;
+        }
+
+        this.isLoadingMessages = false;
+      });
   }
 
   sendMessage() {
