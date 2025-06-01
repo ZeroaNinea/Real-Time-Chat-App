@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -66,9 +66,25 @@ export class ChatService {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
 
-  getMessages(chatId: string, channelId: string): Observable<Message[]> {
+  // getMessages(chatId: string, channelId: string): Observable<Message[]> {
+  //   return this.http.get<Message[]>(
+  //     `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`
+  //   );
+  // }
+  getMessages(
+    chatId: string,
+    channelId: string,
+    limit = 20,
+    before?: string
+  ): Observable<Message[]> {
+    let params = new HttpParams().set('limit', limit.toString());
+    if (before) {
+      params = params.set('before', before);
+    }
+
     return this.http.get<Message[]>(
-      `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`
+      `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`,
+      { params }
     );
   }
 }
