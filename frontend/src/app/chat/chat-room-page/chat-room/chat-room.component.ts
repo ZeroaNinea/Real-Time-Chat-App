@@ -145,6 +145,16 @@ export class ChatRoomComponent implements OnDestroy {
       this.lastMessageCount = this.messages().length;
     });
 
+    effect(() => {
+      const channelId = this.channelId();
+      if (channelId) {
+        this.messages.set([]);
+        this.oldestMessageTimestamp = null;
+        this.hasMoreMessages = true;
+        this.loadInitialMessages();
+      }
+    });
+
     afterNextRender(() => {
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
