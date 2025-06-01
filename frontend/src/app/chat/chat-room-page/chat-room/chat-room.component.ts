@@ -103,7 +103,7 @@ export class ChatRoomComponent implements OnDestroy {
   private isAtBottom = signal(true);
   private lastMessageCount = 0;
 
-  oldestMessageTimestamp: string | null = null;
+  // oldestMessageTimestamp: string | null = null;
   hasMoreMessages = true;
   isLoadingMessages = false;
   oldestMessageId: string | null = null;
@@ -150,7 +150,8 @@ export class ChatRoomComponent implements OnDestroy {
       const channelId = this.channelId();
       if (channelId) {
         this.messages.set([]);
-        this.oldestMessageTimestamp = null;
+        // this.oldestMessageTimestamp = null;
+        this.oldestMessageId = null;
         this.hasMoreMessages = true;
         this.loadInitialMessages();
       }
@@ -335,7 +336,8 @@ export class ChatRoomComponent implements OnDestroy {
       .subscribe((messages) => {
         this.messages.set(messages);
         if (messages.length > 0) {
-          this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
+          // this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
+          this.oldestMessageId = messages[messages.length - 1]._id;
         }
 
         // if (olderMessages.length > 0) {
@@ -351,28 +353,20 @@ export class ChatRoomComponent implements OnDestroy {
     if (
       this.isLoadingMessages ||
       !this.hasMoreMessages ||
-      !this.oldestMessageTimestamp
+      !this.oldestMessageId
     )
       return;
 
     this.isLoadingMessages = true;
 
     this.chatService
-      .getMessages(
-        this.chatId()!,
-        this.channelId()!,
-        20,
-        this.oldestMessageTimestamp
-      )
+      .getMessages(this.chatId()!, this.channelId()!, 20, this.oldestMessageId)
       .subscribe((olderMessages) => {
-        // olderMessages = olderMessages.reverse();
         const currentMessages = this.messages();
-
         this.messages.set([...olderMessages, ...currentMessages]);
 
         if (olderMessages.length > 0) {
-          this.oldestMessageTimestamp =
-            olderMessages[olderMessages.length - 1].createdAt;
+          this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
           this.hasMoreMessages = olderMessages.length === 20;
         } else {
           this.hasMoreMessages = false;
