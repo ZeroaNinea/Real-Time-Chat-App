@@ -377,6 +377,8 @@ export class ChatRoomComponent implements OnDestroy {
 
         this.messages.set([...filteredOlderMessages, ...currentMessages]);
 
+        console.log(this.messages());
+
         // this.messages.set([...olderMessages, ...currentMessages]);
 
         this.isLoadingMessages = false;
