@@ -82,7 +82,10 @@ export const getMessages = async (req: Request, res: Response) => {
       .limit(Number(limit))
       .lean();
 
-    console.log('messages', messages);
+    // console.log('messages', messages);
+    messages.forEach((message: any) => {
+      console.log(message.text);
+    });
     res.json(messages.reverse());
   } catch (err) {
     res.status(500).json({ message: 'Failed to get messages', error: err });
