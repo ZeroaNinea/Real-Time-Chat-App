@@ -317,7 +317,7 @@ export class ChatRoomComponent implements OnDestroy {
     this.chatService
       .getMessages(this.chatId()!, this.channelId()!)
       .subscribe((messages) => {
-        this.messages.set(messages);
+        this.messages.set(messages.reverse());
         if (messages.length > 0) {
           this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
         }
@@ -345,10 +345,10 @@ export class ChatRoomComponent implements OnDestroy {
         this.oldestMessageTimestamp
       )
       .subscribe((olderMessages) => {
+        olderMessages = olderMessages.reverse();
         const currentMessages = this.messages();
 
-        // Add older messages to the beginning
-        this.messages.set([...currentMessages, ...olderMessages]);
+        this.messages.set([...olderMessages, ...currentMessages]);
 
         if (olderMessages.length > 0) {
           this.oldestMessageTimestamp =
