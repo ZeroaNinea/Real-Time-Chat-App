@@ -336,13 +336,11 @@ export class ChatRoomComponent implements OnDestroy {
       .subscribe((messages) => {
         this.messages.set(messages);
         if (messages.length > 0) {
-          // this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
+          console.log(messages);
           this.oldestMessageId = messages[messages.length - 1]._id;
+          console.log(this.oldestMessageId);
         }
-
-        // if (olderMessages.length > 0) {
-        //   this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
-        // }
+        // console.log(this.oldestMessageId);
 
         this.hasMoreMessages = messages.length >= 20;
         this.isLoadingMessages = false;
@@ -364,6 +362,10 @@ export class ChatRoomComponent implements OnDestroy {
       .subscribe((olderMessages) => {
         const currentMessages = this.messages();
         this.messages.set([...olderMessages, ...currentMessages]);
+
+        this.messages.set([
+          ...new Map(this.messages().map((m) => [m._id, m])).values(),
+        ]);
 
         if (olderMessages.length > 0) {
           this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
