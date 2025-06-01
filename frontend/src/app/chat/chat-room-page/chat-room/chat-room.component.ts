@@ -319,9 +319,9 @@ export class ChatRoomComponent implements OnDestroy {
       .subscribe((messages) => {
         this.messages.set(messages);
         if (messages.length > 0) {
-          this.oldestMessageTimestamp =
-            messages[messages[messages.length - 1].createdAt];
+          this.oldestMessageTimestamp = messages[messages.length - 1].createdAt;
         }
+
         this.hasMoreMessages = messages.length >= 20;
         this.isLoadingMessages = false;
       });
