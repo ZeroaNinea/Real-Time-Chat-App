@@ -362,7 +362,8 @@ export class ChatRoomComponent implements OnDestroy {
       .getMessages(this.chatId()!, this.channelId()!, 20, this.oldestMessageId)
       .subscribe((olderMessages) => {
         if (olderMessages.length > 0) {
-          this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
+          // this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
+          this.oldestMessageId = olderMessages[0]._id;
           this.hasMoreMessages = olderMessages.length === 20;
         } else {
           this.hasMoreMessages = false;
@@ -375,6 +376,8 @@ export class ChatRoomComponent implements OnDestroy {
         );
 
         this.messages.set([...filteredOlderMessages, ...currentMessages]);
+
+        // this.messages.set([...olderMessages, ...currentMessages]);
 
         this.isLoadingMessages = false;
       });
