@@ -66,25 +66,25 @@ export class ChatService {
     return this.http.delete<void>(`${environment.backendUrl}/chat/${chatId}`);
   }
 
-  getMessages(chatId: string, channelId: string): Observable<Message[]> {
+  // getMessages(chatId: string, channelId: string): Observable<Message[]> {
+  //   return this.http.get<Message[]>(
+  //     `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`
+  //   );
+  // }
+  getMessages(
+    chatId: string,
+    channelId: string,
+    limit = 20,
+    before?: string
+  ): Observable<Message[]> {
+    let params = new HttpParams().set('limit', limit.toString());
+    if (before) {
+      params = params.set('before', before);
+    }
+
     return this.http.get<Message[]>(
-      `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`
+      `${environment.backendUrl}/message/get-messages/chat-room/${chatId}/channel/${channelId}`,
+      { params }
     );
   }
-
-  // getMessages(
-  //   chatId: string,
-  //   channelId: string,
-  //   limit = 20,
-  //   beforeId?: string
-  // ) {
-  //   let params = new HttpParams().set('limit', limit);
-  //   if (beforeId) {
-  //     params = params.set('before', beforeId);
-  //   }
-
-  //   return this.http.get<Message[]>(`/api/messages/${chatId}/${channelId}`, {
-  //     params,
-  //   });
-  // }
 }
