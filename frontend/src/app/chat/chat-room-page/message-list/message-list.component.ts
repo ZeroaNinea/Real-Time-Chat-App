@@ -31,6 +31,7 @@ import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-car
 })
 export class MessageListComponent {
   @Input() messages!: Message[];
+  @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
   @Input() isAdmin: boolean = false;
   @Input() isOwner: boolean = false;
