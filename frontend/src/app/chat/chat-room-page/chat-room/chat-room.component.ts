@@ -104,6 +104,8 @@ export class ChatRoomComponent implements OnDestroy {
 
   private isAtBottom = signal(true);
   private lastMessageCount = 0;
+  previousScrollHeight = 0;
+  previousChannelId: string | null = null;
 
   // oldestMessageTimestamp: string | null = null;
   hasMoreMessages = true;
@@ -135,18 +137,31 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     effect(() => {
-      const currentChannel = this.channelId();
-      this.isAtBottom.set(true);
+      const container = this.scrollContainer?.nativeElement;
+      const messages = this.messages();
+      const currentCount = messages.length;
+
+      const channelChanged = this.channelId() !== this.previousChannelId;
+      const newMessageCount = currentCount > this.lastMessageCount;
+
+      const appended = newMessageCount && this.isAtBottom();
+      const prepended = newMessageCount && !this.isAtBottom();
 
       queueMicrotask(() => {
-        const container = this.scrollContainer?.nativeElement;
-        if (container) {
-          // container.scrollTop = container.scrollHeight;
-          container.scrollTop += 200;
-        }
-      });
+        if (!container) return;
 
-      this.lastMessageCount = this.messages().length;
+        if (channelChanged || appended) {
+          container.scrollTop = container.scrollHeight;
+        } else if (prepended) {
+          const newScrollHeight = container.scrollHeight;
+          const scrollDiff = newScrollHeight - this.previousScrollHeight;
+          container.scrollTop += scrollDiff;
+        }
+
+        this.previousChannelId = this.channelId();
+        this.previousScrollHeight = container.scrollHeight;
+        this.lastMessageCount = currentCount;
+      });
     });
 
     effect(() => {
