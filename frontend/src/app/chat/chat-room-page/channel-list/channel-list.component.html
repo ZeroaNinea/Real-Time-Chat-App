@@ -5,6 +5,7 @@
 @if (isAdmin && chatId) {
 <button mat-button (click)="addNewChannel()">Add Channel</button>
 
+<div cdkDropList (cdkDropListDropped)="onDrop($event)"></div>
 @for (channel of channels; track channel.order) {
 <div class="channel-item">
   <span class="channel-link">

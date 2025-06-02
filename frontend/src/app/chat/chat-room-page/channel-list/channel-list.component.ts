@@ -1,12 +1,15 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Channel } from '../../shared/models/channel.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { CdkDropList, CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
+
+import { Channel } from '../../shared/models/channel.model';
 
 @Component({
   selector: 'app-channel-list',
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [RouterLink, MatButtonModule, MatIconModule, CdkDropList, CdkDrag],
   standalone: true,
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss',
@@ -36,5 +39,11 @@ export class ChannelListComponent {
 
   addNewChannel() {
     this.addChannel.emit();
+  }
+
+  onDrop(event: CdkDragDrop<Channel[]>) {
+    const channel = this.channels[event.currentIndex];
+    this.channels[event.currentIndex] = this.channels[event.previousIndex];
+    this.channels[event.previousIndex] = channel;
   }
 }
