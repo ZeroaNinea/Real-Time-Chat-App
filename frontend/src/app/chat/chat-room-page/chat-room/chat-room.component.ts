@@ -344,23 +344,40 @@ export class ChatRoomComponent implements OnDestroy {
 
         this.hasMoreMessages = messages.length >= 20;
         this.isLoadingMessages = false;
+
+        const replyIds = messages
+          .filter((m) => m.replyTo !== null)
+          .map((m) => m.replyTo);
+
+        this.replyMessagesIds.set(replyIds);
+
+        if (replyIds.length > 0) {
+          this.chatService
+            .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
+            .subscribe((replies) => {
+              this.replyMessages.set(replies);
+              console.log('Reply messages:', replies);
+            });
+        }
       });
 
-    this.replyMessagesIds.set(
-      this.messages()
-        .filter((m) => m.replyTo)
-        .map((m) => m._id)
-    );
+    // this.replyMessagesIds.set(
+    //   this.messages()
+    //     .filter((m) => m.replyTo !== null)
+    //     .map((m) => m._id)
+    // );
 
-    this.chatService
-      .getReplyMessages(this.chatId()!, this.channelId()!, [
-        ...this.replyMessagesIds(),
-      ])
-      .subscribe((messages) => {
-        this.replyMessages.set(messages);
-      });
+    // console.log('Reply messages ids:', this.replyMessagesIds());
 
-    console.log('Reply messages:', this.replyMessages());
+    // this.chatService
+    //   .getReplyMessages(this.chatId()!, this.channelId()!, [
+    //     ...this.replyMessagesIds(),
+    //   ])
+    //   .subscribe((messages) => {
+    //     this.replyMessages.set(messages);
+    //   });
+
+    // console.log('Reply messages:', this.replyMessages());
   }
 
   loadOlderMessages() {
