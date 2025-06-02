@@ -163,12 +163,33 @@ export class MessageListComponent {
   }
 
   scrollToMessage(messageId: string): void {
-    const element = document.getElementById(`message-${messageId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      element.classList.add('highlighted');
-      setTimeout(() => element.classList.remove('highlighted'), 2000);
+    // const element = document.getElementById(`message-${messageId}`);
+    // if (element) {
+    //   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    //   element.classList.add('highlighted');
+    //   setTimeout(() => element.classList.remove('highlighted'), 2000);
+    // }
+    let attempt = 0;
+    const maxAttempts = 10;
+
+    const el = document.getElementById(`message-${messageId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.classList.add('highlighted');
+      setTimeout(() => el.classList.remove('highlighted'), 2000);
+      return;
     }
+
+    if (attempt >= maxAttempts) {
+      console.warn(
+        `Message ${messageId} not found after ${maxAttempts} attempts`
+      );
+      return;
+    }
+
+    this.loadOlderMessages.emit();
+
+    setTimeout(() => this.scrollToMessage(messageId, attempt + 1), 300);
   }
 
   openUserDialog(member: PopulatedUser | undefined) {
