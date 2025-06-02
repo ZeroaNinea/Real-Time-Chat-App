@@ -22,16 +22,26 @@
   margin-bottom: 0.5rem;
 
   button[mat-raised-button] {
+    margin-bottom: 0.5rem;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+    width: 100%;
+  }
+
+  button[mat-raised-button].role-management {
     @include mat.theme(
       (
         color: mat.$blue-palette,
       )
     );
+  }
 
-    margin-bottom: 0.5rem;
-    margin-right: 0.25rem;
-    margin-left: 0.25rem;
-    width: 100%;
+  button[mat-icon-button].add-channel {
+    @include mat.theme(
+      (
+        color: mat.$green-palette,
+      )
+    );
   }
 }
 [cdkDropList] {

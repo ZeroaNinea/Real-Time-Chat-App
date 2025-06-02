@@ -7,7 +7,9 @@
     Roles
   </button>
   @if (isAdmin && chatId) {
-  <button mat-raised-button (click)="addNewChannel()">Add Channel</button>
+  <button mat-raised-button (click)="addNewChannel()" class="add-channel">
+    Add Channel
+  </button>
   }
 </div>
 
