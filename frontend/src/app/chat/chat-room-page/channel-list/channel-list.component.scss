@@ -39,7 +39,7 @@
   button[mat-raised-button].add-channel {
     @include mat.theme(
       (
-        color: mat.$cyan-palette,
+        color: mat.$rose-palette,
       )
     );
   }
@@ -71,6 +71,7 @@
   background: var(--mat-sys-primary-container);
   border-radius: 4px;
   padding: 0.4rem 0.6rem;
+  transition: background 0.1s ease;
 
   &:hover {
     background: var(--mat-sys-surface-dim);
