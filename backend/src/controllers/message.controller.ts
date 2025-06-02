@@ -85,3 +85,29 @@ export const getMessages = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to get messages', error: err });
   }
 };
+
+export const getReplyMessages = async (req: Request, res: Response) => {
+  try {
+    const { chatId, channelId, replyToIds } = req.params;
+    const userId = req.user._id;
+
+    if (!chatId || !channelId) {
+      return res.status(400).json({ error: 'Missing chatId or channelId' });
+    }
+
+    const chat = await Chat.findById(chatId);
+    if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
+      return res.status(403).json({ error: 'Not authorized' });
+    }
+
+    const messages = await Message.find({
+      chatId,
+      channelId,
+      _id: { $in: replyToIds.split(',') },
+    });
+
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get messages', error: err });
+  }
+};
