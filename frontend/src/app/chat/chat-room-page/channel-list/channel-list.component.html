@@ -7,8 +7,8 @@
 
 <div cdkDropList (cdkDropListDropped)="onDrop($event)">
   @for (channel of channels; track channel.order) {
-  <div cdkDrag>
-    <div class="channel-item">
+  <div cdkDrag matRipple [matRippleTrigger]="trigger">
+    <div #trigger class="channel-item">
       <span class="channel-link">
         <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
           {{ channel.name }}

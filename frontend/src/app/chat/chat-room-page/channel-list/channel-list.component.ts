@@ -4,12 +4,20 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkDropList, CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatRippleModule } from '@angular/material/core';
 
 import { Channel } from '../../shared/models/channel.model';
 
 @Component({
   selector: 'app-channel-list',
-  imports: [RouterLink, MatButtonModule, MatIconModule, CdkDropList, CdkDrag],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatIconModule,
+    CdkDropList,
+    CdkDrag,
+    MatRippleModule,
+  ],
   standalone: true,
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss',
