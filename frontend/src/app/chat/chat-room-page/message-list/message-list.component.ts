@@ -51,6 +51,7 @@ export class MessageListComponent {
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
   @Output() onReply = new EventEmitter<Message>();
+  @Output() loadOlderMessages = new EventEmitter<void>();
 
   private dialog = inject(MatDialog);
 
