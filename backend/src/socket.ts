@@ -9,7 +9,7 @@ import fs from 'fs';
 import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
-import { Channel } from './models/channel.model';
+import { Channel, ChannelDocument } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
@@ -927,6 +927,40 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
       }
     );
+
+    socket.on('changeChannelOrder', async (channelIds: string[], callback) => {
+      try {
+        const chat = await Chat.findById(socket.data.chatId);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+
+        const member = chat.members.find((m: Member) =>
+          m.user.equals(socket.data.user._id)
+        );
+        if (!member)
+          return callback?.({ error: 'You are not a member of this chat' });
+
+        const existingIds = chat.channels.map((c: any) => c._id.toString());
+        const uniqueIds = new Set(channelIds);
+        const isValid =
+          channelIds.length === existingIds.length &&
+          [...uniqueIds].every((id) => existingIds.includes(id));
+
+        if (!isValid) {
+          return callback?.({ error: 'Invalid channel order' });
+        }
+
+        chat.channels = channelIds.map((id) =>
+          chat.channels.find((c: any) => c._id.toString() === id)
+        );
+
+        await chat.save();
+        io.to(chat._id.toString()).emit('chatUpdated', chat);
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
