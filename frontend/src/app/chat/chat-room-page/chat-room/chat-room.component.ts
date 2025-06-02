@@ -400,6 +400,24 @@ export class ChatRoomComponent implements OnDestroy {
         const merged = [...olderMessages, ...currentMessages];
         const unique = new Set(merged.map((m) => m._id));
         console.log('Duplicates?', merged.length !== unique.size);
+
+        const replyIds = olderMessages
+          .filter((m) => m.replyTo !== null)
+          .map((m) => m.replyTo);
+
+        this.replyMessagesIds.set(replyIds);
+
+        if (replyIds.length > 0) {
+          this.chatService
+            .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
+            .subscribe((replies) => {
+              this.replyMessages.set(replies);
+              console.log('Reply messages:', replies);
+            });
+        }
+
+        console.log('Reply messages ids:', this.replyMessagesIds());
+        console.log('Messages:', this.replyMessages());
       });
   }
 
