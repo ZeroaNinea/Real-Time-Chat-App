@@ -359,6 +359,9 @@ export class ChatRoomComponent implements OnDestroy {
               console.log('Reply messages:', replies);
             });
         }
+
+        console.log('Reply messages ids:', this.replyMessagesIds());
+        console.log('Messages:', this.replyMessages());
       });
 
     // this.replyMessagesIds.set(
