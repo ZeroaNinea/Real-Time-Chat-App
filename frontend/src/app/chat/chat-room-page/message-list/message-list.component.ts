@@ -162,14 +162,13 @@ export class MessageListComponent {
     this.cancelEditing();
   }
 
-  scrollToMessage(messageId: string): void {
+  scrollToMessage(messageId: string, attempt = 0): void {
     // const element = document.getElementById(`message-${messageId}`);
     // if (element) {
     //   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     //   element.classList.add('highlighted');
     //   setTimeout(() => element.classList.remove('highlighted'), 2000);
     // }
-    let attempt = 0;
     const maxAttempts = 10;
 
     const el = document.getElementById(`message-${messageId}`);
