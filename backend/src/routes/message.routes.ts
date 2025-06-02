@@ -15,8 +15,8 @@ router.get(
   authMiddleware,
   asyncRoute(getMessages)
 );
-router.get(
-  'get-reply-messages/chat-room/:chatId/channel/:channelId',
+router.post(
+  '/get-reply-messages/chat-room/:chatId/channel/:channelId',
   authMiddleware,
   asyncRoute(getReplyMessages)
 );
