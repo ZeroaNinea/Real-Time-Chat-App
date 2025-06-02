@@ -337,11 +337,8 @@ export class ChatRoomComponent implements OnDestroy {
       .subscribe((messages) => {
         this.messages.set(messages);
         if (messages.length > 0) {
-          console.log(messages);
-          this.oldestMessageId = messages[messages.length - 1]._id;
-          console.log(this.oldestMessageId);
+          this.oldestMessageId = messages[0]._id;
         }
-        // console.log(this.oldestMessageId);
 
         this.hasMoreMessages = messages.length >= 20;
         this.isLoadingMessages = false;
@@ -362,7 +359,6 @@ export class ChatRoomComponent implements OnDestroy {
       .getMessages(this.chatId()!, this.channelId()!, 20, this.oldestMessageId)
       .subscribe((olderMessages) => {
         if (olderMessages.length > 0) {
-          // this.oldestMessageId = olderMessages[olderMessages.length - 1]._id;
           this.oldestMessageId = olderMessages[0]._id;
           this.hasMoreMessages = olderMessages.length === 20;
         } else {
@@ -370,18 +366,20 @@ export class ChatRoomComponent implements OnDestroy {
         }
 
         const currentMessages = this.messages();
-        const existingIds = new Set(currentMessages.map((m) => m._id));
-        const filteredOlderMessages = olderMessages.filter(
-          (m) => !existingIds.has(m._id)
-        );
+        // const existingIds = new Set(currentMessages.map((m) => m._id));
+        // const filteredOlderMessages = olderMessages.filter(
+        //   (m) => !existingIds.has(m._id)
+        // );
 
-        this.messages.set([...filteredOlderMessages, ...currentMessages]);
+        // this.messages.set([...filteredOlderMessages, ...currentMessages]);
 
-        console.log(this.messages());
-
-        // this.messages.set([...olderMessages, ...currentMessages]);
+        this.messages.set([...olderMessages, ...currentMessages]);
 
         this.isLoadingMessages = false;
+
+        // const merged = [...olderMessages, ...currentMessages];
+        // const unique = new Set(merged.map((m) => m._id));
+        // console.log('Duplicates?', merged.length !== unique.size);
       });
   }
 
