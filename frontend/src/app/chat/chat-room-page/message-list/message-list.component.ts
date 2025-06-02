@@ -96,18 +96,22 @@ export class MessageListComponent {
   }
 
   getQuotedText(messageId: string): string {
-    return this.messages.find((m) => m._id === messageId)?.text ?? '[deleted]';
+    return (
+      this.replyMessages.find((m) => m._id === messageId)?.text ?? '[deleted]'
+    );
   }
 
   getRecipientUsername(messageId: string): string {
     const sender =
-      this.messages.find((m) => m._id === messageId)?.sender ?? '[deleted]';
+      this.replyMessages.find((m) => m._id === messageId)?.sender ??
+      '[deleted]';
     return this.getUsername(sender);
   }
 
   getRecipientAvatarUrl(messageId: string): string {
     const sender =
-      this.messages.find((m) => m._id === messageId)?.sender ?? '[deleted]';
+      this.replyMessages.find((m) => m._id === messageId)?.sender ??
+      '[deleted]';
     return this.getAvatarUrl(sender);
   }
 
