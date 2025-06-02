@@ -1,10 +1,17 @@
-<span class="role-management">
-  <a [routerLink]="['/chat-room', chatId]">Roles</a>
-</span>
+<div class="header">
+  <button
+    mat-raised-button
+    [routerLink]="['/chat-room', chatId]"
+    class="role-management"
+  >
+    Roles
+  </button>
+  @if (isAdmin && chatId) {
+  <button mat-raised-button (click)="addNewChannel()">Add Channel</button>
+  }
+</div>
 
 @if (isAdmin && chatId) {
-<button mat-button (click)="addNewChannel()">Add Channel</button>
-
 <div cdkDropList (cdkDropListDropped)="onDrop($event)">
   @for (channel of channels; track channel.order) {
   <div cdkDrag matRipple [matRippleTrigger]="trigger">

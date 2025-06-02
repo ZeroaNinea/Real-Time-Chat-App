@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .channel-item {
   display: flex;
   align-items: center;
@@ -13,30 +15,25 @@
   text-overflow: ellipsis;
 }
 
-:host {
-  display: block;
-  padding: 0.5rem;
-  // background: #1e1e1e;
-  // color: white;
-}
-
-.role-management {
-  display: block;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
-  text-align: center;
 
-  a {
-    // color: #90caf9;
-    text-decoration: none;
-    font-weight: bold;
+  button[mat-raised-button] {
+    @include mat.theme(
+      (
+        color: mat.$blue-palette,
+      )
+    );
+
+    margin-bottom: 0.5rem;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+    width: 100%;
   }
 }
-
-button[mat-button] {
-  margin-bottom: 0.5rem;
-  width: 100%;
-}
-
 [cdkDropList] {
   display: flex;
   flex-direction: column;
@@ -52,10 +49,16 @@ button[mat-button] {
 }
 
 .channel-item {
+  @include mat.theme(
+    (
+      color: mat.$blue-palette,
+    )
+  );
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // background: #3c3c3c;
+  background: var(--mat-sys-primary-container);
   border-radius: 4px;
   padding: 0.4rem 0.6rem;
 
