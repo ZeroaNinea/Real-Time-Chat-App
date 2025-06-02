@@ -377,9 +377,9 @@ export class ChatRoomComponent implements OnDestroy {
 
         this.isLoadingMessages = false;
 
-        // const merged = [...olderMessages, ...currentMessages];
-        // const unique = new Set(merged.map((m) => m._id));
-        // console.log('Duplicates?', merged.length !== unique.size);
+        const merged = [...olderMessages, ...currentMessages];
+        const unique = new Set(merged.map((m) => m._id));
+        console.log('Duplicates?', merged.length !== unique.size);
       });
   }
 

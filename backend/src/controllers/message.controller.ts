@@ -67,21 +67,7 @@ export const getMessages = async (req: Request, res: Response) => {
       return res.status(403).json({ error: 'Not authorized' });
     }
 
-    // const query: any = { chatId, channelId };
-    let chatObjectId: mongoose.Types.ObjectId;
-    let channelObjectId: mongoose.Types.ObjectId;
-
-    try {
-      chatObjectId = new mongoose.Types.ObjectId(chatId);
-      channelObjectId = new mongoose.Types.ObjectId(channelId);
-    } catch (e) {
-      return res.status(400).json({ error: 'Invalid chatId or channelId' });
-    }
-
-    const query: any = {
-      chatId: chatObjectId,
-      channelId: channelObjectId,
-    };
+    const query: any = { chatId, channelId };
 
     if (before) {
       try {
@@ -95,11 +81,6 @@ export const getMessages = async (req: Request, res: Response) => {
       .sort({ _id: -1 })
       .limit(Number(limit))
       .lean();
-
-    console.log('=== Returned messages ===');
-    messages.forEach((msg: any) => {
-      console.log(msg._id.toString(), msg.text);
-    });
 
     res.json(messages.reverse());
   } catch (err) {
