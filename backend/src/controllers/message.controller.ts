@@ -88,11 +88,19 @@ export const getMessages = async (req: Request, res: Response) => {
 
 export const getReplyMessages = async (req: Request, res: Response) => {
   try {
-    const { chatId, channelId, replyToIds } = req.params;
+    const { chatId, channelId } = req.params;
+    const { replyToIds } = req.body;
     const userId = req.user._id;
 
     if (!chatId || !channelId) {
       return res.status(400).json({ error: 'Missing chatId or channelId' });
+    }
+
+    if (
+      !Array.isArray(replyToIds) ||
+      !replyToIds.every((id) => typeof id === 'string')
+    ) {
+      return res.status(400).json({ error: 'Invalid replyToIds' });
     }
 
     const chat = await Chat.findById(chatId);
@@ -103,8 +111,8 @@ export const getReplyMessages = async (req: Request, res: Response) => {
     const messages = await Message.find({
       chatId,
       channelId,
-      _id: { $in: replyToIds.split(',') },
-    });
+      _id: { $in: replyToIds },
+    }).select('_id text sender createdAt');
 
     res.json(messages);
   } catch (err) {
