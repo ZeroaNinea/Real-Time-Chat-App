@@ -363,24 +363,6 @@ export class ChatRoomComponent implements OnDestroy {
         console.log('Reply messages ids:', this.replyMessagesIds());
         console.log('Messages:', this.replyMessages());
       });
-
-    // this.replyMessagesIds.set(
-    //   this.messages()
-    //     .filter((m) => m.replyTo !== null)
-    //     .map((m) => m._id)
-    // );
-
-    // console.log('Reply messages ids:', this.replyMessagesIds());
-
-    // this.chatService
-    //   .getReplyMessages(this.chatId()!, this.channelId()!, [
-    //     ...this.replyMessagesIds(),
-    //   ])
-    //   .subscribe((messages) => {
-    //     this.replyMessages.set(messages);
-    //   });
-
-    // console.log('Reply messages:', this.replyMessages());
   }
 
   loadOlderMessages() {
