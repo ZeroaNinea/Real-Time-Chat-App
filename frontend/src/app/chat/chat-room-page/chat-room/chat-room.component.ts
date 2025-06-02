@@ -63,6 +63,8 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 export class ChatRoomComponent implements OnDestroy {
   message = signal('');
   messages = signal<Message[]>([]);
+  replyMessages = signal<Message[]>([]);
+  replyMessagesIds = signal<string[]>([]);
   private wsService = inject(WebsocketService);
   private sub?: Subscription;
   private router = inject(Router);
@@ -343,6 +345,22 @@ export class ChatRoomComponent implements OnDestroy {
         this.hasMoreMessages = messages.length >= 20;
         this.isLoadingMessages = false;
       });
+
+    this.replyMessagesIds.set(
+      this.messages()
+        .filter((m) => m.replyTo)
+        .map((m) => m._id)
+    );
+
+    this.chatService
+      .getReplyMessages(this.chatId()!, this.channelId()!, [
+        ...this.replyMessagesIds(),
+      ])
+      .subscribe((messages) => {
+        this.replyMessages.set(messages);
+      });
+
+    console.log('Reply messages:', this.replyMessages());
   }
 
   loadOlderMessages() {
