@@ -2,7 +2,10 @@ import express from 'express';
 
 import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../controllers/auth.controller';
-import { getMessages } from '../controllers/message.controller';
+import {
+  getMessages,
+  getReplyMessages,
+} from '../controllers/message.controller';
 
 const router = express.Router();
 
@@ -11,6 +14,11 @@ router.get(
   '/get-messages/chat-room/:chatId/channel/:channelId',
   authMiddleware,
   asyncRoute(getMessages)
+);
+router.get(
+  'get-reply-messages/chat-room/:chatId/channel/:channelId',
+  authMiddleware,
+  asyncRoute(getReplyMessages)
 );
 
 export default router;
