@@ -3,7 +3,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CdkDropList, CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
+import {
+  CdkDropList,
+  CdkDrag,
+  CdkDragDrop,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { MatRippleModule } from '@angular/material/core';
 
 import { Channel } from '../../shared/models/channel.model';
@@ -49,11 +54,19 @@ export class ChannelListComponent {
     this.addChannel.emit();
   }
 
-  onDrop(event: CdkDragDrop<Channel[]>) {
-    const channel = this.channels[event.currentIndex];
-    this.channels[event.currentIndex] = this.channels[event.previousIndex];
-    this.channels[event.previousIndex] = channel;
+  // onDrop(event: CdkDragDrop<Channel[]>) {
+  //   const channel = this.channels[event.currentIndex];
+  //   this.channels[event.currentIndex] = this.channels[event.previousIndex];
+  //   this.channels[event.previousIndex] = channel;
 
-    console.log('Dropped channel:', channel);
+  //   console.log('Dropped channel:', channel);
+  // }
+
+  onDrop(event: CdkDragDrop<Channel[]>) {
+    moveItemInArray(this.channels, event.previousIndex, event.currentIndex);
+    console.log(
+      'New channel order:',
+      this.channels.map((c) => c.name)
+    );
   }
 }
