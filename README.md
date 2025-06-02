@@ -186,7 +186,7 @@ backend/
 <br />
 ✅ Step 16: Delete messages with the chat room
 <br />
-➡️ Step 17: Add message pagination
+✅ Step 17: Add message pagination
 <br />
 ✅ Step 18: Add a Discord like input field for messages
 <br />
