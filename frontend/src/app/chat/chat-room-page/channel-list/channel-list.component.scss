@@ -12,3 +12,64 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+:host {
+  display: block;
+  padding: 0.5rem;
+  // background: #1e1e1e;
+  // color: white;
+}
+
+.role-management {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: center;
+
+  a {
+    // color: #90caf9;
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
+
+button[mat-button] {
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+[cdkDropList] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  // border: 1px solid #333;
+  // padding: 0.5rem;
+  // background: #2c2c2c;
+  border-radius: 8px;
+}
+
+[cdkDrag] {
+  cursor: grab;
+}
+
+.channel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // background: #3c3c3c;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+
+  &:hover {
+    background: var(--mat-sys-surface-dim);
+  }
+
+  .channel-link a {
+    color: var(--mat-sys-inverse-surface);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  // button[mat-icon-button] {
+  // color: var(--mat-sys-inverse-surface);
+  // }
+}
