@@ -356,7 +356,6 @@ export class ChatRoomComponent implements OnDestroy {
             .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
             .subscribe((replies) => {
               const olderReplies = this.replyMessages();
-              // replies = [...olderReplies, ...replies];
               this.replyMessages.set([...olderReplies, ...replies]);
               console.log('Reply messages:', replies);
             });
@@ -415,7 +414,6 @@ export class ChatRoomComponent implements OnDestroy {
             .subscribe((replies) => {
               const olderReplies = this.replyMessages();
               this.replyMessages.set([...replies, ...olderReplies]);
-              // this.replyMessages.set(replies);
               console.log('Reply messages:', replies);
             });
         }
