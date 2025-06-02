@@ -36,10 +36,10 @@
     );
   }
 
-  button[mat-icon-button].add-channel {
+  button[mat-raised-button].add-channel {
     @include mat.theme(
       (
-        color: mat.$green-palette,
+        color: mat.$cyan-palette,
       )
     );
   }
