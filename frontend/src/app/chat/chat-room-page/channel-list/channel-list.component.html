@@ -5,33 +5,37 @@
 @if (isAdmin && chatId) {
 <button mat-button (click)="addNewChannel()">Add Channel</button>
 
-<div cdkDropList (cdkDropListDropped)="onDrop($event)"></div>
-@for (channel of channels; track channel.order) {
-<div class="channel-item">
-  <span class="channel-link">
-    <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
-      {{ channel.name }}
-    </a>
-  </span>
+<div cdkDropList (cdkDropListDropped)="onDrop($event)">
+  @for (channel of channels; track channel.order) {
+  <div cdkDrag>
+    <div class="channel-item">
+      <span class="channel-link">
+        <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
+          {{ channel.name }}
+        </a>
+      </span>
 
-  <button
-    mat-icon-button
-    matTooltip="Rename"
-    (click)="onRenameClick(channel)"
-    aria-label="Rename channel"
-  >
-    <mat-icon>edit</mat-icon>
-  </button>
+      <button
+        mat-icon-button
+        matTooltip="Rename"
+        (click)="onRenameClick(channel)"
+        aria-label="Rename channel"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
 
-  <button
-    mat-icon-button
-    matTooltip="Delete"
-    (click)="onRemove(channel._id)"
-    aria-label="Delete channel"
-  >
-    <mat-icon>delete</mat-icon>
-  </button>
+      <button
+        mat-icon-button
+        matTooltip="Delete"
+        (click)="onRemove(channel._id)"
+        aria-label="Delete channel"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  }
 </div>
-} } @else {
+} @else {
 <p>Another interface.</p>
 }

@@ -45,5 +45,7 @@ export class ChannelListComponent {
     const channel = this.channels[event.currentIndex];
     this.channels[event.currentIndex] = this.channels[event.previousIndex];
     this.channels[event.previousIndex] = channel;
+
+    console.log('Dropped channel:', channel);
   }
 }
