@@ -87,4 +87,15 @@ export class ChatService {
       { params }
     );
   }
+
+  getReplyMessages(
+    chatId: string,
+    channelId: string,
+    replyToIds: string[]
+  ): Observable<Message[]> {
+    return this.http.post<Message[]>(
+      `${environment.backendUrl}/message/get-reply-messages/chat-room/${chatId}/channel/${channelId}`,
+      { replyToIds }
+    );
+  }
 }
