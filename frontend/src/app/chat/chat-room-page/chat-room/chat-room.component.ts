@@ -168,7 +168,6 @@ export class ChatRoomComponent implements OnDestroy {
       const channelId = this.channelId();
       if (channelId) {
         this.messages.set([]);
-        // this.oldestMessageTimestamp = null;
         this.oldestMessageId = null;
         this.hasMoreMessages = true;
         this.loadInitialMessages();
