@@ -57,6 +57,10 @@ export class ChannelListComponent {
 
   onDrop(event: CdkDragDrop<Channel[]>) {
     moveItemInArray(this.channels, event.previousIndex, event.currentIndex);
+
+    const newOrder = this.channels.map((c) => c._id);
+    this.updateChannelOrder.emit(newOrder);
+
     console.log(
       'New channel order:',
       this.channels.map((c) => c.name)
