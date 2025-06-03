@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
   signal,
 } from '@angular/core';
@@ -34,7 +35,7 @@ import { Channel } from '../../shared/models/channel.model';
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss',
 })
-export class ChannelListComponent {
+export class ChannelListComponent implements OnChanges {
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() channels: Channel[] = [];
@@ -46,12 +47,8 @@ export class ChannelListComponent {
   @Output() addChannel = new EventEmitter<string>();
   @Output() updateChannelOrder = new EventEmitter<string[]>();
 
-  constructor() {
-    afterNextRender(() => {
-      console.log('Channels:', this.channels);
-      console.log(typeof this.channels);
-      this.channels = this.channels.sort((a, b) => a.order - b.order);
-    });
+  ngOnChanges() {
+    this.channels = this.channels.sort((a, b) => a.order - b.order);
   }
 
   onRemove(id: string) {
