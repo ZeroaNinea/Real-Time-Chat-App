@@ -37,6 +37,7 @@ export class ChannelListComponent {
   @Output() renameChannel = new EventEmitter<{ id: string; name: string }>();
 
   @Output() addChannel = new EventEmitter<string>();
+  @Output() updateChannelOrder = new EventEmitter<string[]>();
 
   onRemove(id: string) {
     this.removeChannel.emit(id);
