@@ -954,15 +954,15 @@ export function setupSocket(server: HttpServer, app: Express) {
             channelIds.length === existingChannels.length &&
             [...uniqueIds].every((id) => existingIds.includes(id));
 
-          console.log('isValid', isValid);
-          console.log(channelIds.length, existingChannels.length);
-          console.log(
-            'uniqueIds vs existingIds',
-            [...uniqueIds].every((id) => existingIds.includes(id))
-          );
+          // console.log('isValid', isValid);
+          // console.log(channelIds.length, existingChannels.length);
+          // console.log(
+          //   'uniqueIds vs existingIds',
+          //   [...uniqueIds].every((id) => existingIds.includes(id))
+          // );
 
-          console.log('channelIds', channelIds);
-          console.log('existingIds', existingIds);
+          // console.log('channelIds', channelIds);
+          // console.log('existingIds', existingIds);
 
           if (!isValid) {
             return callback?.({ error: 'Invalid channel order' });
@@ -976,6 +976,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           }));
 
           await Channel.bulkWrite(bulkOps);
+
+          console.log(JSON.stringify(bulkOps));
 
           const updatedChannels = await Channel.find({ chatId }).sort('order');
           io.to(chatId).emit('channelsUpdated', updatedChannels);
