@@ -980,6 +980,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           console.log(JSON.stringify(bulkOps));
 
           const updatedChannels = await Channel.find({ chatId }).sort('order');
+
+          console.log('updatedChannels', updatedChannels);
           io.to(chatId).emit('channelsUpdated', updatedChannels);
 
           callback?.({ success: true });

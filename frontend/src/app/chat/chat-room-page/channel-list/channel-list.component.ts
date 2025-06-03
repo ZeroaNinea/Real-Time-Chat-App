@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +45,14 @@ export class ChannelListComponent {
 
   @Output() addChannel = new EventEmitter<string>();
   @Output() updateChannelOrder = new EventEmitter<string[]>();
+
+  constructor() {
+    afterNextRender(() => {
+      console.log('Channels:', this.channels);
+      console.log(typeof this.channels);
+      this.channels = this.channels.sort((a, b) => a.order - b.order);
+    });
+  }
 
   onRemove(id: string) {
     this.removeChannel.emit(id);

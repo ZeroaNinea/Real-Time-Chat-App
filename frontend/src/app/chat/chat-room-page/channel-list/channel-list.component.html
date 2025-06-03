@@ -15,7 +15,7 @@
 
 @if (isAdmin && chatId) {
 <div cdkDropList (cdkDropListDropped)="onDrop($event)">
-  @for (channel of channels; track channel.order) {
+  @for (channel of channels; track $index) {
   <div cdkDrag matRipple [matRippleTrigger]="trigger">
     <div #trigger class="channel-item">
       <span class="channel-link">

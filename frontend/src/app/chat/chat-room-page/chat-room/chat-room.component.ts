@@ -212,6 +212,8 @@ export class ChatRoomComponent implements OnDestroy {
       this.members.set(chat.members);
       this.chatRoomRoles.set(chat.chatRoles);
 
+      console.log('channels', chat.channels, this.channels());
+
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
 
@@ -251,11 +253,11 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.wsService.joinChatRoom(this.chatId()!);
 
-    this.wsService.listenChannelUpdates().subscribe((updatedChannel) => {
-      this.channels.update((chs) =>
-        chs.map((c) => (c._id === updatedChannel._id ? updatedChannel : c))
-      );
-    });
+    // this.wsService.listenChannelUpdates().subscribe((updatedChannel) => {
+    //   this.channels.update((chs) =>
+    //     chs.map((c) => (c._id === updatedChannel._id ? updatedChannel : c))
+    //   );
+    // });
 
     this.wsService.listenChannelAdditions().subscribe((channel) => {
       this.channels.update((chs) => [...chs, channel]);
@@ -371,12 +373,12 @@ export class ChatRoomComponent implements OnDestroy {
             .subscribe((replies) => {
               const olderReplies = this.replyMessages();
               this.replyMessages.set([...olderReplies, ...replies]);
-              console.log('Reply messages:', replies);
+              // console.log('Reply messages:', replies);
             });
         }
 
-        console.log('Reply messages ids:', this.replyMessagesIds());
-        console.log('Messages:', this.replyMessages());
+        // console.log('Reply messages ids:', this.replyMessagesIds());
+        // console.log('Messages:', this.replyMessages());
       });
   }
 
