@@ -689,9 +689,21 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   updateChannelOrder(channelIds: string[]) {
-    this.wsService.emit('updateChannelOrder', {
-      channelIds,
-      chatId: this.chatId()!,
-    });
+    this.wsService.emit(
+      'changeChannelOrder',
+      {
+        channelIds,
+        chatId: this.chatId()!,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to change channel order',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
   }
 }

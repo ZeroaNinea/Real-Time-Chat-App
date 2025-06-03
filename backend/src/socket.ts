@@ -967,7 +967,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on(
       'changeChannelOrder',
-      async (channelIds: string[], chatId: string, callback) => {
+      async ({ channelIds, chatId }, callback) => {
         try {
           const chat = await Chat.findById(chatId);
           if (!chat) return callback?.({ error: 'Chat not found' });
@@ -993,8 +993,7 @@ export function setupSocket(server: HttpServer, app: Express) {
             return callback?.({ error: 'Invalid channel order' });
           }
 
-          // Update order fields
-          const bulkOps = channelIds.map((id, index) => ({
+          const bulkOps = channelIds.map((id: string, index: number) => ({
             updateOne: {
               filter: { _id: id },
               update: { $set: { order: index } },
