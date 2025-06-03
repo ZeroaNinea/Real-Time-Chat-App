@@ -176,7 +176,7 @@ backend/
 <br />
 ✅ Step 11: Delete channel
 <br />
-➡️ Step: 12: Implement channel order changing
+✅ Step: 12: Implement channel order changing
 <br />
 ✅ Step 13: Connect Socket.io to frontend, allow sending messages
 <br />
