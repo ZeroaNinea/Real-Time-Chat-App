@@ -114,7 +114,7 @@ export class WebsocketService implements OnDestroy {
 
   listenChannelUpdates(): Observable<Channel> {
     return new Observable((observer) => {
-      this.socket.on('channelEdited', (data: { channel: Channel }) => {
+      this.socket.on('channelsUpdated', (data: { channel: Channel }) => {
         observer.next(data.channel);
       });
     });

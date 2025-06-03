@@ -116,15 +116,15 @@ export function setupSocket(server: HttpServer, app: Express) {
       socket.join(channelRoom);
     });
 
-    socket.on('editChannel', ({ chatId, channel }) => {
-      updateChannel(chatId, channel)
-        .then(() => {
-          io.to(chatId).emit('channelEdited', { channel });
-        })
-        .catch((err: unknown) => {
-          console.error('Channel update failed:', err);
-        });
-    });
+    // socket.on('editChannel', ({ chatId, channel }) => {
+    //   updateChannel(chatId, channel)
+    //     .then(() => {
+    //       io.to(chatId).emit('channelEdited', { channel });
+    //     })
+    //     .catch((err: unknown) => {
+    //       console.error('Channel update failed:', err);
+    //     });
+    // });
 
     socket.on('addChannel', async ({ chatId, channelName }) => {
       try {
