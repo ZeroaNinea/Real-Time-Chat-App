@@ -928,9 +928,46 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     );
 
+    // socket.on(
+    //   'changeChannelOrder',
+    //   async (channelIds: string[], chatId, callback) => {
+    //     try {
+    //       const chat = await Chat.findById(chatId);
+    //       if (!chat) return callback?.({ error: 'Chat not found' });
+
+    //       const member = chat.members.find((m: Member) =>
+    //         m.user.equals(socket.data.user._id)
+    //       );
+    //       if (!member)
+    //         return callback?.({ error: 'You are not a member of this chat' });
+
+    //       const existingIds = chat.channels.map((c: any) => c._id.toString());
+    //       const uniqueIds = new Set(channelIds);
+    //       const isValid =
+    //         channelIds.length === existingIds.length &&
+    //         [...uniqueIds].every((id) => existingIds.includes(id));
+
+    //       if (!isValid) {
+    //         return callback?.({ error: 'Invalid channel order' });
+    //       }
+
+    //       chat.channels = channelIds.map((id) =>
+    //         chat.channels.find((c: any) => c._id.toString() === id)
+    //       );
+
+    //       await chat.save();
+    //       io.to(chat._id.toString()).emit('chatUpdated', chat);
+    //       callback?.({ success: true });
+    //     } catch (err) {
+    //       console.error(err);
+    //       callback?.({ error: 'Server error' });
+    //     }
+    //   }
+    // );
+
     socket.on(
       'changeChannelOrder',
-      async (channelIds: string[], chatId, callback) => {
+      async (channelIds: string[], chatId: string, callback) => {
         try {
           const chat = await Chat.findById(chatId);
           if (!chat) return callback?.({ error: 'Chat not found' });
@@ -941,22 +978,34 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!member)
             return callback?.({ error: 'You are not a member of this chat' });
 
-          const existingIds = chat.channels.map((c: any) => c._id.toString());
+          const existingChannels = await Channel.find({ chatId });
+
+          const existingIds = existingChannels.map(
+            (c: ChannelDocument) => c._id
+          );
           const uniqueIds = new Set(channelIds);
+
           const isValid =
-            channelIds.length === existingIds.length &&
+            channelIds.length === existingChannels.length &&
             [...uniqueIds].every((id) => existingIds.includes(id));
 
           if (!isValid) {
             return callback?.({ error: 'Invalid channel order' });
           }
 
-          chat.channels = channelIds.map((id) =>
-            chat.channels.find((c: any) => c._id.toString() === id)
-          );
+          // Update order fields
+          const bulkOps = channelIds.map((id, index) => ({
+            updateOne: {
+              filter: { _id: id },
+              update: { $set: { order: index } },
+            },
+          }));
 
-          await chat.save();
-          io.to(chat._id.toString()).emit('chatUpdated', chat);
+          await Channel.bulkWrite(bulkOps);
+
+          const updatedChannels = await Channel.find({ chatId }).sort('order');
+          io.to(chatId).emit('channelsUpdated', updatedChannels);
+
           callback?.({ success: true });
         } catch (err) {
           console.error(err);
