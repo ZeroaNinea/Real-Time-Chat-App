@@ -931,8 +931,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on(
       'changeChannelOrder',
       async ({ channelIds, chatId }, callback) => {
-        console.log('channelIds', channelIds);
-        console.log('chatId', chatId);
         try {
           const chat = await Chat.findById(chatId);
           if (!chat) return callback?.({ error: 'Chat not found' });
@@ -942,6 +940,19 @@ export function setupSocket(server: HttpServer, app: Express) {
           );
           if (!member)
             return callback?.({ error: 'You are not a member of this chat' });
+
+          const isAdminOrOwner =
+            member.roles.includes('Admin') || member.roles.includes('Owner');
+
+          const hasChannelEditPermissions =
+            member.permissions.includes('canEditChannels') &&
+            member.permissions.includes('canDeleteChannels');
+
+          if (!isAdminOrOwner && !hasChannelEditPermissions) {
+            return callback?.({
+              error: 'You are not authorized to change the channel order',
+            });
+          }
 
           const existingChannels = await Channel.find({ chatId });
 
