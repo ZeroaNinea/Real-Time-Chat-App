@@ -928,46 +928,11 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     );
 
-    // socket.on(
-    //   'changeChannelOrder',
-    //   async (channelIds: string[], chatId, callback) => {
-    //     try {
-    //       const chat = await Chat.findById(chatId);
-    //       if (!chat) return callback?.({ error: 'Chat not found' });
-
-    //       const member = chat.members.find((m: Member) =>
-    //         m.user.equals(socket.data.user._id)
-    //       );
-    //       if (!member)
-    //         return callback?.({ error: 'You are not a member of this chat' });
-
-    //       const existingIds = chat.channels.map((c: any) => c._id.toString());
-    //       const uniqueIds = new Set(channelIds);
-    //       const isValid =
-    //         channelIds.length === existingIds.length &&
-    //         [...uniqueIds].every((id) => existingIds.includes(id));
-
-    //       if (!isValid) {
-    //         return callback?.({ error: 'Invalid channel order' });
-    //       }
-
-    //       chat.channels = channelIds.map((id) =>
-    //         chat.channels.find((c: any) => c._id.toString() === id)
-    //       );
-
-    //       await chat.save();
-    //       io.to(chat._id.toString()).emit('chatUpdated', chat);
-    //       callback?.({ success: true });
-    //     } catch (err) {
-    //       console.error(err);
-    //       callback?.({ error: 'Server error' });
-    //     }
-    //   }
-    // );
-
     socket.on(
       'changeChannelOrder',
       async ({ channelIds, chatId }, callback) => {
+        console.log('channelIds', channelIds);
+        console.log('chatId', chatId);
         try {
           const chat = await Chat.findById(chatId);
           if (!chat) return callback?.({ error: 'Chat not found' });
@@ -988,6 +953,16 @@ export function setupSocket(server: HttpServer, app: Express) {
           const isValid =
             channelIds.length === existingChannels.length &&
             [...uniqueIds].every((id) => existingIds.includes(id));
+
+          console.log('isValid', isValid);
+          console.log(channelIds.length, existingChannels.length);
+          console.log(
+            'uniqueIds vs existingIds',
+            [...uniqueIds].every((id) => existingIds.includes(id))
+          );
+
+          console.log('channelIds', channelIds);
+          console.log('existingIds', existingIds);
 
           if (!isValid) {
             return callback?.({ error: 'Invalid channel order' });
