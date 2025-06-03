@@ -954,16 +954,6 @@ export function setupSocket(server: HttpServer, app: Express) {
             channelIds.length === existingChannels.length &&
             [...uniqueIds].every((id) => existingIds.includes(id));
 
-          // console.log('isValid', isValid);
-          // console.log(channelIds.length, existingChannels.length);
-          // console.log(
-          //   'uniqueIds vs existingIds',
-          //   [...uniqueIds].every((id) => existingIds.includes(id))
-          // );
-
-          // console.log('channelIds', channelIds);
-          // console.log('existingIds', existingIds);
-
           if (!isValid) {
             return callback?.({ error: 'Invalid channel order' });
           }
