@@ -687,4 +687,11 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.message.set('');
   }
+
+  updateChannelOrder(channelIds: string[]) {
+    this.wsService.emit('updateChannelOrder', {
+      channelIds,
+      chatId: this.chatId()!,
+    });
+  }
 }
