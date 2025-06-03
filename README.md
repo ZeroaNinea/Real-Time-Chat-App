@@ -220,7 +220,7 @@ backend/
 
 ✅ Step 28: Design the members list
 <br />
-➡️ Step 29: Design the channel list
+✅ Step 29: Design the channel list
 <br />
 ✅ Step 30: Add a send button icon
 <br />
