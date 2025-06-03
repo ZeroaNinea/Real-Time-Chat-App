@@ -945,8 +945,8 @@ export function setupSocket(server: HttpServer, app: Express) {
 
           const existingChannels = await Channel.find({ chatId });
 
-          const existingIds = existingChannels.map(
-            (c: ChannelDocument) => c._id
+          const existingIds = existingChannels.map((c: ChannelDocument) =>
+            c._id?.toString()
           );
           const uniqueIds = new Set(channelIds);
 
