@@ -55,14 +55,6 @@ export class ChannelListComponent {
     this.addChannel.emit();
   }
 
-  // onDrop(event: CdkDragDrop<Channel[]>) {
-  //   const channel = this.channels[event.currentIndex];
-  //   this.channels[event.currentIndex] = this.channels[event.previousIndex];
-  //   this.channels[event.previousIndex] = channel;
-
-  //   console.log('Dropped channel:', channel);
-  // }
-
   onDrop(event: CdkDragDrop<Channel[]>) {
     moveItemInArray(this.channels, event.previousIndex, event.currentIndex);
     console.log(
