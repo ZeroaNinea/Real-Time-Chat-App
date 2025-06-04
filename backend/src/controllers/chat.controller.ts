@@ -338,6 +338,12 @@ export const getChatRooms = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
 
+    if (!req.user || !req.user._id) {
+      console.warn('Missing user ID in request object');
+    }
+
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+
     const allRooms = await Chat.find()
       .skip((page - 1) * limit)
       .limit(limit);
@@ -346,14 +352,15 @@ export const getChatRooms = async (req: Request, res: Response) => {
       members: { $elemMatch: { user: req.user._id } },
     });
 
+    const userId = req.user._id.toString();
     userRooms = userRooms.filter((room: ChatDocument) => {
-      const user = room.members.find(
-        (m) => m.user.toString() === req.user._id.toString()
-      );
+      const user = room.members.find((m) => m.user.toString() === userId);
       return !user?.roles.includes('Banned');
     });
 
     const total = await Chat.countDocuments();
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const safePage = Math.min(page, totalPages);
 
     res.json({
       allRooms,
@@ -362,7 +369,7 @@ export const getChatRooms = async (req: Request, res: Response) => {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit),
+        totalPages: Math.ceil(safePage / limit),
       },
     });
   } catch (err) {
