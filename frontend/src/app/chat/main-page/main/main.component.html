@@ -1,7 +1,7 @@
 <h1>Welcome to the Chat App</h1>
 
 <section>
-  <h2>Search Chatrooms</h2>
+  <!-- <h2>Search Chatrooms</h2>
   <input [(ngModel)]="searchTerm" placeholder="Search chatrooms" />
   <ul>
     @for (room of filteredRooms(); track $index) {
@@ -9,7 +9,8 @@
       {{ room }}
     </li>
     }
-  </ul>
+  </ul> -->
+  <app-chat-room-list></app-chat-room-list>
 </section>
 
 <section>

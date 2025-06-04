@@ -3,17 +3,17 @@ import {
   Component,
   computed,
   inject,
-  OnChanges,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
+import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, ChatRoomListComponent],
   standalone: true,
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
