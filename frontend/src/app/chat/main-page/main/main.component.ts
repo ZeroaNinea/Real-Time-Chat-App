@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ChatService } from '../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-main',
@@ -14,6 +15,7 @@ export class MainComponent {
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
   private router = inject(Router);
+  private chatService = inject(ChatService);
 
   friends = [
     { name: 'Alice', status: 'online' },
