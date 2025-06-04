@@ -334,7 +334,7 @@ export const updateChannel = async (req: Request, res: Response) => {
 
 export const getChatRooms = async (req: Request, res: Response) => {
   try {
-    const rooms = await Chat.find().populate('members.user');
+    const rooms = await Chat.find();
 
     res.json(rooms);
   } catch (err) {
