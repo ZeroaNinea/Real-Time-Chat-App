@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Chat } from '../models/chat.model';
+import { Chat, ChatDocument } from '../models/chat.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.alias';
 import { addChannelService } from '../services/chat.service';
@@ -334,9 +334,36 @@ export const updateChannel = async (req: Request, res: Response) => {
 
 export const getChatRooms = async (req: Request, res: Response) => {
   try {
-    const rooms = await Chat.find();
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
 
-    res.json(rooms);
+    const allRooms = await Chat.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    let userRooms = await Chat.find({
+      members: { $elemMatch: { user: req.user._id } },
+    });
+
+    userRooms = userRooms.filter((room: ChatDocument) => {
+      const user = room.members.find(
+        (m) => m.user.toString() === req.user._id.toString()
+      );
+      return !user?.roles.includes('Banned');
+    });
+
+    const total = await Chat.countDocuments();
+
+    res.json({
+      allRooms,
+      userRooms,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to get chat rooms', error: err });
   }
