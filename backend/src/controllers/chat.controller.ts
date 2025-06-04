@@ -331,3 +331,13 @@ export const updateChannel = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to update channel', error: err });
   }
 };
+
+export const getChatRooms = async (req: Request, res: Response) => {
+  try {
+    const rooms = await Chat.find().populate('members.user');
+
+    res.json(rooms);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get chat rooms', error: err });
+  }
+};
