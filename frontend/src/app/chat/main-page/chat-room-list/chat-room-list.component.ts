@@ -1,4 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
 
@@ -12,6 +14,8 @@ import { Chat } from '../../shared/models/chat.model';
 export class ChatRoomListComponent implements OnChanges {
   @Input() chatRooms!: ChatRooms;
 
+  private router = inject(Router);
+
   allRooms: Chat[] = [];
   userRooms: Chat[] = [];
 
@@ -23,5 +27,9 @@ export class ChatRoomListComponent implements OnChanges {
 
     console.log(this.allRooms);
     console.log(this.userRooms);
+  }
+
+  createRoom() {
+    this.router.navigate(['/chat-room']);
   }
 }
