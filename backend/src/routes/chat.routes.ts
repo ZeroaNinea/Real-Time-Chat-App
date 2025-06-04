@@ -17,6 +17,7 @@ import {
 
 const router = express.Router();
 
+router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
 router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
@@ -33,7 +34,5 @@ router.post(
 );
 
 router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
-
-router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
 
 export default router;

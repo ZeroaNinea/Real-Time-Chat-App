@@ -3,12 +3,12 @@ import {
   Component,
   computed,
   inject,
+  OnChanges,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
-import { after } from 'node:test';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 
 @Component({
@@ -18,7 +18,7 @@ import { ChatRooms } from '../../shared/models/chat-rooms.interface';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
-export class MainComponent {
+export class MainComponent implements OnChanges {
   searchTerm = signal('');
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
@@ -31,8 +31,13 @@ export class MainComponent {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
+        console.log(rooms);
       });
     });
+  }
+
+  ngOnChanges() {
+    console.log(this.chatRooms);
   }
 
   friends = [
