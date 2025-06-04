@@ -244,6 +244,10 @@ backend/
 <br />
 ✅ Step 40: Implement role creating
 <br />
+➡️ Step 41: Display chat room list
+<br />
+➡️ Step 42: Implement joining
+<br />
 
 #### **The chat room's URL:** http://localhost:4200/chat-room/6829e659be0550e0e63405ca/channel/6829e65fbe0550e0e63405f2
 
