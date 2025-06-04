@@ -31,8 +31,6 @@ export class MainComponent {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
-        console.log(rooms);
-        console.log(this.chatRooms);
       });
     });
   }
