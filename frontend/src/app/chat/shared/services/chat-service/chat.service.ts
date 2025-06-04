@@ -100,7 +100,10 @@ export class ChatService {
     );
   }
 
-  getChatRooms(page: number | string, limit: number | string) {
+  getChatRooms(
+    page: number | string,
+    limit: number | string
+  ): Observable<ChatRooms> {
     return this.http.get<ChatRooms>(
       `${environment.backendUrl}/chat/get-chat-rooms`,
       {
