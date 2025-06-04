@@ -18,7 +18,7 @@ import { ChatRooms } from '../../shared/models/chat-rooms.interface';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
-export class MainComponent implements OnChanges {
+export class MainComponent {
   searchTerm = signal('');
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
@@ -32,12 +32,9 @@ export class MainComponent implements OnChanges {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
         console.log(rooms);
+        console.log(this.chatRooms);
       });
     });
-  }
-
-  ngOnChanges() {
-    console.log(this.chatRooms);
   }
 
   friends = [
