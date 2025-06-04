@@ -34,6 +34,6 @@ router.post(
 
 router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
 
-router.get('/get-chat-rooms/:chatId', authMiddleware, asyncRoute(getChatRooms));
+router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
 
 export default router;

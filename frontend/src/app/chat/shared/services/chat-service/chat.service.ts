@@ -98,4 +98,22 @@ export class ChatService {
       { replyToIds }
     );
   }
+
+  getChatRooms(page: number, limit: number) {
+    return this.http.get<{
+      allRooms: Chat[];
+      userRooms: Chat[];
+      pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+      };
+    }>(`${environment.backendUrl}/chat/get-chat-rooms`, {
+      params: {
+        page: page.toString(),
+        limit: limit.toString(),
+      },
+    });
+  }
 }
