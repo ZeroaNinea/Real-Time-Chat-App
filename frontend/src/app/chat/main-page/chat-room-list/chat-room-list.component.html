@@ -1,5 +1,9 @@
+<h1>User Chat Rooms</h1>
 @for (userRoom of chatRooms.userRooms; track $index) {
 <div>{{ userRoom.name }}</div>
-} @for (room of chatRooms.allRooms; track $index) {
+}
+
+<h1>All Chat Rooms</h1>
+@for (room of chatRooms.allRooms; track $index) {
 <div>{{ room.name }}</div>
 }
