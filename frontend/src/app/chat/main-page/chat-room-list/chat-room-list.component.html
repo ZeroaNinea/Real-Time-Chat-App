@@ -1,1 +1,5 @@
-<p>chat-room-list works!</p>
+@for (userRoom of chatRooms.userRooms; track $index) {
+<div>{{ userRoom.name }}</div>
+} @for (room of chatRooms.allRooms; track $index) {
+<div>{{ room.name }}</div>
+}
