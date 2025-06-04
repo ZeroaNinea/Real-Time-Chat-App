@@ -10,6 +10,7 @@ import { Member } from '../../models/member.alias';
 import { Message } from '../../models/message.model';
 import { PopulatedUser } from '../../models/populated-user.model';
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
+import { ChatRooms } from '../../models/chat-rooms.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -100,20 +101,14 @@ export class ChatService {
   }
 
   getChatRooms(page: number | string, limit: number | string) {
-    return this.http.get<{
-      allRooms: Chat[];
-      userRooms: Chat[];
-      pagination: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPages: number;
-      };
-    }>(`${environment.backendUrl}/chat/get-chat-rooms`, {
-      params: {
-        page: page.toString(),
-        limit: limit.toString(),
-      },
-    });
+    return this.http.get<ChatRooms>(
+      `${environment.backendUrl}/chat/get-chat-rooms`,
+      {
+        params: {
+          page: page.toString(),
+          limit: limit.toString(),
+        },
+      }
+    );
   }
 }
