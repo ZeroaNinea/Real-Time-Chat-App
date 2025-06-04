@@ -8,6 +8,7 @@ import {
   deleteChat,
   getChat,
   getChatMembers,
+  getChatRooms,
   mine,
   privateMessages,
   updateChannel,
@@ -32,5 +33,7 @@ router.post(
 );
 
 router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
+
+router.get('/get-chat-rooms/:chatId', authMiddleware, asyncRoute(getChatRooms));
 
 export default router;
