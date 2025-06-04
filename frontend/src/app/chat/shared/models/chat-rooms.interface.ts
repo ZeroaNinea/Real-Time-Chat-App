@@ -1,6 +1,6 @@
 import { Chat } from './chat.model';
 
-export interface CatRooms {
+export interface ChatRooms {
   allRooms: Chat[];
   userRooms: Chat[];
   pagination: {
