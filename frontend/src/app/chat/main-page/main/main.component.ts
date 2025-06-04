@@ -1,7 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { after } from 'node:test';
+import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +24,16 @@ export class MainComponent {
 
   private router = inject(Router);
   private chatService = inject(ChatService);
+
+  chatRooms!: ChatRooms;
+
+  constructor() {
+    afterNextRender(() => {
+      this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
+        this.chatRooms = rooms;
+      });
+    });
+  }
 
   friends = [
     { name: 'Alice', status: 'online' },
