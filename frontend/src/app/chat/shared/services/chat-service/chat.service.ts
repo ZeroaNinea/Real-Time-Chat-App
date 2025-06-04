@@ -99,7 +99,7 @@ export class ChatService {
     );
   }
 
-  getChatRooms(page: number, limit: number) {
+  getChatRooms(page: number | string, limit: number | string) {
     return this.http.get<{
       allRooms: Chat[];
       userRooms: Chat[];
