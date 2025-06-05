@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
+import { Chat } from '../../shared/models/chat.model';
 
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
@@ -62,7 +63,7 @@ export class MainComponent {
     )
   );
 
-  joinRoom(room: Event) {
+  joinRoom(room: Chat) {
     // For now, just navigate to the chat-room page.
     // Later you can pass the room name or ID via query params or a service.
     console.log('Joining room:', room);

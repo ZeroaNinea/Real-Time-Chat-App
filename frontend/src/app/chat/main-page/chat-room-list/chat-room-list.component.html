@@ -15,18 +15,22 @@
   <div class="room-list">
     <h3>Your Rooms</h3>
     <mat-list>
-      <mat-list-item *ngFor="let room of userRooms">
+      @for (room of userRooms; track $index) {
+      <mat-list-item>
         <span># {{ room.name }}</span>
         <button mat-button (click)="joinRoom.emit(room)">Join</button>
       </mat-list-item>
+      }
     </mat-list>
 
     <h3>All Rooms</h3>
     <mat-list>
-      <mat-list-item *ngFor="let room of filteredChatRooms()">
+      @for (room of allRooms; track $index) {
+      <mat-list-item>
         <span># {{ room.name }}</span>
         <button mat-button (click)="joinRoom.emit(room)">Join</button>
       </mat-list-item>
+      }
     </mat-list>
   </div>
 

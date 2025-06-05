@@ -23,7 +23,8 @@ import { Chat } from '../../shared/models/chat.model';
 })
 export class ChatRoomListComponent implements OnChanges {
   @Input() chatRooms!: ChatRooms;
-  @Output() joinRoom = new EventEmitter<Event>();
+
+  @Output() joinRoom = new EventEmitter<Chat>();
 
   private router = inject(Router);
 
