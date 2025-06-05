@@ -1,18 +1,29 @@
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
 
 @Component({
   selector: 'app-chat-room-list',
-  imports: [],
+  imports: [MatCardModule, MatListModule],
   standalone: true,
   templateUrl: './chat-room-list.component.html',
   styleUrl: './chat-room-list.component.scss',
 })
 export class ChatRoomListComponent implements OnChanges {
   @Input() chatRooms!: ChatRooms;
+  @Output() joinRoom = new EventEmitter<Event>();
 
   private router = inject(Router);
 
