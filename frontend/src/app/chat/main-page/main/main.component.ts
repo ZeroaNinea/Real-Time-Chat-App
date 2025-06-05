@@ -6,15 +6,31 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
+
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterModule, FormsModule, ChatRoomListComponent, HeaderComponent],
+  imports: [
+    RouterModule,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    ChatRoomListComponent,
+    HeaderComponent,
+  ],
   standalone: true,
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -46,9 +62,9 @@ export class MainComponent {
     )
   );
 
-  enterRoom(room: string) {
+  joinRoom(room: Event) {
     // For now, just navigate to the chat-room page.
     // Later you can pass the room name or ID via query params or a service.
-    console.log('Entering room:', room);
+    console.log('Joining room:', room);
   }
 }
