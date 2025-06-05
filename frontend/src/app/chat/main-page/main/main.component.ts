@@ -10,10 +10,11 @@ import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterModule, FormsModule, ChatRoomListComponent],
+  imports: [RouterModule, FormsModule, ChatRoomListComponent, HeaderComponent],
   standalone: true,
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
