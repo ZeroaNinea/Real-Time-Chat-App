@@ -1,14 +1,13 @@
 import {
-  afterNextRender,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
-  signal,
 } from '@angular/core';
 
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -47,6 +46,8 @@ export class ChannelListComponent implements OnChanges {
   @Output() addChannel = new EventEmitter<string>();
   @Output() updateChannelOrder = new EventEmitter<string[]>();
 
+  router = inject(Router);
+
   ngOnChanges() {
     this.channels = this.channels.sort((a, b) => a.order - b.order);
   }
@@ -77,5 +78,9 @@ export class ChannelListComponent implements OnChanges {
     //   'New channel order:',
     //   this.channels.map((c) => c.name)
     // );
+  }
+
+  manageRoles() {
+    this.router.navigate(['/chat-room', this.chatId]);
   }
 }
