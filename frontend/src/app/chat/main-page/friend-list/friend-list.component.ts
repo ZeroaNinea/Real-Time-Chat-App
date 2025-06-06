@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 @Component({
   selector: 'app-friend-list',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './friend-list.component.html',
   styleUrl: './friend-list.component.scss',
 })
-export class FriendListComponent {}
+export class FriendListComponent {
+  // @Input() friends: PopulatedUser[] = [];
+  @Input() friends: { name: string; status: string }[] = [];
+}

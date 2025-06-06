@@ -19,6 +19,7 @@ import { Chat } from '../../shared/models/chat.model';
 
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
+import { FriendListComponent } from '../friend-list/friend-list.component';
 
 @Component({
   selector: 'app-main',
@@ -31,6 +32,7 @@ import { HeaderComponent } from '../header/header.component';
     MatInputModule,
     ChatRoomListComponent,
     HeaderComponent,
+    FriendListComponent,
   ],
   standalone: true,
   templateUrl: './main.component.html',
