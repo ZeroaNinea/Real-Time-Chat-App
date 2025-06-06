@@ -1,1 +1,8 @@
-<p>friend-list works!</p>
+<section>
+  <h2>Friend Activity</h2>
+  <ul>
+    @for (friend of friends; track $index) {
+    <li>{{ friend.name }} - {{ friend.status }}</li>
+    }
+  </ul>
+</section>
