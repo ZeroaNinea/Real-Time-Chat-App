@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +20,7 @@ import { Chat } from '../../shared/models/chat.model';
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
 import { FriendListComponent } from '../friend-list/friend-list.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-main',
@@ -31,6 +32,7 @@ import { FriendListComponent } from '../friend-list/friend-list.component';
     MatIconModule,
     MatInputModule,
     MatIconModule,
+    MatButtonModule,
     ChatRoomListComponent,
     HeaderComponent,
     FriendListComponent,
@@ -44,6 +46,7 @@ export class MainComponent {
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
   private chatService = inject(ChatService);
+  private router = inject(Router);
 
   chatRooms!: ChatRooms;
 
@@ -70,5 +73,9 @@ export class MainComponent {
     // For now, just navigate to the chat-room page.
     // Later you can pass the room name or ID via query params or a service.
     console.log('Joining room:', room);
+  }
+
+  createRoom() {
+    this.router.navigate(['/chat-room']);
   }
 }

@@ -44,10 +44,6 @@ export class ChatRoomListComponent implements OnChanges {
     console.log(this.userRooms);
   }
 
-  createRoom() {
-    this.router.navigate(['/chat-room']);
-  }
-
   filteredChatRooms(): Chat[] {
     return this.allRooms.filter((room) =>
       room.name.toLowerCase().includes(this.searchTerm.toLowerCase())

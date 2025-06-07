@@ -6,6 +6,7 @@
       <mat-card-title
         ><mat-icon>search</mat-icon> Search Chatrooms</mat-card-title
       >
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Search</mat-label>
         <input
@@ -15,6 +16,12 @@
         />
       </mat-form-field>
     </mat-card>
+  </div>
+
+  <div class="create-room-button">
+    <button mat-raised-button color="primary" (click)="createRoom()">
+      <mat-icon>add</mat-icon> Create Room
+    </button>
   </div>
 
   <app-chat-room-list
