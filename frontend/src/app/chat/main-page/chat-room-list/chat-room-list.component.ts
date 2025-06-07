@@ -14,10 +14,11 @@ import { MatListModule } from '@angular/material/list';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-chat-room-list',
-  imports: [MatCardModule, MatListModule, MatButtonModule],
+  imports: [MatCardModule, MatListModule, MatButtonModule, MatTabsModule],
   standalone: true,
   templateUrl: './chat-room-list.component.html',
   styleUrl: './chat-room-list.component.scss',
