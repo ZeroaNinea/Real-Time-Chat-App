@@ -27,6 +27,7 @@
 
   <app-chat-room-list
     [chatRooms]="chatRooms"
+    [searchTerm]="searchTerm()"
     (joinRoom)="joinRoom($event)"
   ></app-chat-room-list>
 
