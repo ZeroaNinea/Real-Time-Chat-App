@@ -1,11 +1,21 @@
-section {
+// section {
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+// }
+
+// mat-card {
+//   width: 95%;
+//   margin: 1rem;
+//   padding: 1rem;
+// }
+.room-columns {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-mat-card {
-  width: 95%;
-  margin: 1rem;
-  padding: 1rem;
+.room-card {
+  flex: 1 1 45%;
+  min-width: 300px;
 }
