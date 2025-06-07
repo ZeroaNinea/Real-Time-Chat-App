@@ -30,6 +30,7 @@ import { FriendListComponent } from '../friend-list/friend-list.component';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatIconModule,
     ChatRoomListComponent,
     HeaderComponent,
     FriendListComponent,
