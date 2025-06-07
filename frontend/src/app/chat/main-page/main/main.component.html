@@ -1,13 +1,19 @@
-<app-header></app-header>
-
 <div class="container">
-  <mat-card>
-    <mat-card-title>🔍 Search Chatrooms</mat-card-title>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Search</mat-label>
-      <input matInput [(ngModel)]="searchTerm" placeholder="Search chatrooms" />
-    </mat-form-field>
-  </mat-card>
+  <app-header></app-header>
+
+  <div class="search-card">
+    <mat-card>
+      <mat-card-title>🔍 Search Chatrooms</mat-card-title>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          placeholder="Search chatrooms"
+        />
+      </mat-form-field>
+    </mat-card>
+  </div>
 
   <app-chat-room-list
     [chatRooms]="chatRooms"
