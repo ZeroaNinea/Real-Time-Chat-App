@@ -1,21 +1,14 @@
-// section {
-//   display: flex;
-//   justify-content: center;
-//   width: 100%;
-// }
-
-// mat-card {
-//   width: 95%;
-//   margin: 1rem;
-//   padding: 1rem;
-// }
 .room-columns {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  justify-content: center;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .room-card {
-  flex: 1 1 45%;
-  min-width: 300px;
+  // display: flex;
+  // flex-direction: row;
+  // min-width: 300px;
+  width: 46.5%;
 }
