@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .room-columns {
   display: flex;
   justify-content: center;
@@ -6,4 +8,10 @@
 
 .room-card {
   width: 46.5%;
+
+  @include mat.theme(
+    (
+      color: mat.$blue-palette,
+    )
+  );
 }
