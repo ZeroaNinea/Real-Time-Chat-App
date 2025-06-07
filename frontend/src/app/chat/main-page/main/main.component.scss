@@ -41,5 +41,11 @@
 
   button {
     width: 99%;
+
+    @include mat.theme(
+      (
+        color: mat.$spring-green-palette,
+      )
+    );
   }
 }
