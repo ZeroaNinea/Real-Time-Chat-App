@@ -24,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ChatRoomListComponent implements OnChanges {
   @Input() chatRooms!: ChatRooms;
+  @Input() searchTerm = '';
 
   @Output() joinRoom = new EventEmitter<Chat>();
 
@@ -44,5 +45,11 @@ export class ChatRoomListComponent implements OnChanges {
 
   createRoom() {
     this.router.navigate(['/chat-room']);
+  }
+
+  filteredChatRooms(): Chat[] {
+    return this.allRooms.filter((room) =>
+      room.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }

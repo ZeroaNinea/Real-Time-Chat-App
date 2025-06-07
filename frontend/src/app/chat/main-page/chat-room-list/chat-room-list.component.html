@@ -25,7 +25,7 @@
 
     <h3>All Rooms</h3>
     <mat-list>
-      @for (room of allRooms; track $index) {
+      @for (room of filteredChatRooms(); track $index) {
       <mat-list-item>
         <span># {{ room.name }}</span>
         <button mat-button (click)="joinRoom.emit(room)">Join</button>
