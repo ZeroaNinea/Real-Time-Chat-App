@@ -999,6 +999,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (!chat) return callback?.({ error: 'Chat not found' });
         socket.join(chatId);
 
+        io.to(chatId).emit('chatUpdated', chat);
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
