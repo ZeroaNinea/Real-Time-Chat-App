@@ -22,6 +22,7 @@ import { Chat } from '../../shared/models/chat.model';
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
 import { FriendListComponent } from '../friend-list/friend-list.component';
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-main',
@@ -49,6 +50,7 @@ export class MainComponent {
   private chatService = inject(ChatService);
   private router = inject(Router);
   private _snackbar = inject(MatSnackBar);
+  private wsService = inject(WebsocketService);
 
   chatRooms!: ChatRooms;
 
@@ -74,6 +76,7 @@ export class MainComponent {
   joinRoom(room: Chat) {
     // For now, just navigate to the chat-room page.
     // Later you can pass the room name or ID via query params or a service.
+
     console.log('Joining room:', room);
   }
 
