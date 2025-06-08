@@ -19,3 +19,11 @@
 mat-card-title {
   margin: 1rem;
 }
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
+}

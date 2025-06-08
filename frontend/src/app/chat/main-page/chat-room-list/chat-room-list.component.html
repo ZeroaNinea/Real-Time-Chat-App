@@ -6,7 +6,9 @@
       <mat-list-item>
         <span># {{ room.name }}</span>
         <button mat-button (click)="visitRoom.emit(room)">Visit</button>
-        <button mat-button (click)="leaveRoom.emit(room)">Leave</button>
+        <button mat-button (click)="leaveRoom.emit(room)" class="warn">
+          Leave
+        </button>
       </mat-list-item>
       }
     </mat-list>
