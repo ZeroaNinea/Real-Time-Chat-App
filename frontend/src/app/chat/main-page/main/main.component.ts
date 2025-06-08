@@ -74,8 +74,24 @@ export class MainComponent {
   );
 
   joinRoom(room: Chat) {
-    // For now, just navigate to the chat-room page.
-    // Later you can pass the room name or ID via query params or a service.
+    this.wsService.emit(
+      'becomeMember',
+      {
+        chatId: room._id,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to join room',
+            'Close',
+            { duration: 3000 }
+          );
+        } else {
+          this.router.navigate(['/chat-room', room._id]);
+          this._snackbar.open('Joined room!', 'Close', { duration: 2000 });
+        }
+      }
+    );
 
     console.log('Joining room:', room);
   }
