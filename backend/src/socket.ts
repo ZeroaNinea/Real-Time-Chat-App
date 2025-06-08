@@ -993,7 +993,7 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     );
 
-    socket.on('becomeMember', async (chatId, callback) => {
+    socket.on('becomeMember', async ({ chatId }, callback) => {
       try {
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });

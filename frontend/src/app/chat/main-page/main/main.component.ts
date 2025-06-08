@@ -81,24 +81,18 @@ export class MainComponent {
   );
 
   joinRoom(room: Chat) {
-    this.wsService.emit(
-      'becomeMember',
-      {
-        chatId: room._id,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to join room',
-            'Close',
-            { duration: 3000 }
-          );
-        } else {
-          this.router.navigate(['/chat-room', room._id]);
-          this._snackbar.open('Joined room!', 'Close', { duration: 2000 });
-        }
+    this.wsService.emit('becomeMember', { chatId: room._id }, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to join room',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this.router.navigate(['/chat-room', room._id]);
+        this._snackbar.open('Joined room!', 'Close', { duration: 2000 });
       }
-    );
+    });
 
     console.log('Joining room:', room);
   }
