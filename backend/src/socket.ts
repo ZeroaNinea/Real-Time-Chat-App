@@ -1037,7 +1037,7 @@ export function setupSocket(server: HttpServer, app: Express) {
             (m: Member) => !m.user.equals(socket.data.user._id)
           );
           await chat.save();
-          io.to(socket.data.user._id.toString()).emit('chatUpdated', chat);
+          io.to(socket.data.user._id.toString()).emit('chatLeft', chat);
           callback?.({ success: true });
         }
       } catch (err) {

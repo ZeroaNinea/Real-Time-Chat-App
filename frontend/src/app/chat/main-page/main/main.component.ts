@@ -55,7 +55,8 @@ export class MainComponent implements OnChanges {
   private wsService = inject(WebsocketService);
   private authService = inject(AuthService);
 
-  readonly currentUserId = this.authService.currentUser()?.id;
+  // readonly currentUserId = this.authService.currentUser()?.id;
+  currentUserId!: string | undefined;
 
   chatRooms!: ChatRooms;
 
@@ -63,6 +64,7 @@ export class MainComponent implements OnChanges {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
+        this.currentUserId = this.authService.currentUser()?.id;
         this.connect();
       });
     });
