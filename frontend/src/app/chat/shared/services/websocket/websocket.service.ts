@@ -212,7 +212,6 @@ export class WebsocketService implements OnDestroy {
   listenChatRoomLeft(): Observable<Chat> {
     return new Observable((observer) => {
       this.socket.on('chatLeft', (data) => {
-        console.log('Chat room left:', data);
         observer.next(data);
       });
     });
