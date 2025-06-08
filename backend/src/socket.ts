@@ -1001,6 +1001,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         const member = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
         );
+
         if (!member) {
           chat.members.push({
             user: socket.data.user._id,
@@ -1010,6 +1011,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           await chat.save();
           io.to(chat._id.toString()).emit('chatUpdated', chat);
           callback?.({ success: true });
+        } else {
+          callback?.({ error: 'You are already a member of this chat' });
         }
       } catch (err) {
         console.error(err);
