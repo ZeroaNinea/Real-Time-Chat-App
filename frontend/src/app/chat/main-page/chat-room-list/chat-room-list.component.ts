@@ -59,7 +59,7 @@ export class ChatRoomListComponent implements OnChanges {
     }
 
     if (!user) {
-      console.log('User not found.');
+      console.log('You are not a member of this room.');
       return true;
     }
 
