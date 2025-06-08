@@ -28,6 +28,7 @@ export class ChatRoomListComponent implements OnChanges {
   @Input() searchTerm = '';
 
   @Output() joinRoom = new EventEmitter<Chat>();
+  @Output() visitRoom = new EventEmitter<Chat>();
 
   private router = inject(Router);
 
