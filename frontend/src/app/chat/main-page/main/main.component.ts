@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  OnChanges,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +45,7 @@ import { AuthService } from '../../../auth/auth.service';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
-export class MainComponent {
+export class MainComponent implements OnChanges {
   searchTerm = signal('');
   rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
@@ -62,21 +63,27 @@ export class MainComponent {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
+        this.connect();
       });
-
-      this.connect();
     });
+  }
+
+  ngOnChanges() {
+    console.log(this.authService.currentUser());
   }
 
   connect() {
     this.wsService.disconnect();
     this.wsService.connect();
 
+    console.log(this.authService.currentUser()?.id);
     if (this.currentUserId) {
+      console.log(this.currentUserId);
       this.wsService.joinChatRoom(this.currentUserId);
     }
 
     this.wsService.listenChatRoomLeft().subscribe((chat) => {
+      console.log('Left room:', chat);
       this.chatRooms.userRooms = this.chatRooms.userRooms.filter(
         (c) => c._id !== chat._id
       );

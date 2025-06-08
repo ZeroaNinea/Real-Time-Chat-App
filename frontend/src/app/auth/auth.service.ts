@@ -30,7 +30,7 @@ export class AuthService {
       const chatId = route.snapshot.paramMap.get('chatId');
       const channelId = route.snapshot.paramMap.get('channelId');
 
-      if (chatId || channelId) {
+      if (chatId || channelId || this.router.url.includes('main')) {
         this.fetchUser();
       }
 
