@@ -1021,7 +1021,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('leaveChatRoom', async ({ chatId }, callback) => {
-      console.log('leaveChatRoom', chatId);
       try {
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
@@ -1029,6 +1028,12 @@ export function setupSocket(server: HttpServer, app: Express) {
         const member = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
         );
+
+        if (member?.roles.includes('Owner')) {
+          callback?.({ error: 'You are the owner of this chat' });
+
+          return;
+        }
 
         if (!member) {
           callback?.({ error: 'You are not a member of this chat' });
