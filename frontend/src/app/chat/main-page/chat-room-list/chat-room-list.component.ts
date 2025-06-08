@@ -59,8 +59,8 @@ export class ChatRoomListComponent implements OnChanges {
     }
 
     if (!user) {
-      console.log('Not a member of this room');
-      return true;
+      console.log('User not in this room');
+      return false;
     }
 
     if (user.roles.includes('Banned')) {
