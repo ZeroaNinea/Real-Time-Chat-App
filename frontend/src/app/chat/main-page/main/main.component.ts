@@ -84,12 +84,10 @@ export class MainComponent implements OnChanges {
     }
 
     this.wsService.listenChatRoomLeft().subscribe((chat) => {
-      console.log('Left room:', chat);
-      console.log(this.chatRooms.userRooms);
-      this.chatRooms.userRooms = this.chatRooms.userRooms.filter(
-        (c) => c._id !== chat._id
-      );
-      console.log(this.chatRooms.userRooms);
+      this.chatRooms = {
+        ...this.chatRooms,
+        userRooms: this.chatRooms.userRooms.filter((c) => c._id !== chat._id),
+      };
     });
   }
 
