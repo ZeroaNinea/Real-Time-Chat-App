@@ -67,6 +67,8 @@ export class MainComponent {
   connect() {
     this.wsService.disconnect();
     this.wsService.connect();
+
+    // this.wsService.joinChatRoom();
   }
 
   friends = [
