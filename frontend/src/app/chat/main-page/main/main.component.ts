@@ -75,6 +75,10 @@ export class MainComponent {
     console.log('Joining room:', room);
   }
 
+  visitRoom(room: Chat) {
+    this.router.navigate(['/chat-room', room._id]);
+  }
+
   createRoom() {
     this.router.navigate(['/chat-room']);
   }
