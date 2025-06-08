@@ -23,6 +23,7 @@ import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.componen
 import { HeaderComponent } from '../header/header.component';
 import { FriendListComponent } from '../friend-list/friend-list.component';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -51,6 +52,9 @@ export class MainComponent {
   private router = inject(Router);
   private _snackbar = inject(MatSnackBar);
   private wsService = inject(WebsocketService);
+  private authService = inject(AuthService);
+
+  readonly currentUserId = this.authService.currentUser()?.id;
 
   chatRooms!: ChatRooms;
 
@@ -68,7 +72,9 @@ export class MainComponent {
     this.wsService.disconnect();
     this.wsService.connect();
 
-    // this.wsService.joinChatRoom();
+    if (this.currentUserId) {
+      this.wsService.joinChatRoom(this.currentUserId);
+    }
   }
 
   friends = [
