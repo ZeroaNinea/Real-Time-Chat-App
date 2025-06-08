@@ -75,6 +75,12 @@ export class MainComponent {
     if (this.currentUserId) {
       this.wsService.joinChatRoom(this.currentUserId);
     }
+
+    this.wsService.listenChatRoomLeft().subscribe((chat) => {
+      this.chatRooms.userRooms = this.chatRooms.userRooms.filter(
+        (c) => c._id !== chat._id
+      );
+    });
   }
 
   friends = [
