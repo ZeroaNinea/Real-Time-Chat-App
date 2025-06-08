@@ -59,7 +59,14 @@ export class MainComponent {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
       });
+
+      this.connect();
     });
+  }
+
+  connect() {
+    this.wsService.disconnect();
+    this.wsService.connect();
   }
 
   friends = [
