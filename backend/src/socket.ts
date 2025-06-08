@@ -992,6 +992,18 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
       }
     );
+
+    socket.on('joinChatRoom', async ({ chatId }, callback) => {
+      try {
+        const chat = await Chat.findById(chatId);
+        if (!chat) return callback?.({ error: 'Chat not found' });
+        socket.join(chatId);
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
