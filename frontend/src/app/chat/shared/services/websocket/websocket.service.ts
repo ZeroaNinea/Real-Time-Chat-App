@@ -208,4 +208,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  leastenChatRoomLeft(): Observable<Chat> {
+    return new Observable((observer) => {
+      this.socket.on('chatUpdated', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
