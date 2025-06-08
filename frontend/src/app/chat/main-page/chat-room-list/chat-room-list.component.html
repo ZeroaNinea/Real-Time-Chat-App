@@ -19,7 +19,7 @@
         <span># {{ room.name }}</span>
         <button
           mat-button
-          [disabled]="canJoinRoom(room)"
+          [disabled]="isJoinDisabled(room)"
           (click)="joinRoom.emit(room)"
         >
           Join

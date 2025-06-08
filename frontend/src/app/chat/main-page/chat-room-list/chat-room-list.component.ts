@@ -48,21 +48,26 @@ export class ChatRoomListComponent implements OnChanges {
     );
   }
 
-  canJoinRoom(room: Chat): boolean {
+  isJoinDisabled(room: Chat): boolean {
     const user = room.members.find(
       (m) => m.user.toString() === localStorage.getItem('userId')
     );
 
     if (this.userRooms.some((r) => r._id === room._id)) {
-      console.log('You are already in this room.');
+      console.log('Already in this room');
       return true;
     }
 
     if (!user) {
-      console.log('You are not a member of this room.');
+      console.log('Not a member of this room');
       return true;
     }
 
-    return user?.roles.includes('Banned');
+    if (user.roles.includes('Banned')) {
+      console.log('User is banned from this room');
+      return true;
+    }
+
+    return false;
   }
 }
