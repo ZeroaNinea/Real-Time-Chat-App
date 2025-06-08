@@ -53,13 +53,16 @@ export class ChatRoomListComponent implements OnChanges {
       (m) => m.user.toString() === localStorage.getItem('userId')
     );
 
-    // if (this.userRooms.some((r) => r._id === room._id)) {
-    //   return false;
-    // }
+    if (this.userRooms.some((r) => r._id === room._id)) {
+      console.log('You are already in this room.');
+      return true;
+    }
 
-    return (
-      !user?.roles.includes('Banned') ||
-      !this.userRooms.some((r) => r._id === room._id)
-    );
+    if (!user) {
+      console.log('User not found.');
+      return true;
+    }
+
+    return user?.roles.includes('Banned');
   }
 }
