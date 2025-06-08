@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,7 +22,6 @@ import { Chat } from '../../shared/models/chat.model';
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
 import { FriendListComponent } from '../friend-list/friend-list.component';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-main',
@@ -47,6 +48,7 @@ export class MainComponent {
 
   private chatService = inject(ChatService);
   private router = inject(Router);
+  private _snackbar = inject(MatSnackBar);
 
   chatRooms!: ChatRooms;
 
