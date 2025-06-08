@@ -55,7 +55,7 @@ export class MainComponent implements OnChanges {
   private wsService = inject(WebsocketService);
   private authService = inject(AuthService);
 
-  currentUserId!: string | undefined;
+  currentUserId = signal<string | undefined>(undefined);
 
   chatRooms!: ChatRooms;
 
@@ -63,7 +63,8 @@ export class MainComponent implements OnChanges {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
         this.chatRooms = rooms;
-        this.currentUserId = this.authService.currentUser()?.id;
+        this.currentUserId.set(this.authService.currentUser()?.id);
+
         this.connect();
       });
     });
@@ -80,7 +81,7 @@ export class MainComponent implements OnChanges {
     console.log(this.authService.currentUser()?.id);
     if (this.currentUserId) {
       console.log(this.currentUserId);
-      this.wsService.joinChatRoom(this.currentUserId);
+      this.wsService.joinChatRoom(this.currentUserId()!);
     }
 
     this.wsService.listenChatRoomLeft().subscribe((chat) => {

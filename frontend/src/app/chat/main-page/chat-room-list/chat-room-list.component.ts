@@ -24,6 +24,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class ChatRoomListComponent implements OnChanges {
   @Input() chatRooms!: ChatRooms;
   @Input() searchTerm = '';
+  @Input() currentUserId: string | undefined;
 
   @Output() joinRoom = new EventEmitter<Chat>();
   @Output() leaveRoom = new EventEmitter<Chat>();
@@ -50,8 +51,10 @@ export class ChatRoomListComponent implements OnChanges {
 
   isJoinDisabled(room: Chat): boolean {
     const user = room.members.find(
-      (m) => m.user.toString() === localStorage.getItem('userId')
+      (m) => m.user.toString() === this.currentUserId
     );
+
+    console.log(user, room, this.currentUserId);
 
     if (this.userRooms.some((r) => r._id === room._id)) {
       console.log('Already in this room');
@@ -69,5 +72,18 @@ export class ChatRoomListComponent implements OnChanges {
     }
 
     return false;
+  }
+
+  isLeaveDisabled(room: Chat): boolean {
+    const user = room.members.find(
+      (m) => m.user.toString() === this.currentUserId
+    );
+
+    if (user?.roles.includes('Owner')) {
+      console.log('User is the owner of this room');
+      return true;
+    } else {
+      return false;
+    }
   }
 }

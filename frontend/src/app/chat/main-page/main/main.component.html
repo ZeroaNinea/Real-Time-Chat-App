@@ -27,6 +27,7 @@
   <app-chat-room-list
     [chatRooms]="chatRooms"
     [searchTerm]="searchTerm()"
+    [currentUserId]="currentUserId()"
     (joinRoom)="joinRoom($event)"
     (leaveRoom)="leaveRoom($event)"
     (visitRoom)="visitRoom($event)"
