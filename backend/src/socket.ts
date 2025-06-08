@@ -1021,6 +1021,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('leaveChatRoom', async ({ chatId }, callback) => {
+      console.log('leaveChatRoom', chatId);
       try {
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
