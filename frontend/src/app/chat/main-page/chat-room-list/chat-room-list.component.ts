@@ -6,7 +6,6 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -30,8 +29,6 @@ export class ChatRoomListComponent implements OnChanges {
   @Output() joinRoom = new EventEmitter<Chat>();
   @Output() visitRoom = new EventEmitter<Chat>();
 
-  private router = inject(Router);
-
   allRooms: Chat[] = [];
   userRooms: Chat[] = [];
 
@@ -48,6 +45,21 @@ export class ChatRoomListComponent implements OnChanges {
   filteredChatRooms(): Chat[] {
     return this.allRooms.filter((room) =>
       room.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  canJoinRoom(room: Chat): boolean {
+    const user = room.members.find(
+      (m) => m.user.toString() === localStorage.getItem('userId')
+    );
+
+    // if (this.userRooms.some((r) => r._id === room._id)) {
+    //   return false;
+    // }
+
+    return (
+      !user?.roles.includes('Banned') ||
+      !this.userRooms.some((r) => r._id === room._id)
     );
   }
 }

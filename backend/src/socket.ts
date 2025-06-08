@@ -998,6 +998,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
         socket.join(chatId);
+
         callback?.({ success: true });
       } catch (err) {
         console.error(err);

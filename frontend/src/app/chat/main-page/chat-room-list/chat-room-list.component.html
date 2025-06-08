@@ -17,7 +17,9 @@
       @for (room of filteredChatRooms(); track $index) {
       <mat-list-item>
         <span># {{ room.name }}</span>
-        <button mat-button (click)="joinRoom.emit(room)">Join</button>
+        <button mat-button [disabled]="" (click)="joinRoom.emit(room)">
+          Join
+        </button>
       </mat-list-item>
       }
     </mat-list>
