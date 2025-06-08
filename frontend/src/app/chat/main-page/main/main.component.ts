@@ -97,6 +97,20 @@ export class MainComponent {
     console.log('Joining room:', room);
   }
 
+  leaveRoom(room: Chat) {
+    this.wsService.emit('leaveChatRoom', { chatId: room._id }, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to leave chat room',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Left chat room!', 'Close', { duration: 2000 });
+      }
+    });
+  }
+
   visitRoom(room: Chat) {
     this.router.navigate(['/chat-room', room._id]);
   }
