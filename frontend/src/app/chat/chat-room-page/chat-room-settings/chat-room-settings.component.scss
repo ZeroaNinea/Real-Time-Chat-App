@@ -1,41 +1,41 @@
 @use "@angular/material" as mat;
 
-mat-form-field {
-  @include mat.theme(
-    (
-      density: -5,
-    )
-  );
-}
+// mat-form-field {
+//   @include mat.theme(
+//     (
+//       density: -5,
+//     )
+//   );
+// }
 
-.chat-name-input {
-  width: 100%;
-}
+// .chat-name-input {
+//   width: 100%;
+// }
 
-.button-row {
-  display: flex;
-  justify-content: space-around;
-  gap: 0.5rem;
-  font-size: 0.75rem;
+// .button-row {
+//   display: flex;
+//   justify-content: space-around;
+//   gap: 0.5rem;
+//   font-size: 0.75rem;
 
-  button {
-    min-width: 64px;
-    height: 30px;
-    font-size: 0.75rem;
-    padding: 0 8px;
-    line-height: 1rem;
-    width: 50%;
-    border-radius: 5px;
-  }
-}
+//   button {
+//     min-width: 64px;
+//     height: 30px;
+//     font-size: 0.75rem;
+//     padding: 0 8px;
+//     line-height: 1rem;
+//     width: 50%;
+//     border-radius: 5px;
+//   }
+// }
 
-.warn {
-  @include mat.theme(
-    (
-      color: mat.$red-palette,
-    )
-  );
-}
+// .warn {
+//   @include mat.theme(
+//     (
+//       color: mat.$red-palette,
+//     )
+//   );
+// }
 
 .chat-room-settings-thumbnail {
   display: flex;
