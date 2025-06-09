@@ -27,7 +27,7 @@
 </div> -->
 <div class="chat-room-settings-thumbnail">
   <h2>{{ chatName }}</h2>
-  <img [src]="getChatPreviewUrl()" alt="thumbnail" class="thumbnail" />
+  <img [src]="getChatThumbnailUrl()" alt="thumbnail" class="thumbnail" />
   @if (isAdmin || isOwner) {
   <button mat-button (click)="openSettingsDialog()">Edit Settings</button>
   }

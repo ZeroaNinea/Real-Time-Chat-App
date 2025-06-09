@@ -38,7 +38,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
-  @Input() chatPreview = '';
+  @Input() chatThumbnail = '';
   @Input() chatTopic = '';
   @Input() newChannel = '';
   @Input() channels: Channel[] = [];
@@ -64,9 +64,9 @@ export class ChatRoomSettingsComponent {
 
   environment = environment;
 
-  getChatPreviewUrl() {
-    return this.chatPreview
-      ? `${this.environment.backendUrl}/${this.chatPreview}`
+  getChatThumbnailUrl() {
+    return this.chatThumbnail
+      ? `${this.environment.backendUrl}/${this.chatThumbnail}`
       : 'assets/camera.svg';
   }
 
@@ -90,7 +90,7 @@ export class ChatRoomSettingsComponent {
     const dialogRef = this.dialog.open(ChatRoomSettingsDialogComponent, {
       data: {
         name: this.chatName,
-        preview: this.chatPreview,
+        preview: this.chatThumbnail,
         topic: this.chatTopic,
       },
     });
