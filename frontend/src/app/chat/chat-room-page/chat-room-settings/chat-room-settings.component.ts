@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -9,6 +9,10 @@ import {
   MatFormFieldModule,
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
+
+import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { ChatRoomSettingsDialogComponent } from '../../dialogs/chat-room-settings-dialog/chat-room-settings-dialog.component';
 
 @Component({
   selector: 'app-chat-room-settings',
@@ -33,6 +37,8 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
+  @Input() chatPreview = '';
+  @Input() chatTopic = '';
   @Input() newChannel = '';
   @Input() channels: Channel[] = [];
   // @Input() channels: string[] = [];
@@ -52,6 +58,9 @@ export class ChatRoomSettingsComponent {
     value: any;
   }>();
 
+  private dialog = inject(MatDialog);
+  private chatService = inject(ChatService);
+
   handleAdminsOnlyChange(channel: Channel, event: Event) {
     const input = event.target as HTMLInputElement;
     this.onChannelEdit.emit({
@@ -66,5 +75,23 @@ export class ChatRoomSettingsComponent {
 
   getInputValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
+  }
+
+  openSettingsDialog() {
+    const dialogRef = this.dialog.open(ChatRoomSettingsDialogComponent, {
+      data: {
+        name: this.chatName,
+        preview: this.chatPreview,
+        topic: this.chatTopic,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.chatService
+          .updateChatRoom(this.chatId!, result)
+          .subscribe(() => this.fetchChatRoom(this.chatId!));
+      }
+    });
   }
 }

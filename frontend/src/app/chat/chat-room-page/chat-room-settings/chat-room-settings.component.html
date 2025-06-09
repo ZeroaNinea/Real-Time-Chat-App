@@ -1,4 +1,4 @@
-<div class="chat-room-settings">
+<!-- <div class="chat-room-settings">
   @if (isAdmin || isOwner) {
   <mat-form-field appearance="outline" class="chat-name-input">
     <input
@@ -23,5 +23,13 @@
       Delete Chat Room
     </button>
   </div>
+  }
+</div> -->
+<div class="chat-room-settings-preview">
+  <h2>{{ chatName }}</h2>
+  @if (chatPreview) {
+  <p>{{ chatPreview }}</p>
+  } @if (isAdmin || isOwner) {
+  <button mat-button (click)="openSettingsDialog()">Edit Settings</button>
   }
 </div>
