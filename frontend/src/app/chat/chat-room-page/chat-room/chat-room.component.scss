@@ -14,6 +14,7 @@
 
 .top-left {
   grid-area: top-left;
+  grid-column: 1 / span 2;
 }
 
 .top-center {
@@ -21,7 +22,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  // gap: 1rem;
 }
 
 .left-sidebar {
