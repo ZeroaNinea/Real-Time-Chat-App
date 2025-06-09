@@ -36,3 +36,16 @@ mat-form-field {
     )
   );
 }
+
+.chat-room-settings-thumbnail {
+  display: flex;
+  width: 200%;
+  align-items: center;
+  gap: 0.5rem;
+
+  .thumbnail-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+}
