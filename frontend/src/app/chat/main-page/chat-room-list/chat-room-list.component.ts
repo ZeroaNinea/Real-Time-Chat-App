@@ -54,7 +54,7 @@ export class ChatRoomListComponent implements OnChanges {
       (m) => m.user.toString() === this.currentUserId
     );
 
-    console.log(user, room, this.currentUserId);
+    // console.log(user, room, this.currentUserId);
 
     if (this.userRooms.some((r) => r._id === room._id)) {
       console.log('Already in this room');

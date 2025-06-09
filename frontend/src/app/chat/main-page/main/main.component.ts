@@ -117,7 +117,7 @@ export class MainComponent implements OnChanges {
       }
     });
 
-    console.log('Joining room:', room);
+    // console.log('Joining room:', room);
   }
 
   leaveRoom(room: Chat) {
