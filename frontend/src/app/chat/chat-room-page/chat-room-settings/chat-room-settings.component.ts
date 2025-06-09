@@ -102,5 +102,11 @@ export class ChatRoomSettingsComponent {
     //       .subscribe(() => this.fetchChatRoom(this.chatId!));
     //   }
     // });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.chatService.updateChatRoom(this.chatId!, result).subscribe();
+      }
+    });
   }
 }
