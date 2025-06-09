@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRoomSettingsDialogComponent } from '../../dialogs/chat-room-settings-dialog/chat-room-settings-dialog.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-chat-room-settings',
@@ -60,6 +61,14 @@ export class ChatRoomSettingsComponent {
 
   private dialog = inject(MatDialog);
   private chatService = inject(ChatService);
+
+  environment = environment;
+
+  getChatPreviewUrl() {
+    return this.chatPreview
+      ? `${this.environment.backendUrl}/${this.chatPreview}`
+      : 'assets/camera.svg';
+  }
 
   handleAdminsOnlyChange(channel: Channel, event: Event) {
     const input = event.target as HTMLInputElement;
