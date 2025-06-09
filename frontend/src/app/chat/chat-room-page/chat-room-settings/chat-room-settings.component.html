@@ -27,7 +27,7 @@
 </div> -->
 <div class="chat-room-settings-preview">
   <h2>{{ chatName }}</h2>
-  <img [src]="getChatPreviewUrl()" alt="Avatar" class="recipient-avatar" />
+  <img [src]="getChatPreviewUrl()" alt="preview" class="preview" />
   @if (isAdmin || isOwner) {
   <button mat-button (click)="openSettingsDialog()">Edit Settings</button>
   }
