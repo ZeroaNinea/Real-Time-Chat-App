@@ -142,6 +142,10 @@ export const updateChat = async (req: Request, res: Response) => {
       (m: Member) => m.user.toString() === userId
     );
 
+    if (req.file) {
+      chat.thumbnail = req.file.filename;
+    }
+
     if (
       !member ||
       (!member.roles.includes('Owner') && !member.roles.includes('Admin'))
