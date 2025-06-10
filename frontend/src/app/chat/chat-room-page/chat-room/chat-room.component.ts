@@ -83,6 +83,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isAdmin = signal(false);
   readonly isModerator = signal(false);
   readonly chatName = signal('');
+  readonly chatTopic = signal('');
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
   readonly populatedUsers = signal<PopulatedUser[]>([]);
@@ -208,6 +209,7 @@ export class ChatRoomComponent implements OnDestroy {
   fetchChatRoom(chatId: string) {
     this.chatService.getChatRoom(chatId).subscribe((chat) => {
       this.chatName.set(chat.name);
+      this.chatTopic.set(chat.topic);
       this.channels.set(chat.channels);
       this.members.set(chat.members);
       this.chatRoomRoles.set(chat.chatRoles);
@@ -474,6 +476,11 @@ export class ChatRoomComponent implements OnDestroy {
 
   saveChanges() {
     console.log('Chat name:', this.chatName());
+
+    const formData = new FormData();
+    formData.append('name', this.chatName());
+    formData.append('avatar', this.chatTopic());
+
     if (this.chatId()) {
       // Updating existing chat room.
       this.chatService
