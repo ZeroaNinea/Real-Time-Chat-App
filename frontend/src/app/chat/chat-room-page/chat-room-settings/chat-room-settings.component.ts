@@ -38,7 +38,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
-  @Input() chatThumbnail = '';
+  @Input() chatThumbnail: File | null = null;
   @Input() chatTopic = '';
   @Input() newChannel = '';
   @Input() channels: Channel[] = [];

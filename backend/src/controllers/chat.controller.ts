@@ -132,6 +132,8 @@ export const updateChat = async (req: Request, res: Response) => {
   const { chatId } = req.params;
   const updates = req.body;
 
+  console.log(updates);
+
   try {
     const chat = await Chat.findById(chatId);
     if (!chat) return res.status(404).json({ message: 'Chat not found' });
