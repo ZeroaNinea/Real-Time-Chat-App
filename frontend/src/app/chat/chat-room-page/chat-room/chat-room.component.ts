@@ -475,8 +475,12 @@ export class ChatRoomComponent implements OnDestroy {
     });
   }
 
-  saveChanges() {
+  saveChanges(file: File | null) {
     console.log('Chat name:', this.chatName());
+    console.log('Chat topic:', this.chatTopic());
+    console.log('Chat thumbnail:', this.thumbnailFile());
+
+    this.thumbnailFile.set(file);
 
     const formData = new FormData();
     formData.append('name', this.chatName());

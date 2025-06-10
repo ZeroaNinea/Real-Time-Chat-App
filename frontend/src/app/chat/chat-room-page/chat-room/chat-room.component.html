@@ -9,7 +9,7 @@
       [chatId]="chatId()"
       (chatNameChange)="chatName.set($event)"
       (newChannelChange)="newChannel.set($event)"
-      (saveChanges)="saveChanges()"
+      (saveChanges)="saveChanges($event)"
       (deleteRoom)="deleteChatRoom()"
       (onChannelEdit)="onChannelEdit($event)"
     ></app-chat-room-settings>
