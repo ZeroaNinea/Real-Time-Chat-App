@@ -22,7 +22,7 @@ export class ChatRoomSettingsDialogComponent {
     public data: {
       name: string;
       topic: string;
-      thumbnail: string;
+      thumbnail: File | null;
     }
   ) {}
 
@@ -31,10 +31,11 @@ export class ChatRoomSettingsDialogComponent {
   }
 
   onSave() {
+    console.log(this.data);
     this.dialogRef.close({
       name: this.data.name,
       topic: this.data.topic,
-      file: this.selectedFile,
+      thumbnail: this.selectedFile,
     });
   }
 

@@ -107,7 +107,13 @@ export class ChatRoomSettingsComponent {
       console.log(result);
       if (result) {
         this.chatNameChange.emit(result.name);
+        this.chatName = result.name;
         this.chatTopic = result.topic;
+        this.chatThumbnail = result.file;
+
+        console.log(this.chatName);
+        console.log(this.chatTopic);
+        console.log(this.chatThumbnail);
 
         const file = result.file as File | null;
 
