@@ -24,6 +24,7 @@
       [topic]="selectedChannel()?.topic"
       [canEdit]="isAdmin() || isOwner()"
       [channelId]="channelId()"
+      [chatTopic]="chatTopic()"
       (topicChange)="onTopicChange($event)"
     ></app-channel-topic>
 

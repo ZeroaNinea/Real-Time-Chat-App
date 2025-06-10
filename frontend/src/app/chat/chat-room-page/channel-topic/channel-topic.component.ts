@@ -22,6 +22,8 @@ export class ChannelTopicComponent {
   @Input() topic: string | undefined;
   @Input() canEdit = false;
   @Input() channelId: string | null = null;
+  @Input() chatTopic: string | undefined;
+
   @Output() topicChange = new EventEmitter<string>();
 
   editing = false;

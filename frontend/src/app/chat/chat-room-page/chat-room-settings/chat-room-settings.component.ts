@@ -114,17 +114,17 @@ export class ChatRoomSettingsComponent {
       if (result) {
         this.chatNameChange.emit(result.name);
         this.chatTopicChange.emit(result.topic);
-        // this.chatName = result.name;
-        // this.chatTopic = result.topic;
-        // this.chatThumbnail = result.thumbnail;
+        this.chatName = result.name;
+        this.chatTopic = result.topic;
+        this.chatThumbnail = result.thumbnail;
 
-        // console.log(this.chatName); // I see this.
-        // console.log(this.chatTopic); // I see this.
-        // console.log(this.chatThumbnail); // I don't see this.
+        console.log(this.chatName); // I see this.
+        console.log(this.chatTopic); // I see this.
+        console.log(this.chatThumbnail); // I don't see this.
 
-        // const file = result.file as File | null;
-        // this.saveChanges.emit(file!);
-        // this.settingsChanged.emit(result);
+        const file = result.file as File | null;
+        this.saveChanges.emit(file!);
+        this.settingsChanged.emit(result);
       }
     });
   }
