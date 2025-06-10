@@ -15,7 +15,7 @@ import {
   updateUsernameBio,
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../auth/auth.middleware';
-import { uploadAvatar } from '../middleware/upload';
+import { uploadAvatar } from '../middleware/avatar-upload';
 
 const router = express.Router();
 
