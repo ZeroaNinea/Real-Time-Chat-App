@@ -84,6 +84,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isModerator = signal(false);
   readonly chatName = signal('');
   readonly chatTopic = signal('');
+  readonly thumbnailFile = signal<File | null>(null);
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
   readonly populatedUsers = signal<PopulatedUser[]>([]);
@@ -479,46 +480,44 @@ export class ChatRoomComponent implements OnDestroy {
 
     const formData = new FormData();
     formData.append('name', this.chatName());
-    formData.append('avatar', this.chatTopic());
+    formData.append('topic', this.chatTopic());
+
+    if (this.thumbnailFile) {
+      formData.append('thumbnail', this.thumbnailFile()!);
+    }
 
     if (this.chatId()) {
       // Updating existing chat room.
       this.chatService
-        .updateChatRoom(this.chatId()!, {
-          name: this.chatName(),
-        })
+        .updateChatRoom(this.chatId()!, formData)
         .subscribe(() => console.log('Room updated'));
     } else {
       // Creating a new chat room.
-      this.chatService
-        .createChatRoom({
-          name: this.chatName(),
-        })
-        .subscribe({
-          next: (createdRoom) => {
-            // After chat room is created, create channels.
-            const chatId = createdRoom._id;
+      this.chatService.createChatRoom(formData).subscribe({
+        next: (createdRoom) => {
+          // After chat room is created, create channels.
+          const chatId = createdRoom._id;
 
-            const channelCreations = this.channels().map((channelName) =>
-              this.chatService.addChannel(chatId, channelName.name)
-            );
+          const channelCreations = this.channels().map((channelName) =>
+            this.chatService.addChannel(chatId, channelName.name)
+          );
 
-            // Execute all channel creations.
-            Promise.all(channelCreations.map((obs) => obs.toPromise()))
-              .then(() => {
-                console.log('All channels created');
-                this.router.navigate(['/chat-room', chatId]).then(() => {
-                  this.fetchChatRoom(chatId);
-                });
-              })
-              .catch((error) => {
-                console.error('Failed to create channels:', error);
+          // Execute all channel creations.
+          Promise.all(channelCreations.map((obs) => obs.toPromise()))
+            .then(() => {
+              console.log('All channels created');
+              this.router.navigate(['/chat-room', chatId]).then(() => {
+                this.fetchChatRoom(chatId);
               });
-          },
-          error: (err) => {
-            console.error('Failed to create chat room:', err);
-          },
-        });
+            })
+            .catch((error) => {
+              console.error('Failed to create channels:', error);
+            });
+        },
+        error: (err) => {
+          console.error('Failed to create chat room:', err);
+        },
+      });
     }
   }
 
