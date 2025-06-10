@@ -18,8 +18,8 @@ export class ChatRoomSettingsDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       name: string;
-      preview: string;
       topic: string;
+      thumbnail: string;
     }
   ) {}
 
