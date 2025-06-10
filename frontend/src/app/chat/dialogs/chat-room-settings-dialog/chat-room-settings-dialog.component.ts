@@ -35,7 +35,7 @@ export class ChatRoomSettingsDialogComponent {
     this.dialogRef.close({
       name: this.data.name,
       topic: this.data.topic,
-      thumbnail: this.selectedFile,
+      file: this.selectedFile,
     });
   }
 
