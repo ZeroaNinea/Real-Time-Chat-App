@@ -7,20 +7,30 @@
   <mat-form-field appearance="outline">
     <textarea
       matInput
-      [(ngModel)]="data.thumbnail"
-      placeholder="thumbnail"
-      rows="3"
-    ></textarea>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <textarea
-      matInput
       [(ngModel)]="data.topic"
       placeholder="Topic"
       rows="4"
     ></textarea>
   </mat-form-field>
+
+  <div>
+    <label for="thumbnail-upload">Thumbnail:</label>
+    <input
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      id="thumbnail-upload"
+    />
+    @if (thumbnailPreview) {
+    <div>
+      <img
+        [src]="thumbnailPreview"
+        alt="Thumbnail preview"
+        style="max-width: 100%; margin-top: 10px"
+      />
+    </div>
+    }
+  </div>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>

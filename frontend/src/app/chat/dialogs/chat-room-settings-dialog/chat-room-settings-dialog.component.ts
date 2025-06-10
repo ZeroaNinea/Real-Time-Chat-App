@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './chat-room-settings-dialog.component.scss',
 })
 export class ChatRoomSettingsDialogComponent {
+  thumbnailPreview: string | null = null;
+  selectedFile: File | null = null;
+
   constructor(
     private dialogRef: MatDialogRef<ChatRoomSettingsDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -28,6 +31,22 @@ export class ChatRoomSettingsDialogComponent {
   }
 
   onSave() {
-    this.dialogRef.close(this.data);
+    this.dialogRef.close({
+      name: this.data.name,
+      topic: this.data.topic,
+      file: this.selectedFile,
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.thumbnailPreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 }
