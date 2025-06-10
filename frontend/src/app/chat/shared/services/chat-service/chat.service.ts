@@ -20,7 +20,7 @@ export class ChatService {
 
   constructor() {}
 
-  createChatRoom(data: { name: string }) {
+  createChatRoom(data: Partial<Chat>) {
     return this.http.post<Chat>(
       `${environment.backendUrl}/chat/create-chat`,
       data
@@ -42,7 +42,7 @@ export class ChatService {
     );
   }
 
-  updateChatRoom(id: string, data: { name: string }) {
+  updateChatRoom(id: string, data: Partial<Chat>) {
     return this.http.patch<Chat>(
       `${environment.backendUrl}/chat/update-chat/${id}`,
       data
