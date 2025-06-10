@@ -58,6 +58,11 @@ export class ChatRoomSettingsComponent {
     key: keyof Channel;
     value: any;
   }>();
+  @Output() settingsChanged = new EventEmitter<{
+    name: string;
+    topic: string;
+    file: File | null;
+  }>();
 
   private dialog = inject(MatDialog);
   private chatService = inject(ChatService);
@@ -106,17 +111,18 @@ export class ChatRoomSettingsComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
       if (result) {
-        this.chatNameChange.emit(result.name);
-        this.chatName = result.name;
-        this.chatTopic = result.topic;
-        this.chatThumbnail = result.thumbnail;
+        // this.chatNameChange.emit(result.name);
+        // this.chatName = result.name;
+        // this.chatTopic = result.topic;
+        // this.chatThumbnail = result.thumbnail;
 
-        console.log(this.chatName); // I see this.
-        console.log(this.chatTopic); // I see this.
-        console.log(this.chatThumbnail); // I don't see this.
+        // console.log(this.chatName); // I see this.
+        // console.log(this.chatTopic); // I see this.
+        // console.log(this.chatThumbnail); // I don't see this.
 
-        const file = result.file as File | null;
-        this.saveChanges.emit(file!);
+        // const file = result.file as File | null;
+        // this.saveChanges.emit(file!);
+        this.settingsChanged.emit(result);
       }
     });
   }

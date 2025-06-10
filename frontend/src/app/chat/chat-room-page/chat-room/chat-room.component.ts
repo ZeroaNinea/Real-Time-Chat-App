@@ -714,4 +714,10 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
+
+  onSettingsChanged(data: { name: string; topic: string; file: File | null }) {
+    this.chatName.set(data.name);
+    this.chatTopic.set(data.topic);
+    this.thumbnailFile.set(data.file);
+  }
 }
