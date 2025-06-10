@@ -104,6 +104,7 @@ export class ChatRoomSettingsComponent {
     // });
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
       if (result) {
         this.chatNameChange.emit(result.name);
         this.chatTopic = result.topic;
