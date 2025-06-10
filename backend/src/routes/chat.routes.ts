@@ -14,6 +14,7 @@ import {
   updateChannel,
   updateChat,
 } from '../controllers/chat.controller';
+import { uploadChatThumbnail } from '../middleware/thumbnail-upload';
 
 const router = express.Router();
 
@@ -22,7 +23,12 @@ router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
 router.post('/create-chat', authMiddleware, asyncRoute(createChat));
-router.patch('/update-chat/:chatId', authMiddleware, asyncRoute(updateChat));
+router.patch(
+  '/update-chat/:chatId',
+  authMiddleware,
+  uploadChatThumbnail,
+  asyncRoute(updateChat)
+);
 router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
 router.get('/:chatId', authMiddleware, asyncRoute(getChat));
 
