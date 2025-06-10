@@ -26,7 +26,7 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
   {
     name: { type: String, required: true },
     topic: { type: String, default: '' },
-    thumbnail: { type: String, default: '' },
+    thumbnail: { type: String, required: false },
     isPrivate: { type: Boolean, default: true },
 
     members: [
