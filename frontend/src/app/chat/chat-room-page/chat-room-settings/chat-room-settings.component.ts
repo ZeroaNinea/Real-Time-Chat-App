@@ -49,6 +49,7 @@ export class ChatRoomSettingsComponent {
 
   @Output() chatNameChange = new EventEmitter<string>();
   @Output() chatTopicChange = new EventEmitter<string>();
+  @Output() chatThumbnailChange = new EventEmitter<File>();
   @Output() newChannelChange = new EventEmitter<string>();
   @Output() addChannel = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<File>();
@@ -114,6 +115,7 @@ export class ChatRoomSettingsComponent {
       if (result) {
         this.chatNameChange.emit(result.name);
         this.chatTopicChange.emit(result.topic);
+        this.chatThumbnailChange.emit(result.file);
         this.chatName = result.name;
         this.chatTopic = result.topic;
         this.chatThumbnail = result.thumbnail;

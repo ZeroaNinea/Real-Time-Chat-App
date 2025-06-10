@@ -11,6 +11,7 @@
       [chatId]="chatId()"
       (chatNameChange)="chatName.set($event)"
       (chatTopicChange)="chatTopic.set($event)"
+      (chatThumbnailChange)="thumbnailFile.set($event)"
       (newChannelChange)="newChannel.set($event)"
       (saveChanges)="saveChanges($event)"
       (deleteRoom)="deleteChatRoom()"
