@@ -476,9 +476,9 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   saveChanges(file: File | null) {
-    console.log('Chat name:', this.chatName());
-    console.log('Chat topic:', this.chatTopic());
-    console.log('Chat thumbnail:', this.thumbnailFile());
+    console.log('Chat name:', this.chatName()); // I see this.
+    console.log('Chat topic:', this.chatTopic()); // I don't see this.
+    console.log('Chat thumbnail:', this.thumbnailFile()); // I don't see this.
 
     this.thumbnailFile.set(file);
 

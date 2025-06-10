@@ -111,9 +111,9 @@ export class ChatRoomSettingsComponent {
         this.chatTopic = result.topic;
         this.chatThumbnail = result.file;
 
-        console.log(this.chatName);
-        console.log(this.chatTopic);
-        console.log(this.chatThumbnail);
+        console.log(this.chatName); // I see this.
+        console.log(this.chatTopic); // I see this.
+        console.log(this.chatThumbnail); // I don't see this.
 
         const file = result.file as File | null;
 

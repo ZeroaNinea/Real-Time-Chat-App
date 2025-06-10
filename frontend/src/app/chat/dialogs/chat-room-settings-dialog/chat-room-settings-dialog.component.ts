@@ -31,7 +31,7 @@ export class ChatRoomSettingsDialogComponent {
   }
 
   onSave() {
-    console.log(this.data);
+    console.log(this.data); // I see this.
     this.dialogRef.close({
       name: this.data.name,
       topic: this.data.topic,
