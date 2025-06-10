@@ -48,6 +48,7 @@ export class ChatRoomSettingsComponent {
   @Input() chatId: string | null = null;
 
   @Output() chatNameChange = new EventEmitter<string>();
+  @Output() chatTopicChange = new EventEmitter<string>();
   @Output() newChannelChange = new EventEmitter<string>();
   @Output() addChannel = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<File>();
@@ -111,7 +112,8 @@ export class ChatRoomSettingsComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
       if (result) {
-        // this.chatNameChange.emit(result.name);
+        this.chatNameChange.emit(result.name);
+        this.chatTopicChange.emit(result.topic);
         // this.chatName = result.name;
         // this.chatTopic = result.topic;
         // this.chatThumbnail = result.thumbnail;
@@ -122,7 +124,7 @@ export class ChatRoomSettingsComponent {
 
         // const file = result.file as File | null;
         // this.saveChanges.emit(file!);
-        this.settingsChanged.emit(result);
+        // this.settingsChanged.emit(result);
       }
     });
   }

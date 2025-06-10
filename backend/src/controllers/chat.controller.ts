@@ -132,7 +132,7 @@ export const updateChat = async (req: Request, res: Response) => {
   const { chatId } = req.params;
   const updates = req.body;
 
-  console.log(updates);
+  console.log('Updates:', updates);
 
   try {
     const chat = await Chat.findById(chatId);
