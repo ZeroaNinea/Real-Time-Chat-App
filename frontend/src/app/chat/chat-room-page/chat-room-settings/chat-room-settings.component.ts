@@ -90,8 +90,8 @@ export class ChatRoomSettingsComponent {
     const dialogRef = this.dialog.open(ChatRoomSettingsDialogComponent, {
       data: {
         name: this.chatName,
-        preview: this.chatThumbnail,
         topic: this.chatTopic,
+        thumbnail: this.chatThumbnail,
       },
     });
 
