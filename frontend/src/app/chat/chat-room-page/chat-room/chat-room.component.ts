@@ -487,7 +487,7 @@ export class ChatRoomComponent implements OnDestroy {
     formData.append('topic', this.chatTopic());
 
     if (this.thumbnailFile) {
-      formData.append('avatar', this.thumbnailFile()!);
+      formData.append('thumbnail', this.thumbnailFile()!);
     }
 
     if (this.chatId()) {
