@@ -38,11 +38,13 @@ export const privateMessages = async (req: Request, res: Response) => {
 
 export const createChat = async (req: Request, res: Response) => {
   try {
-    const { name, channels } = req.body;
+    const { name, topic } = req.body;
 
     if (!name) {
       return res.status(400).json({ message: 'Chat name is required' });
     }
+
+    const thumbnail = req.file?.filename;
 
     const chat = await Chat.create({
       name,
@@ -50,6 +52,8 @@ export const createChat = async (req: Request, res: Response) => {
       roles: [
         {
           name: 'Owner',
+          topic: topic,
+          thumbnail: thumbnail,
           description: 'Full permissions',
           permissions: [
             'canBan',
