@@ -50,7 +50,7 @@ export class ChatRoomSettingsComponent {
   @Output() chatNameChange = new EventEmitter<string>();
   @Output() newChannelChange = new EventEmitter<string>();
   @Output() addChannel = new EventEmitter<void>();
-  @Output() saveChanges = new EventEmitter<void>();
+  @Output() saveChanges = new EventEmitter<File>();
   @Output() deleteRoom = new EventEmitter<void>();
   // @Output() onChannelEdit = new EventEmitter<string>();
   @Output() onChannelEdit = new EventEmitter<{
@@ -105,7 +105,12 @@ export class ChatRoomSettingsComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.chatService.updateChatRoom(this.chatId!, result).subscribe();
+        this.chatNameChange.emit(result.name);
+        this.chatTopic = result.topic;
+
+        const file = result.file as File | null;
+
+        this.saveChanges.emit(file!);
       }
     });
   }
