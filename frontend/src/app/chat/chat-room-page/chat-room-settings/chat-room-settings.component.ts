@@ -109,14 +109,13 @@ export class ChatRoomSettingsComponent {
         this.chatNameChange.emit(result.name);
         this.chatName = result.name;
         this.chatTopic = result.topic;
-        this.chatThumbnail = result.file;
+        this.chatThumbnail = result.thumbnail;
 
         console.log(this.chatName); // I see this.
         console.log(this.chatTopic); // I see this.
         console.log(this.chatThumbnail); // I don't see this.
 
         const file = result.file as File | null;
-
         this.saveChanges.emit(file!);
       }
     });
