@@ -229,7 +229,8 @@ export const removeThumbnail = async (req: Request, res: Response) => {
     const member = chat.members.find((m: Member) =>
       m.user.equals(req.user._id)
     );
-    const isOwner = member?.roles.includes('Owner');
+    const isOwner =
+      member?.roles.includes('Owner') || member?.roles.includes('Admin');
 
     if (!isOwner) {
       return res
@@ -237,6 +238,7 @@ export const removeThumbnail = async (req: Request, res: Response) => {
         .json({ message: 'Only the owner or admin can remove the thumbnail' });
     }
 
+    deleteThumbnailFile(chat);
     chat.thumbnail = null;
 
     await chat.save();
