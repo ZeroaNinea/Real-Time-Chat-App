@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 
+import path from 'path';
+import fs from 'fs';
+
 import { Chat, ChatDocument } from '../models/chat.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.alias';
@@ -7,6 +10,19 @@ import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
+
+export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
+  if (!chat.thumbnail) return;
+
+  const fullPath = path.join(
+    __dirname,
+    '../../uploads/chat-thumbnails',
+    chat.thumbnail
+  );
+  if (fs.existsSync(fullPath)) {
+    fs.unlinkSync(fullPath);
+  }
+};
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
