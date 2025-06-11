@@ -11,6 +11,7 @@ import {
   getChatRooms,
   mine,
   privateMessages,
+  removeThumbnail,
   updateChannel,
   updateChat,
 } from '../controllers/chat.controller';
@@ -37,6 +38,11 @@ router.post(
   '/update-channel/:chatId',
   authMiddleware,
   asyncRoute(updateChannel)
+);
+router.delete(
+  '/delete-thumbnail/:chatId',
+  authMiddleware,
+  asyncRoute(removeThumbnail)
 );
 
 router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
