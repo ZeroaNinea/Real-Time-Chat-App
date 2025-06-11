@@ -73,9 +73,11 @@ export class ChatRoomSettingsComponent {
   environment = environment;
 
   getChatThumbnailUrl() {
-    return this.chatThumbnailUrl
-      ? `${this.environment.backendUrl}/uploads/chat-thumbnails/${this.chatThumbnail}`
-      : 'assets/camera.svg';
+    if (this.chatThumbnailUrl) {
+      return `${this.environment.backendUrl}/uploads/chat-thumbnails/${this.chatThumbnailUrl}`;
+    } else {
+      return 'assets/camera.svg';
+    }
   }
 
   handleAdminsOnlyChange(channel: Channel, event: Event) {
