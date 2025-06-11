@@ -51,6 +51,12 @@ export class ChatService {
     );
   }
 
+  deleteThumbnail(chatId: string) {
+    return this.http.delete(
+      `${environment.backendUrl}/chat/delete-thumbnail/${chatId}`
+    );
+  }
+
   addChannel(chatId: string, channelName: string): Observable<Channel> {
     console.log('Adding channel:', channelName);
     return this.http.post<Channel>(
