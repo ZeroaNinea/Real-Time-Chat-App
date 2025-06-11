@@ -73,9 +73,8 @@ export class ChatRoomSettingsComponent {
   environment = environment;
 
   getChatThumbnailUrl() {
-    console.log(this.chatThumbnailUrl);
     return this.chatThumbnailUrl
-      ? `${this.environment.backendUrl}/${this.chatThumbnail}`
+      ? `${this.environment.backendUrl}/uploads/chat-thumbnails/${this.chatThumbnail}`
       : 'assets/camera.svg';
   }
 
