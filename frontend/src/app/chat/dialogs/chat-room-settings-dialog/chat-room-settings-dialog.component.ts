@@ -50,4 +50,9 @@ export class ChatRoomSettingsDialogComponent {
       reader.readAsDataURL(this.selectedFile);
     }
   }
+
+  onDeleteThumbnail() {
+    this.thumbnailPreview = null;
+    this.selectedFile = null;
+  }
 }
