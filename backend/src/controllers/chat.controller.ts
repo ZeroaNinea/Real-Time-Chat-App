@@ -14,7 +14,11 @@ import { PopulatedUser } from '../../types/populated-user.interface';
 export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
   if (!chat.thumbnail) return;
 
-  const fullPath = path.join(__dirname, '../../', chat.thumbnail);
+  const fullPath = path.join(
+    __dirname,
+    '../../uploads/chat-thumbnails',
+    chat.thumbnail
+  );
   if (fs.existsSync(fullPath)) {
     fs.unlinkSync(fullPath);
   }
