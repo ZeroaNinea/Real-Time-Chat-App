@@ -39,6 +39,7 @@ import { environment } from '../../../../environments/environment';
 export class ChatRoomSettingsComponent {
   @Input() chatName = '';
   @Input() chatThumbnail: File | null = null;
+  @Input() chatThumbnailUrl: string | null = '';
   @Input() chatTopic = '';
   @Input() newChannel = '';
   @Input() channels: Channel[] = [];
@@ -72,8 +73,8 @@ export class ChatRoomSettingsComponent {
   environment = environment;
 
   getChatThumbnailUrl() {
-    console.log(this.chatThumbnail);
-    return this.chatThumbnail
+    console.log(this.chatThumbnailUrl);
+    return this.chatThumbnailUrl
       ? `${this.environment.backendUrl}/${this.chatThumbnail}`
       : 'assets/camera.svg';
   }

@@ -84,6 +84,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly isModerator = signal(false);
   readonly chatName = signal('');
   readonly chatTopic = signal('');
+  readonly chatThumbnail = signal<string | null>(null);
   readonly thumbnailFile = signal<File | null>(null);
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
@@ -214,6 +215,7 @@ export class ChatRoomComponent implements OnDestroy {
       this.channels.set(chat.channels);
       this.members.set(chat.members);
       this.chatRoomRoles.set(chat.chatRoles);
+      this.chatThumbnail.set(chat.thumbnail);
 
       const currentUserId = this.authService.currentUser()?.id;
       const member = chat.members.find((m) => m.user === currentUserId);
