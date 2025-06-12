@@ -10,7 +10,7 @@
           class="thumbnail-image"
         />
         <span>{{ room.name }}</span>
-
+        <span>{{ room.topic }}</span>
         <button mat-button (click)="visitRoom.emit(room)">Visit</button>
         <button
           mat-button
@@ -36,6 +36,7 @@
           class="thumbnail-image"
         />
         <span>{{ room.name }}</span>
+        <span>{{ room.topic }}</span>
         <button
           mat-button
           [disabled]="isJoinDisabled(room)"
