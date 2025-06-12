@@ -26,24 +26,33 @@ mat-card-title {
   gap: 0.5rem;
 
   .thumbnail-image {
+    flex-shrink: 0;
     width: 45px;
     height: 45px;
     border: 1px solid #ccc;
     border-radius: 50%;
   }
 
+  button {
+    flex-shrink: 0;
+  }
+
   .room-info {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     .room-topic {
       color: var(--mat-sys-outline);
       font-size: 0.8rem;
-
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
   }
 }
