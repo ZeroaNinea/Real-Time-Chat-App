@@ -3,13 +3,14 @@
     <mat-card-title>Your Rooms</mat-card-title>
     <mat-list>
       @for (room of userRooms; track $index) {
-      <mat-list-item>
+      <mat-list-item class="room-item">
         <img
           [src]="getChatThumbnailUrl(room)"
           alt="thumbnail"
           class="thumbnail-image"
         />
-        <span># {{ room.name }}</span>
+        <span>{{ room.name }}</span>
+
         <button mat-button (click)="visitRoom.emit(room)">Visit</button>
         <button
           mat-button
@@ -29,7 +30,12 @@
     <mat-list>
       @for (room of filteredChatRooms(); track $index) {
       <mat-list-item>
-        <span># {{ room.name }}</span>
+        <img
+          [src]="getChatThumbnailUrl(room)"
+          alt="thumbnail"
+          class="thumbnail-image"
+        />
+        <span>{{ room.name }}</span>
         <button
           mat-button
           [disabled]="isJoinDisabled(room)"
