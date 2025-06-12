@@ -39,6 +39,11 @@ mat-card-title {
     .room-topic {
       color: var(--mat-sys-outline);
       font-size: 0.8rem;
+
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
