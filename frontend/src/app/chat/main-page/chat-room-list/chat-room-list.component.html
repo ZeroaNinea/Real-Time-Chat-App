@@ -4,6 +4,11 @@
     <mat-list>
       @for (room of userRooms; track $index) {
       <mat-list-item>
+        <img
+          [src]="getChatThumbnailUrl(room)"
+          alt="thumbnail"
+          class="thumbnail-image"
+        />
         <span># {{ room.name }}</span>
         <button mat-button (click)="visitRoom.emit(room)">Visit</button>
         <button

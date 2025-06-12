@@ -11,6 +11,9 @@ import { MatListModule } from '@angular/material/list';
 
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
+
+import { environment } from '../../../../environments/environment';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -32,6 +35,8 @@ export class ChatRoomListComponent implements OnChanges {
 
   allRooms: Chat[] = [];
   userRooms: Chat[] = [];
+
+  environment = environment;
 
   ngOnChanges() {
     if (!this.chatRooms) return;
@@ -84,6 +89,14 @@ export class ChatRoomListComponent implements OnChanges {
       return true;
     } else {
       return false;
+    }
+  }
+
+  getChatThumbnailUrl(room: Chat) {
+    if (room.thumbnail) {
+      return `${this.environment.backendUrl}/uploads/chat-thumbnails/${room.thumbnail}`;
+    } else {
+      return 'assets/camera.svg';
     }
   }
 }

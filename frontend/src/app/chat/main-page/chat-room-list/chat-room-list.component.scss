@@ -20,6 +20,14 @@ mat-card-title {
   margin: 1rem;
 }
 
+.thumbnail-image {
+  width: 47px;
+  height: 47px;
+  margin: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}
+
 .warn {
   @include mat.theme(
     (
