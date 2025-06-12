@@ -37,7 +37,9 @@ export class ChatRoomSettingsDialogComponent {
       chatId: string | null;
     }
   ) {
-    console.log('thumbnail', data.thumbnailUrl);
+    // if (data.thumbnailUrl) {
+    // this.thumbnailPreview = data.thumbnailUrl;
+    // }
   }
 
   onCancel() {
@@ -49,7 +51,7 @@ export class ChatRoomSettingsDialogComponent {
       name: this.data.name,
       topic: this.data.topic,
       file: this.selectedFile,
-      thumbnail: this.thumbnailPreview ?? this.data.thumbnailUrl,
+      thumbnail: this.thumbnailPreview,
     });
   }
 

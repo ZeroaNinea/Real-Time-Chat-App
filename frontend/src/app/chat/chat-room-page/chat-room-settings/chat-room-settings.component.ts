@@ -55,16 +55,10 @@ export class ChatRoomSettingsComponent {
   @Output() addChannel = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<File>();
   @Output() deleteRoom = new EventEmitter<void>();
-  // @Output() onChannelEdit = new EventEmitter<string>();
   @Output() onChannelEdit = new EventEmitter<{
     channelId: string;
     key: keyof Channel;
     value: any;
-  }>();
-  @Output() settingsChanged = new EventEmitter<{
-    name: string;
-    topic: string;
-    file: File | null;
   }>();
 
   private dialog = inject(MatDialog);
@@ -111,14 +105,10 @@ export class ChatRoomSettingsComponent {
       if (result) {
         this.chatNameChange.emit(result.name);
         this.chatTopicChange.emit(result.topic);
-        this.chatThumbnailChange.emit(result.file);
-        this.chatName = result.name;
-        this.chatTopic = result.topic;
-        this.chatThumbnail = result.thumbnail;
+        // this.chatThumbnailChange.emit(result.file);
 
         const file = result.file as File | null;
         this.saveChanges.emit(file!);
-        this.settingsChanged.emit(result);
       }
     });
   }
