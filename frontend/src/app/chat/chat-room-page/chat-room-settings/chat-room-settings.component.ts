@@ -112,9 +112,9 @@ export class ChatRoomSettingsComponent {
         this.chatNameChange.emit(result.name);
         this.chatTopicChange.emit(result.topic);
         this.chatThumbnailChange.emit(result.file);
-        this.chatName = result.name;
-        this.chatTopic = result.topic;
-        this.chatThumbnail = result.thumbnail;
+        // this.chatName = result.name;
+        // this.chatTopic = result.topic;
+        // this.chatThumbnail = result.thumbnail;
 
         const file = result.file as File | null;
         this.saveChanges.emit(file!);
