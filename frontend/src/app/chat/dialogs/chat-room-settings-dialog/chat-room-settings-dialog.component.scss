@@ -3,7 +3,7 @@
 :host {
   display: block;
   padding: 1rem;
-  max-width: 400px;
+  max-height: 80vh;
   margin: auto;
 }
 
@@ -17,6 +17,7 @@ mat-form-field {
   display: flex;
   flex-direction: column;
   align-items: start;
+  flex-wrap: wrap;
 
   label {
     font-weight: 500;
