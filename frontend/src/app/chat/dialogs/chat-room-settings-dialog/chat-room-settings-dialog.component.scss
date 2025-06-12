@@ -1,34 +1,5 @@
 @use "@angular/material" as mat;
 
-.thumbnail-preview {
-  max-width: 100px;
-  max-height: 100px;
-}
-
-.warn {
-  @include mat.theme(
-    (
-      color: mat.$red-palette,
-    )
-  );
-}
-
-.accent {
-  @include mat.theme(
-    (
-      color: mat.$yellow-palette,
-    )
-  );
-}
-
-.primary {
-  @include mat.theme(
-    (
-      color: mat.$blue-palette,
-    )
-  );
-}
-
 :host {
   display: block;
   padding: 1rem;
@@ -70,4 +41,20 @@ mat-dialog-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
+}
+
+.primary {
+  @include mat.theme(
+    (
+      color: mat.$blue-palette,
+    )
+  );
 }
