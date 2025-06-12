@@ -34,7 +34,11 @@
       hidden
     />
 
-    @if (thumbnailPreview) {
+    @if (selectedFile) {
+    <div class="file-name">
+      {{ selectedFile.name }}
+    </div>
+    } @if (thumbnailPreview) {
     <img
       [src]="thumbnailPreview"
       alt="Thumbnail preview"
