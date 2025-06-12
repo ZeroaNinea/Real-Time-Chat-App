@@ -3,23 +3,27 @@
     <mat-card-title>Your Rooms</mat-card-title>
     <mat-list>
       @for (room of userRooms; track $index) {
-      <mat-list-item class="room-item">
-        <img
-          [src]="getChatThumbnailUrl(room)"
-          alt="thumbnail"
-          class="thumbnail-image"
-        />
-        <span>{{ room.name }}</span>
-        <span>{{ room.topic }}</span>
-        <button mat-button (click)="visitRoom.emit(room)">Visit</button>
-        <button
-          mat-button
-          [disabled]="isLeaveDisabled(room)"
-          (click)="leaveRoom.emit(room)"
-          class="warn"
-        >
-          Leave
-        </button>
+      <mat-list-item>
+        <div class="room-item">
+          <img
+            [src]="getChatThumbnailUrl(room)"
+            alt="thumbnail"
+            class="thumbnail-image"
+          />
+          <div class="room-info">
+            <span>{{ room.name }}</span>
+            <span class="room-topic">{{ room.topic }}</span>
+          </div>
+          <button mat-button (click)="visitRoom.emit(room)">Visit</button>
+          <button
+            mat-button
+            [disabled]="isLeaveDisabled(room)"
+            (click)="leaveRoom.emit(room)"
+            class="warn"
+          >
+            Leave
+          </button>
+        </div>
       </mat-list-item>
       }
     </mat-list>
@@ -30,20 +34,24 @@
     <mat-list>
       @for (room of filteredChatRooms(); track $index) {
       <mat-list-item>
-        <img
-          [src]="getChatThumbnailUrl(room)"
-          alt="thumbnail"
-          class="thumbnail-image"
-        />
-        <span>{{ room.name }}</span>
-        <span>{{ room.topic }}</span>
-        <button
-          mat-button
-          [disabled]="isJoinDisabled(room)"
-          (click)="joinRoom.emit(room)"
-        >
-          Join
-        </button>
+        <div class="room-item">
+          <img
+            [src]="getChatThumbnailUrl(room)"
+            alt="thumbnail"
+            class="thumbnail-image"
+          />
+          <div class="room-info">
+            <span>{{ room.name }}</span>
+            <span class="room-topic">{{ room.topic }}</span>
+          </div>
+          <button
+            mat-button
+            [disabled]="isJoinDisabled(room)"
+            (click)="joinRoom.emit(room)"
+          >
+            Join
+          </button>
+        </div>
       </mat-list-item>
       }
     </mat-list>
