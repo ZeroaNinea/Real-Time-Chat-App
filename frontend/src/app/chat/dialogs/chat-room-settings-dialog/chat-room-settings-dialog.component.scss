@@ -58,3 +58,39 @@ mat-dialog-actions {
     )
   );
 }
+
+.thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0;
+
+  .file-upload-label {
+    @include mat.theme(
+      (
+        color: mat.$magenta-palette,
+      )
+    );
+
+    width: fit-content;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: transparent;
+    color: var(--mat-sys-secondary);
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .thumbnail-preview {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+}
