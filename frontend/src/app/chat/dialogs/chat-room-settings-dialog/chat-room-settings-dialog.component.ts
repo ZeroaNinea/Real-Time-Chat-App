@@ -1,9 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
+import { ChatService } from '../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-chat-room-settings-dialog',
@@ -15,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 export class ChatRoomSettingsDialogComponent {
   thumbnailPreview: string | null = null;
   selectedFile: File | null = null;
+  chatService = inject(ChatService);
 
   constructor(
     private dialogRef: MatDialogRef<ChatRoomSettingsDialogComponent>,
@@ -23,6 +26,7 @@ export class ChatRoomSettingsDialogComponent {
       name: string;
       topic: string;
       thumbnail: File | null;
+      chatId: string | null;
     }
   ) {}
 
@@ -51,7 +55,17 @@ export class ChatRoomSettingsDialogComponent {
   }
 
   onDeleteThumbnail() {
-    this.thumbnailPreview = null;
-    this.selectedFile = null;
+    if (!this.data.chatId) return;
+
+    this.chatService.deleteThumbnail(this.data.chatId).subscribe({
+      next: () => {
+        this.thumbnailPreview = null;
+        this.selectedFile = null;
+        this.data.thumbnail = null;
+      },
+      error: (err) => {
+        console.error('Failed to delete thumbnail', err);
+      },
+    });
   }
 }
