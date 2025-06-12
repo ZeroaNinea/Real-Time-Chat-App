@@ -102,6 +102,7 @@ export class ChatRoomSettingsComponent {
         name: this.chatName,
         topic: this.chatTopic,
         thumbnail: this.chatThumbnail,
+        chatId: this.chatId,
       },
     });
 
