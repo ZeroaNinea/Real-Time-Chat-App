@@ -39,6 +39,7 @@ export class ChatRoomSettingsDialogComponent {
       name: this.data.name,
       topic: this.data.topic,
       file: this.selectedFile,
+      thumbnail: this.thumbnailPreview,
     });
   }
 
