@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Edit Chat Room</h1>
+<!-- <h1 mat-dialog-title>Edit Chat Room</h1>
 <div mat-dialog-content>
   <mat-form-field appearance="outline">
     <input matInput [(ngModel)]="data.name" placeholder="Chat Room Name" />
@@ -38,4 +38,46 @@
   </button>
   <button mat-button (click)="onCancel()" class="accent">Cancel</button>
   <button mat-button (click)="onSave()" class="primary">Save</button>
+</div> -->
+<h1 mat-dialog-title>Edit Chat Room</h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="data.name" placeholder="Chat Room Name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <textarea
+      matInput
+      [(ngModel)]="data.topic"
+      placeholder="Chat Room Topic"
+      rows="4"
+    ></textarea>
+  </mat-form-field>
+
+  <div class="thumbnail-container">
+    <label for="thumbnail-upload">Upload Thumbnail</label>
+    <input
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      id="thumbnail-upload"
+    />
+
+    @if (thumbnailPreview) {
+    <img
+      [src]="thumbnailPreview"
+      alt="Thumbnail preview"
+      class="thumbnail-preview"
+    />
+    }
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="warn" (click)="onDeleteThumbnail()">
+    Delete Thumbnail
+  </button>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()">Save</button>
 </div>
