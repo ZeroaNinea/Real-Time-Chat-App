@@ -717,15 +717,15 @@ export class ChatRoomComponent implements OnDestroy {
     );
   }
 
-  onSettingsChanged(data: { name: string; topic: string; file: File | null }) {
-    console.log('onSettingsChanged called');
-    console.log(data);
-    this.chatName.set(data.name);
-    this.chatTopic.set(data.topic);
-    this.thumbnailFile.set(data.file);
+  // onSettingsChanged(data: { name: string; topic: string; file: File | null }) {
+  //   console.log('onSettingsChanged called');
+  //   console.log(data);
+  //   this.chatName.set(data.name);
+  //   this.chatTopic.set(data.topic);
+  //   this.thumbnailFile.set(data.file);
 
-    console.log(this.chatName());
-    console.log(this.chatTopic());
-    console.log(this.thumbnailFile());
-  }
+  //   console.log(this.chatName());
+  //   console.log(this.chatTopic());
+  //   console.log(this.thumbnailFile());
+  // }
 }
