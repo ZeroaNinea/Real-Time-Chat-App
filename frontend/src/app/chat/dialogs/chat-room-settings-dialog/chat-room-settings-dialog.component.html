@@ -33,7 +33,9 @@
   </div>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button (click)="onDeleteThumbnail()">Delete Thumbnail</button>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button (click)="onDeleteThumbnail()" class="warn">
+    Delete Thumbnail
+  </button>
+  <button mat-button (click)="onCancel()" class="accent">Cancel</button>
+  <button mat-button (click)="onSave()" class="primary">Save</button>
 </div>

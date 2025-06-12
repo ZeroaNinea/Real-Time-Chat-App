@@ -1,4 +1,30 @@
+@use "@angular/material" as mat;
+
 .thumbnail-preview {
   max-width: 100px;
   max-height: 100px;
+}
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
+}
+
+.accent {
+  @include mat.theme(
+    (
+      color: mat.$yellow-palette,
+    )
+  );
+}
+
+.primary {
+  @include mat.theme(
+    (
+      color: mat.$blue-palette,
+    )
+  );
 }
