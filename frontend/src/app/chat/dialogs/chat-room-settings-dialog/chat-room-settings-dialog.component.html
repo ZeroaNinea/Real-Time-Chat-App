@@ -16,9 +16,16 @@
   </mat-form-field>
 
   <div class="thumbnail-container">
-    <label for="thumbnail-upload" class="file-upload-label" mat-stroked-button>
-      Upload Thumbnail
-    </label>
+    <div matRipple [matRippleTrigger]="trigger">
+      <label
+        #trigger
+        for="thumbnail-upload"
+        class="file-upload-label"
+        mat-stroked-button
+      >
+        Upload Thumbnail
+      </label>
+    </div>
     <input
       type="file"
       accept="image/*"

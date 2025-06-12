@@ -4,12 +4,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
 
 import { ChatService } from '../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-chat-room-settings-dialog',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatRippleModule,
+    FormsModule,
+  ],
   standalone: true,
   templateUrl: './chat-room-settings-dialog.component.html',
   styleUrl: './chat-room-settings-dialog.component.scss',

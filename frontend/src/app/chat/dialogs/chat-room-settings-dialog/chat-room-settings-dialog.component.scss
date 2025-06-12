@@ -65,24 +65,32 @@ mat-dialog-actions {
   gap: 1rem;
   margin-top: 0;
 
-  .file-upload-label {
-    @include mat.theme(
-      (
-        color: mat.$magenta-palette,
-      )
-    );
+  div {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1rem;
 
-    width: fit-content;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    background-color: transparent;
-    color: var(--mat-sys-secondary);
-    transition: background-color 0.2s;
+    .file-upload-label {
+      @include mat.theme(
+        (
+          color: mat.$magenta-palette,
+        )
+      );
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
+      width: fit-content;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background-color: transparent;
+      color: var(--mat-sys-secondary);
+      transition: background-color 0.1s;
+      margin-bottom: 0;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
     }
   }
 
