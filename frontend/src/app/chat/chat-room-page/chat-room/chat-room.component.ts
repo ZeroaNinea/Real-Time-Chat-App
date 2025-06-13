@@ -127,6 +127,12 @@ export class ChatRoomComponent implements OnDestroy {
     return user?.user?.friends || [];
   }
 
+  currentUserPendingRequests() {
+    const id = this.currentUser()?.id;
+    const user = this.populatedUsers().find((u) => u.user._id === id);
+    return user?.user?.pendingRequests || [];
+  }
+
   constructor() {
     effect(() => {
       // Scroll when messages change and user is at bottom.
