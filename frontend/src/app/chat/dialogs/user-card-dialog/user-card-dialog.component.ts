@@ -271,7 +271,7 @@ export class UserCardDialogComponent implements OnChanges {
     this.wsService.emit(
       'sendFriendRequest',
       {
-        userId: this.data.selectedUser.user._id,
+        receiverId: this.data.selectedUser.user._id,
       },
       (res: any) => {
         if (res?.error) {
