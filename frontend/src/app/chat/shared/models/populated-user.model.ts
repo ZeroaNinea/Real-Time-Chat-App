@@ -6,6 +6,8 @@ export interface PopulatedUser {
     bio: string;
     pronouns: string;
     status: string;
+    friends: string[];
+    banlist: string[];
   };
   roles: string[];
 }
@@ -17,4 +19,6 @@ export type AbbreviatedPopulatedUser = {
   bio: string;
   pronouns: string;
   status: string;
+  friends: string[];
+  banlist: string[];
 };
