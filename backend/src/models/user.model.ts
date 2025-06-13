@@ -10,6 +10,8 @@ export interface IUser {
   bio?: string;
   pronouns?: string;
   status?: string;
+  friends?: string[];
+  banlist?: string[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -48,6 +50,14 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     status: {
       type: String,
       default: '',
+    },
+    friends: {
+      type: [String],
+      default: [],
+    },
+    banlist: {
+      type: [String],
+      default: [],
     },
   },
   {
