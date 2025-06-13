@@ -1054,7 +1054,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('sendFriendRequest', async ({ receiverId }, callback) => {
       try {
         console.log('Friend request sent', socket.data.user._id, receiverId);
-        const senderId = socket.data.user._id;
+        const senderId = socket.data.user._id.toString();
         const sender = await findUserById(senderId);
         const receiver = await findUserById(receiverId);
 
