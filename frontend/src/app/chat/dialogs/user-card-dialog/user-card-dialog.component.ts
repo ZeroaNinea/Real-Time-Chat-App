@@ -290,7 +290,9 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isFriend() {
-    // return this.data.selectedUser.user._id in this.data.friends;
+    return this.data.selectedUser.user.friends.includes(
+      this.data.currentUserId
+    );
   }
 
   copyUserId(): void {
