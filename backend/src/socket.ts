@@ -1063,6 +1063,12 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (receiver.friends.includes(senderId))
           return callback?.({ error: 'Already friends' });
 
+        if (sender.pendingRequests.includes(receiverId))
+          return callback?.({ error: 'Friend request already sent' });
+
+        sender.pendingRequests.push(receiverId);
+        await sender.save();
+
         const notification = new Notification({
           sender: senderId,
           recipient: receiverId,
