@@ -11,6 +11,7 @@ import { Message } from '../../models/message.model';
 import { PopulatedUser } from '../../models/populated-user.model';
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
+import { Notification } from '../../models/notification.model';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +125,7 @@ export class ChatService {
   }
 
   getNotifications(userId: string) {
-    return this.http.get(
+    return this.http.get<Notification[]>(
       `${environment.backendUrl}/notification/get-notifications/${userId}`
     );
   }
