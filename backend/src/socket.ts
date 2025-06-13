@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
 
-import { updateChannel } from './controllers/chat.controller';
 import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
 import { Channel, ChannelDocument } from './models/channel.model';
@@ -1051,23 +1050,20 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on(
-      'sendFriendRquest',
-      async ({ senderId, receiverId }, callback) => {
-        try {
-          const sender = await findUserById(senderId);
-          const receiver = await findUserById(receiverId);
+    socket.on('sendFriendRquest', async ({ receiverId }, callback) => {
+      try {
+        const sender = await findUserById(socket.data.user._id);
+        const receiver = await findUserById(receiverId);
 
-          if (!sender || !receiver)
-            return callback?.({ error: 'User not found' });
+        if (!sender || !receiver)
+          return callback?.({ error: 'User not found' });
 
-          callback?.({ success: true });
-        } catch (err) {
-          console.error(err);
-          callback?.({ error: 'Server error' });
-        }
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
       }
-    );
+    });
   });
 
   return io;
