@@ -17,8 +17,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { ChatService } from '../../shared/services/chat-service/chat.service';
+
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
+import { Notification } from '../../shared/models/notification.model';
 
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
@@ -58,6 +60,7 @@ export class MainComponent implements OnChanges {
   currentUserId = signal<string | undefined>(undefined);
 
   chatRooms!: ChatRooms;
+  notifications!: Notification[];
 
   constructor() {
     afterNextRender(() => {
