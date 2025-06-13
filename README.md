@@ -249,6 +249,17 @@ backend/
 ✅ Step 42: Implement joining
 <br />
 
+## Next steps
+
+➡️ Friends system
+<br />
+➡️ Private messages
+<br />
+➡️ Activity status
+<br />
+➡️ Message formatting
+<br />
+
 #### **The chat room's URL:** http://localhost:4200/chat-room/6829e659be0550e0e63405ca/channel/6829e65fbe0550e0e63405f2
 
 ### Main Components (likely pages or views)
