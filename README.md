@@ -248,7 +248,7 @@ backend/
 <br />
 ✅ Step 42: Implement joining
 <br />
-➡️ Step 43: Add a `Notification` model
+✅ Step 43: Add a `Notification` model
 <br />
 ➡️ Step 44: Implement a real-time notification system in Socket.io
 <br />
