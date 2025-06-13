@@ -266,6 +266,28 @@ export class UserCardDialogComponent implements OnChanges {
     );
   }
 
+  sendFriendRequest() {
+    this.wsService.emit(
+      'sendFriendRequest',
+      {
+        userId: this.data.selectedUser.user._id,
+      },
+      (res: any) => {
+        if (res?.error) {
+          this._snackbar.open(res.error, 'Close', { duration: 3000 });
+        } else {
+          this._snackbar.open(
+            `Friend request sent to ${this.data.selectedUser.user.username}!`,
+            'Close',
+            {
+              duration: 2000,
+            }
+          );
+        }
+      }
+    );
+  }
+
   copyUserId(): void {
     const id = this.data.selectedUser.user._id;
     navigator.clipboard
