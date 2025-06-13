@@ -122,4 +122,10 @@ export class ChatService {
       }
     );
   }
+
+  getNotifications(userId: string) {
+    return this.http.get(
+      `${environment.backendUrl}/notification/get-notifications/${userId}`
+    );
+  }
 }
