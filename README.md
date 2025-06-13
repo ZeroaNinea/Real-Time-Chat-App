@@ -244,7 +244,7 @@ backend/
 <br />
 ✅ Step 40: Implement role creating
 <br />
-➡️ Step 41: Display chat room list
+✅ Step 41: Display chat room list
 <br />
 ➡️ Step 42: Implement joining
 <br />
