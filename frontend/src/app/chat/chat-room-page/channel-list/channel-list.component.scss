@@ -58,6 +58,10 @@
   cursor: grab;
 }
 
+.channel-item.non-stuff {
+  padding: 10rem;
+}
+
 .channel-item {
   @include mat.theme(
     (

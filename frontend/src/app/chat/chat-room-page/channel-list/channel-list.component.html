@@ -13,7 +13,7 @@
 <div cdkDropList (cdkDropListDropped)="onDrop($event)">
   @for (channel of channels; track $index) {
   <div cdkDrag matRipple [matRippleTrigger]="trigger">
-    <div #trigger class="channel-item">
+    <div #trigger class="channel-item non-stuff">
       <span class="channel-link">
         <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
           {{ channel.name }}
@@ -42,5 +42,17 @@
   }
 </div>
 } @else {
-<p>Another interface.</p>
+<div cdkDropList (cdkDropListDropped)="onDrop($event)">
+  @for (channel of channels; track $index) {
+  <div matRipple [matRippleTrigger]="trigger">
+    <div #trigger class="channel-item">
+      <span class="channel-link">
+        <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
+          {{ channel.name }}
+        </a>
+      </span>
+    </div>
+  </div>
+  }
+</div>
 }
