@@ -279,6 +279,10 @@ export class UserCardDialogComponent implements OnChanges {
         if (res?.error) {
           this._snackbar.open(res.error, 'Close', { duration: 3000 });
         } else {
+          this.data.currentUserPendingRequests.push(
+            this.data.selectedUser.user._id
+          );
+
           this._snackbar.open(
             `Friend request sent to ${this.data.selectedUser.user.username}!`,
             'Close',
