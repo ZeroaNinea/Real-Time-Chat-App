@@ -107,7 +107,7 @@
       } @if (!isOwnProfile) {
       <button
         mat-stroked-button
-        [disabled]="isFriend()"
+        [disabled]="isFriend() || isRequestPending()"
         (click)="sendFriendRequest()"
         class="accent"
       >

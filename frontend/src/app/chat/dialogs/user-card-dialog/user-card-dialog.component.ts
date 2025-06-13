@@ -131,6 +131,7 @@ export class UserCardDialogComponent implements OnChanges {
       chatRoomRoles: ChatRoomRole[];
       currentUserRoles: string[];
       currentUserFriends: string[];
+      currentUserPendingRequests: string[];
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
@@ -292,6 +293,12 @@ export class UserCardDialogComponent implements OnChanges {
   isFriend() {
     return this.data.selectedUser.user.friends.includes(
       this.data.currentUserId
+    );
+  }
+
+  isRequestPending() {
+    return this.data.currentUserPendingRequests.includes(
+      this.data.selectedUser.user._id
     );
   }
 
