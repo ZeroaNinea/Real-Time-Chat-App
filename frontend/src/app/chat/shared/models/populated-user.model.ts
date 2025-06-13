@@ -8,6 +8,7 @@ export interface PopulatedUser {
     status: string;
     friends: string[];
     banlist: string[];
+    pendingRequests: string[];
   };
   roles: string[];
 }
@@ -21,4 +22,5 @@ export type AbbreviatedPopulatedUser = {
   status: string;
   friends: string[];
   banlist: string[];
+  pendingRequests: string[];
 };
