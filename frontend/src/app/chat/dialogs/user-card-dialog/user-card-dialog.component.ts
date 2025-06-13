@@ -288,6 +288,10 @@ export class UserCardDialogComponent implements OnChanges {
     );
   }
 
+  isFriend() {
+    // return this.data.selectedUser.user._id in this.data.friends;
+  }
+
   copyUserId(): void {
     const id = this.data.selectedUser.user._id;
     navigator.clipboard
