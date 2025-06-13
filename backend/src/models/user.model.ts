@@ -12,6 +12,7 @@ export interface IUser {
   status?: string;
   friends?: string[];
   banlist?: string[];
+  pendingRequests?: string[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -56,6 +57,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       default: [],
     },
     banlist: {
+      type: [String],
+      default: [],
+    },
+    pendingRequests: {
       type: [String],
       default: [],
     },
