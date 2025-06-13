@@ -115,7 +115,7 @@
         Transfer Ownership
       </button>
       } @if (!isOwnProfile) {
-      <button mat-stroked-button class="accent">
+      <button mat-stroked-button (click)="sendFriendRequest()" class="accent">
         <mat-icon>person_add</mat-icon>
         Friend Request
       </button>
