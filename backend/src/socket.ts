@@ -13,6 +13,7 @@ import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
+import { Notification } from './models/notification.model';
 import {
   canAssignPermissionsBelowOwnLevel,
   canEditRole,
@@ -1052,11 +1053,31 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('sendFriendRquest', async ({ receiverId }, callback) => {
       try {
-        const sender = await findUserById(socket.data.user._id);
+        const senderId = socket.data.user._id;
+        const sender = await findUserById(senderId);
         const receiver = await findUserById(receiverId);
 
         if (!sender || !receiver)
           return callback?.({ error: 'User not found' });
+
+        if (receiver.friends.includes(senderId))
+          return callback?.({ error: 'Already friends' });
+
+        const notification = new Notification({
+          sender: senderId,
+          recipient: receiverId,
+          type: 'FriendRequest',
+          message: `${sender.username} sent you a friend request`,
+          link: '/friends',
+        });
+
+        await notification.save();
+
+        const targetSocketId = receiver.socketId;
+
+        if (targetSocketId) {
+          io.to(targetSocketId).emit('notification', notification);
+        }
 
         callback?.({ success: true });
       } catch (err) {
