@@ -38,6 +38,7 @@ export class MessageListComponent {
   @Input() isModerator: boolean = false;
   @Input() chatRoomRoles: ChatRoomRole[] = [];
   @Input() currentUserRoles: string[] = [];
+  @Input() currentUserFriends: string[] = [];
   environment = environment;
 
   hoveredMessageId: string | null = null;
@@ -202,6 +203,7 @@ export class MessageListComponent {
         isModerator: this.isModerator,
         chatRoomRoles: this.chatRoomRoles,
         currentUserRoles: this.currentUserRoles,
+        currentUserFriends: this.currentUserFriends,
       },
       width: '400px',
     });

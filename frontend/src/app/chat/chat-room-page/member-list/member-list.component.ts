@@ -26,6 +26,7 @@ export class MemberListComponent {
   @Input() isModerator: boolean = false;
   @Input() chatId: string | null = null;
   @Input() chatRoomRoles: ChatRoomRole[] = [];
+  @Input() currentUserFriends: string[] = [];
   environment = environment;
 
   getAvatarUrl(userId: string): string {
@@ -46,6 +47,7 @@ export class MemberListComponent {
         isModerator: this.isModerator,
         chatRoomRoles: this.chatRoomRoles,
         currentUserRoles: this.currentUserRoles,
+        currentUserFriends: this.currentUserFriends,
       },
       width: '400px',
     });

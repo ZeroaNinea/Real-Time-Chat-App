@@ -121,6 +121,12 @@ export class ChatRoomComponent implements OnDestroy {
 
   replyingToMessage = signal<Message | null>(null);
 
+  currentUserFriends() {
+    const id = this.currentUser()?.id;
+    const member = this.members().find((m) => m.user === id);
+    return member?.friends || [];
+  }
+
   constructor() {
     effect(() => {
       // Scroll when messages change and user is at bottom.

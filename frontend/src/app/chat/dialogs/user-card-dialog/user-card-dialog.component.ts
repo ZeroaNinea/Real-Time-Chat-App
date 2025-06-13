@@ -130,7 +130,7 @@ export class UserCardDialogComponent implements OnChanges {
       isModerator: boolean;
       chatRoomRoles: ChatRoomRole[];
       currentUserRoles: string[];
-      friends: string[];
+      currentUserFriends: string[];
     }
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
