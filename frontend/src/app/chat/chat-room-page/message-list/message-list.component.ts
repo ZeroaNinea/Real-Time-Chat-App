@@ -39,6 +39,7 @@ export class MessageListComponent {
   @Input() chatRoomRoles: ChatRoomRole[] = [];
   @Input() currentUserRoles: string[] = [];
   @Input() currentUserFriends: string[] = [];
+  @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
   hoveredMessageId: string | null = null;
@@ -204,6 +205,7 @@ export class MessageListComponent {
         chatRoomRoles: this.chatRoomRoles,
         currentUserRoles: this.currentUserRoles,
         currentUserFriends: this.currentUserFriends,
+        currentUserPendingRequests: this.currentUserPendingRequests,
       },
       width: '400px',
     });
