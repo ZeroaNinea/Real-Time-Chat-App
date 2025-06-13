@@ -112,7 +112,7 @@
         class="accent"
       >
         <mat-icon>person_add</mat-icon>
-        Friend Request
+        @if (isRequestPending()) { Request Pending } @else { Friend Request }
       </button>
       <button mat-stroked-button>
         <mat-icon>chat</mat-icon>
