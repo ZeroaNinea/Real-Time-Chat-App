@@ -12,7 +12,7 @@ import { Channel, ChannelDocument } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
-import { User } from './models/user.model';
+import { User, UserDocument } from './models/user.model';
 import { Notification } from './models/notification.model';
 import {
   canAssignPermissionsBelowOwnLevel,
@@ -1053,21 +1053,20 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('sendFriendRequest', async ({ receiverId }, callback) => {
       try {
-        console.log('Friend request sent', socket.data.user._id, receiverId);
         const senderId = socket.data.user._id.toString();
-        const sender = await findUserById(senderId);
-        const receiver = await findUserById(receiverId);
+        const sender = await User.findById(senderId);
+        const receiver = await User.findById(receiverId);
 
         if (!sender || !receiver)
           return callback?.({ error: 'User not found' });
 
-        if (receiver.friends.includes(senderId))
+        if (receiver.friends?.includes(senderId))
           return callback?.({ error: 'Already friends' });
 
-        if (sender.pendingRequests.includes(receiverId))
+        if (sender.pendingRequests?.includes(receiverId))
           return callback?.({ error: 'Friend request already sent' });
 
-        sender.pendingRequests.push(receiverId);
+        sender.pendingRequests?.push(receiverId);
         await sender.save();
 
         const notification = new Notification({
@@ -1080,7 +1079,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         await notification.save();
 
-        const targetSocketId = receiver.socketId;
+        const targetSocketId = receiver._id.toString();
 
         if (targetSocketId) {
           io.to(targetSocketId).emit('notification', notification);
