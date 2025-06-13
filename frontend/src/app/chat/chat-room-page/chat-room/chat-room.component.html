@@ -65,6 +65,7 @@
         [chatId]="chatId()"
         [chatRoomRoles]="chatRoomRoles()"
         [currentUserRoles]="currentUserRoles()"
+        [currentUserFriends]="currentUserFriends()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
         (onReply)="startReplyingToMessage($event)"
@@ -106,6 +107,7 @@
       [isModerator]="isModerator()"
       [chatId]="chatId()"
       [chatRoomRoles]="chatRoomRoles()"
+      [currentUserFriends]="currentUserFriends()"
     ></app-member-list>
   </div>
 </div>
