@@ -123,8 +123,8 @@ export class ChatRoomComponent implements OnDestroy {
 
   currentUserFriends() {
     const id = this.currentUser()?.id;
-    const member = this.members().find((m) => m.user === id);
-    return member?.friends || [];
+    const user = this.populatedUsers().find((u) => u.user._id === id);
+    return user?.user?.friends || [];
   }
 
   constructor() {
