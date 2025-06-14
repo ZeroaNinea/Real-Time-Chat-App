@@ -1108,11 +1108,9 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (!sender.pendingRequests?.includes(receiverId))
           return callback?.({ error: 'Friend request not found' });
 
-        // Add to friends list.
         sender.friends?.push(receiverId);
         receiver.friends?.push(senderId);
 
-        // Remove pending request.
         sender.pendingRequests = sender.pendingRequests.filter(
           (id: string) => id !== receiverId
         );
@@ -1120,22 +1118,25 @@ export function setupSocket(server: HttpServer, app: Express) {
         await sender.save();
         await receiver.save();
 
-        // Remove the notification.
         await Notification.deleteOne({
           sender: senderId,
           recipient: receiverId,
           type: 'friend-request',
         });
 
-        // Optionally notify the sender.
-        const targetSocketId = sender._id.toString();
-        if (targetSocketId) {
-          io.to(targetSocketId).emit('friendRequestAccepted', {
-            sender: receiverId,
-            username: receiver.username,
-            avatar: receiver.avatar,
-          });
-        }
+        const acceptNotification = await new Notification({
+          sender: receiverId,
+          recipient: senderId,
+          type: 'friend-accepted',
+          message: `${receiver.username} accepted your friend request`,
+          link: '/friends',
+        }).save();
+
+        const populatedAccept = await acceptNotification.populate(
+          'sender',
+          'username avatar'
+        );
+        io.to(senderId).emit('notification', populatedAccept);
 
         callback?.({ success: true });
       } catch (err) {
