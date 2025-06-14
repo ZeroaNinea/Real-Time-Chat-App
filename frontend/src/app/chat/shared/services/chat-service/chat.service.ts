@@ -124,9 +124,9 @@ export class ChatService {
     );
   }
 
-  getNotifications() {
+  getNotifications(userId: string) {
     return this.http.get<Notification[]>(
-      `${environment.backendUrl}/notification/get-notifications`
+      `${environment.backendUrl}/notification/get-notifications/${userId}`
     );
   }
 }

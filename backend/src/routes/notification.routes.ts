@@ -6,6 +6,10 @@ import { getNotifications } from '../controllers/notification.controller';
 
 const router = express.Router();
 
-router.get('/get-notifications', authMiddleware, asyncRoute(getNotifications));
+router.get(
+  '/get-notifications/:userId',
+  authMiddleware,
+  asyncRoute(getNotifications)
+);
 
 export default router;

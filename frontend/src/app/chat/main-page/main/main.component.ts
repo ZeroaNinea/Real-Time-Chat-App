@@ -88,7 +88,7 @@ export class MainComponent implements OnChanges {
       this.wsService.joinChatRoom(this.currentUserId()!);
     }
 
-    this.chatService.getNotifications().subscribe({
+    this.chatService.getNotifications(this.currentUserId()!).subscribe({
       next: (notifs) => {
         this.notifications = notifs;
         console.log('Notifications', this.notifications);
