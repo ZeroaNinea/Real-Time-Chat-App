@@ -216,4 +216,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenNotifications(): Observable<Notification> {
+    return new Observable((observer) => {
+      this.socket.on('notification', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
