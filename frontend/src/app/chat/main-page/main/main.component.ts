@@ -91,7 +91,6 @@ export class MainComponent implements OnChanges {
     this.chatService.getNotifications().subscribe({
       next: (notifs) => {
         this.notifications = notifs;
-        console.log('Notifications', this.notifications);
       },
       error: (err) => {
         console.error('Failed to load notifications', err);

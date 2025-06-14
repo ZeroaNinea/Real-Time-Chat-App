@@ -10,8 +10,4 @@ import { Notification } from '../../shared/models/notification.model';
 })
 export class NotificationListComponent {
   @Input() notifications: Notification[] = [];
-
-  constructor() {
-    console.log(this.notifications);
-  }
 }
