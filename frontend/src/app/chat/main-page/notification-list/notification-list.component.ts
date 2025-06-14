@@ -23,10 +23,6 @@ import { DatePipe } from '@angular/common';
 export class NotificationListComponent {
   @Input() notifications: Notification[] = [];
 
-  constructor() {
-    console.log('Notifications', this.notifications);
-  }
-
   acceptRequest(notification: Notification) {
     // Emit event or call service to accept the friend request.
     console.log('Accepted', notification);
