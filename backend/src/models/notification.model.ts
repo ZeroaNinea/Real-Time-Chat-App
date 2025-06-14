@@ -19,8 +19,12 @@ export interface NotificationDocument extends INotification, Document {}
 
 const NotificationSchema = new mongoose.Schema<NotificationDocument>(
   {
-    sender: { type: String },
-    recipient: { type: String, required: true },
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    recipient: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     type: { type: String, required: true },
     message: { type: String },
     link: { type: String },
