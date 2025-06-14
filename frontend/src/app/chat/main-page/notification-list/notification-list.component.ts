@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Notification } from '../../shared/models/notification.model';
+import { PopulatedNotification } from '../../shared/models/notification.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,14 +21,14 @@ import { DatePipe } from '@angular/common';
   styleUrl: './notification-list.component.scss',
 })
 export class NotificationListComponent {
-  @Input() notifications: Notification[] = [];
+  @Input() notifications: PopulatedNotification[] = [];
 
-  acceptRequest(notification: Notification) {
+  acceptRequest(notification: PopulatedNotification) {
     // Emit event or call service to accept the friend request.
     console.log('Accepted', notification);
   }
 
-  declineRequest(notification: Notification) {
+  declineRequest(notification: PopulatedNotification) {
     // Emit event or call service to decline the friend request.
     console.log('Declined', notification);
   }
