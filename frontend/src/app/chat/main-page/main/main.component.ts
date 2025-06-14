@@ -84,15 +84,14 @@ export class MainComponent implements OnChanges {
     this.wsService.disconnect();
     this.wsService.connect();
 
-    console.log(this.authService.currentUser()?.id);
     if (this.currentUserId) {
-      console.log(this.currentUserId);
       this.wsService.joinChatRoom(this.currentUserId()!);
     }
 
-    this.chatService.getNotifications(this.currentUserId()!).subscribe({
+    this.chatService.getNotifications().subscribe({
       next: (notifs) => {
         this.notifications = notifs;
+        console.log('Notifications', this.notifications);
       },
       error: (err) => {
         console.error('Failed to load notifications', err);
