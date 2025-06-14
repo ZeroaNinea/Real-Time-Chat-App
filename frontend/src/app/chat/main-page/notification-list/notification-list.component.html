@@ -1,33 +1,39 @@
-<mat-card class="notification-card">
-  <mat-card-title>Notifications</mat-card-title>
+<div class="notification-list-container">
+  <mat-card class="notification-card">
+    <mat-card-title>Notifications</mat-card-title>
 
-  <mat-list>
-    @for (notification of notifications; track $index) {
-    <mat-list-item>
-      <div class="notification-item">
-        <mat-icon class="icon">notifications</mat-icon>
+    <mat-list class="notification-list">
+      @for (notification of notifications; track $index) {
+      <mat-list-item>
+        <div class="notification-item">
+          <mat-icon class="icon">notifications</mat-icon>
 
-        <div class="notification-info">
-          <span class="message">{{ notification.message }}</span>
-          <span class="timestamp">
-            {{ notification.createdAt | date : "short" }}
-          </span>
+          <div class="notification-info">
+            <span class="message">{{ notification.message }}</span>
+            <span class="timestamp">
+              {{ notification.createdAt | date : "short" }}
+            </span>
+          </div>
+
+          @if (notification.type === 'friend-request') {
+          <button
+            mat-button
+            color="primary"
+            (click)="acceptRequest(notification)"
+          >
+            Accept
+          </button>
+          <button
+            mat-button
+            class="warn"
+            (click)="declineRequest(notification)"
+          >
+            Decline
+          </button>
+          }
         </div>
-
-        @if (notification.type === 'friend-request') {
-        <button
-          mat-button
-          color="primary"
-          (click)="acceptRequest(notification)"
-        >
-          Accept
-        </button>
-        <button mat-button class="warn" (click)="declineRequest(notification)">
-          Decline
-        </button>
-        }
-      </div>
-    </mat-list-item>
-    }
-  </mat-list>
-</mat-card>
+      </mat-list-item>
+      }
+    </mat-list>
+  </mat-card>
+</div>
