@@ -1,5 +1,33 @@
-<h2>Notifications</h2>
+<mat-card class="notification-card">
+  <mat-card-title>Notifications</mat-card-title>
 
-@for (notification of notifications; track $index) {
-<p>{{ notification.message }}</p>
-}
+  <mat-list>
+    @for (notification of notifications; track $index) {
+    <mat-list-item>
+      <div class="notification-item">
+        <mat-icon class="icon">notifications</mat-icon>
+
+        <div class="notification-info">
+          <span class="message">{{ notification.message }}</span>
+          <span class="timestamp">
+            {{ notification.createdAt | date : "short" }}
+          </span>
+        </div>
+
+        @if (notification.type === 'friend-request') {
+        <button
+          mat-button
+          color="primary"
+          (click)="acceptRequest(notification)"
+        >
+          Accept
+        </button>
+        <button mat-button class="warn" (click)="declineRequest(notification)">
+          Decline
+        </button>
+        }
+      </div>
+    </mat-list-item>
+    }
+  </mat-list>
+</mat-card>
