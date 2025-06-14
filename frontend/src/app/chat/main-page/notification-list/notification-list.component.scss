@@ -1,0 +1,55 @@
+@use "@angular/material" as mat;
+
+.notification-card {
+  margin-top: 1rem;
+  width: 95%;
+
+  @include mat.theme(
+    (
+      color: mat.$gray-palette,
+    )
+  );
+}
+
+mat-card-title {
+  margin: 1rem;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .icon {
+    color: mat.get-color-from-palette(mat.$blue-palette, 500);
+    font-size: 28px;
+  }
+
+  .notification-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+
+    .message {
+      font-weight: 500;
+    }
+
+    .timestamp {
+      font-size: 0.8rem;
+      color: var(--mat-sys-outline);
+    }
+  }
+
+  button {
+    flex-shrink: 0;
+  }
+}
+
+.warn {
+  @include mat.theme(
+    (
+      color: mat.$red-palette,
+    )
+  );
+}
