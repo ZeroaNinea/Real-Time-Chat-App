@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 import { environment } from '../../../../../environments/environment';
@@ -8,6 +8,7 @@ import { Message } from '../../models/message.model';
 import { AbbreviatedPopulatedUser } from '../../models/populated-user.model';
 import { Member } from '../../models/member.alias';
 import { Chat } from '../../models/chat.model';
+import { Notification } from '../../models/notification.model';
 
 @Injectable({
   providedIn: 'root',

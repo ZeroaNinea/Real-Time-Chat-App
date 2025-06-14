@@ -105,6 +105,10 @@ export class MainComponent implements OnChanges {
         userRooms: this.chatRooms.userRooms.filter((c) => c._id !== chat._id),
       };
     });
+
+    this.wsService.listenNotifications().subscribe((notification) => {
+      this.notifications.unshift(notification);
+    });
   }
 
   friends = [
