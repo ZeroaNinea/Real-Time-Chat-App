@@ -2,8 +2,8 @@ import mongoose from '../config/db';
 import { Document } from 'mongoose';
 
 export interface INotification {
-  sender?: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
-  recipient: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
+  sender?: string;
+  recipient: string;
   type: 'friend-request' | 'message' | 'mention' | 'status-change';
   message?: string;
   link?: string;
@@ -15,12 +15,8 @@ export interface NotificationDocument extends INotification, Document {}
 
 const NotificationSchema = new mongoose.Schema<NotificationDocument>(
   {
-    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    recipient: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    sender: { type: String },
+    recipient: { type: String, required: true },
     type: { type: String, required: true },
     message: { type: String },
     link: { type: String },
