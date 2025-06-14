@@ -1,9 +1,10 @@
 import mongoose from '../config/db';
 import { Document } from 'mongoose';
+import type { UserDocument } from './user.model';
 
 export interface INotification {
-  sender?: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
-  recipient: { type: mongoose.Schema.Types.ObjectId; ref: 'User' };
+  sender?: mongoose.Types.ObjectId | UserDocument | string;
+  recipient: mongoose.Types.ObjectId | UserDocument | string;
   type: 'friend-request' | 'message' | 'mention' | 'status-change';
   message?: string;
   link?: string;
