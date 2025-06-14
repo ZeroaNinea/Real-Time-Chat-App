@@ -1096,6 +1096,54 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
+    socket.on('acceptFriendRequest', async ({ senderId }, callback) => {
+      try {
+        const receiverId = socket.data.user._id.toString();
+        const sender = await User.findById(senderId);
+        const receiver = await User.findById(receiverId);
+
+        if (!sender || !receiver)
+          return callback?.({ error: 'User not found' });
+
+        if (!sender.pendingRequests?.includes(receiverId))
+          return callback?.({ error: 'Friend request not found' });
+
+        // Add to friends list.
+        sender.friends?.push(receiverId);
+        receiver.friends?.push(senderId);
+
+        // Remove pending request.
+        sender.pendingRequests = sender.pendingRequests.filter(
+          (id: string) => id !== receiverId
+        );
+
+        await sender.save();
+        await receiver.save();
+
+        // Remove the notification.
+        await Notification.deleteOne({
+          sender: senderId,
+          recipient: receiverId,
+          type: 'friend-request',
+        });
+
+        // Optionally notify the sender.
+        const targetSocketId = sender._id.toString();
+        if (targetSocketId) {
+          io.to(targetSocketId).emit('friendRequestAccepted', {
+            sender: receiverId,
+            username: receiver.username,
+            avatar: receiver.avatar,
+          });
+        }
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
+
     socket.on('declineFriendRequest', async ({ senderId }, callback) => {
       try {
         const receiverId = socket.data.user._id.toString();
