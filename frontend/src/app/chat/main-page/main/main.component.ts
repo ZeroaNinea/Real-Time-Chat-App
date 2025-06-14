@@ -25,6 +25,8 @@ import { Notification } from '../../shared/models/notification.model';
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
 import { FriendListComponent } from '../friend-list/friend-list.component';
+import { NotificationListComponent } from '../notification-list/notification-list.component';
+
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 import { AuthService } from '../../../auth/auth.service';
 
@@ -42,6 +44,7 @@ import { AuthService } from '../../../auth/auth.service';
     ChatRoomListComponent,
     HeaderComponent,
     FriendListComponent,
+    NotificationListComponent,
   ],
   standalone: true,
   templateUrl: './main.component.html',
