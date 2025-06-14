@@ -7,3 +7,18 @@ export interface Notification {
   read: boolean;
   createdAt: Date;
 }
+
+export interface PopulatedNotification {
+  _id: string;
+  sender: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
+  recipient: string;
+  type: 'friend-request' | 'message' | 'mention' | 'status-change';
+  message?: string;
+  link?: string;
+  read: boolean;
+  createdAt: Date;
+}
