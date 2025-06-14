@@ -8,7 +8,7 @@ import { Message } from '../../models/message.model';
 import { AbbreviatedPopulatedUser } from '../../models/populated-user.model';
 import { Member } from '../../models/member.alias';
 import { Chat } from '../../models/chat.model';
-import { Notification } from '../../models/notification.model';
+import { PopulatedNotification } from '../../models/notification.model';
 
 @Injectable({
   providedIn: 'root',
@@ -218,7 +218,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenNotifications(): Observable<Notification> {
+  listenNotifications(): Observable<PopulatedNotification> {
     return new Observable((observer) => {
       this.socket.on('notification', (data) => {
         observer.next(data);
