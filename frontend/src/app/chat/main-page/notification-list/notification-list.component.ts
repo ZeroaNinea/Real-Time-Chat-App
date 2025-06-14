@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { DatePipe } from '@angular/common';
 
+import { environment } from '../../../../environments/environment';
+
 @Component({
   selector: 'app-notification-list',
   imports: [
@@ -23,6 +25,8 @@ import { DatePipe } from '@angular/common';
 export class NotificationListComponent {
   @Input() notifications: PopulatedNotification[] = [];
 
+  environment = environment;
+
   acceptRequest(notification: PopulatedNotification) {
     // Emit event or call service to accept the friend request.
     console.log('Accepted', notification);
@@ -31,5 +35,11 @@ export class NotificationListComponent {
   declineRequest(notification: PopulatedNotification) {
     // Emit event or call service to decline the friend request.
     console.log('Declined', notification);
+  }
+
+  getAvatarUrl(notification: PopulatedNotification) {
+    return notification.sender.avatar
+      ? `${this.environment.backendUrl}/notification.sender.avatar`
+      : 'assets/camera.svg';
   }
 }
