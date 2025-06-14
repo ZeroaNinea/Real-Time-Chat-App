@@ -1,5 +1,9 @@
 export interface Notification {
-  sender?: string;
+  sender?: {
+    _id: string;
+    username: string;
+    avatar?: string;
+  };
   recipient: string;
   type: 'friend-request' | 'message' | 'mention' | 'status-change';
   message?: string;
