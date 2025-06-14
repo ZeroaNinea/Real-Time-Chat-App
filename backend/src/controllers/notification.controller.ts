@@ -11,7 +11,5 @@ export const getNotifications = async (req: Request, res: Response) => {
     .sort({ createdAt: -1 })
     .populate('sender', 'username avatar');
 
-  console.log(notifications);
-
   res.json(notifications);
 };
