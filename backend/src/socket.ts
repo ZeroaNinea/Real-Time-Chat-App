@@ -1162,11 +1162,20 @@ export function setupSocket(server: HttpServer, app: Express) {
           type: 'friend-request',
         });
 
+        const declineResponse = await new Notification({
+          sender: receiverId,
+          recipient: senderId,
+          type: 'friend-declined',
+          message: `${receiver.username} declined your friend request`,
+          link: '/friends',
+        }).save();
+
         sender.pendingRequests = sender.pendingRequests.filter(
           (id: string) => id !== receiverId
         );
         await sender.save();
 
+        io.to(receiverId).emit('friendRequestDeclined', declineResponse);
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
