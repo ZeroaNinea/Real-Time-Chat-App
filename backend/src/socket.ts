@@ -1108,6 +1108,12 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (!sender.pendingRequests?.includes(receiverId))
           return callback?.({ error: 'Friend request not found' });
 
+        await Notification.deleteOne({
+          sender: senderId,
+          recipient: receiverId,
+          type: 'friend-request',
+        });
+
         sender.pendingRequests = sender.pendingRequests.filter(
           (id: string) => id !== receiverId
         );
