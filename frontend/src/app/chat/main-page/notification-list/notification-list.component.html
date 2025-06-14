@@ -5,22 +5,10 @@
     @for (notification of notifications; track $index) {
     <mat-list-item>
       <div class="notification-item">
-        @if (notification.sender?.avatar) {
-        <img [src]="notification.sender?.avatar" alt="avatar" class="avatar" />
-        } @else {
-        <mat-icon class="icon">person</mat-icon>
-        }
+        <mat-icon class="icon">notifications</mat-icon>
 
         <div class="notification-info">
-          @if (notification.sender?.username) {
-          <span class="message">
-            <strong>{{ notification.sender?.username }}</strong>
-            sent you a friend request
-          </span>
-          } @else {
           <span class="message">{{ notification.message }}</span>
-          }
-
           <span class="timestamp">
             {{ notification.createdAt | date : "short" }}
           </span>
