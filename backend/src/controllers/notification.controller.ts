@@ -7,7 +7,11 @@ export const getNotifications = async (req: Request, res: Response) => {
 
   const notifications = await Notification.find({
     recipient: userId,
-  }).sort({ createdAt: -1 });
+  })
+    .sort({ createdAt: -1 })
+    .populate('sender', 'username avatar');
+
+  console.log(notifications);
 
   res.json(notifications);
 };
