@@ -1082,7 +1082,11 @@ export function setupSocket(server: HttpServer, app: Express) {
         const targetSocketId = receiver._id.toString();
 
         if (targetSocketId) {
-          io.to(targetSocketId).emit('notification', notification);
+          const populatedNotification = await notification.populate(
+            'sender',
+            'username avatar'
+          );
+          io.to(targetSocketId).emit('notification', populatedNotification);
         }
 
         callback?.({ success: true });
