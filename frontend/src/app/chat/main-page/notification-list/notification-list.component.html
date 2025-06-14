@@ -5,23 +5,20 @@
     <mat-list class="notification-list">
       @for (notification of notifications; track $index) {
       <mat-list-item>
-        <div class="avatar-wrapper">
+        <div class="notification-item">
+          <mat-icon class="icon">notifications</mat-icon>
           <img
             [src]="getAvatarUrl(notification)"
             alt="Avatar"
             class="user-avatar"
           />
-        </div>
 
-        <div class="notification-item">
           <div class="notification-info">
             <span class="message">{{ notification.message }}</span>
             <span class="timestamp">
               {{ notification.createdAt | date : "short" }}
             </span>
           </div>
-
-          <mat-icon class="icon">notifications</mat-icon>
 
           @if (notification.type === 'friend-request') {
           <button
