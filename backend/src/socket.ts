@@ -1095,6 +1095,30 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('declineFriendRequest', async ({ senderId }, callback) => {
+      try {
+        const receiverId = socket.data.user._id.toString();
+        const sender = await User.findById(senderId);
+        const receiver = await User.findById(receiverId);
+
+        if (!sender || !receiver)
+          return callback?.({ error: 'User not found' });
+
+        if (!sender.pendingRequests?.includes(receiverId))
+          return callback?.({ error: 'Friend request not found' });
+
+        sender.pendingRequests = sender.pendingRequests.filter(
+          (id: string) => id !== receiverId
+        );
+        await sender.save();
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
