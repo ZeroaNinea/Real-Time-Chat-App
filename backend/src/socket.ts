@@ -1072,7 +1072,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         const notification = new Notification({
           sender: senderId,
           recipient: receiverId,
-          type: 'FriendRequest',
+          type: 'friend-request',
           message: `${sender.username} sent you a friend request`,
           link: '/friends',
         });

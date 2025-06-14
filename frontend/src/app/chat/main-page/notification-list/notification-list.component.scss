@@ -6,7 +6,7 @@
 
   @include mat.theme(
     (
-      color: mat.$gray-palette,
+      color: mat.$blue-palette,
     )
   );
 }
@@ -21,7 +21,7 @@ mat-card-title {
   gap: 0.5rem;
 
   .icon {
-    color: mat.get-color-from-palette(mat.$blue-palette, 500);
+    color: var(--mat-sys-outline);
     font-size: 28px;
   }
 
