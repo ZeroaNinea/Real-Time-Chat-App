@@ -1098,54 +1098,58 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('acceptFriendRequest', async ({ senderId }, callback) => {
-      try {
-        const receiverId = socket.data.user._id.toString();
-        const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+    socket.on(
+      'acceptFriendRequest',
+      async ({ notificationId, senderId }, callback) => {
+        try {
+          const receiverId = socket.data.user._id.toString();
+          const sender = await User.findById(senderId);
+          const receiver = await User.findById(receiverId);
 
-        if (!sender || !receiver)
-          return callback?.({ error: 'User not found' });
+          if (!sender || !receiver)
+            return callback?.({ error: 'User not found' });
 
-        if (!sender.pendingRequests?.includes(receiverId))
-          return callback?.({ error: 'Friend request not found' });
+          if (!sender.pendingRequests?.includes(receiverId))
+            return callback?.({ error: 'Friend request not found' });
 
-        sender.friends?.push(receiverId);
-        receiver.friends?.push(senderId);
+          sender.friends?.push(receiverId);
+          receiver.friends?.push(senderId);
 
-        sender.pendingRequests = sender.pendingRequests.filter(
-          (id: string) => id !== receiverId
-        );
+          sender.pendingRequests = sender.pendingRequests.filter(
+            (id: string) => id !== receiverId
+          );
 
-        await sender.save();
-        await receiver.save();
+          await sender.save();
+          await receiver.save();
 
-        await Notification.deleteOne({
-          sender: senderId,
-          recipient: receiverId,
-          type: 'friend-request',
-        });
+          // await Notification.deleteOne({
+          //   sender: senderId,
+          //   recipient: receiverId,
+          //   type: 'friend-request',
+          // });
+          await Notification.findByIdAndDelete(notificationId);
 
-        const acceptNotification = await new Notification({
-          sender: receiverId,
-          recipient: senderId,
-          type: 'friend-accepted',
-          message: `${receiver.username} accepted your friend request`,
-          link: '/friends',
-        }).save();
+          const acceptNotification = await new Notification({
+            sender: receiverId,
+            recipient: senderId,
+            type: 'friend-accepted',
+            message: `${receiver.username} accepted your friend request`,
+            link: '/friends',
+          }).save();
 
-        const populatedAccept = await acceptNotification.populate(
-          'sender',
-          'username avatar'
-        );
-        io.to(senderId).emit('notification', populatedAccept);
+          const populatedAccept = await acceptNotification.populate(
+            'sender',
+            'username avatar'
+          );
+          io.to(senderId).emit('notification', populatedAccept);
 
-        callback?.({ success: true });
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
+          callback?.({ success: true });
+        } catch (err) {
+          console.error(err);
+          callback?.({ error: 'Server error' });
+        }
       }
-    });
+    );
 
     socket.on(
       'declineFriendRequest',
