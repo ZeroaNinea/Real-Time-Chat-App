@@ -190,6 +190,29 @@ export class MainComponent implements OnChanges {
     );
   }
 
+  acceptNotification(notification: PopulatedNotification) {
+    this.wsService.emit(
+      'acceptFriendRequest',
+      {
+        notificationId: notification._id,
+        senderId: notification.sender._id,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to accept notification',
+            'Close',
+            { duration: 3000 }
+          );
+        } else {
+          this._snackbar.open('Accepted friend request!', 'Close', {
+            duration: 2000,
+          });
+        }
+      }
+    );
+  }
+
   deleteNotification(notification: PopulatedNotification) {
     const notificationId = notification._id;
 
