@@ -1145,49 +1145,53 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('declineFriendRequest', async ({ senderId }, callback) => {
-      try {
-        const receiverId = socket.data.user._id.toString();
-        const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+    socket.on(
+      'declineFriendRequest',
+      async ({ notificationId, senderId }, callback) => {
+        try {
+          const receiverId = socket.data.user._id.toString();
+          const sender = await User.findById(senderId);
+          const receiver = await User.findById(receiverId);
 
-        if (!sender || !receiver)
-          return callback?.({ error: 'User not found' });
+          if (!sender || !receiver)
+            return callback?.({ error: 'User not found' });
 
-        if (!sender.pendingRequests?.includes(receiverId))
-          return callback?.({ error: 'Friend request not found' });
+          if (!sender.pendingRequests?.includes(receiverId))
+            return callback?.({ error: 'Friend request not found' });
 
-        await Notification.deleteOne({
-          sender: senderId,
-          recipient: receiverId,
-          type: 'friend-request',
-        });
+          await Notification.deleteOne({
+            sender: senderId,
+            recipient: receiverId,
+            type: 'friend-request',
+          });
 
-        sender.pendingRequests = sender.pendingRequests.filter(
-          (id: string) => id !== receiverId
-        );
-        await sender.save();
+          sender.pendingRequests = sender.pendingRequests.filter(
+            (id: string) => id !== receiverId
+          );
+          await sender.save();
 
-        const declineNotification = await new Notification({
-          sender: receiverId,
-          recipient: senderId,
-          type: 'friend-declined',
-          message: `${receiver.username} declined your friend request`,
-          link: '/friends',
-        }).save();
+          const declineNotification = await new Notification({
+            _id: notificationId,
+            sender: receiverId,
+            recipient: senderId,
+            type: 'friend-declined',
+            message: `${receiver.username} declined your friend request`,
+            link: '/friends',
+          }).save();
 
-        const populatedDecline = await declineNotification.populate(
-          'sender',
-          'username avatar'
-        );
+          const populatedDecline = await declineNotification.populate(
+            'sender',
+            'username avatar'
+          );
 
-        io.to(senderId).emit('notification', populatedDecline);
-        callback?.({ success: true });
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
+          io.to(senderId).emit('notification', populatedDecline);
+          callback?.({ success: true });
+        } catch (err) {
+          console.error(err);
+          callback?.({ error: 'Server error' });
+        }
       }
-    });
+    );
   });
 
   return io;
