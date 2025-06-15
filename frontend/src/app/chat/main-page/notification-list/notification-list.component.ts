@@ -33,16 +33,6 @@ export class NotificationListComponent {
     console.log('Accepted', notification);
   }
 
-  // declineRequest(notification: PopulatedNotification) {
-  //   // Emit event or call service to decline the friend request.
-  //   console.log('Declined', notification);
-
-  //   // Remove the notification from the list.
-  //   this.notifications = this.notifications.filter(
-  //     (n) => n._id !== notification._id
-  //   );
-  // }
-
   getAvatarUrl(notification: PopulatedNotification) {
     return notification.sender.avatar
       ? `${this.environment.backendUrl}/${notification.sender.avatar}`
