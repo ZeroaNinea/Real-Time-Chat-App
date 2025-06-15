@@ -22,40 +22,46 @@ mat-card-title {
   margin: 1rem;
 }
 
-.notification-item {
+.notification-list {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 1rem;
 
-  .icon {
-    color: var(--mat-sys-outline);
-    font-size: 28px;
-  }
-
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-
-  .notification-info {
+  .notification-item {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
+    align-items: center;
+    gap: 0.75rem;
 
-    .message {
-      font-weight: 500;
-    }
-
-    .timestamp {
-      font-size: 0.8rem;
+    .icon {
       color: var(--mat-sys-outline);
+      font-size: 28px;
     }
-  }
 
-  button {
-    flex-shrink: 0;
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .notification-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+
+      .message {
+        font-weight: 500;
+      }
+
+      .timestamp {
+        font-size: 0.8rem;
+        color: var(--mat-sys-outline);
+      }
+    }
+
+    button {
+      flex-shrink: 0;
+    }
   }
 }
 
