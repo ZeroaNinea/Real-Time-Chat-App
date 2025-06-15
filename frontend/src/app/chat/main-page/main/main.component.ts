@@ -160,6 +160,7 @@ export class MainComponent implements OnChanges {
   }
 
   declainNotification(notification: PopulatedNotification) {
+    console.log('Declining notification', notification);
     this.notifications = this.notifications.filter(
       (n) => n._id !== notification._id
     );
