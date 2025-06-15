@@ -24,15 +24,17 @@ import { environment } from '../../../../environments/environment';
 })
 export class NotificationListComponent {
   @Input() notifications: PopulatedNotification[] = [];
+
   @Output() declineRequest = new EventEmitter<PopulatedNotification>();
+  @Output() acceptRequest = new EventEmitter<PopulatedNotification>();
   @Output() ok = new EventEmitter<PopulatedNotification>();
 
   environment = environment;
 
-  acceptRequest(notification: PopulatedNotification) {
-    // Emit event or call service to accept the friend request.
-    console.log('Accepted', notification);
-  }
+  // acceptRequest(notification: PopulatedNotification) {
+  //   // Emit event or call service to accept the friend request.
+  //   console.log('Accepted', notification);
+  // }
 
   getAvatarUrl(notification: PopulatedNotification) {
     return notification.sender.avatar
