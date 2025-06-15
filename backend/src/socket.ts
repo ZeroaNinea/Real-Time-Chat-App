@@ -1161,10 +1161,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender.pendingRequests?.includes(receiverId))
             return callback?.({ error: 'Friend request not found' });
 
-          // if (!mongoose.Types.ObjectId.isValid(notificationId)) {
-          //   return callback?.({ error: 'Invalid notification ID' });
-          // }
-
           await Notification.findByIdAndDelete(notificationId);
 
           sender.pendingRequests = sender.pendingRequests.filter(
@@ -1206,10 +1202,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           currentNotification.recipient.toString()
         )
           return callback?.({ error: 'Unauthorized' });
-
-        if (!mongoose.Types.ObjectId.isValid(notificationId)) {
-          return callback?.({ error: 'Invalid notification ID' });
-        }
 
         await Notification.findByIdAndDelete(notificationId);
 
