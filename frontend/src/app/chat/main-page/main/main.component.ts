@@ -177,6 +177,10 @@ export class MainComponent implements OnChanges {
             'Close',
             { duration: 3000 }
           );
+        } else {
+          this._snackbar.open('Declined friend request!', 'Close', {
+            duration: 2000,
+          });
         }
       }
     );
