@@ -160,13 +160,12 @@ export class MainComponent implements OnChanges {
   }
 
   declainNotification(notification: PopulatedNotification) {
-    console.log('Declining notification', notification);
     this.notifications = this.notifications.filter(
       (n) => n._id !== notification._id
     );
 
     this.wsService.emit(
-      'declineNotification',
+      'declineFriendRequest',
       {
         notificationId: notification._id,
         senderId: notification.sender._id,
