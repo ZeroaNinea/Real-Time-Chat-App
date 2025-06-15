@@ -38,5 +38,6 @@
   <app-notification-list
     [notifications]="notifications"
     (declineRequest)="declainNotification($event)"
+    (ok)="deleteNotification($event)"
   ></app-notification-list>
 </div>

@@ -25,6 +25,7 @@ import { environment } from '../../../../environments/environment';
 export class NotificationListComponent {
   @Input() notifications: PopulatedNotification[] = [];
   @Output() declineRequest = new EventEmitter<PopulatedNotification>();
+  @Output() ok = new EventEmitter<PopulatedNotification>();
 
   environment = environment;
 
