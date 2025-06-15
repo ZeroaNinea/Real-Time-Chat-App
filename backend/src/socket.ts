@@ -1180,8 +1180,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           'sender',
           'username avatar'
         );
-        io.to(senderId).emit('notification', populatedDecline);
 
+        io.to(senderId).emit('notification', populatedDecline);
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
