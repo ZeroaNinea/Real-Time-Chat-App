@@ -191,24 +191,20 @@ export class MainComponent implements OnChanges {
       (n) => n._id !== notification._id
     );
 
-    this.wsService.emit(
-      'deleteNotification',
-      {
-        notificationId: notification._id,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to delete notification',
-            'Close',
-            { duration: 3000 }
-          );
-        } else {
-          this._snackbar.open('Deleted notification!', 'Close', {
-            duration: 2000,
-          });
-        }
+    const notificationId = notification._id;
+
+    this.wsService.emit('deleteNotification', notificationId, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to delete notification',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Deleted notification!', 'Close', {
+          duration: 2000,
+        });
       }
-    );
+    });
   }
 }
