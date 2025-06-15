@@ -164,7 +164,7 @@ export class MainComponent implements OnChanges {
       'declineNotification',
       {
         notificationId: notification._id,
-        sinderId: notification.sender._id,
+        senderId: notification.sender._id,
       },
       (res) => {
         if (res?.error) {
