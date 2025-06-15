@@ -1190,6 +1190,12 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('deleteNotification', async (notificationId, callback) => {
       try {
+        if (
+          socket.data.user._id.toString() !==
+          (await Notification.findById(notificationId)?.recipient)
+        )
+          return callback?.({ error: 'Unauthorized' });
+
         await Notification.findByIdAndDelete(notificationId);
 
         callback?.({ success: true });
