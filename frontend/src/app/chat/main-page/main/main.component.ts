@@ -107,6 +107,14 @@ export class MainComponent implements OnChanges {
     this.wsService.listenNotifications().subscribe((notification) => {
       this.notifications.unshift(notification);
     });
+
+    this.wsService
+      .listenNotificationDeletions()
+      .subscribe(({ notificationId }) => {
+        this.notifications = this.notifications.filter(
+          (n) => n._id !== notificationId
+        );
+      });
   }
 
   friends = [
@@ -160,9 +168,9 @@ export class MainComponent implements OnChanges {
   }
 
   declainNotification(notification: PopulatedNotification) {
-    this.notifications = this.notifications.filter(
-      (n) => n._id !== notification._id
-    );
+    // this.notifications = this.notifications.filter(
+    //   (n) => n._id !== notification._id
+    // );
 
     this.wsService.emit(
       'declineFriendRequest',
@@ -187,9 +195,9 @@ export class MainComponent implements OnChanges {
   }
 
   deleteNotification(notification: PopulatedNotification) {
-    this.notifications = this.notifications.filter(
-      (n) => n._id !== notification._id
-    );
+    // this.notifications = this.notifications.filter(
+    //   (n) => n._id !== notification._id
+    // );
 
     const notificationId = notification._id;
 

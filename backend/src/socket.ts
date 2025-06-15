@@ -1186,6 +1186,9 @@ export function setupSocket(server: HttpServer, app: Express) {
           );
 
           io.to(senderId).emit('notification', populatedDecline);
+          io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
+            notificationId,
+          });
           callback?.({ success: true });
         } catch (err) {
           console.error(err);
@@ -1210,6 +1213,9 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         await Notification.findByIdAndDelete(notificationId);
 
+        io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
+          notificationId,
+        });
         callback?.({ success: true });
       } catch (err) {
         console.error(err);

@@ -225,4 +225,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenNotificationDeletions(): Observable<{ notificationId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('notificationDeleted', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
