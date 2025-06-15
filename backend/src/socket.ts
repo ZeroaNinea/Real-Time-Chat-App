@@ -1187,6 +1187,17 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
       }
     );
+
+    socket.on('deleteNotification', async (notificationId, callback) => {
+      try {
+        await Notification.findByIdAndDelete(notificationId);
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
