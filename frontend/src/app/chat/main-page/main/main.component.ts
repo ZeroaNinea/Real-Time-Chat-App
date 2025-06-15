@@ -158,4 +158,22 @@ export class MainComponent implements OnChanges {
   createRoom() {
     this.router.navigate(['/chat-room']);
   }
+
+  declainNotification(notification: PopulatedNotification) {
+    this.wsService.emit(
+      'declineNotification',
+      {
+        notificationId: notification._id,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to decline notification',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
 }
