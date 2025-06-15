@@ -12,13 +12,15 @@ import { Channel, ChannelDocument } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
-import { User, UserDocument } from './models/user.model';
+import { User } from './models/user.model';
 import { Notification } from './models/notification.model';
 import {
   canAssignPermissionsBelowOwnLevel,
   canEditRole,
 } from './helpers/check-role-editing-permissions';
 import { ChatRoomRole } from '../types/chat-room-role.alias';
+
+import mongoose from './config/db';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -1159,6 +1161,10 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender.pendingRequests?.includes(receiverId))
             return callback?.({ error: 'Friend request not found' });
 
+          if (!mongoose.Types.ObjectId.isValid(notificationId)) {
+            return callback?.({ error: 'Invalid notification ID' });
+          }
+
           await Notification.findByIdAndDelete(notificationId);
 
           sender.pendingRequests = sender.pendingRequests.filter(
@@ -1197,6 +1203,10 @@ export function setupSocket(server: HttpServer, app: Express) {
           currentNotification.recipient.toString()
         )
           return callback?.({ error: 'Unauthorized' });
+
+        if (!mongoose.Types.ObjectId.isValid(notificationId)) {
+          return callback?.({ error: 'Invalid notification ID' });
+        }
 
         await Notification.findByIdAndDelete(notificationId);
 
