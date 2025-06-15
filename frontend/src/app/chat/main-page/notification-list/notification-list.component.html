@@ -21,7 +21,7 @@
           </div>
 
           @if (notification.type === 'friend-request') {
-          <button mat-button (click)="acceptRequest(notification)">
+          <button mat-button (click)="acceptRequest.emit(notification)">
             Accept
           </button>
           <button
