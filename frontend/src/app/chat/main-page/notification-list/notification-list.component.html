@@ -35,6 +35,8 @@
           >
             Decline
           </button>
+          } @else if (notification.type === 'friend-declined') {
+          <button mat-button (click)="ok.emit(notification)">OK</button>
           }
         </div>
       </mat-list-item>

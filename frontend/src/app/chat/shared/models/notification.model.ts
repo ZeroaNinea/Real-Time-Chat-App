@@ -16,7 +16,13 @@ export interface PopulatedNotification {
     avatar: string;
   };
   recipient: string;
-  type: 'friend-request' | 'message' | 'mention' | 'status-change';
+  type:
+    | 'friend-request'
+    | 'friend-accepted'
+    | 'friend-declined'
+    | 'message'
+    | 'mention'
+    | 'status-change';
   message?: string;
   link?: string;
   read: boolean;
