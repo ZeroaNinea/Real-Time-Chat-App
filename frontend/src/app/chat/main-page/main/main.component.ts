@@ -168,10 +168,6 @@ export class MainComponent implements OnChanges {
   }
 
   declainNotification(notification: PopulatedNotification) {
-    // this.notifications = this.notifications.filter(
-    //   (n) => n._id !== notification._id
-    // );
-
     this.wsService.emit(
       'declineFriendRequest',
       {
@@ -195,10 +191,6 @@ export class MainComponent implements OnChanges {
   }
 
   deleteNotification(notification: PopulatedNotification) {
-    // this.notifications = this.notifications.filter(
-    //   (n) => n._id !== notification._id
-    // );
-
     const notificationId = notification._id;
 
     this.wsService.emit('deleteNotification', notificationId, (res) => {
