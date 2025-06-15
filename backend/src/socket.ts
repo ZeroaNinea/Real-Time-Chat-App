@@ -1142,6 +1142,9 @@ export function setupSocket(server: HttpServer, app: Express) {
             'username avatar'
           );
           io.to(senderId).emit('notification', populatedAccept);
+          io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
+            notificationId,
+          });
 
           callback?.({ success: true });
         } catch (err) {
