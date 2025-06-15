@@ -1159,11 +1159,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender.pendingRequests?.includes(receiverId))
             return callback?.({ error: 'Friend request not found' });
 
-          await Notification.deleteOne({
-            sender: senderId,
-            recipient: receiverId,
-            type: 'friend-request',
-          });
+          await Notification.findByIdAndDelete(notificationId);
 
           sender.pendingRequests = sender.pendingRequests.filter(
             (id: string) => id !== receiverId
@@ -1171,7 +1167,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           await sender.save();
 
           const declineNotification = await new Notification({
-            _id: notificationId,
             sender: receiverId,
             recipient: senderId,
             type: 'friend-declined',
