@@ -143,6 +143,14 @@ export class MainComponent implements OnChanges {
         return f;
       });
     });
+
+    this.wsService.listenFriendRemovings().subscribe(({ friendId }) => {
+      this.friends = this.friends.filter((f) => f._id !== friendId);
+    });
+
+    this.wsService.listenFriendRemovesByOthers().subscribe(({ userId }) => {
+      this.friends = this.friends.filter((f) => f._id !== userId);
+    });
   }
 
   joinRoom(room: Chat) {
