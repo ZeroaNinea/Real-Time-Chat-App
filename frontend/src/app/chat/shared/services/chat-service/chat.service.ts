@@ -15,6 +15,7 @@ import {
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
+import { getBanList } from '../../../../../../../backend/src/controllers/social.controller';
 
 @Injectable({
   providedIn: 'root',
@@ -136,6 +137,12 @@ export class ChatService {
   getFriends() {
     return this.http.get<AbbreviatedPopulatedUser[]>(
       `${environment.backendUrl}/social/get-friends`
+    );
+  }
+
+  getBanList() {
+    return this.http.get<AbbreviatedPopulatedUser[]>(
+      `${environment.backendUrl}/social/get-ban-list`
     );
   }
 }
