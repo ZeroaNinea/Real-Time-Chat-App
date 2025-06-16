@@ -1,7 +1,6 @@
 import {
   afterNextRender,
   Component,
-  computed,
   inject,
   OnChanges,
   signal,
@@ -53,7 +52,6 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class MainComponent implements OnChanges {
   searchTerm = signal('');
-  // rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
   private chatService = inject(ChatService);
   private router = inject(Router);
@@ -127,17 +125,6 @@ export class MainComponent implements OnChanges {
         );
       });
   }
-
-  // friends = [
-  //   { name: 'Alice', status: 'online' },
-  //   { name: 'Bob', status: 'typing...' },
-  // ];
-
-  // filteredRooms = computed(() =>
-  //   this.rooms().filter((r) =>
-  //     r.toLowerCase().includes(this.searchTerm().toLowerCase())
-  //   )
-  // );
 
   joinRoom(room: Chat) {
     this.wsService.emit('becomeMember', { chatId: room._id }, (res) => {
