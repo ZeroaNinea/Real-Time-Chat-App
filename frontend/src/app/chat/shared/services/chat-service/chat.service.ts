@@ -12,6 +12,7 @@ import { PopulatedUser } from '../../models/populated-user.model';
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
+import { getFriends } from '../../../../../../../backend/src/controllers/friend.controller';
 
 @Injectable({
   providedIn: 'root',
@@ -127,6 +128,12 @@ export class ChatService {
   getNotifications() {
     return this.http.get<PopulatedNotification[]>(
       `${environment.backendUrl}/notification/get-notifications`
+    );
+  }
+
+  getFriends() {
+    return this.http.get<PopulatedUser[]>(
+      `${environment.backendUrl}/friend/get-friends`
     );
   }
 }
