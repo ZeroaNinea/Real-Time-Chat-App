@@ -8,11 +8,13 @@ import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.alias';
 import { Message } from '../../models/message.model';
-import { PopulatedUser } from '../../models/populated-user.model';
+import {
+  AbbreviatedPopulatedUser,
+  PopulatedUser,
+} from '../../models/populated-user.model';
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
-import { getFriends } from '../../../../../../../backend/src/controllers/friend.controller';
 
 @Injectable({
   providedIn: 'root',
@@ -132,7 +134,7 @@ export class ChatService {
   }
 
   getFriends() {
-    return this.http.get<PopulatedUser[]>(
+    return this.http.get<AbbreviatedPopulatedUser[]>(
       `${environment.backendUrl}/friend/get-friends`
     );
   }
