@@ -21,6 +21,7 @@ import {
 import { ChatRoomRole } from '../types/chat-room-role.alias';
 
 import mongoose from './config/db';
+import { ObjectId } from 'mongoose';
 
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
@@ -1109,24 +1110,26 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender || !receiver)
             return callback?.({ error: 'User not found' });
 
-          if (!sender.pendingRequests?.includes(receiverId))
+          // if (!sender.pendingRequests?.includes(receiverId))
+          //   return callback?.({ error: 'Friend request not found' });
+
+          if (
+            !sender.pendingRequests?.some(
+              (id: ObjectId) => id.toString() === receiverId
+            )
+          )
             return callback?.({ error: 'Friend request not found' });
 
           sender.friends?.push(receiverId);
           receiver.friends?.push(senderId);
 
           sender.pendingRequests = sender.pendingRequests.filter(
-            (id: string) => id !== receiverId
+            (id: string) => id.toString() !== receiverId
           );
 
           await sender.save();
           await receiver.save();
 
-          // await Notification.deleteOne({
-          //   sender: senderId,
-          //   recipient: receiverId,
-          //   type: 'friend-request',
-          // });
           await Notification.findByIdAndDelete(notificationId);
 
           const acceptNotification = await new Notification({
@@ -1165,13 +1168,20 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender || !receiver)
             return callback?.({ error: 'User not found' });
 
-          if (!sender.pendingRequests?.includes(receiverId))
+          // if (!sender.pendingRequests?.includes(receiverId))
+          //   return callback?.({ error: 'Friend request not found' });
+
+          if (
+            !sender.pendingRequests?.some(
+              (id: ObjectId) => id.toString() === receiverId
+            )
+          )
             return callback?.({ error: 'Friend request not found' });
 
           await Notification.findByIdAndDelete(notificationId);
 
           sender.pendingRequests = sender.pendingRequests.filter(
-            (id: string) => id !== receiverId
+            (id: string) => id.toString() !== receiverId
           );
           await sender.save();
 

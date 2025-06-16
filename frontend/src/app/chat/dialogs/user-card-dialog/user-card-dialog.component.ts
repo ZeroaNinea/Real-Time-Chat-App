@@ -296,6 +296,9 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isFriend() {
+    console.log(
+      this.data.selectedUser.user.friends.includes(this.data.currentUserId)
+    );
     return this.data.selectedUser.user.friends.includes(
       this.data.currentUserId
     );
