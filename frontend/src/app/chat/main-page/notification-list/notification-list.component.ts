@@ -41,4 +41,8 @@ export class NotificationListComponent {
       ? `${this.environment.backendUrl}/${notification.sender.avatar}`
       : 'assets/camera.svg';
   }
+
+  isNotEmpty(arr: PopulatedNotification[]) {
+    return arr?.length !== 0;
+  }
 }

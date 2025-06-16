@@ -2,6 +2,7 @@
   <mat-card class="notification-card">
     <mat-card-title>Notifications</mat-card-title>
 
+    @if (isNotEmpty(notifications)) {
     <mat-list class="notification-list">
       @for (notification of notifications; track $index) {
       <mat-list-item>
@@ -39,5 +40,8 @@
       </mat-list-item>
       }
     </mat-list>
+    } @else {
+    <p class="empty-message">No notifications found.</p>
+    }
   </mat-card>
 </div>
