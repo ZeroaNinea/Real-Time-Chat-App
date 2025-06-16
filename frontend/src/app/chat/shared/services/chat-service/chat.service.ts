@@ -135,7 +135,7 @@ export class ChatService {
 
   getFriends() {
     return this.http.get<AbbreviatedPopulatedUser[]>(
-      `${environment.backendUrl}/friend/get-friends`
+      `${environment.backendUrl}/friends/get-friends`
     );
   }
 }
