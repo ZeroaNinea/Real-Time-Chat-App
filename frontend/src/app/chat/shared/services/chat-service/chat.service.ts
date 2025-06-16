@@ -15,7 +15,6 @@ import {
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
-import { getBanList } from '../../../../../../../backend/src/controllers/social.controller';
 
 @Injectable({
   providedIn: 'root',
