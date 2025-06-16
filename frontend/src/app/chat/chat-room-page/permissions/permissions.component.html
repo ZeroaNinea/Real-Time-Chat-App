@@ -1,5 +1,9 @@
 @if (canEdit && channelId) {
-<button mat-icon-button (click)="openPermissionsDialog.emit()">
+<button
+  mat-icon-button
+  matTooltip="Permissions"
+  (click)="openPermissionsDialog.emit()"
+>
   <mat-icon>shield</mat-icon>
 </button>
 }
