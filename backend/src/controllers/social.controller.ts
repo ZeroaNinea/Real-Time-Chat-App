@@ -18,3 +18,21 @@ export const getFriends = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+export const getBanList = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId).populate(
+      'banlist',
+      'username avatar bio pronouns status friends banlist pendingRequests'
+    );
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json(user.banlist);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
