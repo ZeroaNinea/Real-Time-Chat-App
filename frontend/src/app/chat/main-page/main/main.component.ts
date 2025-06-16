@@ -64,6 +64,7 @@ export class MainComponent implements OnChanges {
   chatRooms!: ChatRooms;
   notifications!: PopulatedNotification[];
   friends!: AbbreviatedPopulatedUser[];
+  banList!: AbbreviatedPopulatedUser[];
 
   constructor() {
     afterNextRender(() => {
@@ -103,6 +104,15 @@ export class MainComponent implements OnChanges {
       },
       error: (err) => {
         console.error('Failed to load friends', err);
+      },
+    });
+
+    this.chatService.getBanList().subscribe({
+      next: (banList) => {
+        this.banList = banList;
+      },
+      error: (err) => {
+        console.error('Failed to load ban list', err);
       },
     });
 
