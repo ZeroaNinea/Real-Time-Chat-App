@@ -1,6 +1,7 @@
 <div class="room-columns">
   <mat-card class="room-card">
     <mat-card-title>Your Rooms</mat-card-title>
+    @if (isNotEmptyChat(userRooms)) {
     <mat-list>
       @for (room of userRooms; track $index) {
       <mat-list-item>
@@ -27,6 +28,9 @@
       </mat-list-item>
       }
     </mat-list>
+    } @else {
+    <p class="empty-message">You have no rooms.</p>
+    }
   </mat-card>
 
   <mat-card class="room-card">

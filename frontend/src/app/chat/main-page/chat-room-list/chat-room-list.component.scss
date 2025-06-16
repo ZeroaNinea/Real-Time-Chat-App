@@ -64,3 +64,9 @@ mat-card-title {
     )
   );
 }
+
+.empty-message {
+  padding: 1rem;
+  font-size: 1.05rem;
+  color: var(--mat-sys-outline);
+}

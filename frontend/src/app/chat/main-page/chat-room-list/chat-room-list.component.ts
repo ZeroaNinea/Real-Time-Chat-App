@@ -99,4 +99,8 @@ export class ChatRoomListComponent implements OnChanges {
       return 'assets/camera.svg';
     }
   }
+
+  isNotEmptyChat(arr: Chat[]) {
+    return arr?.length !== 0;
+  }
 }
