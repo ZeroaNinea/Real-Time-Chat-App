@@ -40,7 +40,7 @@
 
   <mat-card class="friend-card">
     <mat-card-title>Banned Users</mat-card-title>
-    @if (banList.length) {
+    @if (banList) {
     <mat-list>
       @for (user of banList; track $index) {
       <mat-list-item class="list-item">

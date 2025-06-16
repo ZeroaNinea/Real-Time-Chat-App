@@ -1,6 +1,31 @@
+.list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.friend-card {
+  flex: 1 1 48%;
+  min-width: 300px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
 .friend-info {
-  flex: 1;
-  padding-left: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .username {
@@ -12,8 +37,13 @@
   color: gray;
 }
 
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.actions {
+  display: flex;
+  gap: 5px;
+}
+
+.empty-message {
+  padding: 1rem;
+  font-style: italic;
+  color: #888;
 }
