@@ -11,6 +11,8 @@ import { environment } from '../../../../environments/environment';
 })
 export class FriendListComponent {
   @Input() friends: AbbreviatedPopulatedUser[] = [];
+  @Input() banList: AbbreviatedPopulatedUser[] = [];
+
   environment = environment;
 
   getAvatarUrl(friend: AbbreviatedPopulatedUser) {
