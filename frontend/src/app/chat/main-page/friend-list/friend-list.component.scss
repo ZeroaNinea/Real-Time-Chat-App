@@ -47,6 +47,7 @@ mat-card-title {
 
 .actions {
   display: flex;
+  align-items: center;
   gap: 5px;
 
   .primary {
@@ -76,6 +77,6 @@ mat-card-title {
 
 .empty-message {
   padding: 1rem;
-  font-style: italic;
+  font-size: 1.05rem;
   color: var(--mat-sys-outline);
 }

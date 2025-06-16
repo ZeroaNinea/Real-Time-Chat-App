@@ -33,9 +33,18 @@ export class FriendListComponent {
 
   environment = environment;
 
+  constructor() {
+    console.log('friends', this.friends);
+    console.log('ban list', this.banList);
+  }
+
   getAvatarUrl(user: AbbreviatedPopulatedUser) {
     return user.avatar
       ? `${this.environment.backendUrl}/${user.avatar}`
       : 'assets/camera.svg';
+  }
+
+  isNotEmpty(arr: AbbreviatedPopulatedUser[]) {
+    return arr?.length !== 0;
   }
 }

@@ -109,7 +109,6 @@ export class MainComponent implements OnChanges {
 
     this.chatService.getBanList().subscribe({
       next: (banList) => {
-        console.log(banList);
         this.banList = banList;
       },
       error: (err) => {

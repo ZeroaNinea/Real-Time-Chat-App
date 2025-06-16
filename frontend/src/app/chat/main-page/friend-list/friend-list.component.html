@@ -1,6 +1,7 @@
 <div class="list-wrapper">
   <mat-card class="friend-card">
     <mat-card-title>Friends</mat-card-title>
+    @if (isNotEmpty(friends)) {
     <mat-list>
       @for (friend of friends; track $index) {
       <mat-list-item>
@@ -40,11 +41,14 @@
       </mat-list-item>
       }
     </mat-list>
+    } @else {
+    <p class="empty-message">Friend list is empty</p>
+    }
   </mat-card>
 
   <mat-card class="friend-card">
     <mat-card-title>Banned Users</mat-card-title>
-    @if (banList) {
+    @if (isNotEmpty(banList)) {
     <mat-list>
       @for (user of banList; track $index) {
       <mat-list-item>
@@ -69,9 +73,7 @@
       }
     </mat-list>
     } @else {
-    <ng-template>
-      <p class="empty-message">Ban list is empty.</p>
-    </ng-template>
+    <p class="empty-message">Ban list is empty.</p>
     }
   </mat-card>
 </div>
