@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-friend-list',
@@ -11,4 +12,12 @@ import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.mod
 export class FriendListComponent {
   @Input() friends: AbbreviatedPopulatedUser[] = [];
   // @Input() friends: { name: string; status: string }[] = [];
+
+  environment = environment;
+
+  getAvatarUrl(friend: AbbreviatedPopulatedUser) {
+    return friend.avatar
+      ? `${this.environment.backendUrl}/${friend.avatar}`
+      : 'assets/camera.svg';
+  }
 }
