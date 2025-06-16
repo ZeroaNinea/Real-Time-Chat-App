@@ -100,7 +100,7 @@ export class ChatRoomListComponent implements OnChanges {
     }
   }
 
-  isNotEmptyChat(arr: Chat[]) {
+  isNotEmpty(arr: Chat[]) {
     return arr?.length !== 0;
   }
 }

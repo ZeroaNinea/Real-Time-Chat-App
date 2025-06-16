@@ -1,7 +1,7 @@
 <div class="room-columns">
   <mat-card class="room-card">
     <mat-card-title>Your Rooms</mat-card-title>
-    @if (isNotEmptyChat(userRooms)) {
+    @if (isNotEmpty(userRooms)) {
     <mat-list>
       @for (room of userRooms; track $index) {
       <mat-list-item>
@@ -35,6 +35,7 @@
 
   <mat-card class="room-card">
     <mat-card-title>All Rooms</mat-card-title>
+    @if (isNotEmpty(filteredChatRooms())) {
     <mat-list>
       @for (room of filteredChatRooms(); track $index) {
       <mat-list-item>
@@ -59,5 +60,8 @@
       </mat-list-item>
       }
     </mat-list>
+    } @else {
+    <p class="empty-message">No rooms found.</p>
+    }
   </mat-card>
 </div>
