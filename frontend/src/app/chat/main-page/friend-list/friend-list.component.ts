@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
 
 @Component({
   selector: 'app-friend-list',
@@ -9,6 +9,6 @@ import { PopulatedUser } from '../../shared/models/populated-user.model';
   styleUrl: './friend-list.component.scss',
 })
 export class FriendListComponent {
-  // @Input() friends: PopulatedUser[] = [];
-  @Input() friends: { name: string; status: string }[] = [];
+  @Input() friends: AbbreviatedPopulatedUser[] = [];
+  // @Input() friends: { name: string; status: string }[] = [];
 }

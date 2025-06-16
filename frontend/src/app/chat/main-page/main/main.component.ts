@@ -21,6 +21,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRooms } from '../../shared/models/chat-rooms.interface';
 import { Chat } from '../../shared/models/chat.model';
 import { PopulatedNotification } from '../../shared/models/notification.model';
+import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
 
 import { ChatRoomListComponent } from '../chat-room-list/chat-room-list.component';
 import { HeaderComponent } from '../header/header.component';
@@ -52,7 +53,7 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class MainComponent implements OnChanges {
   searchTerm = signal('');
-  rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
+  // rooms = signal(['General', 'Gaming', 'Music', 'Philosophy']);
 
   private chatService = inject(ChatService);
   private router = inject(Router);
@@ -64,6 +65,7 @@ export class MainComponent implements OnChanges {
 
   chatRooms!: ChatRooms;
   notifications!: PopulatedNotification[];
+  friends!: AbbreviatedPopulatedUser[];
 
   constructor() {
     afterNextRender(() => {
@@ -97,6 +99,15 @@ export class MainComponent implements OnChanges {
       },
     });
 
+    this.chatService.getFriends().subscribe({
+      next: (friends) => {
+        this.friends = friends;
+      },
+      error: (err) => {
+        console.error('Failed to load friends', err);
+      },
+    });
+
     this.wsService.listenChatRoomLeft().subscribe((chat) => {
       this.chatRooms = {
         ...this.chatRooms,
@@ -117,16 +128,16 @@ export class MainComponent implements OnChanges {
       });
   }
 
-  friends = [
-    { name: 'Alice', status: 'online' },
-    { name: 'Bob', status: 'typing...' },
-  ];
+  // friends = [
+  //   { name: 'Alice', status: 'online' },
+  //   { name: 'Bob', status: 'typing...' },
+  // ];
 
-  filteredRooms = computed(() =>
-    this.rooms().filter((r) =>
-      r.toLowerCase().includes(this.searchTerm().toLowerCase())
-    )
-  );
+  // filteredRooms = computed(() =>
+  //   this.rooms().filter((r) =>
+  //     r.toLowerCase().includes(this.searchTerm().toLowerCase())
+  //   )
+  // );
 
   joinRoom(room: Chat) {
     this.wsService.emit('becomeMember', { chatId: room._id }, (res) => {
