@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Notification } from '../models/notification.model';
-import mongoose from 'mongoose';
 
 export const getNotifications = async (req: Request, res: Response) => {
   const userId = req.user._id;

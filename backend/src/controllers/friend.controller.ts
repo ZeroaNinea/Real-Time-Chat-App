@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-
 import { User } from '../models/user.model';
-import mongoose from 'mongoose';
 
 export const getFriends = async (req: Request, res: Response) => {
   try {
