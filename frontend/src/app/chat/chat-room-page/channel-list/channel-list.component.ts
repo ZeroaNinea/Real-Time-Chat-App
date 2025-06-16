@@ -19,6 +19,7 @@ import {
 import { MatRippleModule } from '@angular/material/core';
 
 import { Channel } from '../../shared/models/channel.model';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-channel-list',
@@ -26,6 +27,7 @@ import { Channel } from '../../shared/models/channel.model';
     RouterLink,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     CdkDropList,
     CdkDrag,
     MatRippleModule,
