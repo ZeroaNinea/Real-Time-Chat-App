@@ -59,10 +59,10 @@ isGrouped($index)) {
         ></textarea>
       </mat-form-field>
       <div class="edit-actions">
-        <button mat-icon-button color="primary" (click)="submitEdit(msg)">
+        <button mat-icon-button matTooltip="Save" (click)="submitEdit(msg)">
           <mat-icon>check</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="cancelEditing()">
+        <button mat-icon-button matTooltip="Cancel" (click)="cancelEditing()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -80,13 +80,17 @@ isGrouped($index)) {
   </div>
   @if (hoveredMessageId === msg._id) {
   <div class="message-actions">
-    <button mat-icon-button (click)="onReply.emit(msg)">
+    <button mat-icon-button matTooltip="Reply" (click)="onReply.emit(msg)">
       <mat-icon>reply</mat-icon>
     </button>
-    <button mat-icon-button (click)="startEditing(msg)">
+    <button mat-icon-button matTooltip="Edit" (click)="startEditing(msg)">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="onDelete.emit(msg._id)">
+    <button
+      mat-icon-button
+      matTooltip="Delete"
+      (click)="onDelete.emit(msg._id)"
+    >
       <mat-icon>delete</mat-icon>
     </button>
   </div>
