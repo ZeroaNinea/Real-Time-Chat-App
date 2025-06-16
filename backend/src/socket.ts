@@ -1244,6 +1244,9 @@ export function setupSocket(server: HttpServer, app: Express) {
         await user.save();
         await friend.save();
 
+        io.to(currentUserId).emit('friendRemoved', {
+          friendId,
+        });
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
