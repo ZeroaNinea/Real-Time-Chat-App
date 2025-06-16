@@ -1,6 +1,6 @@
 import mongoose from '../config/db';
 import bcrypt from 'bcrypt';
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export interface IUser {
   username: string;
@@ -10,9 +10,9 @@ export interface IUser {
   bio?: string;
   pronouns?: string;
   status?: string;
-  friends?: string[];
-  banlist?: string[];
-  pendingRequests?: string[];
+  friends?: ObjectId[];
+  banlist?: ObjectId[];
+  pendingRequests?: ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -53,15 +53,15 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       default: '',
     },
     friends: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
     },
     banlist: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
     },
     pendingRequests: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
     },
   },
