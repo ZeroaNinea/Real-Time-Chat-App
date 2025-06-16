@@ -1,69 +1,70 @@
-<!-- <section>
-  <h2>Friend Activity</h2>
-  <ul>
-    @for (friend of friends; track $index) {
-    <li>{{ friend.username }} - {{ friend.status }}</li>
-    }
-  </ul>
-</section> -->
+<div class="list-wrapper">
+  <mat-card class="friend-card">
+    <mat-card-title>Friends</mat-card-title>
+    <mat-list>
+      @for (friend of friends; track $index) {
+      <mat-list-item class="list-item">
+        <img [src]="getAvatarUrl(friend)" alt="Avatar" class="user-avatar" />
+        <div class="friend-info">
+          <div class="username">{{ friend.username }}</div>
+          <div class="status">{{ friend.status }}</div>
+        </div>
+        <div class="actions">
+          <button
+            mat-icon-button
+            (click)="message.emit(friend)"
+            matTooltip="Message"
+          >
+            <mat-icon>chat</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="remove.emit(friend)"
+            matTooltip="Remove friend"
+          >
+            <mat-icon>person_remove</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="ban.emit(friend)"
+            matTooltip="Ban user"
+          >
+            <mat-icon>block</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+      }
+    </mat-list>
+  </mat-card>
 
-<!-- <section> -->
-<h2>Friends</h2>
-<mat-list>
-  @for (friend of friends; track $index) {
-  <mat-list-item>
-    <img
-      matListAvatar
-      [src]="getAvatarUrl(friend)"
-      alt="Avatar"
-      class="user-avatar"
-    />
-    <div class="friend-info">
-      <div class="username">{{ friend.username }}</div>
-      <div class="status">{{ friend.status }}</div>
-    </div>
-
-    <button mat-icon-button (click)="message.emit(friend)" matTooltip="Message">
-      <mat-icon>chat</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      color="warn"
-      (click)="remove.emit(friend)"
-      matTooltip="Remove friend"
-    >
-      <mat-icon>person_remove</mat-icon>
-    </button>
-    <button mat-icon-button (click)="ban.emit(friend)" matTooltip="Ban user">
-      <mat-icon>block</mat-icon>
-    </button>
-  </mat-list-item>
-  }
-</mat-list>
-<!-- </section> -->
-
-@if (banList.length) {
-<!-- <section> -->
-<h2>Banned Users</h2>
-<mat-list>
-  @for (user of banList; track $index) {
-  <mat-list-item>
-    <img matListAvatar [src]="getAvatarUrl(user)" />
-    <div class="friend-info">
-      <div class="username">{{ user.username }}</div>
-      <div class="status">{{ user.status }}</div>
-    </div>
-
-    <button
-      mat-icon-button
-      color="primary"
-      (click)="unban.emit(user)"
-      matTooltip="Unban user"
-    >
-      <mat-icon>undo</mat-icon>
-    </button>
-  </mat-list-item>
-  }
-</mat-list>
-<!-- </section> -->
-}
+  <mat-card class="friend-card">
+    <mat-card-title>Banned Users</mat-card-title>
+    @if (banList.length) {
+    <mat-list>
+      @for (user of banList; track $index) {
+      <mat-list-item class="list-item">
+        <img [src]="getAvatarUrl(user)" alt="Avatar" class="user-avatar" />
+        <div class="friend-info">
+          <div class="username">{{ user.username }}</div>
+          <div class="status">{{ user.status }}</div>
+        </div>
+        <div class="actions">
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="unban.emit(user)"
+            matTooltip="Unban user"
+          >
+            <mat-icon>undo</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+      }
+    </mat-list>
+    } @else { No banned! }
+    <ng-template #noBanned>
+      <p class="empty-message">Ban list is empty.</p>
+    </ng-template>
+  </mat-card>
+</div>

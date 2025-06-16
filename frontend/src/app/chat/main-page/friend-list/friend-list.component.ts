@@ -4,13 +4,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-friend-list',
-  imports: [MatIconModule, MatTooltipModule, MatListModule, MatButtonModule],
+  imports: [
+    MatIconModule,
+    MatTooltipModule,
+    MatListModule,
+    MatButtonModule,
+    MatCardModule,
+  ],
   standalone: true,
   templateUrl: './friend-list.component.html',
   styleUrl: './friend-list.component.scss',
