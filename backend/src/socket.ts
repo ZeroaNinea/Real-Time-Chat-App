@@ -1110,9 +1110,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           if (!sender || !receiver)
             return callback?.({ error: 'User not found' });
 
-          // if (!sender.pendingRequests?.includes(receiverId))
-          //   return callback?.({ error: 'Friend request not found' });
-
           if (
             !sender.pendingRequests?.some(
               (id: ObjectId) => id.toString() === receiverId
@@ -1167,9 +1164,6 @@ export function setupSocket(server: HttpServer, app: Express) {
 
           if (!sender || !receiver)
             return callback?.({ error: 'User not found' });
-
-          // if (!sender.pendingRequests?.includes(receiverId))
-          //   return callback?.({ error: 'Friend request not found' });
 
           if (
             !sender.pendingRequests?.some(
