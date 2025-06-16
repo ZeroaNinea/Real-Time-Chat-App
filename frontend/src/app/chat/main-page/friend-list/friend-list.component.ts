@@ -1,10 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+
 import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-friend-list',
-  imports: [],
+  imports: [MatIconModule, MatTooltipModule, MatListModule, MatButtonModule],
   standalone: true,
   templateUrl: './friend-list.component.html',
   styleUrl: './friend-list.component.scss',
@@ -20,9 +26,9 @@ export class FriendListComponent {
 
   environment = environment;
 
-  getAvatarUrl(friend: AbbreviatedPopulatedUser) {
-    return friend.avatar
-      ? `${this.environment.backendUrl}/${friend.avatar}`
+  getAvatarUrl(user: AbbreviatedPopulatedUser) {
+    return user.avatar
+      ? `${this.environment.backendUrl}/${user.avatar}`
       : 'assets/camera.svg';
   }
 }

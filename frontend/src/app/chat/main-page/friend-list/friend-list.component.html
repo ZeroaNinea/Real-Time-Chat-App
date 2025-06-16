@@ -1,8 +1,66 @@
-<section>
+<!-- <section>
   <h2>Friend Activity</h2>
   <ul>
     @for (friend of friends; track $index) {
     <li>{{ friend.username }} - {{ friend.status }}</li>
     }
   </ul>
+</section> -->
+
+<section>
+  <h2>Friends</h2>
+  <mat-list>
+    @for (friend of friends; track $index) {
+    <mat-list-item>
+      <img matListAvatar [src]="getAvatarUrl(friend)" />
+      <div class="friend-info">
+        <div class="username">{{ friend.username }}</div>
+        <div class="status">{{ friend.status }}</div>
+      </div>
+
+      <button
+        mat-icon-button
+        (click)="message.emit(friend)"
+        matTooltip="Message"
+      >
+        <mat-icon>chat</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="remove.emit(friend)"
+        matTooltip="Remove friend"
+      >
+        <mat-icon>person_remove</mat-icon>
+      </button>
+      <button mat-icon-button (click)="ban.emit(friend)" matTooltip="Ban user">
+        <mat-icon>block</mat-icon>
+      </button>
+    </mat-list-item>
+    }
+  </mat-list>
+</section>
+
+<section *ngIf="banned.length">
+  <h2>Banned Users</h2>
+  <mat-list>
+    @for (user of banList; track $index) {
+    <mat-list-item>
+      <img matListAvatar [src]="getAvatarUrl(user)" />
+      <div class="friend-info">
+        <div class="username">{{ user.username }}</div>
+        <div class="status">{{ user.status }}</div>
+      </div>
+
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="unban.emit(user)"
+        matTooltip="Unban user"
+      >
+        <mat-icon>undo</mat-icon>
+      </button>
+    </mat-list-item>
+    }
+  </mat-list>
 </section>
