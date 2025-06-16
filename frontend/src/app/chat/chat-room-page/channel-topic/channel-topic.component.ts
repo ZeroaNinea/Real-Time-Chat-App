@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-channel-topic',
@@ -13,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
   standalone: true,
   templateUrl: './channel-topic.component.html',
