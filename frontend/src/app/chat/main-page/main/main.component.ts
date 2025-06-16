@@ -256,8 +256,8 @@ export class MainComponent implements OnChanges {
     });
   }
 
-  removeFriend(friendId: string) {
-    this.wsService.emit('removeFriend', friendId, (res) => {
+  removeFriend(friend: AbbreviatedPopulatedUser) {
+    this.wsService.emit('removeFriend', friend._id, (res) => {
       if (res?.error) {
         this._snackbar.open(
           res.error.message || 'Failed to remove friend',

@@ -1227,6 +1227,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('removeFriend', async (friendId, callback) => {
+      console.log('remove friend', friendId);
       try {
         const currentUserId = socket.data.user._id.toString();
 
