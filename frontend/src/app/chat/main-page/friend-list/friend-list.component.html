@@ -15,14 +15,15 @@
               mat-icon-button
               (click)="message.emit(friend)"
               matTooltip="Message"
+              class="primary"
             >
               <mat-icon>chat</mat-icon>
             </button>
             <button
               mat-icon-button
-              color="warn"
               (click)="remove.emit(friend)"
               matTooltip="Remove friend"
+              class="accent"
             >
               <mat-icon>person_remove</mat-icon>
             </button>
@@ -30,6 +31,7 @@
               mat-icon-button
               (click)="ban.emit(friend)"
               matTooltip="Ban user"
+              class="warn"
             >
               <mat-icon>block</mat-icon>
             </button>
