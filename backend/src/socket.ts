@@ -1145,7 +1145,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
             notificationId,
           });
-          io.to(socket.data.user._id.toString()).emit('friendAdded', receiver);
+          io.to(socket.data.user._id.toString()).emit('friendAdded', sender);
 
           callback?.({ success: true });
         } catch (err) {
