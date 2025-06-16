@@ -33,11 +33,6 @@ export class FriendListComponent {
 
   environment = environment;
 
-  constructor() {
-    console.log('friends', this.friends);
-    console.log('ban list', this.banList);
-  }
-
   getAvatarUrl(user: AbbreviatedPopulatedUser) {
     return user.avatar
       ? `${this.environment.backendUrl}/${user.avatar}`
