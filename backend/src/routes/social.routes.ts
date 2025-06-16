@@ -2,7 +2,7 @@ import express from 'express';
 
 import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../controllers/auth.controller';
-import { getFriends } from '../controllers/friend.controller';
+import { getFriends } from '../controllers/social.controller';
 
 const router = express.Router();
 

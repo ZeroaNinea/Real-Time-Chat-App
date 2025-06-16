@@ -4,7 +4,7 @@ import authRoutes from './auth.routes';
 import chatRoutes from './chat.routes';
 import messageRoutes from './message.routes';
 import notificationRoutes from './notification.routes';
-import friendsRoutes from './friends.routes';
+import socialRoutes from './social.routes';
 
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.use('/auth', authRoutes);
 router.use('/chat', chatRoutes);
 router.use('/message', messageRoutes);
 router.use('/notification', notificationRoutes);
-router.use('/friends', friendsRoutes);
+router.use('/social', socialRoutes);
 
 export default router;
