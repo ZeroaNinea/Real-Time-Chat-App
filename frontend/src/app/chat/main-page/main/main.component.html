@@ -33,7 +33,11 @@
     (visitRoom)="visitRoom($event)"
   ></app-chat-room-list>
 
-  <app-friend-list [friends]="friends" [banList]="banList"></app-friend-list>
+  <app-friend-list
+    [friends]="friends"
+    [banList]="banList"
+    (remove)="removeFriend($event)"
+  ></app-friend-list>
 
   <app-notification-list
     [notifications]="notifications"
