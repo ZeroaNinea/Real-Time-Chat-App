@@ -42,7 +42,7 @@ mat-card-title {
 
 .status {
   font-size: 12px;
-  color: gray;
+  color: var(--mat-sys-outline);
 }
 
 .actions {
@@ -77,5 +77,5 @@ mat-card-title {
 .empty-message {
   padding: 1rem;
   font-style: italic;
-  color: #888;
+  color: var(--mat-sys-outline);
 }
