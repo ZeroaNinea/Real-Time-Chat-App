@@ -1145,6 +1145,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
             notificationId,
           });
+          io.to(socket.data.user._id.toString()).emit('friendAdded', receiver);
 
           callback?.({ success: true });
         } catch (err) {
@@ -1230,6 +1231,10 @@ export function setupSocket(server: HttpServer, app: Express) {
       console.log('remove friend', friendId);
       try {
         const currentUserId = socket.data.user._id.toString();
+
+        if (!mongoose.Types.ObjectId.isValid(friendId)) {
+          return callback?.({ error: 'Invalid friend ID' });
+        }
 
         const [userExists, friendExists] = await Promise.all([
           User.exists({ _id: currentUserId }),
