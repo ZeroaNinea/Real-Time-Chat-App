@@ -134,6 +134,15 @@ export class MainComponent implements OnChanges {
           (n) => n._id !== notificationId
         );
       });
+
+    this.wsService.listenUserUpdates().subscribe((user) => {
+      this.friends = this.friends.map((f) => {
+        if (f._id === user._id) {
+          return user;
+        }
+        return f;
+      });
+    });
   }
 
   joinRoom(room: Chat) {
