@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbbreviatedPopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
 
@@ -12,6 +12,11 @@ import { environment } from '../../../../environments/environment';
 export class FriendListComponent {
   @Input() friends: AbbreviatedPopulatedUser[] = [];
   @Input() banList: AbbreviatedPopulatedUser[] = [];
+
+  @Output() remove = new EventEmitter<AbbreviatedPopulatedUser>();
+  @Output() message = new EventEmitter<AbbreviatedPopulatedUser>();
+  @Output() ban = new EventEmitter<AbbreviatedPopulatedUser>();
+  @Output() unban = new EventEmitter<AbbreviatedPopulatedUser>();
 
   environment = environment;
 
