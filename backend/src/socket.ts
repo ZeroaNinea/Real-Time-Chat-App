@@ -1229,24 +1229,29 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on('removeFriend', async (friendId, callback) => {
       try {
         const currentUserId = socket.data.user._id.toString();
-        const user = await User.findById(currentUserId);
-        const friend = await User.findById(friendId);
 
-        if (!user || !friend) return callback?.({ error: 'User not found' });
+        const [userExists, friendExists] = await Promise.all([
+          User.exists({ _id: currentUserId }),
+          User.exists({ _id: friendId }),
+        ]);
+        if (!userExists || !friendExists) {
+          return callback?.({ error: 'User not found' });
+        }
 
-        user.friends = user.friends.filter(
-          (id: string) => id.toString() !== friendId
-        );
-        friend.friends = friend.friends.filter(
-          (id: string) => id.toString() !== currentUserId
-        );
+        await Promise.all([
+          User.updateOne(
+            { _id: currentUserId },
+            { $pull: { friends: friendId } }
+          ),
+          User.updateOne(
+            { _id: friendId },
+            { $pull: { friends: currentUserId } }
+          ),
+        ]);
 
-        await user.save();
-        await friend.save();
+        io.to(currentUserId).emit('friendRemoved', { friendId });
+        io.to(friendId).emit('friendRemovedByOther', { userId: currentUserId });
 
-        io.to(currentUserId).emit('friendRemoved', {
-          friendId,
-        });
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
