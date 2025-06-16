@@ -3,35 +3,37 @@
     <mat-card-title>Friends</mat-card-title>
     <mat-list>
       @for (friend of friends; track $index) {
-      <mat-list-item class="list-item">
-        <img [src]="getAvatarUrl(friend)" alt="Avatar" class="user-avatar" />
-        <div class="friend-info">
-          <div class="username">{{ friend.username }}</div>
-          <div class="status">{{ friend.status }}</div>
-        </div>
-        <div class="actions">
-          <button
-            mat-icon-button
-            (click)="message.emit(friend)"
-            matTooltip="Message"
-          >
-            <mat-icon>chat</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="remove.emit(friend)"
-            matTooltip="Remove friend"
-          >
-            <mat-icon>person_remove</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            (click)="ban.emit(friend)"
-            matTooltip="Ban user"
-          >
-            <mat-icon>block</mat-icon>
-          </button>
+      <mat-list-item>
+        <div class="list-item">
+          <img [src]="getAvatarUrl(friend)" alt="Avatar" class="user-avatar" />
+          <div class="friend-info">
+            <div class="username">{{ friend.username }}</div>
+            <div class="status">{{ friend.status }}</div>
+          </div>
+          <div class="actions">
+            <button
+              mat-icon-button
+              (click)="message.emit(friend)"
+              matTooltip="Message"
+            >
+              <mat-icon>chat</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="remove.emit(friend)"
+              matTooltip="Remove friend"
+            >
+              <mat-icon>person_remove</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="ban.emit(friend)"
+              matTooltip="Ban user"
+            >
+              <mat-icon>block</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-list-item>
       }
@@ -62,9 +64,10 @@
       </mat-list-item>
       }
     </mat-list>
-    } @else { No banned! }
-    <ng-template #noBanned>
+    } @else {
+    <ng-template>
       <p class="empty-message">Ban list is empty.</p>
     </ng-template>
+    }
   </mat-card>
 </div>
