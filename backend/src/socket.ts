@@ -1225,6 +1225,31 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('removeFriend', async (friendId, callback) => {
+      try {
+        const currentUserId = socket.data.user._id.toString();
+        const user = await User.findById(currentUserId);
+        const friend = await User.findById(friendId);
+
+        if (!user || !friend) return callback?.({ error: 'User not found' });
+
+        user.friends = user.friends.filter(
+          (id: string) => id.toString() !== friendId
+        );
+        friend.friends = friend.friends.filter(
+          (id: string) => id.toString() !== currentUserId
+        );
+
+        await user.save();
+        await friend.save();
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
