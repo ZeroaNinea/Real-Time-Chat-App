@@ -41,7 +41,8 @@
   </mat-list>
 </section>
 
-<section *ngIf="banned.length">
+@if (banList.length) {
+<section>
   <h2>Banned Users</h2>
   <mat-list>
     @for (user of banList; track $index) {
@@ -64,3 +65,4 @@
     }
   </mat-list>
 </section>
+}
