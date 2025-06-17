@@ -341,6 +341,10 @@ export class UserCardDialogComponent implements OnChanges {
         );
       } else {
         this.data.currentUserBanList.push(user.user._id);
+        this.data.currentUserFriends = this.data.currentUserFriends.filter(
+          (friend) => friend !== user.user._id
+        );
+
         this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
       }
     });
