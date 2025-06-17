@@ -1146,6 +1146,7 @@ export function setupSocket(server: HttpServer, app: Express) {
             notificationId,
           });
           io.to(socket.data.user._id.toString()).emit('friendAdded', sender);
+          io.to(senderId).emit('friendAddedByOther', receiver);
 
           callback?.({ success: true });
         } catch (err) {

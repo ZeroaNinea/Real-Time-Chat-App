@@ -242,6 +242,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  listenFriendAdditionsByOthers(): Observable<AbbreviatedPopulatedUser> {
+    return new Observable((observer) => {
+      this.socket.on('friendAddedByOther', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
   listenFriendRemovings(): Observable<{ friendId: string }> {
     return new Observable((observer) => {
       this.socket.on('friendRemoved', (data) => {

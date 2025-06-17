@@ -148,6 +148,10 @@ export class MainComponent implements OnChanges {
       this.friends = [...this.friends, friend];
     });
 
+    this.wsService.listenFriendAdditionsByOthers().subscribe((friend) => {
+      this.friends = [...this.friends, friend];
+    });
+
     this.wsService.listenFriendRemovings().subscribe(({ friendId }) => {
       this.friends = this.friends.filter((f) => f._id !== friendId);
     });
