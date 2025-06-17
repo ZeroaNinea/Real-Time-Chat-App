@@ -1128,6 +1128,17 @@ export function setupSocket(server: HttpServer, app: Express) {
           )
             return callback?.({ error: 'Friend request not found' });
 
+          if (senderId === receiverId)
+            return callback?.({
+              error: 'Cannot accept friend request from yourself',
+            });
+
+          if (receiver.banlist?.includes(senderId))
+            return callback?.({ error: 'User is banned' });
+
+          if (sender.banlist?.includes(receiverId))
+            return callback?.({ error: 'You are banned by the user' });
+
           sender.friends?.push(receiverId);
           receiver.friends?.push(senderId);
 
