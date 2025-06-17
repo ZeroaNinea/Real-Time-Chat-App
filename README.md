@@ -252,7 +252,7 @@ backend/
 <br />
 ✅ Step 44: Implement a real-time notification system in Socket.io
 <br />
-➡️ Step 45: Start with firend logic (send, accept, reject, unfriend)
+✅ Step 45: Start with firend logic (send, accept, reject, unfriend)
 <br />
 ➡️ Step 46: Implement prevate messages
 <br />
