@@ -307,4 +307,18 @@ export class MainComponent implements OnChanges {
       }
     });
   }
+
+  unbanUser(user: AbbreviatedPopulatedUser) {
+    this.wsService.emit('unbanUser', user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to unban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
 }
