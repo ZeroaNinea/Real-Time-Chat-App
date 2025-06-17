@@ -1145,8 +1145,35 @@ export function setupSocket(server: HttpServer, app: Express) {
           io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
             notificationId,
           });
-          io.to(socket.data.user._id.toString()).emit('friendAdded', sender);
-          io.to(senderId).emit('friendAddedByOther', receiver);
+
+          // populate the sender
+
+          //           export type AbbreviatedPopulatedUser = {
+          //   _id: string;
+          //   username: string;
+          //   avatar: string;
+          //   bio: string;
+          //   pronouns: string;
+          //   status: string;
+          //   friends: string[];
+          //   banlist: string[];
+          //   pendingRequests: string[];
+          // };
+
+          const populatedSender = await sender.populate(
+            'friends',
+            'username avatar bio pronouns status friends banlist pendingRequests'
+          );
+          const populatedReceiver = await receiver.populate(
+            'friends',
+            'username avatar bio pronouns status friends banlist pendingRequests'
+          );
+
+          io.to(socket.data.user._id.toString()).emit(
+            'friendAdded',
+            populatedSender
+          );
+          io.to(senderId).emit('friendAddedByOther', populatedReceiver);
 
           callback?.({ success: true });
         } catch (err) {
