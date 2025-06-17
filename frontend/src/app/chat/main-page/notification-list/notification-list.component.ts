@@ -31,11 +31,6 @@ export class NotificationListComponent {
 
   environment = environment;
 
-  // acceptRequest(notification: PopulatedNotification) {
-  //   // Emit event or call service to accept the friend request.
-  //   console.log('Accepted', notification);
-  // }
-
   getAvatarUrl(notification: PopulatedNotification) {
     return notification.sender.avatar
       ? `${this.environment.backendUrl}/${notification.sender.avatar}`
