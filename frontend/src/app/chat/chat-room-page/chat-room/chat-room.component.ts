@@ -122,19 +122,19 @@ export class ChatRoomComponent implements OnDestroy {
 
   replyingToMessage = signal<Message | null>(null);
 
-  currentUserFriends() {
+  currentUserFriends = computed(() => {
     const id = this.currentUser()?.id;
     const user = this.populatedUsers().find((u) => u.user._id === id);
     return user?.user?.friends || [];
-  }
+  });
 
-  currentUserBanList() {
+  currentUserBanList = computed(() => {
     const id = this.currentUser()?.id;
     const user: PopulatedUser | undefined = this.populatedUsers().find(
       (u) => u.user._id === id
     );
     return user?.user?.banlist || [];
-  }
+  });
 
   currentUserPendingRequests() {
     const id = this.currentUser()?.id;
