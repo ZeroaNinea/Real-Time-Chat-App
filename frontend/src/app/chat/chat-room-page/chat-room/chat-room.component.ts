@@ -356,6 +356,9 @@ export class ChatRoomComponent implements OnDestroy {
         );
         if (currentUser) {
           currentUser.user.banlist.push(user._id);
+          currentUser.user.friends = currentUser.user.friends.filter(
+            (f) => f !== user._id
+          );
         }
         return users;
       });
@@ -368,6 +371,37 @@ export class ChatRoomComponent implements OnDestroy {
         );
         if (currentUser) {
           currentUser.user.banlist.push(user._id);
+          currentUser.user.friends = currentUser.user.friends.filter(
+            (f) => f !== user._id
+          );
+        }
+        return users;
+      });
+    });
+
+    this.wsService.listenUserUnbans().subscribe((user) => {
+      this.populatedUsers.update((users) => {
+        const currentUser = users.find(
+          (u) => u.user._id === this.authService.currentUser()?.id
+        );
+        if (currentUser) {
+          currentUser.user.banlist = currentUser.user.banlist.filter(
+            (b) => b !== user.userId
+          );
+        }
+        return users;
+      });
+    });
+
+    this.wsService.listenUserUnbansByOther().subscribe((user) => {
+      this.populatedUsers.update((users) => {
+        const currentUser = users.find(
+          (u) => u.user._id === this.authService.currentUser()?.id
+        );
+        if (currentUser) {
+          currentUser.user.banlist = currentUser.user.banlist.filter(
+            (b) => b !== user.userId
+          );
         }
         return users;
       });
