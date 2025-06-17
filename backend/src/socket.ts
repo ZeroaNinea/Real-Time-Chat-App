@@ -1311,6 +1311,9 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         io.to(currentUserId).emit('userBanned', user);
         io.to(userId).emit('userBannedByOther', currentUser);
+        io.to(currentUserId).emit('friendRemoved', user);
+        io.to(userId).emit('friendRemovedByOther', currentUser);
+
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
