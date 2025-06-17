@@ -167,6 +167,7 @@ export class MainComponent implements OnChanges {
 
     this.wsService.listenUserBansByOther().subscribe((user) => {
       this.banList = [...this.banList, user];
+      this.friends = this.friends.filter((f) => f._id !== user._id);
     });
 
     this.wsService.listenUserUnbans().subscribe(({ userId }) => {
