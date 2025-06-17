@@ -132,6 +132,7 @@ export class ChatRoomComponent implements OnDestroy {
     const user: PopulatedUser | undefined = this.populatedUsers().find(
       (u) => u.user._id === id
     );
+
     return user?.user?.banlist || [];
   });
 
@@ -369,6 +370,8 @@ export class ChatRoomComponent implements OnDestroy {
         }
         return users;
       });
+
+      console.log(this.populatedUsers());
     });
 
     this.wsService.listenUserBansByOther().subscribe((user) => {
@@ -388,6 +391,7 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.wsService.listenUserUnbans().subscribe((user) => {
       console.log('Unbanning', user);
+
       this.populatedUsers.update((users) => {
         const currentUser = users.find(
           async (u) => u.user._id === (await this.authService.currentUser()?.id)
@@ -396,11 +400,15 @@ export class ChatRoomComponent implements OnDestroy {
           currentUser.user.banlist = currentUser.user.banlist.filter(
             (b) => b !== user.userId
           );
+
+          console.log(currentUser.user.banlist);
         }
 
-        console.log(users);
         return users;
       });
+      console.log(this.populatedUsers());
+
+      console.log('current user id', this.authService.currentUser()?.id);
     });
 
     this.wsService.listenUserUnbansByOther().subscribe((user) => {
