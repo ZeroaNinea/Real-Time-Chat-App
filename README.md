@@ -261,7 +261,7 @@ backend/
 
 ## Next steps
 
-➡️ Friends system
+✅ Friends system
 <br />
 ➡️ Private messages
 <br />
