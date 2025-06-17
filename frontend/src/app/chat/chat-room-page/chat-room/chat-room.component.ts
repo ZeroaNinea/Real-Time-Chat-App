@@ -7,7 +7,6 @@ import {
   inject,
   Injectable,
   OnDestroy,
-  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -205,6 +204,7 @@ export class ChatRoomComponent implements OnDestroy {
         const prevId = this.chatId();
         this.chatId.set(id);
         this.channelId.set(channelId || '');
+
         if (id && id !== prevId) {
           this.fetchChatRoom(id);
           this.connect();
@@ -239,6 +239,8 @@ export class ChatRoomComponent implements OnDestroy {
       this.chatThumbnail.set(chat.thumbnail);
 
       const currentUserId = this.authService.currentUser()?.id;
+      this.wsService.joinChatRoom(currentUserId!);
+
       const member = chat.members.find((m) => m.user === currentUserId);
 
       // if (this.channelId()) {
@@ -274,6 +276,8 @@ export class ChatRoomComponent implements OnDestroy {
   connect() {
     this.wsService.disconnect();
     this.wsService.connect();
+
+    console.log('Connected to websocket.');
 
     this.wsService.joinChatRoom(this.chatId()!);
 
@@ -383,15 +387,18 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenUserUnbans().subscribe((user) => {
+      console.log('Unbanning', user);
       this.populatedUsers.update((users) => {
         const currentUser = users.find(
-          (u) => u.user._id === this.authService.currentUser()?.id
+          async (u) => u.user._id === (await this.authService.currentUser()?.id)
         );
         if (currentUser) {
           currentUser.user.banlist = currentUser.user.banlist.filter(
             (b) => b !== user.userId
           );
         }
+
+        console.log(users);
         return users;
       });
     });
@@ -399,7 +406,7 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService.listenUserUnbansByOther().subscribe((user) => {
       this.populatedUsers.update((users) => {
         const currentUser = users.find(
-          (u) => u.user._id === this.authService.currentUser()?.id
+          async (u) => u.user._id === (await this.authService.currentUser()?.id)
         );
         if (currentUser) {
           currentUser.user.banlist = currentUser.user.banlist.filter(

@@ -122,7 +122,6 @@ export class WebsocketService implements OnDestroy {
   }
 
   listenChannelAdditions(): Observable<Channel> {
-    console.log('Listening for channel additions...');
     return new Observable((observer) => {
       this.socket.on('channelAdded', (channel: Channel) => {
         observer.next(channel);
@@ -283,6 +282,7 @@ export class WebsocketService implements OnDestroy {
   }
 
   listenUserUnbans(): Observable<{ userId: string }> {
+    // console.log('Listening for user unbans...');
     return new Observable((observer) => {
       this.socket.on('userUnbanned', (data) => {
         observer.next(data);

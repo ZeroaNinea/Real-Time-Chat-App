@@ -301,7 +301,7 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isBanned() {
-    console.log('ban list', this.data.currentUserBanList);
+    // console.log('ban list', this.data.currentUserBanList);
     return this.data.currentUserBanList.includes(
       this.data.selectedUser.user._id
     );

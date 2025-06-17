@@ -1392,7 +1392,9 @@ export function setupSocket(server: HttpServer, app: Express) {
           { $pull: { banlist: user._id } }
         );
 
-        io.to(currentUserId).emit('userUnbanned', { userId: user._id });
+        io.to(currentUserId).emit('userUnbanned', {
+          userId: user._id,
+        });
         io.to(userId).emit('userUnbannedByOther', { userId: currentUser._id });
 
         callback?.({ success: true });
