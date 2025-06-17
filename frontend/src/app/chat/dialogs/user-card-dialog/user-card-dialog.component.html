@@ -113,22 +113,32 @@
       >
         <mat-icon>person_add</mat-icon>
         @if (isRequestPending()) { Request Pending } @else if (isFriend()) {
-        Already Friends } @else { Friend Request }
+        Already Friends } @else if (isBanned()) { Banned } @else { Friend
+        Request }
       </button>
       <button mat-stroked-button>
         <mat-icon>chat</mat-icon>
         PM
       </button>
+      @if (isBanned()) {
       <button
         mat-stroked-button
-        [disabled]="isBanned()"
+        (click)="unbanUser(data.selectedUser)"
+        class="accent"
+      >
+        <mat-icon>undo</mat-icon>
+        Unban
+      </button>
+      } @else {
+      <button
+        mat-stroked-button
         (click)="banUser(data.selectedUser)"
         class="warn"
       >
         <mat-icon>block</mat-icon>
         Block
       </button>
-      }
+      } }
     </div>
   </mat-card-content>
 </mat-card>
