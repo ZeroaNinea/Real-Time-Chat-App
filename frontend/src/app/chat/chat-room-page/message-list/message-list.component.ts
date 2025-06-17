@@ -41,6 +41,7 @@ export class MessageListComponent {
   @Input() chatRoomRoles: ChatRoomRole[] = [];
   @Input() currentUserRoles: string[] = [];
   @Input() currentUserFriends: string[] = [];
+  @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
@@ -207,6 +208,7 @@ export class MessageListComponent {
         chatRoomRoles: this.chatRoomRoles,
         currentUserRoles: this.currentUserRoles,
         currentUserFriends: this.currentUserFriends,
+        currentUserBanList: this.currentUserBanList,
         currentUserPendingRequests: this.currentUserPendingRequests,
       },
       width: '400px',

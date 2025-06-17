@@ -66,6 +66,7 @@
         [chatRoomRoles]="chatRoomRoles()"
         [currentUserRoles]="currentUserRoles()"
         [currentUserFriends]="currentUserFriends()"
+        [currentUserBanList]="currentUserBanList()"
         [currentUserPendingRequests]="currentUserPendingRequests()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
@@ -109,6 +110,7 @@
       [chatId]="chatId()"
       [chatRoomRoles]="chatRoomRoles()"
       [currentUserFriends]="currentUserFriends()"
+      [currentUserBanList]="currentUserBanList()"
       [currentUserPendingRequests]="currentUserPendingRequests()"
     ></app-member-list>
   </div>

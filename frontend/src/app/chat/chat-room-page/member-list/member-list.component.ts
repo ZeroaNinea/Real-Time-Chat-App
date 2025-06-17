@@ -27,6 +27,7 @@ export class MemberListComponent {
   @Input() chatId: string | null = null;
   @Input() chatRoomRoles: ChatRoomRole[] = [];
   @Input() currentUserFriends: string[] = [];
+  @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
@@ -49,6 +50,7 @@ export class MemberListComponent {
         chatRoomRoles: this.chatRoomRoles,
         currentUserRoles: this.currentUserRoles,
         currentUserFriends: this.currentUserFriends,
+        currentUserBanList: this.currentUserBanList,
         currentUserPendingRequests: this.currentUserPendingRequests,
       },
       width: '400px',
