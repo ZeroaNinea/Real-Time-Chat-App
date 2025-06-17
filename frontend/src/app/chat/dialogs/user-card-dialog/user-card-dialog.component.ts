@@ -332,6 +332,34 @@ export class UserCardDialogComponent implements OnChanges {
       });
   }
 
+  banUser(user: PopulatedUser) {
+    this.wsService.emit('banUser', user.user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to ban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
+
+  unbanUser(user: PopulatedUser) {
+    this.wsService.emit('unbanUser', user.user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to unban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();

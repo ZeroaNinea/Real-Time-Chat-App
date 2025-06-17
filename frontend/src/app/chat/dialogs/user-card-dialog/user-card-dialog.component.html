@@ -119,7 +119,12 @@
         <mat-icon>chat</mat-icon>
         PM
       </button>
-      <button mat-stroked-button [disabled]="isBanned()" class="warn">
+      <button
+        mat-stroked-button
+        [disabled]="isBanned()"
+        (click)="banUser(data.selectedUser)"
+        class="warn"
+      >
         <mat-icon>block</mat-icon>
         Block
       </button>
