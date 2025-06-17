@@ -1367,16 +1367,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         await User.updateOne(
           { _id: currentUserId },
-          {
-            $pull: { banlist: user._id },
-            $addToSet: { friends: user._id },
-          }
-        );
-        await User.updateOne(
-          { _id: user._id },
-          {
-            $addToSet: { friends: currentUser._id },
-          }
+          { $pull: { banlist: user._id } }
         );
 
         const populatedUser = await user.populate(
