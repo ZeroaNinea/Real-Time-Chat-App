@@ -131,6 +131,7 @@ export class UserCardDialogComponent implements OnChanges {
       chatRoomRoles: ChatRoomRole[];
       currentUserRoles: string[];
       currentUserFriends: string[];
+      currentUserBanList: string[];
       currentUserPendingRequests: string[];
     }
   ) {
@@ -301,6 +302,12 @@ export class UserCardDialogComponent implements OnChanges {
     );
     return this.data.selectedUser.user.friends.includes(
       this.data.currentUserId
+    );
+  }
+
+  isBanned() {
+    return this.data.currentUserBanList.includes(
+      this.data.selectedUser.user._id
     );
   }
 
