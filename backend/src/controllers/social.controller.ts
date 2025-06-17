@@ -12,7 +12,13 @@ export const getFriends = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    res.json(user.friends);
+    const filteredFriends = (user.friends as any[]).filter((friend) => {
+      const friendBansUser = friend.banlist.includes(userId);
+      const userBansFriend = user.banlist.includes(friend._id.toString());
+      return !friendBansUser && !userBansFriend;
+    });
+
+    res.json(filteredFriends);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });
