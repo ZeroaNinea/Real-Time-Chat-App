@@ -1302,6 +1302,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('banUser', async (userId, callback) => {
+      console.log('ban user', userId);
       try {
         const currentUserId = socket.data.user._id.toString();
 
