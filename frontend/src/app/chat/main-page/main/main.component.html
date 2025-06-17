@@ -37,6 +37,8 @@
     [friends]="friends"
     [banList]="banList"
     (remove)="removeFriend($event)"
+    (unban)="unbanUser($event)"
+    (ban)="banUser($event)"
   ></app-friend-list>
 
   <app-notification-list
