@@ -265,4 +265,12 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenUserBans(): Observable<AbbreviatedPopulatedUser> {
+    return new Observable((observer) => {
+      this.socket.on('userBanned', (data) => {
+        observer.next(data);
+      });
+    });
+  }
 }
