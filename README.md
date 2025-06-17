@@ -250,7 +250,7 @@ backend/
 <br />
 ✅ Step 43: Add a `Notification` model
 <br />
-➡️ Step 44: Implement a real-time notification system in Socket.io
+✅ Step 44: Implement a real-time notification system in Socket.io
 <br />
 ➡️ Step 45: Start with firend logic (send, accept, reject, unfriend)
 <br />
