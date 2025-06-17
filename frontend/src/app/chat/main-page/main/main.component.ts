@@ -159,6 +159,14 @@ export class MainComponent implements OnChanges {
     this.wsService.listenFriendRemovesByOthers().subscribe(({ userId }) => {
       this.friends = this.friends.filter((f) => f._id !== userId);
     });
+
+    this.wsService.listenUserBans().subscribe((user) => {
+      this.banList = [...this.banList, user];
+    });
+
+    this.wsService.listenUserUnbans().subscribe(({ userId }) => {
+      this.banList = this.banList.filter((u) => u._id !== userId);
+    });
   }
 
   joinRoom(room: Chat) {

@@ -282,7 +282,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenUserUnbans(): Observable<AbbreviatedPopulatedUser> {
+  listenUserUnbans(): Observable<{ userId: string }> {
     return new Observable((observer) => {
       this.socket.on('userUnbanned', (data) => {
         observer.next(data);
@@ -290,7 +290,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenUserUnbansByOther(): Observable<AbbreviatedPopulatedUser> {
+  listenUserUnbansByOther(): Observable<{ userId: string }> {
     return new Observable((observer) => {
       this.socket.on('userUnbannedByOther', (data) => {
         observer.next(data);
