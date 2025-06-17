@@ -1146,20 +1146,6 @@ export function setupSocket(server: HttpServer, app: Express) {
             notificationId,
           });
 
-          // populate the sender
-
-          //           export type AbbreviatedPopulatedUser = {
-          //   _id: string;
-          //   username: string;
-          //   avatar: string;
-          //   bio: string;
-          //   pronouns: string;
-          //   status: string;
-          //   friends: string[];
-          //   banlist: string[];
-          //   pendingRequests: string[];
-          // };
-
           const populatedSender = await sender.populate(
             'friends',
             'username avatar bio pronouns status friends banlist pendingRequests'
@@ -1336,8 +1322,17 @@ export function setupSocket(server: HttpServer, app: Express) {
           ),
         ]);
 
-        io.to(currentUserId).emit('userBanned', user);
-        io.to(userId).emit('userBannedByOther', currentUser);
+        const populatedUser = await user.populate(
+          'banlist',
+          'username avatar bio pronouns status friends banlist pendingRequests'
+        );
+        const populatedCurrentUser = await currentUser.populate(
+          'banlist',
+          'username avatar bio pronouns status friends banlist pendingRequests'
+        );
+
+        io.to(currentUserId).emit('userBanned', populatedUser);
+        io.to(userId).emit('userBannedByOther', populatedCurrentUser);
 
         io.to(currentUserId).emit('friendRemoved', { friendId: userId });
         io.to(userId).emit('friendRemovedByOther', {
