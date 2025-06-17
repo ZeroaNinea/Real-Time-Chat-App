@@ -361,6 +361,18 @@ export class ChatRoomComponent implements OnDestroy {
       });
     });
 
+    this.wsService.listenUserBansByOther().subscribe((user) => {
+      this.populatedUsers.update((users) => {
+        const currentUser = users.find(
+          (u) => u.user._id === this.authService.currentUser()?.id
+        );
+        if (currentUser) {
+          currentUser.user.banlist.push(user._id);
+        }
+        return users;
+      });
+    });
+
     // I'll implement this later.
     // this.wsService.listenUserJoined().subscribe((user) => {
     //   this.populatedUsers.update((users) => [...users, user]);
