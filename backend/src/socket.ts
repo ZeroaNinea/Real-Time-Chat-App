@@ -1339,6 +1339,64 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('unbanUser', async (userId, callback) => {
+      try {
+        const currentUserId = socket.data.user._id.toString();
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return callback?.({ error: 'Invalid user ID' });
+        }
+
+        if (userId === currentUserId) {
+          return callback?.({ error: 'Cannot unban yourself' });
+        }
+
+        const [user, currentUser] = await Promise.all([
+          User.findById(userId),
+          User.findById(currentUserId),
+        ]);
+
+        if (!user || !currentUser) {
+          return callback?.({ error: 'User not found' });
+        }
+
+        if (!currentUser.banlist.includes(user._id)) {
+          return callback?.({ error: 'User not banned' });
+        }
+
+        await User.updateOne(
+          { _id: currentUserId },
+          {
+            $pull: { banlist: user._id },
+            $addToSet: { friends: user._id },
+          }
+        );
+        await User.updateOne(
+          { _id: user._id },
+          {
+            $addToSet: { friends: currentUser._id },
+          }
+        );
+
+        const populatedUser = await user.populate(
+          'banlist',
+          'username avatar bio pronouns status friends banlist pendingRequests'
+        );
+        const populatedCurrentUser = await currentUser.populate(
+          'banlist',
+          'username avatar bio pronouns status friends banlist pendingRequests'
+        );
+
+        io.to(currentUserId).emit('userUnbanned', populatedUser);
+        io.to(userId).emit('userUnbannedByOther', populatedCurrentUser);
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
