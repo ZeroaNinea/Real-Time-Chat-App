@@ -1,4 +1,11 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -31,6 +38,8 @@ export class MemberListComponent {
   @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
+  @Output() currentUserBanListFunc = new EventEmitter<string[]>();
+
   getAvatarUrl(userId: string): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
     return avatar
@@ -55,6 +64,8 @@ export class MemberListComponent {
       },
       width: '400px',
     });
+
+    console.log(this.currentUserBanList);
   }
 
   trimText(text: string, max: number): string {
@@ -63,4 +74,7 @@ export class MemberListComponent {
     if (trimmed.length === text.length) return trimmed;
     return trimmed.replace(/\.+$/, '') + '...';
   }
+}
+function WritableSignal<T>(arg0: never[]) {
+  throw new Error('Function not implemented.');
 }
