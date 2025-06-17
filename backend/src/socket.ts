@@ -1283,44 +1283,40 @@ export function setupSocket(server: HttpServer, app: Express) {
       try {
         const currentUserId = socket.data.user._id.toString();
 
-        const user = await User.findById(userId);
-        const currentUser = await User.findById(currentUserId);
-
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           return callback?.({ error: 'Invalid user ID' });
         }
 
-        if (user.banlist.includes(currentUserId)) {
-          return callback?.({ error: 'User already banned' });
-        }
-
-        if (user._id.toString() === currentUserId) {
+        if (userId === currentUserId) {
           return callback?.({ error: 'Cannot ban yourself' });
         }
 
-        if (!user) {
+        const [user, currentUser] = await Promise.all([
+          User.findById(userId),
+          User.findById(currentUserId),
+        ]);
+
+        if (!user || !currentUser) {
           return callback?.({ error: 'User not found' });
         }
 
-        if (!currentUser) {
-          return callback?.({ error: 'Current user not found' });
+        if (currentUser.banlist.includes(user._id)) {
+          return callback?.({ error: 'User already banned' });
         }
 
-        const [userExists, friendExists] = await Promise.all([
-          User.exists({ _id: currentUserId }),
-          User.exists({ _id: userId }),
-        ]);
-
-        if (!userExists || !friendExists) {
-          return callback?.({ error: 'User not found' });
-        }
-
-        await Promise.all([
-          User.updateOne(
-            { _id: currentUserId },
-            { $pull: { banlist: userId } }
-          ),
-        ]);
+        await User.updateOne(
+          { _id: currentUserId },
+          {
+            $addToSet: { banlist: user._id },
+            $pull: { friends: user._id },
+          }
+        );
+        await User.updateOne(
+          { _id: user._id },
+          {
+            $pull: { friends: currentUser._id },
+          }
+        );
 
         const populatedUser = await user.populate(
           'banlist',
@@ -1335,9 +1331,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         io.to(userId).emit('userBannedByOther', populatedCurrentUser);
 
         io.to(currentUserId).emit('friendRemoved', { friendId: userId });
-        io.to(userId).emit('friendRemovedByOther', {
-          userId: currentUserId,
-        });
+        io.to(userId).emit('friendRemovedByOther', { userId: currentUserId });
 
         callback?.({ success: true });
       } catch (err) {
