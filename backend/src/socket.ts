@@ -1271,6 +1271,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         const currentUserId = socket.data.user._id.toString();
 
         const user = await User.findById(userId);
+        const currentUser = await User.findById(currentUserId);
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           return callback?.({ error: 'Invalid user ID' });
@@ -1286,6 +1287,10 @@ export function setupSocket(server: HttpServer, app: Express) {
 
         if (!user) {
           return callback?.({ error: 'User not found' });
+        }
+
+        if (!currentUser) {
+          return callback?.({ error: 'Current user not found' });
         }
 
         const [userExists, friendExists] = await Promise.all([
@@ -1305,6 +1310,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         ]);
 
         io.to(currentUserId).emit('userBanned', user);
+        io.to(userId).emit('userBannedByOther', currentUser);
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
