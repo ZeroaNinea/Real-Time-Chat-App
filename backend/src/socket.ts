@@ -1270,8 +1270,22 @@ export function setupSocket(server: HttpServer, app: Express) {
       try {
         const currentUserId = socket.data.user._id.toString();
 
+        const user = await User.findById(userId);
+
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           return callback?.({ error: 'Invalid user ID' });
+        }
+
+        if (user.banlist.includes(currentUserId)) {
+          return callback?.({ error: 'User already banned' });
+        }
+
+        if (user._id.toString() === currentUserId) {
+          return callback?.({ error: 'Cannot ban yourself' });
+        }
+
+        if (!user) {
+          return callback?.({ error: 'User not found' });
         }
 
         const [userExists, friendExists] = await Promise.all([
@@ -1290,7 +1304,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           ),
         ]);
 
-        io.to(currentUserId).emit('userBanned', { userId });
+        io.to(currentUserId).emit('userBanned', user);
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
