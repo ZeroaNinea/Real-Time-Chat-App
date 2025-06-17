@@ -185,7 +185,6 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   saveStatus(): void {
-    console.log('Saving status...');
     this.wsService.emit('editStatus', { status: this.updatedStatus }, (res) => {
       if (res?.error) {
         this._snackbar.open(
@@ -296,15 +295,13 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isFriend() {
-    console.log(
-      this.data.selectedUser.user.friends.includes(this.data.currentUserId)
-    );
     return this.data.selectedUser.user.friends.includes(
       this.data.currentUserId
     );
   }
 
   isBanned() {
+    // console.log('ban list', this.data.currentUserBanList);
     return this.data.currentUserBanList.includes(
       this.data.selectedUser.user._id
     );

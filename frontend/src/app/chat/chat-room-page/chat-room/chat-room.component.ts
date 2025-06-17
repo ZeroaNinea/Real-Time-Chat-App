@@ -7,6 +7,7 @@ import {
   inject,
   Injectable,
   OnDestroy,
+  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -129,7 +130,9 @@ export class ChatRoomComponent implements OnDestroy {
 
   currentUserBanList() {
     const id = this.currentUser()?.id;
-    const user = this.populatedUsers().find((u) => u.user._id === id);
+    const user: PopulatedUser | undefined = this.populatedUsers().find(
+      (u) => u.user._id === id
+    );
     return user?.user?.banlist || [];
   }
 
