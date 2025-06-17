@@ -337,10 +337,12 @@ export class UserCardDialogComponent implements OnChanges {
           { duration: 3000 }
         );
       } else {
-        this.data.currentUserBanList.push(user.user._id);
+        // this.data.currentUserBanList.push(user.user._id);
         this.data.currentUserFriends = this.data.currentUserFriends.filter(
           (friend) => friend !== user.user._id
         );
+
+        console.log(this.data.currentUserBanList);
 
         this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
       }
@@ -359,6 +361,7 @@ export class UserCardDialogComponent implements OnChanges {
         this.data.currentUserBanList = this.data.currentUserBanList.filter(
           (id) => id !== user.user._id
         );
+        console.log(this.data.currentUserBanList);
 
         this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
       }

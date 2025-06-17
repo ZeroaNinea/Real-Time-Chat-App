@@ -38,8 +38,6 @@ export class MemberListComponent {
   @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
-  @Output() currentUserBanListFunc = new EventEmitter<string[]>();
-
   getAvatarUrl(userId: string): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
     return avatar
@@ -65,6 +63,7 @@ export class MemberListComponent {
       width: '400px',
     });
 
+    // this.currentUserBanList = [];
     console.log(this.currentUserBanList);
   }
 

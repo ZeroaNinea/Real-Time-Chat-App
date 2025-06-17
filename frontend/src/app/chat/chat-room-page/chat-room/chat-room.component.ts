@@ -129,11 +129,10 @@ export class ChatRoomComponent implements OnDestroy {
 
   currentUserBanList = computed(() => {
     const id = this.currentUser()?.id;
-    const user: PopulatedUser | undefined = this.populatedUsers().find(
-      (u) => u.user._id === id
-    );
+    const user = this.populatedUsers().find((u) => u.user._id === id);
 
-    return user?.user?.banlist || [];
+    console.log(user?.user.banlist);
+    return user?.user.banlist || [];
   });
 
   currentUserPendingRequests() {
@@ -363,7 +362,9 @@ export class ChatRoomComponent implements OnDestroy {
           (u) => u.user._id === this.authService.currentUser()?.id
         );
         if (currentUser) {
-          currentUser.user.banlist.push(user._id);
+          if (!currentUser.user.banlist.includes(user._id)) {
+            currentUser.user.banlist.push(user._id);
+          }
           currentUser.user.friends = currentUser.user.friends.filter(
             (f) => f !== user._id
           );
@@ -380,7 +381,9 @@ export class ChatRoomComponent implements OnDestroy {
           (u) => u.user._id === this.authService.currentUser()?.id
         );
         if (currentUser) {
-          currentUser.user.banlist.push(user._id);
+          if (!currentUser.user.banlist.includes(user._id)) {
+            currentUser.user.banlist.push(user._id);
+          }
           currentUser.user.friends = currentUser.user.friends.filter(
             (f) => f !== user._id
           );
@@ -389,33 +392,29 @@ export class ChatRoomComponent implements OnDestroy {
       });
     });
 
-    this.wsService.listenUserUnbans().subscribe((user) => {
-      console.log('Unbanning', user);
+    this.wsService.listenUserUnbans().subscribe(async (user) => {
+      const currentUserId = this.authService.currentUser()?.id;
+      if (!currentUserId) return;
 
       this.populatedUsers.update((users) => {
-        const currentUser = users.find(
-          async (u) => u.user._id === (await this.authService.currentUser()?.id)
-        );
+        const currentUser = users.find((u) => u.user._id === currentUserId);
         if (currentUser) {
           currentUser.user.banlist = currentUser.user.banlist.filter(
             (b) => b !== user.userId
           );
-
-          console.log(currentUser.user.banlist);
         }
-
         return users;
       });
-      console.log(this.populatedUsers());
 
-      console.log('current user id', this.authService.currentUser()?.id);
+      console.log(this.populatedUsers());
     });
 
     this.wsService.listenUserUnbansByOther().subscribe((user) => {
+      const currentUserId = this.authService.currentUser()?.id;
+      if (!currentUserId) return;
+
       this.populatedUsers.update((users) => {
-        const currentUser = users.find(
-          async (u) => u.user._id === (await this.authService.currentUser()?.id)
-        );
+        const currentUser = users.find((u) => u.user._id === currentUserId);
         if (currentUser) {
           currentUser.user.banlist = currentUser.user.banlist.filter(
             (b) => b !== user.userId
