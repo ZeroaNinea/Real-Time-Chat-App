@@ -1265,6 +1265,38 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('banUser', async (userId, callback) => {
+      try {
+        const currentUserId = socket.data.user._id.toString();
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return callback?.({ error: 'Invalid user ID' });
+        }
+
+        const [userExists, friendExists] = await Promise.all([
+          User.exists({ _id: currentUserId }),
+          User.exists({ _id: userId }),
+        ]);
+
+        if (!userExists || !friendExists) {
+          return callback?.({ error: 'User not found' });
+        }
+
+        await Promise.all([
+          User.updateOne(
+            { _id: currentUserId },
+            { $pull: { banlist: userId } }
+          ),
+        ]);
+
+        io.to(currentUserId).emit('userBanned', { userId });
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
