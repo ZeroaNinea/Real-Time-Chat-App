@@ -293,4 +293,18 @@ export class MainComponent implements OnChanges {
       }
     });
   }
+
+  banUser(user: AbbreviatedPopulatedUser) {
+    this.wsService.emit('banUser', user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to ban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
 }

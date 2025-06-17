@@ -1370,15 +1370,6 @@ export function setupSocket(server: HttpServer, app: Express) {
           { $pull: { banlist: user._id } }
         );
 
-        // const populatedUser = await user.populate(
-        //   'banlist',
-        //   'username avatar bio pronouns status friends banlist pendingRequests'
-        // );
-        // const populatedCurrentUser = await currentUser.populate(
-        //   'banlist',
-        //   'username avatar bio pronouns status friends banlist pendingRequests'
-        // );
-
         io.to(currentUserId).emit('userUnbanned', { userId: user._id });
         io.to(userId).emit('userUnbannedByOther', { userId: currentUser._id });
 
