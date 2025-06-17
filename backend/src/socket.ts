@@ -1069,6 +1069,17 @@ export function setupSocket(server: HttpServer, app: Express) {
         if (sender.pendingRequests?.includes(receiverId))
           return callback?.({ error: 'Friend request already sent' });
 
+        if (senderId === receiverId)
+          return callback?.({
+            error: 'Cannot send friend request to yourself',
+          });
+
+        if (receiver.banlist?.includes(senderId))
+          return callback?.({ error: 'User is banned' });
+
+        if (sender.banlist?.includes(receiverId))
+          return callback?.({ error: 'You are banned by the user' });
+
         sender.pendingRequests?.push(receiverId);
         await sender.save();
 
