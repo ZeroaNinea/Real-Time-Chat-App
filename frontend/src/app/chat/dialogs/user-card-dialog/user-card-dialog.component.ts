@@ -270,7 +270,6 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   sendFriendRequest() {
-    console.log('Sending friend request...');
     this.wsService.emit(
       'sendFriendRequest',
       {
