@@ -9,6 +9,7 @@ import {
   getChat,
   getChatMembers,
   getChatRooms,
+  getOrCreatePrivateChat,
   mine,
   privateMessages,
   removeThumbnail,
@@ -46,5 +47,13 @@ router.delete(
 );
 
 router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
+
+// Private chat rooms
+
+router.post(
+  '/private/:targerId',
+  authMiddleware,
+  asyncRoute(getOrCreatePrivateChat)
+);
 
 export default router;
