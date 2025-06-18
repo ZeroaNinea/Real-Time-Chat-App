@@ -432,3 +432,46 @@ export const getChatRooms = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to get chat rooms', error: err });
   }
 };
+
+// Private chat rooms
+
+export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
+  try {
+    const currentUserId = req.user.id;
+    const targetUserId = req.params.targetUserId;
+
+    if (currentUserId === targetUserId) {
+      return res.status(400).json({ message: "You can't DM yourself." });
+    }
+
+    let chat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: currentUserId } },
+          { $elemMatch: { user: targetUserId } },
+        ],
+      },
+      $expr: { $eq: [{ $size: '$members' }, 2] },
+    });
+
+    if (!chat) {
+      chat = await Chat.create({
+        name: 'Private Chat',
+        topic: '',
+        thumbnail: '',
+        isPrivate: true,
+        members: [
+          { user: currentUserId, roles: [] },
+          { user: targetUserId, roles: [] },
+        ],
+        roles: [],
+      });
+    }
+
+    return res.status(200).json(chat);
+  } catch (err) {
+    console.error('Failed to get or create private chat:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
