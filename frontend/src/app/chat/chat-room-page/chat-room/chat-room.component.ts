@@ -368,6 +368,8 @@ export class ChatRoomComponent implements OnDestroy {
           currentUser.user.friends = currentUser.user.friends.filter(
             (f) => f !== user._id
           );
+
+          console.log('current user ban list', currentUser.user.banlist);
         }
         return users;
       });
@@ -392,21 +394,42 @@ export class ChatRoomComponent implements OnDestroy {
       });
     });
 
-    this.wsService.listenUserUnbans().subscribe(async (user) => {
+    // this.wsService.listenUserUnbans().subscribe(async (user) => {
+    //   const currentUserId = this.authService.currentUser()?.id;
+    //   if (!currentUserId) return;
+
+    //   this.populatedUsers.update((users) => {
+    //     const currentUser = users.find((u) => u.user._id === currentUserId);
+    //     if (currentUser) {
+    //       currentUser.user.banlist = currentUser.user.banlist.filter(
+    //         (b) => b !== user.userId
+    //       );
+    //       console.log('current user ban list', currentUser.user.banlist);
+    //     }
+    //     return users;
+    //   });
+
+    //   console.log(this.populatedUsers());
+    // });
+
+    this.wsService.listenUserUnbans().subscribe((user) => {
       const currentUserId = this.authService.currentUser()?.id;
       if (!currentUserId) return;
 
       this.populatedUsers.update((users) => {
-        const currentUser = users.find((u) => u.user._id === currentUserId);
-        if (currentUser) {
-          currentUser.user.banlist = currentUser.user.banlist.filter(
-            (b) => b !== user.userId
-          );
-        }
-        return users;
+        return users.map((u) => {
+          if (u.user._id === currentUserId) {
+            return {
+              ...u,
+              user: {
+                ...u.user,
+                banlist: u.user.banlist.filter((b) => b !== user.userId),
+              },
+            };
+          }
+          return u;
+        });
       });
-
-      console.log(this.populatedUsers());
     });
 
     this.wsService.listenUserUnbansByOther().subscribe((user) => {

@@ -21,6 +21,7 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { environment } from '../../../../environments/environment';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+import { ChatRoomComponent } from '../../chat-room-page/chat-room/chat-room.component';
 
 @Component({
   selector: 'app-user-card-dialog',
@@ -152,6 +153,8 @@ export class UserCardDialogComponent implements OnChanges {
         (role) => role.name !== 'Banned' && role.name !== 'Muted'
       );
     }
+
+    // this.dialogRef.close((data.currentUserBanList = []));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -301,7 +304,7 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isBanned() {
-    // console.log('ban list', this.data.currentUserBanList);
+    console.log('ban list', this.data.currentUserBanList);
     return this.data.currentUserBanList.includes(
       this.data.selectedUser.user._id
     );
@@ -337,7 +340,7 @@ export class UserCardDialogComponent implements OnChanges {
           { duration: 3000 }
         );
       } else {
-        // this.data.currentUserBanList.push(user.user._id);
+        this.data.currentUserBanList.push(user.user._id);
         this.data.currentUserFriends = this.data.currentUserFriends.filter(
           (friend) => friend !== user.user._id
         );

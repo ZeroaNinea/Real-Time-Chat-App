@@ -46,7 +46,7 @@ export class MemberListComponent {
   }
 
   openUserDialog(member: PopulatedUser) {
-    this.dialog.open(UserCardDialogComponent, {
+    const dialogRef = this.dialog.open(UserCardDialogComponent, {
       data: {
         selectedUser: member,
         currentUserId: this.currentUserId,
