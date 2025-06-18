@@ -144,4 +144,11 @@ export class ChatService {
       `${environment.backendUrl}/social/get-ban-list`
     );
   }
+
+  getOrCreatePrivateChat(targetId: string) {
+    return this.http.post<Chat>(
+      `${environment.backendUrl}/chat/private/${targetId}`,
+      {}
+    );
+  }
 }
