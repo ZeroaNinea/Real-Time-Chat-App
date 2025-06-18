@@ -357,60 +357,52 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenUserBans().subscribe((user) => {
+      const currentUserId = this.authService.currentUser()?.id;
+      if (!currentUserId) return;
+
       this.populatedUsers.update((users) => {
-        const currentUser = users.find(
-          (u) => u.user._id === this.authService.currentUser()?.id
-        );
-        if (currentUser) {
-          if (!currentUser.user.banlist.includes(user._id)) {
-            currentUser.user.banlist.push(user._id);
+        return users.map((u) => {
+          if (u.user._id === currentUserId) {
+            const alreadyBanned = u.user.banlist.includes(user._id);
+            return {
+              ...u,
+              user: {
+                ...u.user,
+                banlist: alreadyBanned
+                  ? u.user.banlist
+                  : [...u.user.banlist, user._id],
+                friends: u.user.friends.filter((f) => f !== user._id),
+              },
+            };
           }
-          currentUser.user.friends = currentUser.user.friends.filter(
-            (f) => f !== user._id
-          );
-
-          console.log('current user ban list', currentUser.user.banlist);
-        }
-        return users;
+          return u;
+        });
       });
-
-      console.log(this.populatedUsers());
     });
 
     this.wsService.listenUserBansByOther().subscribe((user) => {
+      const currentUserId = this.authService.currentUser()?.id;
+      if (!currentUserId) return;
+
       this.populatedUsers.update((users) => {
-        const currentUser = users.find(
-          (u) => u.user._id === this.authService.currentUser()?.id
-        );
-        if (currentUser) {
-          if (!currentUser.user.banlist.includes(user._id)) {
-            currentUser.user.banlist.push(user._id);
+        return users.map((u) => {
+          if (u.user._id === currentUserId) {
+            const alreadyBanned = u.user.banlist.includes(user._id);
+            return {
+              ...u,
+              user: {
+                ...u.user,
+                banlist: alreadyBanned
+                  ? u.user.banlist
+                  : [...u.user.banlist, user._id],
+                friends: u.user.friends.filter((f) => f !== user._id),
+              },
+            };
           }
-          currentUser.user.friends = currentUser.user.friends.filter(
-            (f) => f !== user._id
-          );
-        }
-        return users;
+          return u;
+        });
       });
     });
-
-    // this.wsService.listenUserUnbans().subscribe(async (user) => {
-    //   const currentUserId = this.authService.currentUser()?.id;
-    //   if (!currentUserId) return;
-
-    //   this.populatedUsers.update((users) => {
-    //     const currentUser = users.find((u) => u.user._id === currentUserId);
-    //     if (currentUser) {
-    //       currentUser.user.banlist = currentUser.user.banlist.filter(
-    //         (b) => b !== user.userId
-    //       );
-    //       console.log('current user ban list', currentUser.user.banlist);
-    //     }
-    //     return users;
-    //   });
-
-    //   console.log(this.populatedUsers());
-    // });
 
     this.wsService.listenUserUnbans().subscribe((user) => {
       const currentUserId = this.authService.currentUser()?.id;
@@ -437,13 +429,18 @@ export class ChatRoomComponent implements OnDestroy {
       if (!currentUserId) return;
 
       this.populatedUsers.update((users) => {
-        const currentUser = users.find((u) => u.user._id === currentUserId);
-        if (currentUser) {
-          currentUser.user.banlist = currentUser.user.banlist.filter(
-            (b) => b !== user.userId
-          );
-        }
-        return users;
+        return users.map((u) => {
+          if (u.user._id === currentUserId) {
+            return {
+              ...u,
+              user: {
+                ...u.user,
+                banlist: u.user.banlist.filter((b) => b !== user.userId),
+              },
+            };
+          }
+          return u;
+        });
       });
     });
 
