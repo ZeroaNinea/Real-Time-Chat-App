@@ -153,8 +153,6 @@ export class UserCardDialogComponent implements OnChanges {
         (role) => role.name !== 'Banned' && role.name !== 'Muted'
       );
     }
-
-    // this.dialogRef.close((data.currentUserBanList = []));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -304,7 +302,6 @@ export class UserCardDialogComponent implements OnChanges {
   }
 
   isBanned() {
-    console.log('ban list', this.data.currentUserBanList);
     return this.data.currentUserBanList.includes(
       this.data.selectedUser.user._id
     );
@@ -345,8 +342,6 @@ export class UserCardDialogComponent implements OnChanges {
           (friend) => friend !== user.user._id
         );
 
-        console.log(this.data.currentUserBanList);
-
         this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
       }
     });
@@ -364,7 +359,6 @@ export class UserCardDialogComponent implements OnChanges {
         this.data.currentUserBanList = this.data.currentUserBanList.filter(
           (id) => id !== user.user._id
         );
-        console.log(this.data.currentUserBanList);
 
         this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
       }

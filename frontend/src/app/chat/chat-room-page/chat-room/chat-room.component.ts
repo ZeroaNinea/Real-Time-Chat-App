@@ -130,8 +130,6 @@ export class ChatRoomComponent implements OnDestroy {
   currentUserBanList = computed(() => {
     const id = this.currentUser()?.id;
     const user = this.populatedUsers().find((u) => u.user._id === id);
-
-    console.log(user?.user.banlist);
     return user?.user.banlist || [];
   });
 

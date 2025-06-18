@@ -62,9 +62,6 @@ export class MemberListComponent {
       },
       width: '400px',
     });
-
-    // this.currentUserBanList = [];
-    console.log(this.currentUserBanList);
   }
 
   trimText(text: string, max: number): string {
