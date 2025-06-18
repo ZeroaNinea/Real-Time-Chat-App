@@ -145,9 +145,9 @@ export class ChatService {
     );
   }
 
-  getOrCreatePrivateChat(targetId: string) {
+  getOrCreatePrivateChat(targetUserId: string) {
     return this.http.post<Chat>(
-      `${environment.backendUrl}/chat/private/${targetId}`,
+      `${environment.backendUrl}/chat/private/${targetUserId}`,
       {}
     );
   }
