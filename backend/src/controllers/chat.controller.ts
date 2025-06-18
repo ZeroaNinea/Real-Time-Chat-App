@@ -455,9 +455,12 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
       $expr: { $eq: [{ $size: '$members' }, 2] },
     });
 
+    const currentUser = await User.findById(currentUserId);
+    const targetUser = await User.findById(targetUserId);
+
     if (!chat) {
       chat = await Chat.create({
-        name: 'Private Chat',
+        name: `Chat: ${currentUser.username} & ${targetUser.username}`,
         topic: '',
         thumbnail: '',
         isPrivate: true,
@@ -468,6 +471,8 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
         roles: [],
       });
     }
+
+    await chat.populate('members.user', 'username avatar status');
 
     return res.status(200).json(chat);
   } catch (err) {
