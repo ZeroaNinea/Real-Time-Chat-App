@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 @Component({
   selector: 'app-private-user-card',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './private-user-card.component.html',
   styleUrl: './private-user-card.component.scss',
 })
-export class PrivateUserCardComponent {}
+export class PrivateUserCardComponent {
+  @Input() members: PopulatedUser[] = [];
+  @Input() currentUserId: string | undefined;
+}

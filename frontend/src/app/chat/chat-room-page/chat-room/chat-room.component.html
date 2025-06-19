@@ -105,7 +105,10 @@
 
   <div class="right-sidebar">
     @if (isPrivate()) {
-    <app-private-user-card></app-private-user-card>
+    <app-private-user-card
+      [members]="populatedUsers()"
+      [currentUserId]="currentUser()?.id"
+    ></app-private-user-card>
     } @else {
     <app-member-list
       [members]="populatedUsers()"
