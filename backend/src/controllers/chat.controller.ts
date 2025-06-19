@@ -465,9 +465,6 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
     const currentUser = await User.findById(currentUserId);
     const targetUser = await User.findById(targetUserId);
 
-    console.log(targetUserId);
-    console.log(targetUser);
-
     if (!chat) {
       chat = await Chat.create({
         name: `Chat: ${currentUser.username} & ${targetUser.username}`,
