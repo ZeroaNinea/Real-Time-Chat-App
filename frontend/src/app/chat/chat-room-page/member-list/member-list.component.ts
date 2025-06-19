@@ -71,6 +71,3 @@ export class MemberListComponent {
     return trimmed.replace(/\.+$/, '') + '...';
   }
 }
-function WritableSignal<T>(arg0: never[]) {
-  throw new Error('Function not implemented.');
-}
