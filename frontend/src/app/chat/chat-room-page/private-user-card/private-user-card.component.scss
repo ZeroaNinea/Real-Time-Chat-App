@@ -73,10 +73,6 @@
         .bubble-content {
           min-height: 3.26rem;
 
-          .edit-status-button {
-            margin-bottom: 0.28rem;
-          }
-
           .status-text {
             overflow: hidden;
             white-space: nowrap;
@@ -84,14 +80,6 @@
             max-width: 90%;
             transition: all 0.3s ease;
           }
-        }
-
-        .bubble-content.editing {
-          display: flex;
-          align-items: flex-start;
-
-          max-height: 10rem;
-          padding: 1rem;
         }
 
         &:hover .bubble-content {
@@ -107,25 +95,6 @@
             text-overflow: clip;
             max-width: 90%;
           }
-        }
-
-        // .status-input-field {
-        //   flex: 1;
-        //   @include mat.theme(
-        //     (
-        //       density: -5,
-        //     )
-        //   );
-        // }
-
-        input.status-input {
-          padding: 4px 8px;
-          font-size: 14px;
-          width: 100%;
-        }
-
-        .edit-status-button {
-          align-self: flex-end;
         }
       }
 
