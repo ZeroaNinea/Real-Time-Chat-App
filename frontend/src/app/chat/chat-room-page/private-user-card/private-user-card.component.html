@@ -51,10 +51,17 @@
         Already Friends } @else if (isBanned()) { Banned } @else { Friend
         Request }
       </button>
-      <button mat-stroked-button class="warn">
+      @if (isBanned()) {
+      <button mat-stroked-button (click)="unbanUser(otherUser)" class="accent">
+        <mat-icon>undo</mat-icon>
+        Unban
+      </button>
+      } @else {
+      <button mat-stroked-button (click)="banUser(otherUser)" class="warn">
         <mat-icon>person_off</mat-icon>
         Block
       </button>
+      }
     </div>
   </mat-card-content>
 </mat-card>
