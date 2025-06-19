@@ -36,9 +36,16 @@
         <mat-icon>content_copy</mat-icon>
         Copy ID
       </button>
-      <button mat-stroked-button class="accent">
+      <button
+        mat-stroked-button
+        [disabled]="isFriend() || isRequestPending() || isBanned()"
+        (click)="sendFriendRequest()"
+        class="accent"
+      >
         <mat-icon>person_add</mat-icon>
-        Friend Request
+        @if (isRequestPending()) { Request Pending } @else if (isFriend()) {
+        Already Friends } @else if (isBanned()) { Banned } @else { Friend
+        Request }
       </button>
       <button mat-stroked-button class="warn">
         <mat-icon>block</mat-icon>
