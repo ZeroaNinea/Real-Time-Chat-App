@@ -241,12 +241,6 @@ export class ChatRoomComponent implements OnDestroy {
 
       const member = chat.members.find((m) => m.user === currentUserId);
 
-      // if (this.channelId()) {
-      //   this.chatService
-      //     .getMessages(this.chatId()!, this.channelId()!)
-      //     .subscribe((messages) => this.messages.set(messages));
-      // }
-
       if (this.channelId()) {
         this.loadInitialMessages();
       }
