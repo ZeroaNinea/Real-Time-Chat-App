@@ -407,12 +407,15 @@ export const getChatRooms = async (req: Request, res: Response) => {
 
     if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
 
-    const allRooms = await Chat.find()
+    const allRooms = await Chat.find({
+      isPrivate: false,
+    })
       .skip((page - 1) * limit)
       .limit(limit);
 
     let userRooms = await Chat.find({
       members: { $elemMatch: { user: req.user._id } },
+      isPrivate: false,
     });
 
     const userId = req.user._id.toString();
