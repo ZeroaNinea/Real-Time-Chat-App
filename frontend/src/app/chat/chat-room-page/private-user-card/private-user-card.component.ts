@@ -1,9 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { PopulatedUser } from '../../shared/models/populated-user.model';
-import { environment } from '../../../../environments/environment';
+import { Component, inject, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+import { PopulatedUser } from '../../shared/models/populated-user.model';
+
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-private-user-card',
@@ -18,6 +22,9 @@ export class PrivateUserCardComponent {
   @Input() currentUserFriends: string[] = [];
   @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
+
+  private wsService = inject(WebsocketService);
+  private _snackbar = inject(MatSnackBar);
 
   environment = environment;
 
@@ -49,5 +56,31 @@ export class PrivateUserCardComponent {
   isRequestPending() {
     if (!this.otherUser) return false;
     return this.currentUserPendingRequests.includes(this.otherUser.user._id);
+  }
+
+  sendFriendRequest() {
+    this.wsService.emit(
+      'sendFriendRequest',
+      {
+        receiverId: this.currentUserId,
+      },
+      (res: any) => {
+        if (res?.error) {
+          this._snackbar.open(res.error, 'Close', { duration: 3000 });
+        } else {
+          this.currentUserPendingRequests.push(this.otherUser?.user._id || '');
+
+          this._snackbar.open(
+            `Friend request sent to ${
+              this.otherUser?.user.username || 'unknown user'
+            }!`,
+            'Close',
+            {
+              duration: 2000,
+            }
+          );
+        }
+      }
+    );
   }
 }
