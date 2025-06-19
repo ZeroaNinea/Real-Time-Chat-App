@@ -51,7 +51,7 @@ export class LoginComponent {
           // Navigate to chat or show success.
           console.log('Login successful');
           localStorage.setItem('accessToken', data['token']);
-          this.router.navigate(['/account']);
+          this.router.navigate(['/main']);
         },
         error: (err) => {
           console.error(err);
