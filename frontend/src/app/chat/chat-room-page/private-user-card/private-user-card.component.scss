@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .private-user-card {
   background-color: var(--mat-sys-surface-container);
   box-shadow: none;
@@ -106,7 +108,14 @@
 
     .user-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
+
+      @include mat.theme(
+        (
+          density: -1,
+        )
+      );
 
       button {
         text-transform: none;
