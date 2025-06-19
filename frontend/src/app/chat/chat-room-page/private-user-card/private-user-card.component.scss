@@ -3,6 +3,14 @@
   box-shadow: none;
   height: 100%;
 
+  .card-header {
+    .user-pronouns {
+      color: var(--mat-sys-outline);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+  }
+
   .card-content {
     display: flex;
     flex-direction: column;

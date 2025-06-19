@@ -1,13 +1,15 @@
 @if (otherUser) {
 <mat-card class="private-user-card">
-  <mat-card-header>
+  <mat-card-header class="card-header">
     <img
       mat-card-avatar
       [src]="getAvatarUrl(otherUser.user._id)"
       alt="Avatar"
     />
     <mat-card-title>{{ otherUser.user.username }}</mat-card-title>
-    <mat-card-subtitle>{{ otherUser.user.pronouns }}</mat-card-subtitle>
+    <mat-card-subtitle class="user-pronouns">{{
+      otherUser.user.pronouns
+    }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content class="card-content">
