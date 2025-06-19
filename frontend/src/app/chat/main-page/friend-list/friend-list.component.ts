@@ -27,7 +27,7 @@ export class FriendListComponent {
   @Input() banList: AbbreviatedPopulatedUser[] = [];
 
   @Output() remove = new EventEmitter<AbbreviatedPopulatedUser>();
-  @Output() message = new EventEmitter<AbbreviatedPopulatedUser>();
+  @Output() message = new EventEmitter<string>();
   @Output() ban = new EventEmitter<AbbreviatedPopulatedUser>();
   @Output() unban = new EventEmitter<AbbreviatedPopulatedUser>();
 
