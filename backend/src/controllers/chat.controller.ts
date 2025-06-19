@@ -479,11 +479,6 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
       });
     }
 
-    // await chat.populate(
-    //   'members.user',
-    //   'username avatar status pronouns bio friends banlist pendingRequests'
-    // );
-
     return res.status(200).json({ _id: chat._id });
   } catch (err) {
     console.error('Failed to get or create private chat:', err);
