@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Chat, PrivateChat } from '../../models/chat.model';
+import { Chat } from '../../models/chat.model';
 import { Channel } from '../../models/channel.model';
 import { environment } from '../../../../../environments/environment';
 import { Member } from '../../models/member.alias';
@@ -147,7 +147,7 @@ export class ChatService {
   }
 
   getOrCreatePrivateChat(targetUserId: string) {
-    return this.http.post<PrivateChat>(
+    return this.http.post<{ _id: string }>(
       `${environment.backendUrl}/chat/private/${targetUserId}`,
       {}
     );
