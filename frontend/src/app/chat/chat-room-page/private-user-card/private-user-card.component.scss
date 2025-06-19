@@ -19,9 +19,114 @@
 
     .user-info {
       .status-bubble {
-        margin-bottom: 0.5rem;
-        font-style: italic;
-        color: var(--mat-sys-outline);
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 4rem;
+        font-size: 14px;
+        line-height: 1.3;
+        box-sizing: border-box;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          background-color: var(--mat-sys-background);
+          border: 1px solid var(--mat-sys-outline);
+          border-radius: 50%;
+          opacity: 0.8;
+          z-index: 2;
+        }
+
+        &::before {
+          top: -40px;
+          left: 82%;
+          width: 10px;
+          height: 10px;
+        }
+
+        &::after {
+          top: -30px;
+          left: 90%;
+          width: 20px;
+          height: 20px;
+        }
+
+        .bubble-content {
+          position: relative;
+          max-height: 3rem;
+          padding-left: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          overflow: hidden;
+          background-color: var(--mat-sys-background);
+          border: 1px solid var(--mat-sys-outline);
+          border-radius: 15px;
+          white-space: nowrap;
+          box-sizing: border-box;
+          transition: max-height 0.3s ease, padding 0.3s ease;
+          z-index: 1;
+        }
+
+        .bubble-content {
+          min-height: 3.26rem;
+
+          .edit-status-button {
+            margin-bottom: 0.28rem;
+          }
+
+          .status-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 90%;
+            transition: all 0.3s ease;
+          }
+        }
+
+        .bubble-content.editing {
+          display: flex;
+          align-items: flex-start;
+
+          max-height: 10rem;
+          padding: 1rem;
+        }
+
+        &:hover .bubble-content {
+          max-height: 10rem;
+          white-space: normal;
+          overflow: hidden;
+          padding: 1rem;
+
+          .status-text {
+            display: inline-block;
+            overflow: auto;
+            white-space: normal;
+            text-overflow: clip;
+            max-width: 90%;
+          }
+        }
+
+        // .status-input-field {
+        //   flex: 1;
+        //   @include mat.theme(
+        //     (
+        //       density: -5,
+        //     )
+        //   );
+        // }
+
+        input.status-input {
+          padding: 4px 8px;
+          font-size: 14px;
+          width: 100%;
+        }
+
+        .edit-status-button {
+          align-self: flex-end;
+        }
       }
 
       .bio {

@@ -29,7 +29,9 @@
           <mat-icon>close</mat-icon>
         </button>
         } @else {
-        <span class="status-text">{{ data.selectedUser.user.status }}</span>
+        <span class="status-text">{{
+          data.selectedUser.user.status || "No status set"
+        }}</span>
         @if (isOwnProfile) {
         <button
           mat-icon-button

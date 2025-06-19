@@ -15,9 +15,11 @@
   <mat-card-content class="card-content">
     <div class="user-info">
       <div class="status-bubble">
-        <span class="status-text">{{
-          otherUser.user.status || "No status set"
-        }}</span>
+        <div class="bubble-content">
+          <span class="status-text">{{
+            otherUser.user.status || "No status set"
+          }}</span>
+        </div>
       </div>
 
       <div class="bio">
