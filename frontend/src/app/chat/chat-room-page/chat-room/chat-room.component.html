@@ -37,6 +37,9 @@
   </div>
 
   <div class="left-sidebar">
+    @if (isPrivate()) {
+    <!-- <app-private-friend-list></app-private-friend-list> -->
+    } @else {
     <app-channel-list
       [chatId]="chatId()"
       [channels]="channels()"
@@ -48,6 +51,7 @@
       (updateChannelOrder)="updateChannelOrder($event)"
     >
     </app-channel-list>
+    }
   </div>
 
   <div class="main" [class.no-channel]="channelId()">
