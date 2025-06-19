@@ -49,9 +49,14 @@
 .right-sidebar {
   grid-area: right;
   background-color: var(--mat-sys-surface-container);
-  padding: 1rem;
+  // padding: 1rem;
+  padding: 10px 0 10px 0rem;
   border-radius: 8px;
   overflow-y: auto;
+
+  // &.private {
+  //   padding: 0 !important;
+  // }
 }
 
 .message-list {

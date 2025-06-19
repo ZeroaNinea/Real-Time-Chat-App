@@ -103,7 +103,7 @@
     }
   </div>
 
-  <div class="right-sidebar">
+  <div class="right-sidebar" [class.private]="isPrivate()">
     @if (isPrivate()) {
     <app-private-user-card
       [members]="populatedUsers()"
