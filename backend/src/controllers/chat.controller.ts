@@ -272,6 +272,8 @@ export const getChat = async (req: Request, res: Response) => {
 
     const channels = await Channel.find({ chatId });
 
+    const isPrivate = chat.isPrivate;
+
     const accessibleChannels = channels.filter((channel: ChannelDocument) => {
       const { adminsOnly, allowedUsers, allowedRoles } =
         channel.permissions || {};
@@ -289,7 +291,12 @@ export const getChat = async (req: Request, res: Response) => {
       return true;
     });
 
-    res.json({ ...chat.toObject(), channels: accessibleChannels, chatRoles });
+    res.json({
+      ...chat.toObject(),
+      channels: accessibleChannels,
+      chatRoles,
+      isPrivate,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to get chat', error: err });
