@@ -15,6 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class PrivateUserCardComponent {
   @Input() members: PopulatedUser[] = [];
   @Input() currentUserId: string | undefined;
+  @Input() currentUserFriends: string[] = [];
+  @Input() currentUserBanList: string[] = [];
+  @Input() currentUserPendingRequests: string[] = [];
 
   environment = environment;
 
@@ -31,5 +34,20 @@ export class PrivateUserCardComponent {
     return avatar
       ? `${this.environment.backendUrl}/${avatar}`
       : 'assets/camera.svg';
+  }
+
+  isFriend() {
+    if (!this.otherUser) return false;
+    return this.otherUser.user.friends.includes(this.currentUserId || '');
+  }
+
+  isBanned() {
+    if (!this.otherUser) return false;
+    return this.currentUserBanList.includes(this.otherUser.user._id);
+  }
+
+  isRequestPending() {
+    if (!this.otherUser) return false;
+    return this.currentUserPendingRequests.includes(this.otherUser.user._id);
   }
 }
