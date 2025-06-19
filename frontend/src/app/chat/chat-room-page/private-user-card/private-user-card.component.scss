@@ -1,0 +1,26 @@
+.private-user-card {
+  .status-bubble {
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    color: var(--mat-sys-outline);
+  }
+
+  .bio {
+    margin-bottom: 1rem;
+    white-space: pre-line;
+  }
+
+  .user-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      text-transform: none;
+      font-size: 0.85rem;
+
+      mat-icon {
+        margin-right: 4px;
+      }
+    }
+  }
+}

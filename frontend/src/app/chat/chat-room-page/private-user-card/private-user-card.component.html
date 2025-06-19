@@ -1,1 +1,35 @@
-<p>private-user-card works!</p>
+<mat-card class="private-user-card" *ngIf="otherUser">
+  <mat-card-header>
+    <img
+      mat-card-avatar
+      [src]="getAvatarUrl(otherUser?.user?._id)"
+      alt="Avatar"
+    />
+    <mat-card-title>{{ otherUser?.user?.username }}</mat-card-title>
+    <mat-card-subtitle>{{ otherUser?.user?.pronouns }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="status-bubble">
+      <span class="status-text">{{
+        otherUser?.user?.status || "No status set"
+      }}</span>
+    </div>
+
+    <div class="bio">
+      {{ otherUser?.user?.bio || "No bio available" }}
+    </div>
+
+    <div class="user-actions">
+      <button mat-stroked-button (click)="copyId(otherUser?.user?._id)">
+        <mat-icon>content_copy</mat-icon>
+        Copy ID
+      </button>
+      <button mat-stroked-button disabled>
+        <mat-icon>chat</mat-icon>
+        Private Chat
+      </button>
+      <!-- Add friend / block logic could go here -->
+    </div>
+  </mat-card-content>
+</mat-card>
