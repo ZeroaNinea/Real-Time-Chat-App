@@ -42,7 +42,11 @@
         (click)="sendFriendRequest()"
         class="accent"
       >
-        <mat-icon>person_add</mat-icon>
+        <mat-icon>
+          @if (isRequestPending()) { hourglass_top } @else if (isFriend()) {
+          person } @else if (isBanned()) { person_off } @else { person_add }
+        </mat-icon>
+
         @if (isRequestPending()) { Request Pending } @else if (isFriend()) {
         Already Friends } @else if (isBanned()) { Banned } @else { Friend
         Request }
