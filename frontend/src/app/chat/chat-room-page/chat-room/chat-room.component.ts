@@ -236,6 +236,7 @@ export class ChatRoomComponent implements OnDestroy {
       this.members.set(chat.members);
       this.chatRoomRoles.set(chat.chatRoles);
       this.chatThumbnail.set(chat.thumbnail);
+      this.isPrivate.set(chat.isPrivate);
 
       const currentUserId = this.authService.currentUser()?.id;
       this.wsService.joinChatRoom(currentUserId!);

@@ -36,6 +36,7 @@ export class ChatService {
       name: string;
       topic: string;
       thumbnail: string;
+      isPrivate: boolean;
       members: Member[];
       channels: Channel[];
       chatRoles: ChatRoomRole[];
