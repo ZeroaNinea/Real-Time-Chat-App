@@ -10,15 +10,17 @@
     <mat-card-subtitle>{{ otherUser.user.pronouns }}</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
-    <div class="status-bubble">
-      <span class="status-text">{{
-        otherUser.user.status || "No status set"
-      }}</span>
-    </div>
+  <mat-card-content class="card-content">
+    <div class="user-info">
+      <div class="status-bubble">
+        <span class="status-text">{{
+          otherUser.user.status || "No status set"
+        }}</span>
+      </div>
 
-    <div class="bio">
-      {{ otherUser.user.bio || "No bio available" }}
+      <div class="bio">
+        {{ otherUser.user.bio || "No bio available" }}
+      </div>
     </div>
 
     <div class="user-actions">
