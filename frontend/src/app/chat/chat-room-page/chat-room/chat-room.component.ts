@@ -41,6 +41,7 @@ import { Member } from '../../shared/models/member.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PrivateFriendListComponent } from '../private-friend-list/private-friend-list.component';
+import { PrivateUserCardComponent } from '../private-user-card/private-user-card.component';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -55,6 +56,7 @@ import { PrivateFriendListComponent } from '../private-friend-list/private-frien
     MemberListComponent,
     RoleManagementComponent,
     PrivateFriendListComponent,
+    PrivateUserCardComponent,
     ReactiveFormsModule,
     FormsModule,
   ],
