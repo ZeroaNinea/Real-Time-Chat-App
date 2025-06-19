@@ -51,7 +51,7 @@ router.get('/:chatId/members', authMiddleware, asyncRoute(getChatMembers));
 // Private chat rooms
 
 router.post(
-  '/private/:targerId',
+  '/private/:targetUserId',
   authMiddleware,
   asyncRoute(getOrCreatePrivateChat)
 );
