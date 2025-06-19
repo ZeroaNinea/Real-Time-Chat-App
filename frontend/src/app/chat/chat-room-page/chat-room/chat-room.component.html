@@ -51,7 +51,7 @@
   </div>
 
   <div class="main" [class.no-channel]="channelId()">
-    @if (channelId()) {
+    @if (channelId() || isPrivate()) {
     <div class="message-list" #scrollContainer (scroll)="onScroll($event)">
       <app-message-list
         [isAdmin]="isAdmin()"
