@@ -28,19 +28,22 @@
     </div>
 
     <div class="user-actions">
-      <button mat-stroked-button (click)="copyId(otherUser.user._id)">
+      <button
+        mat-stroked-button
+        (click)="copyId(otherUser.user._id)"
+        class="primary"
+      >
         <mat-icon>content_copy</mat-icon>
         Copy ID
       </button>
-      <button mat-stroked-button>
+      <button mat-stroked-button class="accent">
         <mat-icon>person_add</mat-icon>
         Friend Request
       </button>
-      <button mat-stroked-button>
+      <button mat-stroked-button class="warn">
         <mat-icon>block</mat-icon>
         Block
       </button>
-      <!-- Add friend / block logic could go here -->
     </div>
   </mat-card-content>
 </mat-card>

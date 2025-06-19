@@ -125,6 +125,30 @@
           margin-right: 4px;
         }
       }
+
+      button.primary {
+        @include mat.theme(
+          (
+            color: mat.$blue-palette,
+          )
+        );
+      }
+
+      button.accent {
+        @include mat.theme(
+          (
+            color: mat.$yellow-palette,
+          )
+        );
+      }
+
+      button.warn {
+        @include mat.theme(
+          (
+            color: mat.$red-palette,
+          )
+        );
+      }
     }
   }
 }
