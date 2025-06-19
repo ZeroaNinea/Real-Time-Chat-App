@@ -83,4 +83,41 @@ export class PrivateUserCardComponent {
       }
     );
   }
+
+  banUser(user: PopulatedUser) {
+    this.wsService.emit('banUser', user.user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to ban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this.currentUserBanList.push(user.user._id);
+        this.currentUserFriends = this.currentUserFriends.filter(
+          (friend) => friend !== user.user._id
+        );
+
+        this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
+
+  unbanUser(user: PopulatedUser) {
+    this.wsService.emit('unbanUser', user.user._id, (res) => {
+      if (res?.error) {
+        this._snackbar.open(
+          res.error.message || 'Failed to unban user',
+          'Close',
+          { duration: 3000 }
+        );
+      } else {
+        this.currentUserBanList = this.currentUserBanList.filter(
+          (id) => id !== user.user._id
+        );
+
+        this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
+      }
+    });
+  }
 }
