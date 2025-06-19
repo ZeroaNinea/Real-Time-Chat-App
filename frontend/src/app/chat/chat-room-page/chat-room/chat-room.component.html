@@ -108,6 +108,9 @@
     <app-private-user-card
       [members]="populatedUsers()"
       [currentUserId]="currentUser()?.id"
+      [currentUserFriends]="currentUserFriends()"
+      [currentUserBanList]="currentUserBanList()"
+      [currentUserPendingRequests]="currentUserPendingRequests()"
     ></app-private-user-card>
     } @else {
     <app-member-list
