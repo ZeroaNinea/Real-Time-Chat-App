@@ -86,6 +86,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly chatTopic = signal('');
   readonly chatThumbnail = signal<string | null>(null);
   readonly thumbnailFile = signal<File | null>(null);
+  readonly isPrivate = signal(false);
   readonly channels = signal<Channel[]>([]);
   readonly members = signal<Member[]>([]);
   readonly populatedUsers = signal<PopulatedUser[]>([]);
