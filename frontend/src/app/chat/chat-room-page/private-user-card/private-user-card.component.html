@@ -1,27 +1,28 @@
-<mat-card class="private-user-card" *ngIf="otherUser">
+@if (otherUser) {
+<mat-card class="private-user-card">
   <mat-card-header>
     <img
       mat-card-avatar
-      [src]="getAvatarUrl(otherUser?.user?._id)"
+      [src]="getAvatarUrl(otherUser.user._id)"
       alt="Avatar"
     />
-    <mat-card-title>{{ otherUser?.user?.username }}</mat-card-title>
-    <mat-card-subtitle>{{ otherUser?.user?.pronouns }}</mat-card-subtitle>
+    <mat-card-title>{{ otherUser.user.username }}</mat-card-title>
+    <mat-card-subtitle>{{ otherUser.user.pronouns }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
     <div class="status-bubble">
       <span class="status-text">{{
-        otherUser?.user?.status || "No status set"
+        otherUser.user.status || "No status set"
       }}</span>
     </div>
 
     <div class="bio">
-      {{ otherUser?.user?.bio || "No bio available" }}
+      {{ otherUser.user.bio || "No bio available" }}
     </div>
 
     <div class="user-actions">
-      <button mat-stroked-button (click)="copyId(otherUser?.user?._id)">
+      <button mat-stroked-button (click)="copyId(otherUser.user._id)">
         <mat-icon>content_copy</mat-icon>
         Copy ID
       </button>
@@ -33,3 +34,4 @@
     </div>
   </mat-card-content>
 </mat-card>
+}

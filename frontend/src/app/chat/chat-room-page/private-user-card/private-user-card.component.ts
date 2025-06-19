@@ -3,10 +3,11 @@ import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { environment } from '../../../../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-private-user-card',
-  imports: [MatIconModule, MatCardModule],
+  imports: [MatIconModule, MatCardModule, MatButtonModule],
   standalone: true,
   templateUrl: './private-user-card.component.html',
   styleUrl: './private-user-card.component.scss',
