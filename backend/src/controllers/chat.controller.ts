@@ -499,9 +499,11 @@ export const getPrivateChatRooms = async (req: Request, res: Response) => {
     }).populate('members.user', 'username avatar status pronouns');
 
     const chatsWithOtherUser = privateChats.map((chat: ChatDocument) => {
-      const otherMember = chat.members.find(
-        (member) => member.user.toString() !== userId
-      );
+      const otherMember = chat.members.find((member) => {
+        const user = member.user as any;
+        const memberId = user._id ?? user;
+        return !memberId.equals(userId);
+      });
 
       return {
         _id: chat._id,
