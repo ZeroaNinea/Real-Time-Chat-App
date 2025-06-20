@@ -19,6 +19,10 @@ export const getMessages = async (req: Request, res: Response) => {
       return res.status(403).json({ error: 'Not authorized' });
     }
 
+    if (chat.isPrivate) {
+      return res.status(400).json({ error: 'Invalid private chat' });
+    }
+
     const query: any = { chatId, channelId };
 
     if (before) {
@@ -102,6 +106,10 @@ export const getReplyMessages = async (req: Request, res: Response) => {
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
       return res.status(403).json({ error: 'Not authorized' });
+    }
+
+    if (chat.isPrivate) {
+      return res.status(400).json({ error: 'Invalid private chat' });
     }
 
     const messages = await Message.find({
