@@ -1528,6 +1528,7 @@ export function setupSocket(server: HttpServer, app: Express) {
             return callback?.({ error: 'You are not a member of this chat' });
           }
 
+          await Message.deleteMany({ chatId });
           await chat.deleteOne();
 
           await Notification.deleteOne({
