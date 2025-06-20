@@ -1,1 +1,23 @@
-<p>private-friend-list works!</p>
+<mat-nav-list>
+  @for (room of privateChatRooms; track $index) {
+  <mat-list-item (click)="message(room.otherUser._id)">
+    <div class="member">
+      <div class="avatar-wrapper">
+        <img
+          matListAvatar
+          [src]="getAvatarUrl(room.otherUser.avatar)"
+          alt="Avatar"
+          class="user-avatar"
+        />
+      </div>
+      <div class="user-info">
+        <div class="user-name-pronouns">
+          <p class="username">{{ room.otherUser.username }}</p>
+          <p class="secondary-text pronouns">{{ room.otherUser.pronouns }}</p>
+        </div>
+        <p class="secondary-text status">{{ room.otherUser.status }}</p>
+      </div>
+    </div>
+  </mat-list-item>
+  }
+</mat-nav-list>
