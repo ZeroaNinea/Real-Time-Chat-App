@@ -38,7 +38,9 @@
 
   <div class="left-sidebar">
     @if (isPrivate()) {
-    <app-private-friend-list></app-private-friend-list>
+    <app-private-friend-list
+      [privateChatRooms]="privateChatRooms()"
+    ></app-private-friend-list>
     } @else {
     <app-channel-list
       [chatId]="chatId()"
