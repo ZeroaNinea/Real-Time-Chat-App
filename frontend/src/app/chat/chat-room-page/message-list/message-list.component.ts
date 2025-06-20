@@ -68,6 +68,8 @@ export class MessageListComponent {
   }
 
   get filteredMessages() {
+    console.log('messages', this.messages);
+
     if (this.isPrivate) {
       return this.messages;
     }

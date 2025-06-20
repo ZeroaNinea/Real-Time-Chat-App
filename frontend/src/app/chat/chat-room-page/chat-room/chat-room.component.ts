@@ -524,12 +524,6 @@ export class ChatRoomComponent implements OnDestroy {
         }
 
         const currentMessages = this.messages();
-        // const existingIds = new Set(currentMessages.map((m) => m._id));
-        // const filteredOlderMessages = olderMessages.filter(
-        //   (m) => !existingIds.has(m._id)
-        // );
-
-        // this.messages.set([...filteredOlderMessages, ...currentMessages]);
 
         this.messages.set([...olderMessages, ...currentMessages]);
 
@@ -563,7 +557,6 @@ export class ChatRoomComponent implements OnDestroy {
   sendMessage() {
     const msg = this.message().trim();
     if (msg) {
-      // console.log('Sending message:', msg);
       this.wsService.sendMessage(msg, this.chatId()!, this.channelId()!);
       this.message.set('');
     }
@@ -572,7 +565,6 @@ export class ChatRoomComponent implements OnDestroy {
   sendPrivateMessage() {
     const msg = this.message().trim();
     if (msg) {
-      console.log('Sending private message:', msg);
       this.wsService.sendPrivateMessage(msg, this.chatId()!);
       this.message.set('');
     }
