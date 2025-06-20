@@ -115,3 +115,43 @@ export const getReplyMessages = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to get messages', error: err });
   }
 };
+
+export const getPrivateReplyMessages = async (req: Request, res: Response) => {
+  try {
+    const { chatId } = req.params;
+    const { replyToIds } = req.body;
+    const userId = req.user._id;
+
+    if (!chatId) {
+      return res.status(400).json({ error: 'Missing chatId' });
+    }
+
+    if (
+      !Array.isArray(replyToIds) ||
+      !replyToIds.every((id) => typeof id === 'string')
+    ) {
+      return res.status(400).json({ error: 'Invalid replyToIds' });
+    }
+
+    const chat = await Chat.findById(chatId);
+    if (!chat || !chat.isPrivate) {
+      return res.status(400).json({ error: 'Invalid private chat' });
+    }
+
+    if (!chat.members.some((m: Member) => m.user.equals(userId))) {
+      return res.status(403).json({ error: 'Not authorized' });
+    }
+
+    const messages = await Message.find({
+      chatId,
+      channelId: { $exists: false },
+      _id: { $in: replyToIds },
+    }).select('_id text sender createdAt');
+
+    res.json(messages);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: 'Failed to get private reply messages', error: err });
+  }
+};

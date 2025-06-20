@@ -26,5 +26,10 @@ router.post(
   authMiddleware,
   asyncRoute(getReplyMessages)
 );
+router.post(
+  '/get-private-reply-messages',
+  authMiddleware,
+  asyncRoute(getReplyMessages)
+);
 
 export default router;
