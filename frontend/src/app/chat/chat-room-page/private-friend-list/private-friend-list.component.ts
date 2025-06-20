@@ -1,7 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-
-import { Router } from 'express';
 
 import { PrivateChatRoom } from '../../shared/models/private-chat-room.model';
 import { ChatService } from '../../shared/services/chat-service/chat.service';
