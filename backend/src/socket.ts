@@ -1509,6 +1509,56 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
       }
     );
+
+    socket.on(
+      'confirmDeletePrivateChat',
+      async ({ chatId, recipientId }, callback) => {
+        try {
+          const confirmerId = socket.data.user._id.toString();
+          const chat = await Chat.findById(chatId);
+
+          if (!chat || !chat.isPrivate) {
+            return callback?.({ error: 'Chat not found or not private' });
+          }
+
+          const isMember = chat.members.some((m: Member) =>
+            m.user.equals(confirmerId)
+          );
+          if (!isMember) {
+            return callback?.({ error: 'You are not a member of this chat' });
+          }
+
+          await chat.deleteOne();
+
+          await Notification.deleteOne({
+            sender: confirmerId,
+            recipient: recipientId,
+            type: 'private-chat-deletion-request',
+            link: chatId,
+          });
+
+          const notification = new Notification({
+            sender: confirmerId,
+            recipient: recipientId,
+            type: 'private-chat-deletion-confirmed',
+            message: `Private chat was deleted by ${socket.data.user.username}`,
+          });
+
+          await notification.save();
+          const populated = await notification.populate(
+            'sender',
+            'username avatar'
+          );
+
+          io.to(recipientId.toString()).emit('notification', populated);
+
+          callback?.({ success: true });
+        } catch (err) {
+          console.error(err);
+          callback?.({ error: 'Server error' });
+        }
+      }
+    );
   });
 
   return io;
