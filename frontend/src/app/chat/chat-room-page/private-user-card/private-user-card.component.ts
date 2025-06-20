@@ -62,7 +62,7 @@ export class PrivateUserCardComponent {
     this.wsService.emit(
       'sendFriendRequest',
       {
-        receiverId: this.currentUserId,
+        receiverId: this.otherUser?.user._id || '',
       },
       (res: any) => {
         if (res?.error) {
