@@ -106,7 +106,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('privateMessage', async ({ chatId, message: text }) => {
-      console.log('Private message received:', text);
       try {
         const sender = socket.data.user._id;
 
@@ -1310,7 +1309,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('removeFriend', async (friendId, callback) => {
-      console.log('remove friend', friendId);
       try {
         const currentUserId = socket.data.user._id.toString();
 
