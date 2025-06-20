@@ -5,6 +5,7 @@ import { asyncRoute } from '../controllers/auth.controller';
 import {
   getMessages,
   getPrivateMessages,
+  getPrivateReplyMessages,
   getReplyMessages,
 } from '../controllers/message.controller';
 
@@ -29,7 +30,7 @@ router.post(
 router.post(
   '/get-private-reply-messages',
   authMiddleware,
-  asyncRoute(getReplyMessages)
+  asyncRoute(getPrivateReplyMessages)
 );
 
 export default router;
