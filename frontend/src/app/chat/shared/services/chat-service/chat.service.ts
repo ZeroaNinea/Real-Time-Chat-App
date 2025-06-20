@@ -103,6 +103,22 @@ export class ChatService {
     );
   }
 
+  getPrivateMessages(
+    chatId: string,
+    limit = 20,
+    before?: string
+  ): Observable<Message[]> {
+    let params = new HttpParams().set('limit', limit.toString());
+    if (before) {
+      params = params.set('before', before);
+    }
+
+    return this.http.get<Message[]>(
+      `${environment.backendUrl}/message/get-private-messages/chat-room/${chatId}`,
+      { params }
+    );
+  }
+
   getReplyMessages(
     chatId: string,
     channelId: string,
