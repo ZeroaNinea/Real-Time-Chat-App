@@ -1007,6 +1007,11 @@ export function setupSocket(server: HttpServer, app: Express) {
           m.user.equals(socket.data.user._id)
         );
 
+        if (chat.isPrivate) {
+          callback?.({ error: 'This is a private chat' });
+          return;
+        }
+
         if (!member) {
           chat.members.push({
             user: socket.data.user._id,
