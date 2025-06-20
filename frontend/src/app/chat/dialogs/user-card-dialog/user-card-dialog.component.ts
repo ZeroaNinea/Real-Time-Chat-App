@@ -5,6 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -21,7 +22,7 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { environment } from '../../../../environments/environment';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
-import { ChatRoomComponent } from '../../chat-room-page/chat-room/chat-room.component';
+import { ChatService } from '../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-user-card-dialog',
@@ -50,7 +51,9 @@ export class UserCardDialogComponent implements OnChanges {
   chatRoomRoles: ChatRoomRole[] = [];
 
   private wsService = inject(WebsocketService);
+  private chatService = inject(ChatService);
   private _snackbar = inject(MatSnackBar);
+  private router = inject(Router);
 
   editStatusMode = false;
   updatedStatus!: string;
@@ -362,6 +365,12 @@ export class UserCardDialogComponent implements OnChanges {
 
         this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
       }
+    });
+  }
+
+  pM(targetUserId: string) {
+    this.chatService.getOrCreatePrivateChat(targetUserId).subscribe((res) => {
+      this.router.navigate(['/chat-room', res._id]);
     });
   }
 

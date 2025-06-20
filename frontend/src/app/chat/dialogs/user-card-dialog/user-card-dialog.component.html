@@ -122,7 +122,7 @@
         Already Friends } @else if (isBanned()) { Banned } @else { Friend
         Request }
       </button>
-      <button mat-stroked-button>
+      <button mat-stroked-button (click)="pM(data.selectedUser.user._id)">
         <mat-icon>chat</mat-icon>
         PM
       </button>
