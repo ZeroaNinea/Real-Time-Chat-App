@@ -28,7 +28,7 @@ router.post(
   asyncRoute(getReplyMessages)
 );
 router.post(
-  '/get-private-reply-messages',
+  '/get-private-reply-messages/:chatId',
   authMiddleware,
   asyncRoute(getPrivateReplyMessages)
 );
