@@ -222,6 +222,10 @@ export class MessageListComponent {
     });
   }
 
+  isNotEmpty(arr: Message[]) {
+    return arr?.length !== 0;
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();

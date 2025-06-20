@@ -1,5 +1,5 @@
-@for (msg of filteredMessages; track [msg._id, $index]) { @if (msg.replyTo &&
-isGrouped($index)) {
+@if (isNotEmpty(filteredMessages)) { @for (msg of filteredMessages; track
+[msg._id, $index]) { @if (msg.replyTo && isGrouped($index)) {
 <div class="reply-link" [class.own]="msg.sender === currentUserId">
   <div class="avatar-wrapper">
     <img
@@ -96,4 +96,6 @@ isGrouped($index)) {
   </div>
   }
 </div>
+} } @else {
+<p class="empty-message">No messages yet.</p>
 }
