@@ -325,7 +325,6 @@ export class MainComponent implements OnChanges {
   }
 
   messageFriend(targetUserId: string) {
-    console.log(targetUserId);
     this.chatService.getOrCreatePrivateChat(targetUserId).subscribe((res) => {
       this.router.navigate(['/chat-room', res._id]);
     });

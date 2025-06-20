@@ -22,7 +22,6 @@ export class PrivateFriendListComponent {
   environment = environment;
 
   message(targetUserId: string) {
-    console.log(targetUserId);
     this.chatService.getOrCreatePrivateChat(targetUserId).subscribe((res) => {
       this.router.navigate(['/chat-room', res._id]);
     });
