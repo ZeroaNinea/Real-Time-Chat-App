@@ -23,7 +23,7 @@ const MessageSchema = new mongoose.Schema<MessageDocument>(
     channelId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Channel',
-      required: true,
+      required: false,
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,

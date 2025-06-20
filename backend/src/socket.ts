@@ -104,6 +104,38 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
+    socket.on('privateMessage', async ({ chatId, message: text }) => {
+      try {
+        const sender = socket.data.user._id;
+
+        const chat = await Chat.findById(chatId);
+        if (!chat || !chat.isPrivate) {
+          return socket.emit('error', 'Invalid private chat');
+        }
+
+        const isMember = chat.members.some((m: Member) =>
+          m.user.equals(sender)
+        );
+        if (!isMember) {
+          return socket.emit(
+            'error',
+            'You are not a member of this private chat.'
+          );
+        }
+
+        const message = await new Message({
+          chatId,
+          sender,
+          text,
+        }).save();
+
+        io.to(chatId).emit('privateMessage', message);
+      } catch (err) {
+        console.error(err);
+        socket.emit('error', 'Failed to send private message');
+      }
+    });
+
     socket.on('disconnect', () => {
       console.log('User disconnected.');
     });
