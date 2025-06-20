@@ -27,6 +27,8 @@ import { ChatRoomSettingsComponent } from '../chat-room-settings/chat-room-setti
 import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { ChannelTopicComponent } from '../channel-topic/channel-topic.component';
 import { PermissionsComponent } from '../permissions/permissions.component';
+import { PrivateFriendListComponent } from '../private-friend-list/private-friend-list.component';
+import { PrivateUserCardComponent } from '../private-user-card/private-user-card.component';
 
 import { RenameChannelDialogComponent } from '../../dialogs/rename-channel-dialog/rename-channel-dialog.component';
 import { DeleteChannelDialogComponent } from '../../dialogs/delete-channel-dialog/delete-channel-dialog.component';
@@ -40,8 +42,7 @@ import { Message } from '../../shared/models/message.model';
 import { Member } from '../../shared/models/member.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
-import { PrivateFriendListComponent } from '../private-friend-list/private-friend-list.component';
-import { PrivateUserCardComponent } from '../private-user-card/private-user-card.component';
+import { PrivateChatRoom } from '../../shared/models/private-chat-room.model';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -96,6 +97,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly populatedUsers = signal<PopulatedUser[]>([]);
   readonly editedChannels = signal<Record<string, Partial<Channel>>>({});
   readonly chatRoomRoles = signal<ChatRoomRole[]>([]);
+  readonly privateChatRooms = signal<PrivateChatRoom[]>([]);
   readonly currentUser = this.authService.currentUser;
   readonly selectedChannel = computed(() => {
     const id = this.channelId();
@@ -271,8 +273,8 @@ export class ChatRoomComponent implements OnDestroy {
 
       if (this.isPrivate()) {
         this.chatService.getPrivateChatRooms().subscribe((rooms) => {
-          // this.privateChatRooms.set(rooms);
-          console.log('Private chat rooms', rooms);
+          this.privateChatRooms.set(rooms);
+          console.log('Private chat rooms', this.privateChatRooms());
         });
       }
     });
