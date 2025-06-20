@@ -79,6 +79,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     console.log('A user connected.');
 
     socket.on('message', async ({ chatId, channelId, message: text }) => {
+      console.log('Message received chat rooms:', text);
       try {
         const sender = socket.data.user._id;
 
@@ -105,6 +106,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     });
 
     socket.on('privateMessage', async ({ chatId, message: text }) => {
+      console.log('Private message received:', text);
       try {
         const sender = socket.data.user._id;
 

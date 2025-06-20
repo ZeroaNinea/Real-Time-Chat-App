@@ -563,7 +563,7 @@ export class ChatRoomComponent implements OnDestroy {
   sendMessage() {
     const msg = this.message().trim();
     if (msg) {
-      console.log('Sending message:', msg);
+      // console.log('Sending message:', msg);
       this.wsService.sendMessage(msg, this.chatId()!, this.channelId()!);
       this.message.set('');
     }

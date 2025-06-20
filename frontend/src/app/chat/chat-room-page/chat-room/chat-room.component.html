@@ -84,14 +84,16 @@
 
     <app-message-input
       [message]="message()"
-      (messageChange)="message.set($event)"
       [members]="populatedUsers()"
-      (send)="sendMessage()"
       [chatId]="chatId()"
       [channelId]="channelId()"
       [replyingToMessage]="replyingToMessage()"
+      [isPrivate]="isPrivate()"
       (cancelReply)="cancelReply()"
       (replyToMessage)="replyToMessage()"
+      (messageChange)="message.set($event)"
+      (send)="sendMessage()"
+      (sendPrivate)="sendPrivateMessage()"
     ></app-message-input>
     } @else {
     <app-role-management

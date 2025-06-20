@@ -29,9 +29,11 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() channelId: string | null = null;
   @Input() replyingToMessage: Message | null = null;
   @Input() members: PopulatedUser[] = [];
+  @Input() isPrivate: boolean = false;
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
+  @Output() sendPrivate = new EventEmitter<void>();
   @Output() cancelReply = new EventEmitter<void>();
   @Output() replyToMessage = new EventEmitter<Message>();
 
@@ -51,14 +53,23 @@ export class MessageInputComponent implements AfterViewInit {
     const keyboardEvent = event as KeyboardEvent;
     if (!keyboardEvent.shiftKey) {
       event.preventDefault();
-      this.send.emit();
+      console.log('is private', this.isPrivate);
+      if (this.isPrivate) {
+        this.sendPrivate.emit();
+      } else {
+        this.send.emit();
+      }
       this.textarea.nativeElement.style.height = '4.5rem';
     }
   }
 
   onClick(event: Event) {
     event.preventDefault();
-    this.send.emit();
+    if (this.isPrivate) {
+      this.sendPrivate.emit();
+    } else {
+      this.send.emit();
+    }
     this.textarea.nativeElement.style.height = '4.5rem';
   }
 
