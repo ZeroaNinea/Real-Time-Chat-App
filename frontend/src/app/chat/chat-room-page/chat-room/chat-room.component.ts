@@ -268,6 +268,13 @@ export class ChatRoomComponent implements OnDestroy {
         this.isOwner.set(true);
         this.isAdmin.set(true);
       }
+
+      if (this.isPrivate()) {
+        this.chatService.getPrivateChatRooms().subscribe((rooms) => {
+          // this.privateChatRooms.set(rooms);
+          console.log(rooms);
+        });
+      }
     });
   }
 
