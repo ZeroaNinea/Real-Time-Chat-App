@@ -1450,7 +1450,15 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('deletePrivateChatRequest', ({ receiverId }, callback) => {});
+    socket.on('deletePrivateChatRequest', ({ receiverId }, callback) => {
+      try {
+        const sender = User.findById(socket.data.user._id);
+        const receiver = User.findById(receiverId);
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
