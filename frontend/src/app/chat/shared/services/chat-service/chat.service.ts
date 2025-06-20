@@ -152,4 +152,10 @@ export class ChatService {
       {}
     );
   }
+
+  getPrivateChatRooms() {
+    return this.http.get<any>(
+      `${environment.backendUrl}/chat/private/get-private-chat-rooms`
+    );
+  }
 }
