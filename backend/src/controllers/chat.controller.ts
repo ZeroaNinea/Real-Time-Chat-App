@@ -470,7 +470,7 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
 
     if (!chat) {
       chat = await Chat.create({
-        name: `Chat: ${currentUser.username} & ${targetUser.username}`,
+        name: `${currentUser.username} & ${targetUser.username}`,
         topic: '',
         thumbnail: '',
         isPrivate: true,
