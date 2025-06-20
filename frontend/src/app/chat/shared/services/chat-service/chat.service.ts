@@ -130,6 +130,16 @@ export class ChatService {
     );
   }
 
+  getPrivateReplyMessages(
+    chatId: string,
+    replyToIds: string[]
+  ): Observable<Message[]> {
+    return this.http.post<Message[]>(
+      `${environment.backendUrl}/message/get-private-reply-messages/${chatId}`,
+      { replyToIds }
+    );
+  }
+
   getChatRooms(
     page: number | string,
     limit: number | string
