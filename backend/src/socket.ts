@@ -128,6 +128,18 @@ export function setupSocket(server: HttpServer, app: Express) {
           throw new Error('Chat not found');
         }
 
+        const isMember = chat.members.some((m: Member) =>
+          m.user.equals(userId)
+        );
+
+        if (!isMember) {
+          throw new Error('You are not a member of this chat');
+        }
+
+        if (chat.isPrivate) {
+          throw new Error('Private chat rooms cannot have channels');
+        }
+
         const member = chat.members.find((m: Member) => m.user.equals(userId));
         const isAdmin =
           member?.roles.includes('Admin') || member?.roles.includes('Owner');
