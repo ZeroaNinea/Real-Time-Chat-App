@@ -52,6 +52,7 @@ export class MessageListComponent {
   @Input() currentUserId!: string | undefined;
   @Input() channelId!: string | null;
   @Input() chatId: string | null = null;
+  @Input() isPrivate: boolean = false;
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();

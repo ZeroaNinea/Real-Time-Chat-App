@@ -74,6 +74,7 @@
         [currentUserFriends]="currentUserFriends()"
         [currentUserBanList]="currentUserBanList()"
         [currentUserPendingRequests]="currentUserPendingRequests()"
+        [isPrivate]="isPrivate()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
         (onReply)="startReplyingToMessage($event)"
