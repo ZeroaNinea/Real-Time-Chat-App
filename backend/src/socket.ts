@@ -1008,7 +1008,7 @@ export function setupSocket(server: HttpServer, app: Express) {
         );
 
         if (chat.isPrivate) {
-          callback?.({ error: 'This is a private chat' });
+          callback?.({ error: "You can't join a private chat" });
           return;
         }
 
@@ -1034,6 +1034,11 @@ export function setupSocket(server: HttpServer, app: Express) {
       try {
         const chat = await Chat.findById(chatId);
         if (!chat) return callback?.({ error: 'Chat not found' });
+
+        if (chat.isPrivate) {
+          callback?.({ error: "You can't leave a private chat" });
+          return;
+        }
 
         const member = chat.members.find((m: Member) =>
           m.user.equals(socket.data.user._id)
