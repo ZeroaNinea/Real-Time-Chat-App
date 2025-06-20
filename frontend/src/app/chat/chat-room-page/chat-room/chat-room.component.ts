@@ -466,9 +466,6 @@ export class ChatRoomComponent implements OnDestroy {
   loadInitialMessages() {
     this.isLoadingMessages = true;
 
-    console.log(
-      'Loading initial messages ===================================='
-    );
     if (this.isPrivate()) {
       this.chatService
         .getPrivateMessages(this.chatId()!, 20, this.oldestMessageId as string)
@@ -497,8 +494,8 @@ export class ChatRoomComponent implements OnDestroy {
               });
           }
 
-          console.log('Reply messages ids:', this.replyMessagesIds());
-          console.log('Messages:', this.replyMessages());
+          // console.log('Reply messages ids:', this.replyMessagesIds());
+          // console.log('Messages:', this.replyMessages());
         });
     } else {
       this.chatService
@@ -549,45 +546,92 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.isLoadingMessages = true;
 
-    this.chatService
-      .getMessages(this.chatId()!, this.channelId()!, 20, this.oldestMessageId)
-      .subscribe((olderMessages) => {
-        if (olderMessages.length > 0) {
-          this.oldestMessageId = olderMessages[0]._id;
-          this.hasMoreMessages = olderMessages.length === 20;
-        } else {
-          this.hasMoreMessages = false;
-        }
+    if (this.isPrivate()) {
+      this.chatService
+        .getPrivateMessages(this.chatId()!, 20, this.oldestMessageId)
+        .subscribe((olderMessages) => {
+          if (olderMessages.length > 0) {
+            this.oldestMessageId = olderMessages[0]._id;
+            this.hasMoreMessages = olderMessages.length === 20;
+          } else {
+            this.hasMoreMessages = false;
+          }
 
-        const currentMessages = this.messages();
+          const currentMessages = this.messages();
 
-        this.messages.set([...olderMessages, ...currentMessages]);
+          this.messages.set([...olderMessages, ...currentMessages]);
 
-        this.isLoadingMessages = false;
+          this.isLoadingMessages = false;
 
-        const merged = [...olderMessages, ...currentMessages];
-        const unique = new Set(merged.map((m) => m._id));
-        console.log('Duplicates?', merged.length !== unique.size);
+          const merged = [...olderMessages, ...currentMessages];
+          const unique = new Set(merged.map((m) => m._id));
+          console.log('Duplicates?', merged.length !== unique.size);
 
-        const replyIds = olderMessages
-          .filter((m) => m.replyTo !== null)
-          .map((m) => m.replyTo);
+          const replyIds = olderMessages
+            .filter((m) => m.replyTo !== null)
+            .map((m) => m.replyTo);
 
-        this.replyMessagesIds.set(replyIds);
+          this.replyMessagesIds.set(replyIds);
 
-        if (replyIds.length > 0) {
-          this.chatService
-            .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
-            .subscribe((replies) => {
-              const olderReplies = this.replyMessages();
-              this.replyMessages.set([...replies, ...olderReplies]);
-              console.log('Reply messages:', replies);
-            });
-        }
+          if (replyIds.length > 0) {
+            this.chatService
+              .getPrivateReplyMessages(this.chatId()!, replyIds)
+              .subscribe((replies) => {
+                const olderReplies = this.replyMessages();
+                this.replyMessages.set([...replies, ...olderReplies]);
+                // console.log('Reply messages:', replies);
+              });
+          }
 
-        console.log('Reply messages ids:', this.replyMessagesIds());
-        console.log('Messages:', this.replyMessages());
-      });
+          // console.log('Reply messages ids:', this.replyMessagesIds());
+          // console.log('Messages:', this.replyMessages());
+        });
+    } else {
+      this.chatService
+        .getMessages(
+          this.chatId()!,
+          this.channelId()!,
+          20,
+          this.oldestMessageId
+        )
+        .subscribe((olderMessages) => {
+          if (olderMessages.length > 0) {
+            this.oldestMessageId = olderMessages[0]._id;
+            this.hasMoreMessages = olderMessages.length === 20;
+          } else {
+            this.hasMoreMessages = false;
+          }
+
+          const currentMessages = this.messages();
+
+          this.messages.set([...olderMessages, ...currentMessages]);
+
+          this.isLoadingMessages = false;
+
+          const merged = [...olderMessages, ...currentMessages];
+          const unique = new Set(merged.map((m) => m._id));
+          console.log('Duplicates?', merged.length !== unique.size);
+
+          const replyIds = olderMessages
+            .filter((m) => m.replyTo !== null)
+            .map((m) => m.replyTo);
+
+          this.replyMessagesIds.set(replyIds);
+
+          if (replyIds.length > 0) {
+            this.chatService
+              .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
+              .subscribe((replies) => {
+                const olderReplies = this.replyMessages();
+                this.replyMessages.set([...replies, ...olderReplies]);
+                // console.log('Reply messages:', replies);
+              });
+          }
+
+          // console.log('Reply messages ids:', this.replyMessagesIds());
+          // console.log('Messages:', this.replyMessages());
+        });
+    }
   }
 
   sendMessage() {
