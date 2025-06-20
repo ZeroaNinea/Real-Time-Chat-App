@@ -1,0 +1,65 @@
+mat-list-item:hover {
+  .member {
+    .user-info {
+      .secondary-text {
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+}
+
+.member {
+  display: flex;
+
+  .avatar-wrapper {
+    display: flex;
+    align-items: center;
+
+    .user-avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+  }
+
+  .user-info {
+    // flex: 1;
+
+    p {
+      padding: 0;
+      margin: 0;
+    }
+
+    p.secondary-text {
+      color: gray;
+      font-size: 0.75rem;
+    }
+
+    .user-name-pronouns {
+      display: flex;
+      gap: 0.5rem;
+
+      .user-name {
+        max-width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .pronouns {
+        max-width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .status {
+      width: 8.5rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
