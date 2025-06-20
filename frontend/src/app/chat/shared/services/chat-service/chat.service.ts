@@ -114,7 +114,7 @@ export class ChatService {
     }
 
     return this.http.get<Message[]>(
-      `${environment.backendUrl}/message/get-private-messages/chat-room/${chatId}`,
+      `${environment.backendUrl}/message/get-private-messages/${chatId}`,
       { params }
     );
   }

@@ -194,7 +194,7 @@ export class ChatRoomComponent implements OnDestroy {
 
     effect(() => {
       const channelId = this.channelId();
-      if (channelId) {
+      if (channelId || this.isPrivate()) {
         this.messages.set([]);
         this.oldestMessageId = null;
         this.hasMoreMessages = true;
@@ -466,6 +466,9 @@ export class ChatRoomComponent implements OnDestroy {
   loadInitialMessages() {
     this.isLoadingMessages = true;
 
+    console.log(
+      'Loading initial messages ===================================='
+    );
     if (this.isPrivate()) {
       this.chatService
         .getPrivateMessages(this.chatId()!, 20, this.oldestMessageId as string)
@@ -494,8 +497,8 @@ export class ChatRoomComponent implements OnDestroy {
               });
           }
 
-          // console.log('Reply messages ids:', this.replyMessagesIds());
-          // console.log('Messages:', this.replyMessages());
+          console.log('Reply messages ids:', this.replyMessagesIds());
+          console.log('Messages:', this.replyMessages());
         });
     } else {
       this.chatService
