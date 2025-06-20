@@ -466,41 +466,74 @@ export class ChatRoomComponent implements OnDestroy {
   loadInitialMessages() {
     this.isLoadingMessages = true;
 
-    this.chatService
-      .getMessages(
-        this.chatId()!,
-        this.channelId()!,
-        20,
-        this.oldestMessageId as string
-      )
-      .subscribe((messages) => {
-        this.messages.set(messages);
-        if (messages.length > 0) {
-          this.oldestMessageId = messages[0]._id;
-        }
+    if (this.isPrivate()) {
+      this.chatService
+        .getPrivateMessages(this.chatId()!, 20, this.oldestMessageId as string)
+        .subscribe((messages) => {
+          this.messages.set(messages);
+          if (messages.length > 0) {
+            this.oldestMessageId = messages[0]._id;
+          }
 
-        this.hasMoreMessages = messages.length >= 20;
-        this.isLoadingMessages = false;
+          this.hasMoreMessages = messages.length >= 20;
+          this.isLoadingMessages = false;
 
-        const replyIds = messages
-          .filter((m) => m.replyTo !== null)
-          .map((m) => m.replyTo);
+          const replyIds = messages
+            .filter((m) => m.replyTo !== null)
+            .map((m) => m.replyTo);
 
-        this.replyMessagesIds.set(replyIds);
+          this.replyMessagesIds.set(replyIds);
 
-        if (replyIds.length > 0) {
-          this.chatService
-            .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
-            .subscribe((replies) => {
-              const olderReplies = this.replyMessages();
-              this.replyMessages.set([...olderReplies, ...replies]);
-              // console.log('Reply messages:', replies);
-            });
-        }
+          if (replyIds.length > 0) {
+            this.chatService
+              .getPrivateReplyMessages(this.chatId()!, replyIds)
+              .subscribe((replies) => {
+                const olderReplies = this.replyMessages();
+                this.replyMessages.set([...olderReplies, ...replies]);
+                // console.log('Reply messages:', replies);
+              });
+          }
 
-        // console.log('Reply messages ids:', this.replyMessagesIds());
-        // console.log('Messages:', this.replyMessages());
-      });
+          // console.log('Reply messages ids:', this.replyMessagesIds());
+          // console.log('Messages:', this.replyMessages());
+        });
+    } else {
+      this.chatService
+        .getMessages(
+          this.chatId()!,
+          this.channelId()!,
+          20,
+          this.oldestMessageId as string
+        )
+        .subscribe((messages) => {
+          this.messages.set(messages);
+          if (messages.length > 0) {
+            this.oldestMessageId = messages[0]._id;
+          }
+
+          this.hasMoreMessages = messages.length >= 20;
+          this.isLoadingMessages = false;
+
+          const replyIds = messages
+            .filter((m) => m.replyTo !== null)
+            .map((m) => m.replyTo);
+
+          this.replyMessagesIds.set(replyIds);
+
+          if (replyIds.length > 0) {
+            this.chatService
+              .getReplyMessages(this.chatId()!, this.channelId()!, replyIds)
+              .subscribe((replies) => {
+                const olderReplies = this.replyMessages();
+                this.replyMessages.set([...olderReplies, ...replies]);
+                // console.log('Reply messages:', replies);
+              });
+          }
+
+          // console.log('Reply messages ids:', this.replyMessagesIds());
+          // console.log('Messages:', this.replyMessages());
+        });
+    }
   }
 
   loadOlderMessages() {
