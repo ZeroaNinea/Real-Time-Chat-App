@@ -129,7 +129,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           text,
         }).save();
 
-        io.to(chatId).emit('privateMessage', message);
+        io.to(chatId).emit('message', message);
       } catch (err) {
         console.error(err);
         socket.emit('error', 'Failed to send private message');
