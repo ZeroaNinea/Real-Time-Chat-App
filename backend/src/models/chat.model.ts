@@ -18,6 +18,8 @@ export interface IChat {
     allowedRoles?: string[];
     canBeSelfAssigned?: boolean;
   }[];
+  updatedAt: Date;
+  createdAt: Date;
 }
 
 export interface ChatDocument extends IChat, Document {}

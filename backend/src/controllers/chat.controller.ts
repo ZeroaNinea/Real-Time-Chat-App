@@ -492,12 +492,27 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
 export const getPrivateChatRooms = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const chat = await Chat.find({
+
+    const privateChats = await Chat.find({
       isPrivate: true,
       members: { $elemMatch: { user: userId } },
+    }).populate('members.user', 'username avatar status pronouns');
+
+    const chatsWithOtherUser = privateChats.map((chat: ChatDocument) => {
+      const otherMember = chat.members.find(
+        (member) => member.user.toString() !== userId
+      );
+
+      return {
+        _id: chat._id,
+        name: chat.name,
+        isPrivate: true,
+        updatedAt: chat.updatedAt,
+        otherUser: otherMember?.user,
+      };
     });
 
-    return res.status(200).json(chat);
+    return res.status(200).json(chatsWithOtherUser);
   } catch (err) {
     console.error('Failed to get private chat rooms:', err);
     return res.status(500).json({ message: 'Internal server error' });
