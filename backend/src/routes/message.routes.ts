@@ -4,6 +4,7 @@ import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../controllers/auth.controller';
 import {
   getMessages,
+  getPrivateMessages,
   getReplyMessages,
 } from '../controllers/message.controller';
 
@@ -14,6 +15,11 @@ router.get(
   '/get-messages/chat-room/:chatId/channel/:channelId',
   authMiddleware,
   asyncRoute(getMessages)
+);
+router.get(
+  '/get-private-messages/:chatId',
+  authMiddleware,
+  asyncRoute(getPrivateMessages)
 );
 router.post(
   '/get-reply-messages/chat-room/:chatId/channel/:channelId',
