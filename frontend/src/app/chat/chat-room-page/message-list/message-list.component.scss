@@ -318,3 +318,14 @@ div.reply.first:not(.own) {
   background-color: #f7f7ee !important;
   transition: background-color 0.5s;
 }
+
+.empty-message-container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+
+  .empty-message {
+    color: var(--mat-sys-outline);
+    font-size: 2rem;
+  }
+}
