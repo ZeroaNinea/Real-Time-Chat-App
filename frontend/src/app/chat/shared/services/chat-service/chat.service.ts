@@ -15,6 +15,7 @@ import {
 import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
+import { PrivateChatRoom } from '../../models/private-chat-room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -154,7 +155,7 @@ export class ChatService {
   }
 
   getPrivateChatRooms() {
-    return this.http.get<any>(
+    return this.http.get<PrivateChatRoom[]>(
       `${environment.backendUrl}/chat/private/get-private-chat-rooms`
     );
   }
