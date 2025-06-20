@@ -272,7 +272,7 @@ export class ChatRoomComponent implements OnDestroy {
       if (this.isPrivate()) {
         this.chatService.getPrivateChatRooms().subscribe((rooms) => {
           // this.privateChatRooms.set(rooms);
-          console.log(rooms);
+          console.log('Private chat rooms', rooms);
         });
       }
     });
