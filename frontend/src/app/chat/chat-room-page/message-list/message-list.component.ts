@@ -68,6 +68,10 @@ export class MessageListComponent {
   }
 
   get filteredMessages() {
+    if (this.isPrivate) {
+      return this.messages;
+    }
+
     return this.messages.filter((msg) => msg.channelId === this.channelId);
   }
 
