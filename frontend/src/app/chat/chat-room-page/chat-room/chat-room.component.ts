@@ -569,6 +569,15 @@ export class ChatRoomComponent implements OnDestroy {
     }
   }
 
+  sendPrivateMessage() {
+    const msg = this.message().trim();
+    if (msg) {
+      console.log('Sending private message:', msg);
+      this.wsService.sendPrivateMessage(msg, this.chatId()!);
+      this.message.set('');
+    }
+  }
+
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
     this.wsService.disconnect();
