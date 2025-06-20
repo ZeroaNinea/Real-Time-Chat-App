@@ -1449,6 +1449,8 @@ export function setupSocket(server: HttpServer, app: Express) {
         callback?.({ error: 'Server error' });
       }
     });
+
+    socket.on('deletePrivateChatRequest', ({ receiverId }, callback) => {});
   });
 
   return io;
