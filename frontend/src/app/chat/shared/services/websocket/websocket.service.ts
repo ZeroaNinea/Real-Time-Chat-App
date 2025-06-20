@@ -93,8 +93,16 @@ export class WebsocketService implements OnDestroy {
       console.warn('Socket is not connected. Cannot send message.');
       return;
     }
-    console.log('Sending:', message);
     this.socket.emit('message', { message, chatId, channelId });
+  }
+
+  sendPrivateMessage(message: string, chatId: string) {
+    if (!this.isConnected) {
+      console.warn('Socket is not connected. Cannot send message.');
+      return;
+    }
+    console.log('Sending:', message);
+    this.socket.emit('privateMessage', { message, chatId });
   }
 
   ngOnDestroy() {
