@@ -34,7 +34,9 @@
             Decline
           </button>
           } @else if (notification.type === 'friend-declined' ||
-          notification.type === 'friend-accepted') {
+          notification.type === 'friend-accepted' || notification.type ===
+          'private-chat-deletion-confirmed' || notification.type ===
+          'private-chat-deletion-declined') {
           <button mat-button (click)="ok.emit(notification)">OK</button>
           }
         </div>
