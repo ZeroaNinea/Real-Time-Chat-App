@@ -1539,6 +1539,13 @@ export function setupSocket(server: HttpServer, app: Express) {
             return callback?.({ error: 'Invalid data provided' });
           }
 
+          if (sender.deletionRequests.includes(receiverId)) {
+            return callback?.({ error: 'Deletion request already sent' });
+          }
+
+          sender.deletionRequests.push(receiverId);
+          await sender.save();
+
           if (
             !chat.isPrivate ||
             !chat.members.some((m: Member) => m.user.equals(senderId))
