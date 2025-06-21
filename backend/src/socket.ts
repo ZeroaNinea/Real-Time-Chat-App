@@ -1637,6 +1637,36 @@ export function setupSocket(server: HttpServer, app: Express) {
         }
       }
     );
+
+    socket.on('declinePrivateChatDeletion', async (chatId, callback) => {
+      try {
+        const declinerId = socket.data.user._id.toString();
+        await Notification.deleteOne({
+          sender: declinerId,
+          type: 'private-chat-deletion-request',
+          link: chatId,
+        });
+
+        const notification = new Notification({
+          sender: declinerId,
+          recipient: chatId,
+          type: 'private-chat-deletion-declined',
+          message: `Private chat deletion request was declined by ${socket.data.user.username}`,
+        });
+
+        await notification.save();
+        const populated = await notification.populate(
+          'sender',
+          'username avatar'
+        );
+
+        // io.to(chatId.toString()).emit('notification', populated);
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
   });
 
   return io;
