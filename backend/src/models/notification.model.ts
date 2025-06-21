@@ -16,7 +16,8 @@ export interface INotification {
     | 'mention'
     | 'status-change'
     | 'private-chat-deletion-request'
-    | 'private-chat-deletion-confirmed';
+    | 'private-chat-deletion-confirmed'
+    | 'private-chat-deletion-declined';
   message?: string;
   link?: string;
   read: boolean;
@@ -44,6 +45,7 @@ const NotificationSchema = new mongoose.Schema<NotificationDocument>(
         'status-change',
         'private-chat-deletion-request',
         'private-chat-deletion-confirmed',
+        'private-chat-deletion-declined',
       ],
       required: true,
     },
