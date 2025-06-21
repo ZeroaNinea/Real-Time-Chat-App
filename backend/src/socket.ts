@@ -1696,7 +1696,7 @@ export function setupSocket(server: HttpServer, app: Express) {
           }
 
           recipient.deletionRequests = recipient.deletionRequests.filter(
-            (id: string) => id !== declinerId
+            (id: string) => id === declinerId
           );
           await recipient.save();
 
