@@ -1611,6 +1611,20 @@ export function setupSocket(server: HttpServer, app: Express) {
             return callback?.({ error: 'You are not a member of this chat' });
           }
 
+          const recipient = await User.findById(recipientId);
+          if (!recipient) {
+            return callback?.({ error: 'Recipient not found' });
+          }
+
+          if (!recipient.deletionRequests.includes(confirmerId)) {
+            return callback?.({ error: 'Deletion request not found' });
+          }
+
+          recipient.deletionRequests = recipient.deletionRequests.filter(
+            (id: string) => id !== confirmerId
+          );
+          await recipient.save();
+
           await Message.deleteMany({ chatId });
           await chat.deleteOne();
 
@@ -1670,6 +1684,21 @@ export function setupSocket(server: HttpServer, app: Express) {
             type: 'private-chat-deletion-declined',
             message: `Private chat deletion request was declined by ${socket.data.user.username}`,
           });
+
+          const recipient = await User.findById(recipientId);
+
+          if (!recipient) {
+            return callback?.({ error: 'Recipient not found' });
+          }
+
+          if (!recipient.deletionRequests.includes(declinerId)) {
+            return callback?.({ error: 'Deletion request not found' });
+          }
+
+          recipient.deletionRequests = recipient.deletionRequests.filter(
+            (id: string) => id !== declinerId
+          );
+          await recipient.save();
 
           await declineNotification.save();
 
