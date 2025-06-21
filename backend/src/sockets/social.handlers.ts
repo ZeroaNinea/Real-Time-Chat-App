@@ -4,6 +4,8 @@ import mongoose, { ObjectId } from 'mongoose';
 
 import { User } from '../models/user.model';
 import { Notification } from '../models/notification.model';
+import { Chat } from '../models/chat.model';
+import { Member } from '../../types/member.alias';
 
 export function registerSocialHandlers(io: Server, socket: Socket) {
   socket.on('sendFriendRequest', async ({ receiverId }, callback) => {
@@ -331,4 +333,71 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ error: 'Server error' });
     }
   });
+
+  socket.on(
+    'deletePrivateChatRequest',
+    async ({ receiverId, chatId }, callback) => {
+      try {
+        const senderId = socket.data.user._id.toString();
+        const sender = await User.findById(senderId);
+        const receiver = await User.findById(receiverId);
+        const chat = await Chat.findById(chatId);
+
+        if (!sender || !receiver || !chat) {
+          return callback?.({ error: 'Invalid data provided' });
+        }
+
+        if (sender.deletionRequests.includes(receiverId)) {
+          return callback?.({ error: 'Deletion request already sent' });
+        }
+
+        sender.deletionRequests.push(receiverId);
+        await sender.save();
+
+        if (
+          !chat.isPrivate ||
+          !chat.members.some((m: Member) => m.user.equals(senderId))
+        ) {
+          return callback?.({
+            error: 'You are not authorized to delete this chat',
+          });
+        }
+
+        const existing = await Notification.findOne({
+          sender: senderId,
+          recipient: receiverId,
+          type: 'private-chat-deletion-request',
+          link: chatId,
+        });
+
+        if (existing) {
+          return callback?.({ error: 'Deletion request already sent' });
+        }
+
+        const notification = new Notification({
+          sender: senderId,
+          recipient: receiverId,
+          type: 'private-chat-deletion-request',
+          message: `${sender.username} wants to delete your private chat.`,
+          link: chatId,
+        });
+
+        await notification.save();
+
+        const populatedNotification = await notification.populate(
+          'sender',
+          'username avatar'
+        );
+        io.to(receiverId.toString()).emit(
+          'notification',
+          populatedNotification
+        );
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    }
+  );
 }
