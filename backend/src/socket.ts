@@ -1652,8 +1652,6 @@ export function setupSocket(server: HttpServer, app: Express) {
             'username avatar'
           );
 
-          console.log(deletionRequest);
-
           io.to(recipientId).emit('notification', populated);
           io.to(confirmerId).emit('notificationDeleted', {
             notificationId: deletionRequest._id,
