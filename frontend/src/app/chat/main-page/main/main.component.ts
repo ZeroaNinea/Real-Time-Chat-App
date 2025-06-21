@@ -242,26 +242,53 @@ export class MainComponent implements OnChanges {
   }
 
   acceptNotification(notification: PopulatedNotification) {
-    this.wsService.emit(
-      'acceptFriendRequest',
-      {
-        notificationId: notification._id,
-        senderId: notification.sender._id,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to accept notification',
-            'Close',
-            { duration: 3000 }
-          );
-        } else {
-          this._snackbar.open('Accepted friend request!', 'Close', {
-            duration: 2000,
-          });
+    if (notification.type === 'friend-request') {
+      this.wsService.emit(
+        'acceptFriendRequest',
+        {
+          notificationId: notification._id,
+          senderId: notification.sender._id,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to accept notification',
+              'Close',
+              { duration: 3000 }
+            );
+          } else {
+            this._snackbar.open('Accepted friend request!', 'Close', {
+              duration: 2000,
+            });
+          }
         }
-      }
-    );
+      );
+    } else if (notification.type === 'private-chat-deletion-request') {
+      this.wsService.emit(
+        'confirmDeletePrivateChat',
+        {
+          chatId: notification.link,
+          recipientId: notification.sender._id,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to accept notification',
+              'Close',
+              { duration: 3000 }
+            );
+          } else {
+            this._snackbar.open(
+              'Accepted private chat deletion request!',
+              'Close',
+              {
+                duration: 2000,
+              }
+            );
+          }
+        }
+      );
+    }
   }
 
   deleteNotification(notification: PopulatedNotification) {
