@@ -60,6 +60,7 @@ export class ChatRoomSettingsComponent {
     key: keyof Channel;
     value: any;
   }>();
+  @Output() deletePrivateChatRequest = new EventEmitter<string>();
 
   private dialog = inject(MatDialog);
   private chatService = inject(ChatService);
