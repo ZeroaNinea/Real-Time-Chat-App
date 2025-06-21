@@ -533,4 +533,26 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       }
     }
   );
+
+  socket.on('deleteNotification', async (notificationId, callback) => {
+    try {
+      const currentNotification = await Notification.findById(notificationId);
+
+      if (
+        socket.data.user._id.toString() !==
+        currentNotification.recipient.toString()
+      )
+        return callback?.({ error: 'Unauthorized' });
+
+      await Notification.findByIdAndDelete(notificationId);
+
+      io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
+        notificationId,
+      });
+      callback?.({ success: true });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
 }
