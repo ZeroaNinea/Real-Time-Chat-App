@@ -94,56 +94,6 @@ export function setupSocket(server: HttpServer, app: Express) {
       socket.join(channelRoom);
     });
 
-    socket.on(
-      'declineFriendRequest',
-      async ({ notificationId, senderId }, callback) => {
-        try {
-          const receiverId = socket.data.user._id.toString();
-          const sender = await User.findById(senderId);
-          const receiver = await User.findById(receiverId);
-
-          if (!sender || !receiver)
-            return callback?.({ error: 'User not found' });
-
-          if (
-            !sender.pendingRequests?.some(
-              (id: ObjectId) => id.toString() === receiverId
-            )
-          )
-            return callback?.({ error: 'Friend request not found' });
-
-          await Notification.findByIdAndDelete(notificationId);
-
-          sender.pendingRequests = sender.pendingRequests.filter(
-            (id: string) => id.toString() !== receiverId
-          );
-          await sender.save();
-
-          const declineNotification = await new Notification({
-            sender: receiverId,
-            recipient: senderId,
-            type: 'friend-declined',
-            message: `${receiver.username} declined your friend request`,
-            link: '/friends',
-          }).save();
-
-          const populatedDecline = await declineNotification.populate(
-            'sender',
-            'username avatar'
-          );
-
-          io.to(senderId).emit('notification', populatedDecline);
-          io.to(socket.data.user._id.toString()).emit('notificationDeleted', {
-            notificationId,
-          });
-          callback?.({ success: true });
-        } catch (err) {
-          console.error(err);
-          callback?.({ error: 'Server error' });
-        }
-      }
-    );
-
     socket.on('deleteNotification', async (notificationId, callback) => {
       try {
         const currentNotification = await Notification.findById(notificationId);
