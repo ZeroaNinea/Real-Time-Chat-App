@@ -6,9 +6,7 @@ import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
 
-import { addChannelService } from './services/chat.service';
 import { findUserById } from './services/user.service';
-import { Channel, ChannelDocument } from './models/channel.model';
 import { Chat } from './models/chat.model';
 import { Member } from '../types/member.alias';
 import { Message } from './models/message.model';
