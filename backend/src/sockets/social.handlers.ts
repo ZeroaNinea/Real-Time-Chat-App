@@ -474,4 +474,63 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       }
     }
   );
+
+  socket.on(
+    'declinePrivateChatDeletion',
+    async ({ chatId, recipientId }, callback) => {
+      try {
+        const declinerId = socket.data.user._id.toString();
+
+        const notification = await Notification.findOneAndDelete({
+          sender: recipientId,
+          recipient: declinerId,
+          type: 'private-chat-deletion-request',
+          link: chatId,
+        });
+
+        if (!notification) {
+          return callback?.({ error: 'Deletion request not found' });
+        }
+
+        const declineNotification = new Notification({
+          sender: declinerId,
+          recipient: recipientId,
+          type: 'private-chat-deletion-declined',
+          message: `Private chat deletion request was declined by ${socket.data.user.username}`,
+        });
+
+        const recipient = await User.findById(recipientId);
+
+        if (!recipient) {
+          return callback?.({ error: 'Recipient not found' });
+        }
+
+        if (!recipient.deletionRequests.includes(declinerId)) {
+          return callback?.({ error: 'Deletion request not found' });
+        }
+
+        recipient.deletionRequests = recipient.deletionRequests.filter(
+          (id: string) => id === declinerId
+        );
+        await recipient.save();
+
+        await declineNotification.save();
+
+        const populated = await declineNotification.populate(
+          'sender',
+          'username avatar'
+        );
+
+        io.to(recipientId).emit('notification', populated);
+        io.to(declinerId).emit('notificationDeleted', {
+          notificationId: notification._id,
+        });
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    }
+  );
 }
