@@ -96,50 +96,6 @@ export function setupSocket(server: HttpServer, app: Express) {
       socket.join(channelRoom);
     });
 
-    socket.on(
-      'updateChannelPermissions',
-      async ({ channelId, permissions }, callback) => {
-        try {
-          const userId = socket.data.user._id;
-
-          const channel = await Channel.findById(channelId);
-          if (!channel) {
-            return callback?.({ error: 'Channel not found' });
-          }
-
-          const chat = await Chat.findById(channel.chatId);
-          if (!chat) {
-            return callback?.({ error: 'Chat not found' });
-          }
-
-          const member = chat.members.find((m: Member) =>
-            m.user.equals(userId)
-          );
-          const isAdmin =
-            member?.roles.includes('Admin') || member?.roles.includes('Owner');
-
-          if (!isAdmin) {
-            return callback?.({ error: 'Only admins can edit permissions' });
-          }
-
-          // Merge with existing permissions (partial update).
-          const updatedPermissions = {
-            ...(channel.permissions || {}),
-            ...permissions,
-          };
-
-          channel.permissions = updatedPermissions;
-          await channel.save();
-
-          io.to(chat._id.toString()).emit('channelEdited', { channel });
-          callback?.({ success: true, channel });
-        } catch (err) {
-          console.error(err);
-          callback?.({ error: 'Server error' });
-        }
-      }
-    );
-
     socket.on('editStatus', async ({ status }, callback) => {
       try {
         const user = await User.findById(socket.data.user._id);
