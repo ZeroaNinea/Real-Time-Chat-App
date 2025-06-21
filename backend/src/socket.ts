@@ -463,6 +463,66 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
+    socket.on('privateReply', async ({ messageId, text }, callback) => {
+      try {
+        const senderId = socket.data.user._id;
+
+        const message = await Message.findById(messageId);
+        if (!message) {
+          return callback?.({ error: 'Message not found' });
+        }
+
+        const chat = await Chat.findById(message.chatId);
+        if (!chat || !chat.isPrivate) {
+          return callback?.({ error: 'Private chat not found' });
+        }
+
+        const member1 = chat.members.find((m: Member) =>
+          m.user.equals(senderId)
+        );
+        const member2 = chat.members.find(
+          (m: Member) => !m.user.equals(senderId)
+        );
+
+        if (!member1 || !member2) {
+          return callback?.({ error: 'Invalid private chat' });
+        }
+
+        const senderUser = await User.findById(senderId);
+        const otherUser = await User.findById(member2.user);
+
+        if (!senderUser || !otherUser) {
+          return callback?.({ error: 'Users not found' });
+        }
+
+        if (
+          senderUser.banlist.includes(otherUser._id) ||
+          otherUser.banlist.includes(senderUser._id)
+        ) {
+          return callback?.({
+            error: 'You cannot reply in this chat (ban restriction)',
+          });
+        }
+
+        if (message.sender.equals(senderId)) {
+          return callback?.({ error: 'You cannot reply to your own message' });
+        }
+
+        const reply = await Message.create({
+          chatId: message.chatId,
+          sender: senderId,
+          text,
+          replyTo: message._id,
+        });
+
+        io.to(chat._id.toString()).emit('messageReplied', reply);
+        callback?.({ success: true, message: reply });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    });
+
     socket.on('editStatus', async ({ status }, callback) => {
       try {
         const user = await User.findById(socket.data.user._id);
