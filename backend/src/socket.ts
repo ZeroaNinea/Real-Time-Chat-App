@@ -1529,7 +1529,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on(
       'deletePrivateChatRequest',
       async ({ receiverId, chatId }, callback) => {
-        console.log('request', receiverId, chatId);
         try {
           const senderId = socket.data.user._id.toString();
           const sender = await User.findById(senderId);
@@ -1609,8 +1608,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           await chat.deleteOne();
 
           await Notification.deleteOne({
-            sender: confirmerId,
-            recipient: recipientId,
+            sender: recipientId,
+            recipient: confirmerId,
             type: 'private-chat-deletion-request',
             link: chatId,
           });
@@ -1629,6 +1628,9 @@ export function setupSocket(server: HttpServer, app: Express) {
           );
 
           io.to(recipientId.toString()).emit('notification', populated);
+          io.to(confirmerId.toString()).emit('notificationDeleted', {
+            notificationId: notification._id,
+          });
 
           callback?.({ success: true });
         } catch (err) {
@@ -1645,8 +1647,8 @@ export function setupSocket(server: HttpServer, app: Express) {
           const declinerId = socket.data.user._id.toString();
 
           const notification = await Notification.findOneAndDelete({
-            sender: declinerId,
-            recipient: recipientId,
+            sender: recipientId,
+            recipient: declinerId,
             type: 'private-chat-deletion-request',
             link: chatId,
           });

@@ -241,6 +241,7 @@ export class MainComponent implements OnChanges {
         }
       );
     } else if (notification.type === 'private-chat-deletion-request') {
+      console.log(notification);
       this.wsService.emit(
         'declinePrivateChatDeletion',
         {
