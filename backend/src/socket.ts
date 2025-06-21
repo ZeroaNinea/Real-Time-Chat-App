@@ -271,46 +271,6 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     );
 
-    socket.on('editMessage', async ({ messageId, text }, callback) => {
-      try {
-        const message = await Message.findById(messageId);
-        if (!message) {
-          return callback?.({ error: 'Message not found' });
-        }
-
-        const chat = await Chat.findById(message.chatId);
-        if (!chat) {
-          return callback?.({ error: 'Chat not found' });
-        }
-
-        const member = chat.members.find((m: Member) =>
-          m.user.equals(socket.data.user._id)
-        );
-
-        const isSender = message.sender.equals(socket.data.user._id);
-        const isPrivileged =
-          member?.roles.includes('Admin') ||
-          member?.roles.includes('Owner') ||
-          member?.roles.includes('Moderator');
-
-        if (!isSender && !isPrivileged) {
-          return callback?.({
-            error: 'You are not allowed to edit this message',
-          });
-        }
-
-        message.text = text;
-        message.isEdited = true;
-        await message.save();
-
-        io.to(chat._id.toString()).emit('messageEdited', message);
-        callback?.({ success: true, message });
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
-      }
-    });
-
     socket.on('reply', async ({ messageId, text }, callback) => {
       try {
         const message = await Message.findById(messageId);
