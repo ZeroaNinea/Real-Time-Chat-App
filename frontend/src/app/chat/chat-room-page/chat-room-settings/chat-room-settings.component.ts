@@ -47,6 +47,7 @@ export class ChatRoomSettingsComponent {
   @Input() isAdmin = false;
   @Input() isOwner = false;
   @Input() chatId: string | null = null;
+  @Input() isPrivate: boolean = false;
 
   @Output() chatNameChange = new EventEmitter<string>();
   @Output() chatTopicChange = new EventEmitter<string>();
