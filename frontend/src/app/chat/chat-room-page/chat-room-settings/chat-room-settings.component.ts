@@ -48,6 +48,8 @@ export class ChatRoomSettingsComponent {
   @Input() isOwner = false;
   @Input() chatId: string | null = null;
   @Input() isPrivate: boolean = false;
+  @Input() currentUserDeletionRequests: string[] = [];
+  @Input() currentInterlocutorId: string | undefined;
 
   @Output() chatNameChange = new EventEmitter<string>();
   @Output() chatTopicChange = new EventEmitter<string>();

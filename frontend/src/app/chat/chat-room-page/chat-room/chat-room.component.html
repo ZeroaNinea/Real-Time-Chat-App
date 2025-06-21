@@ -11,6 +11,8 @@
       [isOwner]="isOwner()"
       [chatId]="chatId()"
       [isPrivate]="isPrivate()"
+      [currentUserDeletionRequests]="currentUserDeletionRequests()"
+      [currentInterlocutorId]="currentInterlocutorId()"
       (chatNameChange)="chatName.set($event)"
       (chatTopicChange)="chatTopic.set($event)"
       (chatThumbnailChange)="thumbnailFile.set($event)"
