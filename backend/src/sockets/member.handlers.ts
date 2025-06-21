@@ -4,9 +4,88 @@ import { User } from '../models/user.model';
 import { Chat } from '../models/chat.model';
 
 import { Member } from '../../types/member.alias';
-import { canEditRole } from '../helpers/check-role-editing-permissions';
+import {
+  canAssignPermissionsBelowOwnLevel,
+  canEditRole,
+} from '../helpers/check-role-editing-permissions';
+import { ChatRoomRole } from '../../types/chat-room-role.alias';
 
 export function registerMemberHandlers(io: Server, socket: Socket) {
+  socket.on('createRole', async ({ role, chatId }, callback) => {
+    try {
+      const chat = await Chat.findById(chatId);
+      if (!chat) return callback?.({ error: 'Chat not found' });
+
+      const member = chat.members.find((m: Member) =>
+        m.user.equals(socket.data.user._id)
+      );
+
+      if (
+        role.name === 'Admin' ||
+        role.name === 'Owner' ||
+        role.name === 'Moderator'
+      ) {
+        return callback?.({
+          error: 'You cannot create roles called Owner, Admin or Moderator',
+        });
+      }
+
+      const isPrivileged =
+        member?.roles.includes('Admin') ||
+        member?.roles.includes('Owner') ||
+        member?.roles.includes('Moderator');
+
+      if (!isPrivileged) {
+        return callback?.({ error: 'You are not allowed to create roles' });
+      }
+
+      if (!canEditRole(member?.roles || [], role)) {
+        return callback?.({
+          error: 'You cannot create roles higher than your own',
+        });
+      }
+
+      const memberRoles = chat.members.find((m: Member) =>
+        m.user.equals(socket.data.user._id)
+      )?.roles;
+
+      const memberPermissions: string[] = (memberRoles || []).flatMap(
+        (role: string) => {
+          return (
+            chat.roles.find((r: ChatRoomRole) => r.name === role)
+              ?.permissions || []
+          );
+        }
+      );
+
+      if (role.permissions) {
+        if (
+          !canAssignPermissionsBelowOwnLevel(
+            memberPermissions,
+            role.permissions
+          )
+        ) {
+          return callback?.({
+            error:
+              'You cannot assign permissions equal to or greater than your own',
+          });
+        }
+      }
+
+      chat.roles.push(role);
+      const updatedRole = chat.roles.find(
+        (r: ChatRoomRole) => r.name === role.name
+      );
+      await chat.save();
+
+      io.to(chat._id.toString()).emit('chatUpdated', chat);
+      callback?.({ success: true, updatedRole: updatedRole });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
+
   socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
     try {
       const user = await User.findById(userId);
