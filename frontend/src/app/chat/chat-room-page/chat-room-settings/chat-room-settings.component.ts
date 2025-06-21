@@ -120,4 +120,10 @@ export class ChatRoomSettingsComponent {
     this.deletePrivateChatRequest.emit();
     this.currentUserDeletionRequests.push(this.currentInterlocutorId!);
   }
+
+  isDeletionRequested() {
+    return this.currentUserDeletionRequests.includes(
+      this.currentInterlocutorId!
+    );
+  }
 }
