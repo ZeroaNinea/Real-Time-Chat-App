@@ -4,7 +4,12 @@
   @if ((isAdmin || isOwner) && !isPrivate) {
   <button mat-button (click)="openSettingsDialog()">Edit Settings</button>
   } @else if (isPrivate) {
-  <button mat-button (click)="askDeletion()" class="warn">
+  <button
+    mat-button
+    [disabled]="isDeletionRequested()"
+    (click)="askDeletion()"
+    class="warn"
+  >
     Delete This Chat Request
   </button>
   }
