@@ -94,38 +94,6 @@ export function setupSocket(server: HttpServer, app: Express) {
       socket.join(channelRoom);
     });
 
-    socket.on('becomeMember', async ({ chatId }, callback) => {
-      try {
-        const chat = await Chat.findById(chatId);
-        if (!chat) return callback?.({ error: 'Chat not found' });
-
-        const member = chat.members.find((m: Member) =>
-          m.user.equals(socket.data.user._id)
-        );
-
-        if (chat.isPrivate) {
-          callback?.({ error: "You can't join a private chat" });
-          return;
-        }
-
-        if (!member) {
-          chat.members.push({
-            user: socket.data.user._id,
-            roles: ['Member'],
-          });
-
-          await chat.save();
-          io.to(chat._id.toString()).emit('chatUpdated', chat);
-          callback?.({ success: true });
-        } else {
-          callback?.({ error: 'You are already a member of this chat' });
-        }
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
-      }
-    });
-
     socket.on('leaveChatRoom', async ({ chatId }, callback) => {
       try {
         const chat = await Chat.findById(chatId);
