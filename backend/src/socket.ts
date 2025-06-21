@@ -23,6 +23,8 @@ import { ChatRoomRole } from '../types/chat-room-role.alias';
 import mongoose from './config/db';
 import { ObjectId } from 'mongoose';
 
+import { registerSocketHandlers } from './sockets';
+
 // This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
   const io = new Server(server, {
@@ -77,6 +79,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
   io.on('connection', (socket) => {
     console.log('A user connected.');
+    registerSocketHandlers(io, socket);
 
     // socket.on('message', async ({ chatId, channelId, message: text }) => {
     //   try {
