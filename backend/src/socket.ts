@@ -1638,35 +1638,49 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     );
 
-    socket.on('declinePrivateChatDeletion', async (chatId, callback) => {
-      try {
-        const declinerId = socket.data.user._id.toString();
-        await Notification.deleteOne({
-          sender: declinerId,
-          type: 'private-chat-deletion-request',
-          link: chatId,
-        });
+    socket.on(
+      'declinePrivateChatDeletion',
+      async ({ chatId, recipientId }, callback) => {
+        try {
+          const declinerId = socket.data.user._id.toString();
 
-        const notification = new Notification({
-          sender: declinerId,
-          recipient: chatId,
-          type: 'private-chat-deletion-declined',
-          message: `Private chat deletion request was declined by ${socket.data.user.username}`,
-        });
+          const notification = await Notification.findOneAndDelete({
+            sender: declinerId,
+            recipient: recipientId,
+            type: 'private-chat-deletion-request',
+            link: chatId,
+          });
 
-        await notification.save();
-        const populated = await notification.populate(
-          'sender',
-          'username avatar'
-        );
+          if (!notification) {
+            return callback?.({ error: 'Deletion request not found' });
+          }
 
-        // io.to(chatId.toString()).emit('notification', populated);
-        callback?.({ success: true });
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
+          const declineNotification = new Notification({
+            sender: declinerId,
+            recipient: recipientId,
+            type: 'private-chat-deletion-declined',
+            message: `Private chat deletion request was declined by ${socket.data.user.username}`,
+          });
+
+          await declineNotification.save();
+
+          const populated = await declineNotification.populate(
+            'sender',
+            'username avatar'
+          );
+
+          io.to(recipientId).emit('notification', populated);
+          io.to(declinerId).emit('notificationDeleted', {
+            notificationId: notification._id,
+          });
+
+          callback?.({ success: true });
+        } catch (err) {
+          console.error(err);
+          callback?.({ error: 'Server error' });
+        }
       }
-    });
+    );
   });
 
   return io;
