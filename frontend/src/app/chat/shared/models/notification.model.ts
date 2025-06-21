@@ -24,7 +24,8 @@ export interface PopulatedNotification {
     | 'mention'
     | 'status-change'
     | 'private-chat-deletion-request'
-    | 'private-chat-deletion-confirmed';
+    | 'private-chat-deletion-confirmed'
+    | 'private-chat-deletion-declined';
   message?: string;
   link?: string;
   read: boolean;
