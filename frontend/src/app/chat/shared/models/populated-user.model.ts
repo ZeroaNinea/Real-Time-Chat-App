@@ -9,6 +9,7 @@ export interface PopulatedUser {
     friends: string[];
     banlist: string[];
     pendingRequests: string[];
+    deletionRequests: string[];
   };
   roles: string[];
 }

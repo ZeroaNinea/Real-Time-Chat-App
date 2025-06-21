@@ -140,16 +140,16 @@ export class ChatRoomComponent implements OnDestroy {
     return user?.user.banlist || [];
   });
 
+  currentUserDeletionRequests = computed(() => {
+    const id = this.currentUser()?.id;
+    const user = this.populatedUsers().find((u) => u.user._id === id);
+    return user?.user?.deletionRequests || [];
+  });
+
   currentUserPendingRequests() {
     const id = this.currentUser()?.id;
     const user = this.populatedUsers().find((u) => u.user._id === id);
     return user?.user?.pendingRequests || [];
-  }
-
-  currentUserDelitionRequests() {
-    const id = this.currentUser()?.id;
-    const user = this.populatedUsers().find((u) => u.user._id === id);
-    return user?.user?.delitionRequests || [];
   }
 
   constructor() {
