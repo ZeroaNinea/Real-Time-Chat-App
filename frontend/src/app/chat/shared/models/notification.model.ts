@@ -22,7 +22,9 @@ export interface PopulatedNotification {
     | 'friend-declined'
     | 'message'
     | 'mention'
-    | 'status-change';
+    | 'status-change'
+    | 'private-chat-deletion-request'
+    | 'private-chat-deletion-confirmed';
   message?: string;
   link?: string;
   read: boolean;
