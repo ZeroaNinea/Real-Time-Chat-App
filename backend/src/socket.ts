@@ -79,7 +79,6 @@ export function setupSocket(server: HttpServer, app: Express) {
     console.log('A user connected.');
 
     socket.on('message', async ({ chatId, channelId, message: text }) => {
-      console.log('Message received chat rooms:', text);
       try {
         const sender = socket.data.user._id;
 
