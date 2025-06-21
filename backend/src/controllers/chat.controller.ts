@@ -322,7 +322,7 @@ export const getChatMembers = async (req: Request, res: Response) => {
 
     // Fetch all users from the User collection.
     const users = await User.find({ _id: { $in: userIds } }).select(
-      '_id username avatar bio pronouns status friends banlist pendingRequests'
+      '_id username avatar bio pronouns status friends banlist pendingRequests deletionRequests roles'
     );
 
     // Merge roles with user data.
