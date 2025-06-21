@@ -254,7 +254,7 @@ backend/
 <br />
 ✅ Step 45: Start with firend logic (send, accept, reject, unfriend)
 <br />
-➡️ Step 46: Implement prevate messages
+✅ Step 46: Implement private messages
 <br />
 ➡️ Step 47: Show friend activity status
 <br />
@@ -263,7 +263,7 @@ backend/
 
 ✅ Friends system
 <br />
-➡️ Private messages
+✅ Private messages
 <br />
 ➡️ Activity status
 <br />
