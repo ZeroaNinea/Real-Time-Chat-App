@@ -940,6 +940,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   deletePrivateChatRequest(reciverId: string) {
+    console.log('reciverId', reciverId);
     this.wsService.emit(
       'deletePrivateChatRequest',
       {
