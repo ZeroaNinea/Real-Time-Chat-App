@@ -1529,6 +1529,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.on(
       'deletePrivateChatRequest',
       async ({ receiverId, chatId }, callback) => {
+        console.log('request', receiverId, chatId);
         try {
           const senderId = socket.data.user._id.toString();
           const sender = await User.findById(senderId);

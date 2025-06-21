@@ -940,15 +940,17 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   deletePrivateChatRequest() {
-    const reciverId = this.populatedUsers().find(
+    const receiverId = this.populatedUsers().find(
       (u) => u.user._id !== this.currentUser()?.id
     )?.user._id;
 
-    console.log('reciverId', reciverId);
+    console.log(this.populatedUsers());
+
+    console.log('reciverId', receiverId);
     this.wsService.emit(
       'deletePrivateChatRequest',
       {
-        reciverId,
+        receiverId: receiverId!,
         chatId: this.chatId()!,
       },
       (res) => {
