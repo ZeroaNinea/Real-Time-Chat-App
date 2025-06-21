@@ -446,4 +446,50 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ error: 'Server error' });
     }
   });
+
+  socket.on('transferOwnership', async ({ userId, chatId }, callback) => {
+    try {
+      const chat = await Chat.findById(chatId);
+      if (!chat) return callback?.({ error: 'Chat not found' });
+
+      const requester = chat.members.find((m: Member) =>
+        m.user.equals(socket.data.user._id)
+      );
+
+      if (!requester || !requester.roles.includes('Owner')) {
+        return callback?.({
+          error: 'Only the current owner can transfer ownership',
+        });
+      }
+
+      const newOwner = chat.members.find((m: Member) => m.user.equals(userId));
+
+      if (!newOwner) {
+        return callback?.({ error: 'User is not a member of this chat' });
+      }
+
+      if (newOwner.roles.includes('Owner')) {
+        return callback?.({ error: 'User is already the owner' });
+      }
+
+      requester.roles = requester.roles.filter((r: string) => r !== 'Owner');
+      if (!requester.roles.includes('Admin')) {
+        requester.roles.push('Admin');
+      }
+
+      if (!newOwner.roles.includes('Owner')) {
+        newOwner.roles.push('Owner');
+      }
+
+      await chat.save();
+
+      io.to(chat._id.toString()).emit('memberUpdated', requester);
+      io.to(chat._id.toString()).emit('memberUpdated', newOwner);
+
+      callback?.({ success: true, member: newOwner });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
 }
