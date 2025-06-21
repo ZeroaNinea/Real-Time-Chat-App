@@ -8,7 +8,6 @@ import jwt from 'jsonwebtoken';
 import { findUserById } from './services/user.service';
 import { registerSocketHandlers } from './sockets';
 
-// This function sets up the Socket.io server and handles events.
 export function setupSocket(server: HttpServer, app: Express) {
   const io = new Server(server, {
     cors: {
