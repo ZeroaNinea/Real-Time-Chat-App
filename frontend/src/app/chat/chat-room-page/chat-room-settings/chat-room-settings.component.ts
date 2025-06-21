@@ -115,4 +115,9 @@ export class ChatRoomSettingsComponent {
       }
     });
   }
+
+  askDeletion() {
+    this.deletePrivateChatRequest.emit();
+    this.currentUserDeletionRequests.push(this.currentInterlocutorId!);
+  }
 }
