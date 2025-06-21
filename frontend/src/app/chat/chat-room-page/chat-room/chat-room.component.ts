@@ -896,6 +896,30 @@ export class ChatRoomComponent implements OnDestroy {
     this.message.set('');
   }
 
+  replyToPrivateMessage() {
+    const msg = this.message().trim();
+    if (this.replyingToMessage() && msg) {
+      this.wsService.emit(
+        'replyPrivateMessage',
+        {
+          messageId: this.replyingToMessage()?._id,
+          text: msg,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to reply message',
+              'Close',
+              { duration: 3000 }
+            );
+          }
+        }
+      );
+    }
+
+    this.message.set('');
+  }
+
   updateChannelOrder(channelIds: string[]) {
     this.wsService.emit(
       'changeChannelOrder',
