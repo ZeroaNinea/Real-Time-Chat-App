@@ -5,6 +5,8 @@ import mongoose, { ObjectId } from 'mongoose';
 import { User } from '../models/user.model';
 import { Notification } from '../models/notification.model';
 import { Chat } from '../models/chat.model';
+import { Message } from '../models/message.model';
+
 import { Member } from '../../types/member.alias';
 
 export function registerSocialHandlers(io: Server, socket: Socket) {
@@ -392,6 +394,78 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
           'notification',
           populatedNotification
         );
+
+        callback?.({ success: true });
+      } catch (err) {
+        console.error(err);
+        callback?.({ error: 'Server error' });
+      }
+    }
+  );
+
+  socket.on(
+    'confirmDeletePrivateChat',
+    async ({ chatId, recipientId }, callback) => {
+      try {
+        const confirmerId = socket.data.user._id.toString();
+        const chat = await Chat.findById(chatId);
+
+        if (!chat || !chat.isPrivate) {
+          return callback?.({ error: 'Chat not found or not private' });
+        }
+
+        const isMember = chat.members.some((m: Member) =>
+          m.user.equals(confirmerId)
+        );
+        if (!isMember) {
+          return callback?.({ error: 'You are not a member of this chat' });
+        }
+
+        const recipient = await User.findById(recipientId);
+        if (!recipient) {
+          return callback?.({ error: 'Recipient not found' });
+        }
+
+        if (!recipient.deletionRequests.includes(confirmerId)) {
+          return callback?.({ error: 'Deletion request not found' });
+        }
+
+        recipient.deletionRequests = recipient.deletionRequests.filter(
+          (id: string) => id === confirmerId
+        );
+        await recipient.save();
+
+        await Message.deleteMany({ chatId });
+        await chat.deleteOne();
+
+        const deletionRequest = await Notification.findOne({
+          sender: recipientId,
+          recipient: confirmerId,
+          type: 'private-chat-deletion-request',
+          link: chatId,
+        });
+
+        await Notification.deleteOne({
+          _id: deletionRequest._id,
+        });
+
+        const notification = new Notification({
+          sender: confirmerId,
+          recipient: recipientId,
+          type: 'private-chat-deletion-confirmed',
+          message: `Private chat was deleted by ${socket.data.user.username}`,
+        });
+
+        await notification.save();
+        const populated = await notification.populate(
+          'sender',
+          'username avatar'
+        );
+
+        io.to(recipientId).emit('notification', populated);
+        io.to(confirmerId).emit('notificationDeleted', {
+          notificationId: deletionRequest._id,
+        });
 
         callback?.({ success: true });
       } catch (err) {
