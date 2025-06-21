@@ -63,7 +63,6 @@ export class ChatRoomSettingsComponent {
   @Output() deletePrivateChatRequest = new EventEmitter<string>();
 
   private dialog = inject(MatDialog);
-  private chatService = inject(ChatService);
 
   environment = environment;
 
