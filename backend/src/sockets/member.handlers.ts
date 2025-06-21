@@ -524,4 +524,40 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ error: 'Server error' });
     }
   });
+
+  socket.on('leaveChatRoom', async ({ chatId }, callback) => {
+    try {
+      const chat = await Chat.findById(chatId);
+      if (!chat) return callback?.({ error: 'Chat not found' });
+
+      if (chat.isPrivate) {
+        callback?.({ error: "You can't leave a private chat" });
+        return;
+      }
+
+      const member = chat.members.find((m: Member) =>
+        m.user.equals(socket.data.user._id)
+      );
+
+      if (member?.roles.includes('Owner')) {
+        callback?.({ error: 'You are the owner of this chat' });
+
+        return;
+      }
+
+      if (!member) {
+        callback?.({ error: 'You are not a member of this chat' });
+      } else {
+        chat.members = chat.members.filter(
+          (m: Member) => !m.user.equals(socket.data.user._id)
+        );
+        await chat.save();
+        io.to(socket.data.user._id.toString()).emit('chatLeft', chat);
+        callback?.({ success: true });
+      }
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
 }
