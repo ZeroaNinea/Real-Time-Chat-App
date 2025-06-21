@@ -116,43 +116,6 @@ export function setupSocket(server: HttpServer, app: Express) {
       }
     });
 
-    socket.on('removeFriend', async (friendId, callback) => {
-      try {
-        const currentUserId = socket.data.user._id.toString();
-
-        if (!mongoose.Types.ObjectId.isValid(friendId)) {
-          return callback?.({ error: 'Invalid friend ID' });
-        }
-
-        const [userExists, friendExists] = await Promise.all([
-          User.exists({ _id: currentUserId }),
-          User.exists({ _id: friendId }),
-        ]);
-        if (!userExists || !friendExists) {
-          return callback?.({ error: 'User not found' });
-        }
-
-        await Promise.all([
-          User.updateOne(
-            { _id: currentUserId },
-            { $pull: { friends: friendId } }
-          ),
-          User.updateOne(
-            { _id: friendId },
-            { $pull: { friends: currentUserId } }
-          ),
-        ]);
-
-        io.to(currentUserId).emit('friendRemoved', { friendId });
-        io.to(friendId).emit('friendRemovedByOther', { userId: currentUserId });
-
-        callback?.({ success: true });
-      } catch (err) {
-        console.error(err);
-        callback?.({ error: 'Server error' });
-      }
-    });
-
     socket.on('banUser', async (userId, callback) => {
       try {
         const currentUserId = socket.data.user._id.toString();
