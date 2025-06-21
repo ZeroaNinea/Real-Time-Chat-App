@@ -219,26 +219,49 @@ export class MainComponent implements OnChanges {
   }
 
   declaineNotification(notification: PopulatedNotification) {
-    this.wsService.emit(
-      'declineFriendRequest',
-      {
-        notificationId: notification._id,
-        senderId: notification.sender._id,
-      },
-      (res) => {
-        if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to decline notification',
-            'Close',
-            { duration: 3000 }
-          );
-        } else {
-          this._snackbar.open('Declined friend request!', 'Close', {
-            duration: 2000,
-          });
+    if (notification.type === 'friend-request') {
+      this.wsService.emit(
+        'declineFriendRequest',
+        {
+          notificationId: notification._id,
+          senderId: notification.sender._id,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to decline notification',
+              'Close',
+              { duration: 3000 }
+            );
+          } else {
+            this._snackbar.open('Declined friend request!', 'Close', {
+              duration: 2000,
+            });
+          }
         }
-      }
-    );
+      );
+    } else if (notification.type === 'private-chat-deletion-request') {
+      this.wsService.emit(
+        'declinePrivateChatDeletion',
+        {
+          chatId: notification.link,
+          recipientId: notification.sender._id,
+        },
+        (res) => {
+          if (res?.error) {
+            this._snackbar.open(
+              res.error.message || 'Failed to decline notification',
+              'Close',
+              { duration: 3000 }
+            );
+          } else {
+            this._snackbar.open('Declined private chat deletion!', 'Close', {
+              duration: 2000,
+            });
+          }
+        }
+      );
+    }
   }
 
   acceptNotification(notification: PopulatedNotification) {
