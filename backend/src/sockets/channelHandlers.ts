@@ -1,5 +1,9 @@
 import { Server, Socket } from 'socket.io';
+
 import { Chat } from '../models/chat.model';
+import { Message } from '../models/message.model';
+import { Channel } from '../models/channel.model';
+
 import { Member } from '../../types/member.alias';
 import { addChannelService } from '../services/chat.service';
 
@@ -37,6 +41,37 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
     } catch (err) {
       console.error('Channel addition failed:', err);
       socket.emit('error', (err as Error).message);
+    }
+  });
+
+  socket.on('deleteChannel', async ({ channelId }, callback) => {
+    try {
+      const userId = socket.data.user._id;
+      const channel = await Channel.findById(channelId);
+      if (!channel) {
+        return callback?.({ error: 'Channel not found' });
+      }
+
+      const chat = await Chat.findById(channel.chatId);
+      const member = chat?.members.find((m: Member) => m.user.equals(userId));
+      const isAdmin =
+        member?.roles.includes('Admin') || member?.roles.includes('Owner');
+
+      if (!isAdmin) {
+        return callback?.({ error: 'Only admins can delete channels' });
+      }
+
+      await Message.deleteMany({ channelId });
+      await channel.deleteOne();
+
+      io.to(chat._id.toString()).emit('channelMessagesDeleted', {
+        channelId,
+      });
+      io.to(chat._id.toString()).emit('channelDeleted', { channelId });
+      callback?.({ success: true });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
     }
   });
 }
