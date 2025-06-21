@@ -107,44 +107,44 @@ export function setupSocket(server: HttpServer, app: Express) {
 
     socket.on('privateMessage', async ({ chatId, message: text }) => {
       try {
-        const sender = socket.data.user._id;
+        const senderId = socket.data.user._id;
 
         const chat = await Chat.findById(chatId);
         if (!chat || !chat.isPrivate) {
           return socket.emit('error', 'Invalid private chat');
         }
 
-        const member1 = chat.members.find((m: Member) => m.user.equals(sender));
-        const member2 = chat.members.find(
-          (m: Member) => !m.user.equals(sender)
+        const member1 = chat.members.find((m: Member) =>
+          m.user.equals(senderId)
         );
+        const member2 = chat.members.find(
+          (m: Member) => !m.user.equals(senderId)
+        );
+
         if (!member1 || !member2) {
           return socket.emit('error', 'Invalid private chat');
         }
 
+        const senderUser = await User.findById(senderId);
+        const otherUser = await User.findById(member2.user);
+
+        if (!senderUser || !otherUser) {
+          return socket.emit('error', 'Users not found');
+        }
+
         if (
-          member1.banlist.includes(!member2._id) ||
-          member2.banlist.includes(!member1._id)
+          senderUser.banlist.includes(otherUser._id) ||
+          otherUser.banlist.includes(senderUser._id)
         ) {
           return socket.emit(
             'error',
-            'Someone is banned from this private chat.'
-          );
-        }
-
-        const isMember = chat.members.some((m: Member) =>
-          m.user.equals(sender)
-        );
-        if (!isMember) {
-          return socket.emit(
-            'error',
-            'You are not a member of this private chat.'
+            'You cannot message this user (ban restriction)'
           );
         }
 
         const message = await new Message({
           chatId,
-          sender,
+          sender: senderId,
           text,
         }).save();
 
