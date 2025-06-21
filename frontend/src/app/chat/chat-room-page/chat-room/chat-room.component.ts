@@ -900,7 +900,7 @@ export class ChatRoomComponent implements OnDestroy {
     const msg = this.message().trim();
     if (this.replyingToMessage() && msg) {
       this.wsService.emit(
-        'replyPrivateMessage',
+        'privateReply',
         {
           messageId: this.replyingToMessage()?._id,
           text: msg,
