@@ -13,6 +13,7 @@ export interface IUser {
   friends?: ObjectId[];
   banlist?: ObjectId[];
   pendingRequests?: ObjectId[];
+  deletionRequests?: ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -62,6 +63,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     },
     pendingRequests: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      default: [],
+    },
+    deletionRequests: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
       default: [],
     },
   },
