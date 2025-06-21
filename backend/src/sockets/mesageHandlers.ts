@@ -152,4 +152,104 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       callback?.({ error: 'Server error' });
     }
   });
+
+  socket.on('reply', async ({ messageId, text }, callback) => {
+    try {
+      const message = await Message.findById(messageId);
+      if (!message) {
+        return callback?.({ error: 'Message not found' });
+      }
+
+      const chat = await Chat.findById(message.chatId);
+      if (!chat) {
+        return callback?.({ error: 'Chat not found' });
+      }
+
+      const member = chat.members.find((m: Member) =>
+        m.user.equals(socket.data.user._id)
+      );
+
+      if (!member) {
+        return callback?.({ error: 'You are not a member of this chat' });
+      }
+
+      if (message.sender.equals(socket.data.user._id)) {
+        return callback?.({
+          error: 'You cannot reply to your own message',
+        });
+      }
+
+      const reply = await Message.create({
+        chatId: message.chatId,
+        channelId: message.channelId,
+        sender: socket.data.user._id,
+        text,
+        replyTo: message._id,
+      });
+
+      io.to(chat._id.toString()).emit('messageReplied', reply);
+      callback?.({ success: true, message: reply });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
+
+  socket.on('privateReply', async ({ messageId, text }, callback) => {
+    try {
+      const senderId = socket.data.user._id;
+
+      const message = await Message.findById(messageId);
+      if (!message) {
+        return callback?.({ error: 'Message not found' });
+      }
+
+      const chat = await Chat.findById(message.chatId);
+      if (!chat || !chat.isPrivate) {
+        return callback?.({ error: 'Private chat not found' });
+      }
+
+      const member1 = chat.members.find((m: Member) => m.user.equals(senderId));
+      const member2 = chat.members.find(
+        (m: Member) => !m.user.equals(senderId)
+      );
+
+      if (!member1 || !member2) {
+        return callback?.({ error: 'Invalid private chat' });
+      }
+
+      const senderUser = await User.findById(senderId);
+      const otherUser = await User.findById(member2.user);
+
+      if (!senderUser || !otherUser) {
+        return callback?.({ error: 'Users not found' });
+      }
+
+      if (
+        senderUser.banlist.includes(otherUser._id) ||
+        otherUser.banlist.includes(senderUser._id)
+      ) {
+        return callback?.({
+          error: 'You cannot reply in this chat (ban restriction)',
+        });
+      }
+
+      if (message.sender.equals(senderId)) {
+        return callback?.({ error: 'You cannot reply to your own message' });
+      }
+
+      const reply = await Message.create({
+        chatId: message.chatId,
+        sender: senderId,
+        text,
+        replyTo: message._id,
+      });
+
+      io.to(chat._id.toString()).emit('messageReplied', reply);
+      callback?.({ success: true, message: reply });
+    } catch (err) {
+      console.error(err);
+      callback?.({ error: 'Server error' });
+    }
+  });
 }
