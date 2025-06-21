@@ -107,55 +107,55 @@ export function setupSocket(server: HttpServer, app: Express) {
     //   }
     // });
 
-    socket.on('privateMessage', async ({ chatId, message: text }) => {
-      try {
-        const senderId = socket.data.user._id;
+    // socket.on('privateMessage', async ({ chatId, message: text }) => {
+    //   try {
+    //     const senderId = socket.data.user._id;
 
-        const chat = await Chat.findById(chatId);
-        if (!chat || !chat.isPrivate) {
-          return socket.emit('error', 'Invalid private chat');
-        }
+    //     const chat = await Chat.findById(chatId);
+    //     if (!chat || !chat.isPrivate) {
+    //       return socket.emit('error', 'Invalid private chat');
+    //     }
 
-        const member1 = chat.members.find((m: Member) =>
-          m.user.equals(senderId)
-        );
-        const member2 = chat.members.find(
-          (m: Member) => !m.user.equals(senderId)
-        );
+    //     const member1 = chat.members.find((m: Member) =>
+    //       m.user.equals(senderId)
+    //     );
+    //     const member2 = chat.members.find(
+    //       (m: Member) => !m.user.equals(senderId)
+    //     );
 
-        if (!member1 || !member2) {
-          return socket.emit('error', 'Invalid private chat');
-        }
+    //     if (!member1 || !member2) {
+    //       return socket.emit('error', 'Invalid private chat');
+    //     }
 
-        const senderUser = await User.findById(senderId);
-        const otherUser = await User.findById(member2.user);
+    //     const senderUser = await User.findById(senderId);
+    //     const otherUser = await User.findById(member2.user);
 
-        if (!senderUser || !otherUser) {
-          return socket.emit('error', 'Users not found');
-        }
+    //     if (!senderUser || !otherUser) {
+    //       return socket.emit('error', 'Users not found');
+    //     }
 
-        if (
-          senderUser.banlist.includes(otherUser._id) ||
-          otherUser.banlist.includes(senderUser._id)
-        ) {
-          return socket.emit(
-            'error',
-            'You cannot message this user (ban restriction)'
-          );
-        }
+    //     if (
+    //       senderUser.banlist.includes(otherUser._id) ||
+    //       otherUser.banlist.includes(senderUser._id)
+    //     ) {
+    //       return socket.emit(
+    //         'error',
+    //         'You cannot message this user (ban restriction)'
+    //       );
+    //     }
 
-        const message = await new Message({
-          chatId,
-          sender: senderId,
-          text,
-        }).save();
+    //     const message = await new Message({
+    //       chatId,
+    //       sender: senderId,
+    //       text,
+    //     }).save();
 
-        io.to(chatId).emit('message', message);
-      } catch (err) {
-        console.error(err);
-        socket.emit('error', 'Failed to send private message');
-      }
-    });
+    //     io.to(chatId).emit('message', message);
+    //   } catch (err) {
+    //     console.error(err);
+    //     socket.emit('error', 'Failed to send private message');
+    //   }
+    // });
 
     socket.on('disconnect', () => {
       console.log('User disconnected.');
