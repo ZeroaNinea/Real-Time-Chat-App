@@ -21,7 +21,8 @@
             </span>
           </div>
 
-          @if (notification.type === 'friend-request') {
+          @if (notification.type === 'friend-request' || notification.type ===
+          'private-chat-deletion-request') {
           <button mat-button (click)="acceptRequest.emit(notification)">
             Accept
           </button>
@@ -32,9 +33,6 @@
           >
             Decline
           </button>
-          } @else if (notification.type === 'private-chat-deletion-request') {
-          <button mat-button>Accept</button>
-          <button mat-button class="warn">Decline</button>
           } @else if (notification.type === 'friend-declined' ||
           notification.type === 'friend-accepted') {
           <button mat-button (click)="ok.emit(notification)">OK</button>
