@@ -23,4 +23,5 @@ export type AbbreviatedPopulatedUser = {
   friends: string[];
   banlist: string[];
   pendingRequests: string[];
+  deletionRequests: string[];
 };
