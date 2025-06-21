@@ -114,6 +114,24 @@ export function setupSocket(server: HttpServer, app: Express) {
           return socket.emit('error', 'Invalid private chat');
         }
 
+        const member1 = chat.members.find((m: Member) => m.user.equals(sender));
+        const member2 = chat.members.find(
+          (m: Member) => !m.user.equals(sender)
+        );
+        if (!member1 || !member2) {
+          return socket.emit('error', 'Invalid private chat');
+        }
+
+        if (
+          member1.banlist.includes(!member2._id) ||
+          member2.banlist.includes(!member1._id)
+        ) {
+          return socket.emit(
+            'error',
+            'Someone is banned from this private chat.'
+          );
+        }
+
         const isMember = chat.members.some((m: Member) =>
           m.user.equals(sender)
         );
