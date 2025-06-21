@@ -938,4 +938,23 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
+
+  deletePrivateChatRequest(reciverId: string) {
+    this.wsService.emit(
+      'deletePrivateChatRequest',
+      {
+        reciverId,
+        chatId: this.chatId()!,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to send a delete request',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
+  }
 }
