@@ -1621,14 +1621,14 @@ export function setupSocket(server: HttpServer, app: Express) {
           }
 
           recipient.deletionRequests = recipient.deletionRequests.filter(
-            (id: string) => id !== confirmerId
+            (id: string) => id === confirmerId
           );
           await recipient.save();
 
           await Message.deleteMany({ chatId });
           await chat.deleteOne();
 
-          await Notification.deleteOne({
+          const deleteNotification = await Notification.deleteOne({
             sender: recipientId,
             recipient: confirmerId,
             type: 'private-chat-deletion-request',
@@ -1650,7 +1650,7 @@ export function setupSocket(server: HttpServer, app: Express) {
 
           io.to(recipientId.toString()).emit('notification', populated);
           io.to(confirmerId.toString()).emit('notificationDeleted', {
-            notificationId: notification._id,
+            notificationId: deleteNotification._id,
           });
 
           callback?.({ success: true });
