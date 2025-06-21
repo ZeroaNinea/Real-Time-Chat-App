@@ -944,9 +944,6 @@ export class ChatRoomComponent implements OnDestroy {
       (u) => u.user._id !== this.currentUser()?.id
     )?.user._id;
 
-    console.log(this.populatedUsers());
-
-    console.log('reciverId', receiverId);
     this.wsService.emit(
       'deletePrivateChatRequest',
       {
