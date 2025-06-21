@@ -78,31 +78,31 @@ export function setupSocket(server: HttpServer, app: Express) {
   io.on('connection', (socket) => {
     console.log('A user connected.');
 
-    socket.on('message', async ({ chatId, channelId, message: text }) => {
-      try {
-        const sender = socket.data.user._id;
+    // socket.on('message', async ({ chatId, channelId, message: text }) => {
+    //   try {
+    //     const sender = socket.data.user._id;
 
-        const chat = await Chat.findById(chatId);
-        const isMember = chat?.members.some((m: Member) =>
-          m.user.equals(sender)
-        );
-        if (!isMember) {
-          return socket.emit('error', 'You are not a member of this chat.');
-        }
+    //     const chat = await Chat.findById(chatId);
+    //     const isMember = chat?.members.some((m: Member) =>
+    //       m.user.equals(sender)
+    //     );
+    //     if (!isMember) {
+    //       return socket.emit('error', 'You are not a member of this chat.');
+    //     }
 
-        const message = await new Message({
-          chatId,
-          channelId,
-          sender,
-          text,
-        }).save();
+    //     const message = await new Message({
+    //       chatId,
+    //       channelId,
+    //       sender,
+    //       text,
+    //     }).save();
 
-        io.to(chatId).emit('message', message);
-      } catch (err) {
-        console.error(err);
-        socket.emit('error', 'Message failed to send');
-      }
-    });
+    //     io.to(chatId).emit('message', message);
+    //   } catch (err) {
+    //     console.error(err);
+    //     socket.emit('error', 'Message failed to send');
+    //   }
+    // });
 
     socket.on('privateMessage', async ({ chatId, message: text }) => {
       try {
