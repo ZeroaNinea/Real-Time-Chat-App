@@ -36,6 +36,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Output() sendPrivate = new EventEmitter<void>();
   @Output() cancelReply = new EventEmitter<void>();
   @Output() replyToMessage = new EventEmitter<Message>();
+  @Output() replyToPrivateMessage = new EventEmitter<Message>();
 
   @ViewChild('textarea') textarea!: ElementRef<HTMLTextAreaElement>;
 
@@ -76,7 +77,11 @@ export class MessageInputComponent implements AfterViewInit {
   onReply(event: Event) {
     event.preventDefault();
     if (this.replyingToMessage) {
-      this.replyToMessage.emit(this.replyingToMessage);
+      if (this.isPrivate) {
+        this.replyToPrivateMessage.emit(this.replyingToMessage);
+      } else {
+        this.replyToMessage.emit(this.replyingToMessage);
+      }
     }
     this.textarea.nativeElement.style.height = '4.5rem';
   }
