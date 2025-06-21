@@ -218,7 +218,7 @@ export class MainComponent implements OnChanges {
     this.router.navigate(['/chat-room']);
   }
 
-  declainNotification(notification: PopulatedNotification) {
+  declaineNotification(notification: PopulatedNotification) {
     this.wsService.emit(
       'declineFriendRequest',
       {
