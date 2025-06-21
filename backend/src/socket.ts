@@ -1,26 +1,11 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { Express } from 'express';
-
-import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
+import jwt from 'jsonwebtoken';
 
 import { findUserById } from './services/user.service';
-import { Chat } from './models/chat.model';
-import { Member } from '../types/member.alias';
-import { Message } from './models/message.model';
-import { User } from './models/user.model';
-import { Notification } from './models/notification.model';
-import {
-  canAssignPermissionsBelowOwnLevel,
-  canEditRole,
-} from './helpers/check-role-editing-permissions';
-import { ChatRoomRole } from '../types/chat-room-role.alias';
-
-import mongoose from './config/db';
-import { ObjectId } from 'mongoose';
-
 import { registerSocketHandlers } from './sockets';
 
 // This function sets up the Socket.io server and handles events.
