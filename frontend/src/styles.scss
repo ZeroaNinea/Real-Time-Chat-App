@@ -35,5 +35,16 @@ body {
 }
 
 .hljs {
+  @include mat.theme(
+    (
+      color: mat.$magenta-palette,
+    )
+  );
+
   border-radius: 10px;
+
+  & {
+    background-color: var(--mat-sys-surface-container);
+    box-shadow: 5px 5px 50px 5px var(--mat-sys-primary-container);
+  }
 }
