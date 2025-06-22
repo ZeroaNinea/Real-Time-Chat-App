@@ -15,6 +15,7 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
+import { TextFormatPipe } from '../../../shared/pipes/text-format.pipe';
 
 @Component({
   selector: 'app-message-list',
@@ -26,6 +27,7 @@ import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-car
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+    TextFormatPipe,
   ],
   standalone: true,
   templateUrl: './message-list.component.html',
@@ -222,12 +224,6 @@ export class MessageListComponent {
 
   isNotEmpty(arr: Message[]) {
     return arr?.length !== 0;
-  }
-
-  formatText(text: string): string {
-    return text
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   }
 
   trimText(text: string, max: number): string {
