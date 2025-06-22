@@ -61,7 +61,9 @@ mat-list-item {
       )
     );
 
-    color: var(--mat-sys-primary);
+    & {
+      color: var(--mat-sys-primary);
+    }
   }
 
   .accent {
@@ -71,7 +73,9 @@ mat-list-item {
       )
     );
 
-    color: var(--mat-sys-primary);
+    & {
+      color: var(--mat-sys-primary);
+    }
   }
 
   .warn {
