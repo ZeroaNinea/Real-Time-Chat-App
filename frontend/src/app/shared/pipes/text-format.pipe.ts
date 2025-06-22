@@ -14,13 +14,16 @@ export class TextFormatPipe implements PipeTransform {
     Renderer.prototype.paragraph = function ({ tokens }) {
       let text = this.parser.parseInline(tokens);
 
-      text.replace(/\[color=(.*?)\](.*?)\[\/color\]/g, (_, color, content) => {
-        const allowed = ['red', 'green', 'blue'];
-        if (allowed.includes(color)) {
-          return `<span style="color:${color}">${content}</span>`;
-        }
-        return content;
-      });
+      text = text
+        .replace(/\[color=(.*?)\](.*?)\[\/color\]/g, (_, color, content) => {
+          const allowed = ['red', 'green', 'blue'];
+          if (allowed.includes(color)) {
+            return `<span style="color:${color}">${content}</span>`;
+          }
+          return content;
+        })
+        .replace(/__(.*?)__/g, '<u>$1</u>')
+        .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>');
 
       return `${text}`;
     };
