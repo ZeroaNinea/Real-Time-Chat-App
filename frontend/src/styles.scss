@@ -48,3 +48,17 @@ body {
     box-shadow: 5px 5px 50px 5px var(--mat-sys-primary-container);
   }
 }
+
+.spoiler {
+  background-color: var(--mat-sys-outline);
+  color: var(--mat-sys-outline);
+  border-radius: 5px;
+  padding: 0 8px;
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--mat-sys-background);
+  }
+}
