@@ -1,10 +1,4 @@
-import {
-  afterNextRender,
-  Component,
-  inject,
-  OnChanges,
-  signal,
-} from '@angular/core';
+import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,7 +44,7 @@ import { AuthService } from '../../../auth/auth.service';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
-export class MainComponent implements OnChanges {
+export class MainComponent {
   searchTerm = signal('');
 
   private chatService = inject(ChatService);
@@ -75,10 +69,6 @@ export class MainComponent implements OnChanges {
         this.connect();
       });
     });
-  }
-
-  ngOnChanges() {
-    console.log(this.authService.currentUser());
   }
 
   connect() {
