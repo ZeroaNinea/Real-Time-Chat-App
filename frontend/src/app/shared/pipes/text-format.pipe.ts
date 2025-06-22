@@ -12,6 +12,7 @@ export class TextFormatPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
 
   async transform(markdown: string): Promise<SafeHtml> {
+    console.log(Renderer.prototype);
     Renderer.prototype.paragraph = function ({ tokens }) {
       let text = this.parser.parseInline(tokens);
 
@@ -27,6 +28,16 @@ export class TextFormatPipe implements PipeTransform {
         .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>');
 
       return `${text}`;
+    };
+
+    Renderer.prototype.code = function ({ text, lang }) {
+      let highlighted = text;
+      if (lang && hljs.getLanguage(lang)) {
+        highlighted = hljs.highlight(text, { language: lang }).value;
+      } else {
+        highlighted = hljs.highlightAuto(text).value;
+      }
+      return `<pre><code class="hljs ${lang}">${highlighted}</code></pre>`;
     };
 
     const escapeFormatting = (text: string) =>
