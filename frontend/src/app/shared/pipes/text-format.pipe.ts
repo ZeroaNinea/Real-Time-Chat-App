@@ -27,6 +27,18 @@ export class TextFormatPipe implements PipeTransform {
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
     });
 
+    // Format colors. Example: [color=red]Red text[/color].
+    const allowedColors = ['red', 'blue', 'green'];
+    text = text.replace(
+      /\[color=(.*?)\](.*?)\[\/color\]/g,
+      (_, color, content) => {
+        if (allowedColors.includes(color)) {
+          return `<span style="color:${color}">${content}</span>`;
+        }
+        return content;
+      }
+    );
+
     // Restore escaped markers.
     return text
       .replace(/__ESC_STAR__/g, '*')
