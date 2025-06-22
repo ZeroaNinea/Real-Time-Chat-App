@@ -43,9 +43,6 @@ export class ChatRoomListComponent implements OnChanges {
 
     this.allRooms = this.chatRooms.allRooms;
     this.userRooms = this.chatRooms.userRooms;
-
-    console.log(this.allRooms);
-    console.log(this.userRooms);
   }
 
   filteredChatRooms(): Chat[] {
@@ -59,20 +56,15 @@ export class ChatRoomListComponent implements OnChanges {
       (m) => m.user.toString() === this.currentUserId
     );
 
-    // console.log(user, room, this.currentUserId);
-
     if (this.userRooms.some((r) => r._id === room._id)) {
-      console.log('Already in this room');
       return true;
     }
 
     if (!user) {
-      console.log('User not in this room');
       return false;
     }
 
     if (user.roles.includes('Banned')) {
-      console.log('User is banned from this room');
       return true;
     }
 
