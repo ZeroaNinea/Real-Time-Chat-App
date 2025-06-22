@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +28,7 @@ import { TextFormatPipe } from '../../../shared/pipes/text-format.pipe';
     MatInputModule,
     MatTooltipModule,
     TextFormatPipe,
+    AsyncPipe,
   ],
   standalone: true,
   templateUrl: './message-list.component.html',

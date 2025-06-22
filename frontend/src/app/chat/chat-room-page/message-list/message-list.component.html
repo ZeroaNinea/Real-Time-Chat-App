@@ -67,7 +67,7 @@
         </button>
       </div>
       } @else {
-      <span [innerHTML]="msg.text | textFormat"></span>
+      <span [innerHTML]="msg.text | textFormat | async"></span>
       <div>
         @if (msg.isEdited) {
         <span class="edited">(Edited)</span>

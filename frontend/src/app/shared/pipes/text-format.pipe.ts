@@ -10,9 +10,9 @@ import * as DOMPurify from 'dompurify';
 export class TextFormatPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
 
-  transform(markdown: string): SafeHtml {
+  async transform(markdown: string): Promise<SafeHtml> {
     const rawHtml = marked(markdown, { breaks: true });
-    const cleanHtml = DOMPurify.default.sanitize(<string | Node>rawHtml);
+    const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
 
     return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
   }
