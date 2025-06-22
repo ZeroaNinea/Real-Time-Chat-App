@@ -23,16 +23,28 @@ export class TextFormatPipe implements PipeTransform {
           }
           return content;
         })
-        .replace(/__(.*?)__/g, '<u>$1</u>')
+        .replace(/--(.*?)--/g, '<u>$1</u>')
         .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>');
 
       return `${text}`;
     };
 
     console.log(Renderer.prototype);
-    const rawHtml = marked(markdown, {
+
+    const escapeFormatting = (text: string) =>
+      text
+        .replace(/\\\*/g, '&#42;')
+        .replace(/\\\_/g, '&#95;')
+        .replace(/\\\~/g, '&#126;')
+        .replace(/\\\|/g, '&#124;')
+        .replace(/\\\[/g, '&#91;')
+        .replace(/\\\]/g, '&#93;');
+
+    const rawHtml = marked(escapeFormatting(markdown), {
       breaks: false,
     });
+
+    // console.log(await rawHtml);
     const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
 
     return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
