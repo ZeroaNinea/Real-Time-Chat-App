@@ -12,12 +12,22 @@ export class TextFormatPipe implements PipeTransform {
 
   async transform(markdown: string): Promise<SafeHtml> {
     Renderer.prototype.paragraph = function ({ tokens }) {
-      const text = this.parser.parseInline(tokens);
+      let text = this.parser.parseInline(tokens);
+
+      text.replace(/\[color=(.*?)\](.*?)\[\/color\]/g, (_, color, content) => {
+        const allowed = ['red', 'green', 'blue'];
+        if (allowed.includes(color)) {
+          return `<span style="color:${color}">${content}</span>`;
+        }
+        return content;
+      });
 
       return `${text}`;
     };
 
-    const rawHtml = marked(markdown, {});
+    const rawHtml = marked(markdown, {
+      breaks: false,
+    });
     const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
 
     return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
