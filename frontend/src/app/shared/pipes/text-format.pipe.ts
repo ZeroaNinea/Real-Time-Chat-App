@@ -29,8 +29,6 @@ export class TextFormatPipe implements PipeTransform {
       return `${text}`;
     };
 
-    console.log(Renderer.prototype);
-
     const escapeFormatting = (text: string) =>
       text
         .replace(/\\\*/g, '&#42;')
@@ -44,7 +42,6 @@ export class TextFormatPipe implements PipeTransform {
       breaks: false,
     });
 
-    // console.log(await rawHtml);
     const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
 
     return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
