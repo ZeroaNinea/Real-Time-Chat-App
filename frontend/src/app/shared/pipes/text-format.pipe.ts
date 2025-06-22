@@ -13,12 +13,18 @@ export class TextFormatPipe implements PipeTransform {
       .replace(/\\\_/g, '__ESC_UNDERSCORE__')
       .replace(/\\\~/g, '__ESC_TILDE__');
 
-    // Format.
+    // Format bold, italic, underline, and strikethrough.
     text = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold.
       .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic.
       .replace(/\_\_(.*?)\_\_/g, '<u>$1</u>') // Underline.
       .replace(/\~\~(.*?)\~\~/g, '<s>$1</s>'); // Strikethrough.
+
+    // Format links.
+    text = text.replace(/((https?:\/\/)?[\w\-]+\.[\w\-]+\S*)/g, (match) => {
+      const url = match.startsWith('http') ? match : `https://${match}`;
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+    });
 
     // Restore escaped markers.
     return text
