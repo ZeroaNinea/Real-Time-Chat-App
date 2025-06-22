@@ -1,6 +1,6 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked, Renderer } from 'marked';
+import { marked, Renderer, MarkedOptions } from 'marked';
 import * as DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 
@@ -36,7 +36,8 @@ export class TextFormatPipe implements PipeTransform {
         .replace(/\\\~/g, '&#126;')
         .replace(/\\\|/g, '&#124;')
         .replace(/\\\[/g, '&#91;')
-        .replace(/\\\]/g, '&#93;');
+        .replace(/\\\]/g, '&#93;')
+        .replace(/\\\-/g, '&#45;');
 
     const rawHtml = marked(escapeFormatting(markdown), {
       breaks: false,
