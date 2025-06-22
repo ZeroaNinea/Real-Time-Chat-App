@@ -2,6 +2,7 @@ import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked, Renderer } from 'marked';
 import * as DOMPurify from 'dompurify';
+import hljs from 'highlight.js';
 
 @Pipe({
   name: 'textFormat',
@@ -28,6 +29,7 @@ export class TextFormatPipe implements PipeTransform {
       return `${text}`;
     };
 
+    console.log(Renderer.prototype);
     const rawHtml = marked(markdown, {
       breaks: false,
     });
