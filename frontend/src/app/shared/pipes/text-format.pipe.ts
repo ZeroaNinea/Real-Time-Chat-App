@@ -15,10 +15,11 @@ export class TextFormatPipe implements PipeTransform {
 
     // Format bold, italic, underline, and strikethrough.
     text = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold.
-      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic.
-      .replace(/\_\_(.*?)\_\_/g, '<u>$1</u>') // Underline.
-      .replace(/\~\~(.*?)\~\~/g, '<s>$1</s>'); // Strikethrough.
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **Bold**.
+      .replace(/\*(.*?)\*/g, '<em>$1</em>') // *Italic*.
+      .replace(/\_\_(.*?)\_\_/g, '<u>$1</u>') // __Underline__.
+      .replace(/\~\~(.*?)\~\~/g, '<s>$1</s>') // ~Strikethrough~.
+      .replace(/`(.*?)`/g, '<code>$1</code>'); // `Code`.
 
     // Format links.
     text = text.replace(/((https?:\/\/)?[\w\-]+\.[\w\-]+\S*)/g, (match) => {
