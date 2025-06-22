@@ -55,15 +55,24 @@ export class MainComponent {
 
   currentUserId = signal<string | undefined>(undefined);
 
-  chatRooms!: ChatRooms;
-  notifications!: PopulatedNotification[];
-  friends!: AbbreviatedPopulatedUser[];
-  banList!: AbbreviatedPopulatedUser[];
+  chatRooms = signal<ChatRooms>({
+    allRooms: [],
+    userRooms: [],
+    pagination: {
+      page: 1,
+      limit: 20,
+      total: 0,
+      totalPages: 0,
+    },
+  });
+  notifications = signal<PopulatedNotification[]>([]);
+  friends = signal<AbbreviatedPopulatedUser[]>([]);
+  banList = signal<AbbreviatedPopulatedUser[]>([]);
 
   constructor() {
     afterNextRender(() => {
       this.chatService.getChatRooms(1, 20).subscribe((rooms) => {
-        this.chatRooms = rooms;
+        this.chatRooms.set(rooms);
         this.currentUserId.set(this.authService.currentUser()?.id);
 
         this.connect();
@@ -81,7 +90,7 @@ export class MainComponent {
 
     this.chatService.getNotifications().subscribe({
       next: (notifs) => {
-        this.notifications = notifs;
+        this.notifications.set(notifs);
       },
       error: (err) => {
         console.error('Failed to load notifications', err);
@@ -90,7 +99,7 @@ export class MainComponent {
 
     this.chatService.getFriends().subscribe({
       next: (friends) => {
-        this.friends = friends;
+        this.friends.set(friends);
       },
       error: (err) => {
         console.error('Failed to load friends', err);
@@ -99,7 +108,7 @@ export class MainComponent {
 
     this.chatService.getBanList().subscribe({
       next: (banList) => {
-        this.banList = banList;
+        this.banList.set(banList);
       },
       error: (err) => {
         console.error('Failed to load ban list', err);
@@ -107,66 +116,59 @@ export class MainComponent {
     });
 
     this.wsService.listenChatRoomLeft().subscribe((chat) => {
-      this.chatRooms = {
-        ...this.chatRooms,
-        userRooms: this.chatRooms.userRooms.filter((c) => c._id !== chat._id),
-      };
+      this.chatRooms.update((rooms) => ({
+        ...rooms,
+        userRooms: rooms.userRooms.filter((c) => c._id !== chat._id),
+      }));
     });
 
     this.wsService.listenNotifications().subscribe((notification) => {
-      this.notifications.unshift(notification);
+      this.notifications.update((n) => [notification, ...n]);
     });
 
     this.wsService
       .listenNotificationDeletions()
       .subscribe(({ notificationId }) => {
-        this.notifications = this.notifications.filter(
-          (n) => n._id !== notificationId
+        this.notifications.update((n) =>
+          n.filter((notif) => notif._id !== notificationId)
         );
       });
 
     this.wsService.listenUserUpdates().subscribe((user) => {
-      this.friends = this.friends.map((f) => {
-        if (f._id === user._id) {
-          return user;
-        }
-        return f;
-      });
+      this.friends.update((f) =>
+        f.map((friend) => (friend._id === user._id ? user : friend))
+      );
     });
 
-    this.wsService.listenFriendAdditions().subscribe((friend) => {
-      this.friends = [...this.friends, friend];
-    });
+    const addFriend = (friend: AbbreviatedPopulatedUser) => {
+      this.friends.update((f) => [...f, friend]);
+    };
 
-    this.wsService.listenFriendAdditionsByOthers().subscribe((friend) => {
-      this.friends = [...this.friends, friend];
-    });
+    this.wsService.listenFriendAdditions().subscribe(addFriend);
+    this.wsService.listenFriendAdditionsByOthers().subscribe(addFriend);
 
     this.wsService.listenFriendRemovings().subscribe(({ friendId }) => {
-      this.friends = this.friends.filter((f) => f._id !== friendId);
+      this.friends.update((f) => f.filter((friend) => friend._id !== friendId));
     });
 
     this.wsService.listenFriendRemovesByOthers().subscribe(({ userId }) => {
-      this.friends = this.friends.filter((f) => f._id !== userId);
+      this.friends.update((f) => f.filter((friend) => friend._id !== userId));
     });
 
-    this.wsService.listenUserBans().subscribe((user) => {
-      this.banList = [...this.banList, user];
-      this.friends = this.friends.filter((f) => f._id !== user._id);
-    });
+    const banUser = (user: AbbreviatedPopulatedUser) => {
+      this.banList.update((b) => [...b, user]);
+      this.friends.update((f) => f.filter((friend) => friend._id !== user._id));
+    };
 
-    this.wsService.listenUserBansByOther().subscribe((user) => {
-      this.banList = [...this.banList, user];
-      this.friends = this.friends.filter((f) => f._id !== user._id);
-    });
+    this.wsService.listenUserBans().subscribe(banUser);
+    this.wsService.listenUserBansByOther().subscribe(banUser);
 
-    this.wsService.listenUserUnbans().subscribe(({ userId }) => {
-      this.banList = this.banList.filter((u) => u._id !== userId);
-    });
+    const unbanUser = ({ userId }: { userId: string }) => {
+      this.banList.update((b) => b.filter((u) => u._id !== userId));
+    };
 
-    this.wsService.listenUserUnbansByOther().subscribe(({ userId }) => {
-      this.banList = this.banList.filter((u) => u._id !== userId);
-    });
+    this.wsService.listenUserUnbans().subscribe(unbanUser);
+    this.wsService.listenUserUnbansByOther().subscribe(unbanUser);
   }
 
   joinRoom(room: Chat) {

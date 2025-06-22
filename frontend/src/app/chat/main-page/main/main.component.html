@@ -25,7 +25,7 @@
   </div>
 
   <app-chat-room-list
-    [chatRooms]="chatRooms"
+    [chatRooms]="chatRooms()"
     [searchTerm]="searchTerm()"
     [currentUserId]="currentUserId()"
     (joinRoom)="joinRoom($event)"
@@ -34,8 +34,8 @@
   ></app-chat-room-list>
 
   <app-friend-list
-    [friends]="friends"
-    [banList]="banList"
+    [friends]="friends()"
+    [banList]="banList()"
     (remove)="removeFriend($event)"
     (unban)="unbanUser($event)"
     (ban)="banUser($event)"
@@ -43,7 +43,7 @@
   ></app-friend-list>
 
   <app-notification-list
-    [notifications]="notifications"
+    [notifications]="notifications()"
     (declineRequest)="declaineNotification($event)"
     (acceptRequest)="acceptNotification($event)"
     (ok)="deleteNotification($event)"
