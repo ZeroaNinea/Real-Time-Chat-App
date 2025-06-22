@@ -224,6 +224,12 @@ export class MessageListComponent {
     return arr?.length !== 0;
   }
 
+  formatText(text: string): string {
+    return text
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  }
+
   trimText(text: string, max: number): string {
     if (!text) return '';
     const trimmed = text.slice(0, max).trim();

@@ -67,7 +67,7 @@
         </button>
       </div>
       } @else {
-      <span>{{ msg.text }}</span>
+      <span>{{ formatText(msg.text) }}</span>
       <div>
         @if (msg.isEdited) {
         <span class="edited">(Edited)</span>
