@@ -45,7 +45,7 @@ body {
 
   & {
     background-color: var(--mat-sys-surface-container);
-    box-shadow: 5px 5px 50px 5px var(--mat-sys-primary-container);
+    box-shadow: 2px 2px 125px 2px var(--mat-sys-primary-container);
   }
 }
 
@@ -61,4 +61,12 @@ body {
   &:hover {
     color: var(--mat-sys-background);
   }
+}
+
+.code-span {
+  background-color: var(--mat-sys-surface-container);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 5px;
+  padding: 2px 8px 2px 8px;
+  // color: var(--mat-sys-background);
 }

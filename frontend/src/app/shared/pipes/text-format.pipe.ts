@@ -40,6 +40,10 @@ export class TextFormatPipe implements PipeTransform {
       return `<pre><code class="hljs ${lang}">${highlighted}</code></pre>`;
     };
 
+    Renderer.prototype.codespan = function ({ text }) {
+      return `<code class="code-span">${text}</code>`;
+    };
+
     const escapeFormatting = (text: string) =>
       text
         .replace(/\\\*/g, '&#42;')
