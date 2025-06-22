@@ -1,48 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
+import * as DOMPurify from 'dompurify';
 
 @Pipe({
   name: 'textFormat',
+  standalone: true,
 })
 export class TextFormatPipe implements PipeTransform {
-  transform(text: string): string {
-    if (!text) return '';
+  private sanitizer = inject(DomSanitizer);
 
-    // Escape markers.
-    text = text
-      .replace(/\\\*/g, '__ESC_STAR__')
-      .replace(/\\\_/g, '__ESC_UNDERSCORE__')
-      .replace(/\\\~/g, '__ESC_TILDE__');
+  transform(markdown: string): SafeHtml {
+    const rawHtml = marked(markdown, { breaks: true });
+    const cleanHtml = DOMPurify.default.sanitize(<string | Node>rawHtml);
 
-    // Format bold, italic, underline, and strikethrough.
-    text = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **Bold**.
-      .replace(/\*(.*?)\*/g, '<em>$1</em>') // *Italic*.
-      .replace(/\_\_(.*?)\_\_/g, '<u>$1</u>') // __Underline__.
-      .replace(/\~\~(.*?)\~\~/g, '<s>$1</s>') // ~Strikethrough~.
-      .replace(/`(.*?)`/g, '<code>$1</code>'); // `Code`.
-
-    // Format links.
-    text = text.replace(/((https?:\/\/)?[\w\-]+\.[\w\-]+\S*)/g, (match) => {
-      const url = match.startsWith('http') ? match : `https://${match}`;
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
-    });
-
-    // Format colors. Example: [color=red]Red text[/color].
-    const allowedColors = ['red', 'blue', 'green'];
-    text = text.replace(
-      /\[color=(.*?)\](.*?)\[\/color\]/g,
-      (_, color, content) => {
-        if (allowedColors.includes(color)) {
-          return `<span style="color:${color}">${content}</span>`;
-        }
-        return content;
-      }
-    );
-
-    // Restore escaped markers.
-    return text
-      .replace(/__ESC_STAR__/g, '*')
-      .replace(/__ESC_UNDERSCORE__/g, '_')
-      .replace(/__ESC_TILDE__/g, '~');
+    return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
   }
 }
