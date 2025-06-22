@@ -8,6 +8,8 @@ export class TextFormatPipe implements PipeTransform {
     if (!text) return '';
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>');
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\_\_(.*?)\_\_/g, '<u>$1</u>')
+      .replace(/\~\~(.*?)\~\~/g, '<s>$1</s>');
   }
 }
