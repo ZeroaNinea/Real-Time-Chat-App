@@ -38,12 +38,9 @@ export class TextFormatPipe implements PipeTransform {
         highlighted = hljs.highlightAuto(text).value;
       }
       return `
-        <pre class="code-block-wrapper">
-          <code class="hljs ${lang}">${highlighted}
-            <button mat-icon-button class="copy-button" data-clipboard-text="${text}">
-              <mat-icon>content_copy</mat-icon>
-            </button>
-          </code>
+       <pre class="code-block-wrapper">
+          <button class="copy-button" data-clipboard-text="${text}">copy</button>
+          <code class="hljs ${lang}">${highlighted}</code>
         </pre>
       `;
     };

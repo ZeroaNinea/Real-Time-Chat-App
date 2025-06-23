@@ -69,3 +69,31 @@ body {
   border-radius: 5px;
   padding: 2px 8px 2px 8px;
 }
+
+.code-block-wrapper {
+  display: flex;
+  flex-direction: raw;
+  gap: 0.1rem;
+
+  .copy-button {
+    @include mat.theme(
+      (
+        color: mat.$rose-palette,
+      )
+    );
+    cursor: pointer;
+    // padding: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    height: 1.5rem;
+    // width: 1rem;
+
+    border-radius: 5px;
+    // box-shadow: none;
+    border: none;
+
+    & {
+      background-color: var(--mat-sys-primary-container);
+    }
+  }
+}
