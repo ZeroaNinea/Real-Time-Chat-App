@@ -26,14 +26,20 @@ export class PrivateUserCardComponent {
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
 
-  environment = environment;
+  private environment = environment;
+  public isChecked: boolean = false;
 
   get otherUser(): PopulatedUser | undefined {
     return this.members.find((m) => m.user._id !== this.currentUserId);
   }
 
   copyId(userId: string | undefined): void {
+    this.isChecked = true;
     navigator.clipboard.writeText(userId || '');
+
+    setTimeout(() => {
+      this.isChecked = false;
+    }, 2000);
   }
 
   getAvatarUrl(userId: string | undefined): string {

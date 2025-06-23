@@ -33,7 +33,9 @@
         (click)="copyId(otherUser.user._id)"
         class="primary"
       >
-        <mat-icon>content_copy</mat-icon>
+        <mat-icon>
+          @if (isChecked === false) { content_copy } @else { check }
+        </mat-icon>
         Copy ID
       </button>
       <button
