@@ -58,6 +58,7 @@ export class UserCardDialogComponent implements OnChanges {
   editStatusMode = false;
   updatedStatus!: string;
   environment = environment;
+  isChecked: boolean = false;
 
   roleRanks: Record<string, number> = {
     Owner: 3,
@@ -318,6 +319,8 @@ export class UserCardDialogComponent implements OnChanges {
 
   copyUserId(): void {
     const id = this.data.selectedUser.user._id;
+    this.isChecked = true;
+
     navigator.clipboard
       .writeText(id)
       .then(() => {
@@ -329,6 +332,10 @@ export class UserCardDialogComponent implements OnChanges {
         console.error('Failed to copy user ID', err);
         this._snackbar.open('Failed to copy ID', 'Close', { duration: 2000 });
       });
+
+    setTimeout(() => {
+      this.isChecked = false;
+    }, 2000);
   }
 
   banUser(user: PopulatedUser) {
