@@ -1,6 +1,6 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked, Renderer, MarkedOptions } from 'marked';
+import { marked, Renderer } from 'marked';
 import * as DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
 
