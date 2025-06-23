@@ -39,8 +39,8 @@ export class TextFormatPipe implements PipeTransform {
       }
       return `
        <pre class="code-block-wrapper">
-          <button class="copy-button" data-code="${text}">copy</button>
           <code class="hljs ${lang}">${highlighted}</code>
+          <button class="copy-button" data-code="${text}">copy</button>
         </pre>
       `;
     };

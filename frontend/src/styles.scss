@@ -71,29 +71,42 @@ body {
 }
 
 .code-block-wrapper {
-  display: flex;
-  flex-direction: raw;
-  gap: 0.1rem;
+  position: relative;
+
+  code {
+    display: block;
+    overflow-x: auto !important;
+    padding-right: 5rem !important;
+  }
 
   .copy-button {
+    position: absolute;
+    top: 1.4rem;
+    right: 0.5rem;
+
     @include mat.theme(
       (
         color: mat.$rose-palette,
       )
     );
     cursor: pointer;
-    // padding: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     height: 1.5rem;
-    // width: 1rem;
-
     border-radius: 5px;
-    // box-shadow: none;
     border: none;
+
+    transition: background-color 0.2s ease;
+    transition: color 0.2s ease;
 
     & {
       background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-secondary-container);
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-primary-fixed-dim);
+      color: var(--mat-sys-on-primary-container);
     }
   }
 }
