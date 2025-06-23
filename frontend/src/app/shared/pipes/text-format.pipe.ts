@@ -37,7 +37,15 @@ export class TextFormatPipe implements PipeTransform {
       } else {
         highlighted = hljs.highlightAuto(text).value;
       }
-      return `<pre><code class="hljs ${lang}">${highlighted}</code></pre>`;
+      return `
+        <pre class="code-block-wrapper">
+          <code class="hljs ${lang}">${highlighted}
+            <button mat-icon-button class="copy-button" data-clipboard-text="${text}">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </code>
+        </pre>
+      `;
     };
 
     Renderer.prototype.codespan = function ({ text }) {
