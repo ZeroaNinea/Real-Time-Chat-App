@@ -636,7 +636,7 @@ export class ChatRoomComponent implements OnDestroy {
               .subscribe((replies) => {
                 const olderReplies = this.replyMessages();
                 this.replyMessages.set([...replies, ...olderReplies]);
-                // console.log('Reply messages:', replies);
+                console.log('Reply messages:', replies);
               });
           }
 

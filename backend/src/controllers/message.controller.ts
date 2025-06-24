@@ -96,13 +96,6 @@ export const getReplyMessages = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Missing chatId or channelId' });
     }
 
-    if (
-      !Array.isArray(replyToIds) ||
-      !replyToIds.every((id) => typeof id === 'string')
-    ) {
-      return res.status(400).json({ error: 'Invalid replyToIds' });
-    }
-
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
       return res.status(403).json({ error: 'Not authorized' });
@@ -132,13 +125,6 @@ export const getPrivateReplyMessages = async (req: Request, res: Response) => {
 
     if (!chatId) {
       return res.status(400).json({ error: 'Missing chatId' });
-    }
-
-    if (
-      !Array.isArray(replyToIds) ||
-      !replyToIds.every((id) => typeof id === 'string')
-    ) {
-      return res.status(400).json({ error: 'Invalid replyToIds' });
     }
 
     const chat = await Chat.findById(chatId);
