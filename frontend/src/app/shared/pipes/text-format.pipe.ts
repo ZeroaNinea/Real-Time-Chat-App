@@ -17,13 +17,19 @@ export class TextFormatPipe implements PipeTransform {
       let text = this.parser.parseInline(tokens);
 
       text = text
-        .replace(/\[color=(.*?)\](.*?)\[\/color\]/g, (_, color, content) => {
-          const allowed = ['red', 'green', 'blue'];
-          if (allowed.includes(color)) {
-            return `<span style="color:${color}">${content}</span>`;
+        .replace(
+          /\[color=(#[0-9a-fA-F]{3,6}|red|green|blue)\](.*?)\[\/color\]/g,
+          (_, color, content) => {
+            const isNamed = ['red', 'green', 'blue'].includes(color);
+            const isHex = /^#[0-9a-fA-F]{3,6}$/.test(color);
+
+            if (isNamed || isHex) {
+              return `<span style="color: ${color}">${content}</span>`;
+            }
+
+            return content;
           }
-          return content;
-        })
+        )
         .replace(/--(.*?)--/g, '<u>$1</u>')
         .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>');
 
