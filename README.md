@@ -182,7 +182,7 @@ backend/
 <br />
 ✅ Step 14: Display message history
 <br />
-➡️ Step 15: Add timestamps and online indicators
+✅ Step 15: Add timestamps
 <br />
 ✅ Step 16: Delete messages with the chat room
 <br />
