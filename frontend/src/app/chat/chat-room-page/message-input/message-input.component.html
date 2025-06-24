@@ -19,8 +19,17 @@
       class="message-textarea"
     ></textarea>
 
+    <emoji-mart
+      *ngIf="showEmojiPicker"
+      set="google"
+      theme="light"
+      (emojiSelect)="addEmoji($event)"
+    ></emoji-mart>
+
     <div class="button-row">
-      <button mat-icon-button><mat-icon>insert_emoticon</mat-icon></button>
+      <button mat-icon-button (click)="showEmojiPicker = !showEmojiPicker">
+        <mat-icon>insert_emoticon</mat-icon>
+      </button>
       <button
         mat-icon-button
         (click)="replyingToMessage ? onReply($event) : onClick($event)"
