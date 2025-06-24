@@ -78,6 +78,10 @@ body {
     display: block;
     overflow-x: auto !important;
     padding-right: 5rem !important;
+
+    & {
+      box-shadow: 1px 1px 25px 1px var(--mat-sys-secondary-container);
+    }
   }
 
   .copy-button {
