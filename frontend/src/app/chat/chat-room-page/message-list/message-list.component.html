@@ -93,6 +93,9 @@
     >
       <mat-icon>delete</mat-icon>
     </button>
+    <button mat-icon-button matTooltip="Copy" (click)="onCopy.emit(msg.text)">
+      <mat-icon>content_copy</mat-icon>
+    </button>
   </div>
   }
 </div>
