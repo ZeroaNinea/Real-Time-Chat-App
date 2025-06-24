@@ -98,4 +98,23 @@ export class MessageInputComponent implements AfterViewInit {
     }
     return '';
   }
+
+  addEmoji(event: any) {
+    const emoji = event.emoji.native || event.emoji;
+    const textarea = this.textarea.nativeElement;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    const before = this.message.slice(0, start);
+    const after = this.message.slice(end);
+
+    this.message = before + emoji + after;
+    this.messageChange.emit(this.message);
+
+    setTimeout(() => {
+      const pos = start + emoji.length;
+      textarea.setSelectionRange(pos, pos);
+      textarea.focus();
+    });
+  }
 }
