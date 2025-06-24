@@ -19,12 +19,14 @@
       class="message-textarea"
     ></textarea>
 
+    @if (showEmojiPicker) {
     <emoji-mart
-      *ngIf="showEmojiPicker"
       set="google"
       theme="light"
       (emojiSelect)="addEmoji($event)"
+      class="emoji-picker"
     ></emoji-mart>
+    }
 
     <div class="button-row">
       <button mat-icon-button (click)="showEmojiPicker = !showEmojiPicker">
