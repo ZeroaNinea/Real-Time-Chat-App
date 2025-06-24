@@ -68,7 +68,6 @@ export class MessageListComponent {
   @Output() onEdit = new EventEmitter<Message>();
   @Output() onReply = new EventEmitter<Message>();
   @Output() loadOlderMessages = new EventEmitter<void>();
-  @Output() copyMessageText = new EventEmitter<string>();
 
   private dialog = inject(MatDialog);
 
@@ -240,7 +239,8 @@ export class MessageListComponent {
 
   onCopy(text: string) {
     this.isCopied = true;
-    this.copyMessageText.emit(text);
+
+    navigator.clipboard.writeText(text);
 
     setTimeout(() => {
       this.isCopied = false;

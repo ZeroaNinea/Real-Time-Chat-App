@@ -973,9 +973,4 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
-
-  copyMessageText(text: string) {
-    navigator.clipboard.writeText(text);
-    this._snackbar.open('Copied to clipboard', 'Close', { duration: 2000 });
-  }
 }
