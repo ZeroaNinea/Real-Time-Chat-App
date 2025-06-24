@@ -11,12 +11,14 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 @Component({
   selector: 'app-message-input',
-  imports: [FormsModule, MatIconModule, MatButtonModule],
+  imports: [FormsModule, MatIconModule, MatButtonModule, PickerModule],
   // inputs: ['message'], // Hey girl! You can specify the `@Input` this way if you want.
   // outputs: ['messageChange', 'send'], // Same for `@Output`.
   standalone: true,
@@ -39,6 +41,8 @@ export class MessageInputComponent implements AfterViewInit {
   @Output() replyToPrivateMessage = new EventEmitter<Message>();
 
   @ViewChild('textarea') textarea!: ElementRef<HTMLTextAreaElement>;
+
+  showEmojiPicker = false;
 
   ngAfterViewInit() {
     const textarea = this.textarea.nativeElement;
