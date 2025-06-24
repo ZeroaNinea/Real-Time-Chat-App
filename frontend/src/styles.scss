@@ -81,33 +81,41 @@ body {
   }
 
   .copy-button {
-    position: absolute;
-    top: 1.4rem;
-    right: 0.5rem;
-
     @include mat.theme(
       (
         color: mat.$rose-palette,
       )
     );
-    cursor: pointer;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+
+    position: absolute;
+    top: 1.4rem;
+    right: 0.5rem;
+    padding: 0 0.75rem;
     height: 1.5rem;
+    font-size: 0.75rem;
     border-radius: 5px;
     border: none;
+    cursor: pointer;
 
-    transition: background-color 0.2s ease;
-    transition: color 0.2s ease;
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-secondary-container);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-    & {
-      background-color: var(--mat-sys-primary-container);
-      color: var(--mat-sys-on-secondary-container);
-    }
+    transition: background-color 0.2s ease, color 0.2s ease,
+      transform 0.1s ease-in-out;
 
     &:hover {
       background-color: var(--mat-sys-primary-fixed-dim);
       color: var(--mat-sys-on-primary-container);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &.copied {
+      background-color: var(--mat-sys-tertiary);
+      color: var(--mat-sys-on-tertiary);
     }
   }
 }

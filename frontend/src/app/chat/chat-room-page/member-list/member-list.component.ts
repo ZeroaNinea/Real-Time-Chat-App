@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, inject, Input } from '@angular/core';
+import {
+  afterNextRender,
+  AfterViewInit,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -15,7 +21,7 @@ import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-car
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss',
 })
-export class MemberListComponent implements AfterViewInit {
+export class MemberListComponent {
   private dialog = inject(MatDialog);
 
   @Input() members: PopulatedUser[] = [];
@@ -31,18 +37,28 @@ export class MemberListComponent implements AfterViewInit {
   @Input() currentUserPendingRequests: string[] = [];
   environment = environment;
 
-  ngAfterViewInit() {
-    document.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-      if (target.classList.contains('copy-button')) {
-        const encoded = target.getAttribute('data-code');
-        if (encoded) {
-          const decoded = decodeURIComponent(encoded);
-          navigator.clipboard.writeText(decoded).then(() => {
-            console.log('Copied to clipboard');
-          });
+  constructor() {
+    afterNextRender(() => {
+      document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('copy-button')) {
+          const encoded = target.getAttribute('data-code');
+          if (encoded) {
+            const decoded = decodeURIComponent(encoded);
+            navigator.clipboard.writeText(decoded).then(() => {
+              console.log('Copied to clipboard');
+              target.classList.add('copied');
+              const originalText = target.textContent;
+              target.textContent = 'copied';
+
+              setTimeout(() => {
+                target.classList.remove('copied');
+                target.textContent = originalText;
+              }, 1200);
+            });
+          }
         }
-      }
+      });
     });
   }
 
