@@ -77,6 +77,10 @@
 
 .emoji-picker {
   position: absolute;
-  bottom: 0;
+  bottom: 120px;
   right: 0;
+  height: 400px;
+  overflow: scroll;
+  // width: 200px;
+  z-index: 1;
 }
