@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
 @import "highlight.js/styles/github.css";
+@import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
 
 @include mat.core();
 
