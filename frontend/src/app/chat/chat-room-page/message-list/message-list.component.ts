@@ -68,7 +68,7 @@ export class MessageListComponent {
   @Output() onEdit = new EventEmitter<Message>();
   @Output() onReply = new EventEmitter<Message>();
   @Output() loadOlderMessages = new EventEmitter<void>();
-  @Output() onCopy = new EventEmitter<string>();
+  @Output() copyMessageText = new EventEmitter<string>();
 
   private dialog = inject(MatDialog);
 
@@ -85,6 +85,8 @@ export class MessageListComponent {
 
     return this.messages.filter((msg) => msg.channelId === this.channelId);
   }
+
+  isCopied = false;
 
   isGrouped(index: number): boolean {
     if (index === 0) return true;
@@ -234,5 +236,14 @@ export class MessageListComponent {
     const trimmed = text.slice(0, max).trim();
     if (trimmed.length === text.length) return trimmed;
     return trimmed.replace(/\.+$/, '') + '...';
+  }
+
+  onCopy(text: string) {
+    this.isCopied = true;
+    this.copyMessageText.emit(text);
+
+    setTimeout(() => {
+      this.isCopied = false;
+    }, 2000);
   }
 }
