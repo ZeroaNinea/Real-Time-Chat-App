@@ -193,6 +193,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  listenAddToReplies(): Observable<Message> {
+    return new Observable((observer) => {
+      this.socket.on('messageAddedToReplies', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
   listenUserUpdates(): Observable<AbbreviatedPopulatedUser> {
     return new Observable((observer) => {
       this.socket.on('userUpdated', (data) => {

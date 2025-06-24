@@ -188,7 +188,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       });
 
       io.to(chat._id.toString()).emit('messageReplied', reply);
-      io.to(chat._id.toString()).emit('addToReplies', message);
+      io.to(chat._id.toString()).emit('messageAddedToReplies', message);
       callback?.({ success: true, message: reply });
     } catch (err) {
       console.error(err);
@@ -247,7 +247,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       });
 
       io.to(chat._id.toString()).emit('messageReplied', reply);
-      io.to(chat._id.toString()).emit('addToReplies', message);
+      io.to(chat._id.toString()).emit('messageAddedToReplies', message);
       callback?.({ success: true, message: reply });
     } catch (err) {
       console.error(err);
