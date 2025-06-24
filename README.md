@@ -230,7 +230,7 @@ backend/
 <br />
 ➡️ Step 33: Add a GIF picker button.
 <br />
-➡️ Step 34: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
+✅ Step 34: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
 <br />
 ✅ Step 35: Implement role assignment
 <br />
