@@ -22,7 +22,7 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
-import { TextFormatPipe } from '../../../shared/pipes/text-format.pipe';
+import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pipe';
 
 @Component({
   selector: 'app-message-list',
