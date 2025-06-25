@@ -21,7 +21,7 @@
 
     <div class="button-row">
       <button mat-icon-button (click)="showGifPicker = !showGifPicker">
-        <mat-icon>gif_box</mat-icon>
+        <mat-icon>gif</mat-icon>
       </button>
       <button mat-icon-button (click)="showEmojiPicker = !showEmojiPicker">
         <mat-icon>insert_emoticon</mat-icon>
@@ -42,6 +42,6 @@
     class="emoji-picker"
   ></emoji-mart>
   } @if (showGifPicker) {
-  <app-gif-picker (select)="onGifSelected($event)" />
+  <app-gif-picker (select)="onGifSelected($event)" class="gif-picker" />
   }
 </div>
