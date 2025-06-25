@@ -258,6 +258,8 @@ backend/
 <br />
 ➡️ Step 47: Show friend activity status
 <br />
+➡️ Step 48: Implement reactions
+<br />
 
 ## Next steps
 
