@@ -1,1 +1,12 @@
-<p>gif-picker works!</p>
+<div class="gif-picker">
+  <input
+    [(ngModel)]="searchTerm"
+    (input)="search()"
+    placeholder="Search GIFs..."
+  />
+  <div class="gif-grid">
+    @for (gif of gifs; track $index) {
+    <img [src]="gif" (click)="selectGif(gif)" class="gif" />
+    }
+  </div>
+</div>
