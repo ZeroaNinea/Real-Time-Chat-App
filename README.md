@@ -224,7 +224,7 @@ backend/
 <br />
 ✅ Step 30: Add a send button icon
 <br />
-➡️ Step 31: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
+✅ Step 31: Add an emoji picker button (use Angular emoji picker `ngx-emoji-mart`)
 <br />
 ➡️ Step 32: Add an upload attachment button (images, videos, GIFs etc...)
 <br />
