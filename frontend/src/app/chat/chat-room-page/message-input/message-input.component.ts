@@ -15,10 +15,17 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
+import { GifPickerComponent } from '../../../shared/components/gif-picker/gif-picker.component';
 
 @Component({
   selector: 'app-message-input',
-  imports: [FormsModule, MatIconModule, MatButtonModule, PickerModule],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    PickerModule,
+    GifPickerComponent,
+  ],
   // inputs: ['message'], // Hey girl! You can specify the `@Input` this way if you want.
   // outputs: ['messageChange', 'send'], // Same for `@Output`.
   standalone: true,
@@ -43,6 +50,7 @@ export class MessageInputComponent implements AfterViewInit {
   @ViewChild('textarea') textarea!: ElementRef<HTMLTextAreaElement>;
 
   showEmojiPicker = false;
+  showGifPicker = false;
 
   ngAfterViewInit() {
     const textarea = this.textarea.nativeElement;
@@ -116,5 +124,12 @@ export class MessageInputComponent implements AfterViewInit {
       textarea.setSelectionRange(pos, pos);
       textarea.focus();
     });
+  }
+
+  onGifSelected(url: string) {
+    // Insert markdown image syntax or raw URL.
+    this.message += ` ![](${url}) `;
+    this.messageChange.emit(this.message);
+    this.showGifPicker = false;
   }
 }

@@ -20,7 +20,9 @@
     ></textarea>
 
     <div class="button-row">
-      <button mat-icon-button><mat-icon>gif_box</mat-icon></button>
+      <button mat-icon-button (click)="showGifPicker = !showGifPicker">
+        <mat-icon>gif_box</mat-icon>
+      </button>
       <button mat-icon-button (click)="showEmojiPicker = !showEmojiPicker">
         <mat-icon>insert_emoticon</mat-icon>
       </button>
@@ -39,5 +41,7 @@
     (emojiSelect)="addEmoji($event)"
     class="emoji-picker"
   ></emoji-mart>
+  } @if (showGifPicker) {
+  <app-gif-picker (select)="onGifSelected($event)" />
   }
 </div>
