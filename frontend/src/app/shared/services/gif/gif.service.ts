@@ -18,12 +18,12 @@ export class GifService {
   searchGifs(query: string, limit = 20) {
     const url = `${this.baseUrl}/search?q=${encodeURIComponent(query)}&key=${
       this.apiKey
-    }&limit=${limit}&media_filter=gif`;
+    }&client_key=mychatapp&limit=${limit}&media_filter=gif`;
     return this.http.get<{ results: any[] }>(url);
   }
 
   trendingGifs(limit = 20) {
-    const url = `${this.baseUrl}/featured?key=${this.apiKey}&limit=${limit}&media_filter=gif`;
+    const url = `${this.baseUrl}/featured?key=${this.apiKey}&client_key=mychatapp&limit=${limit}&media_filter=gif`;
     return this.http.get<{ results: any[] }>(url);
   }
 }
