@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,21 @@ export class GifService {
     const url = `${this.baseUrl}/search?q=${encodeURIComponent(query)}&key=${
       this.apiKey
     }&client_key=my_test_app&limit=${limit}`;
-    return this.http.get<{ results: any[] }>(url);
+    return this.http.get<{ results: any[] }>(url).pipe(
+      catchError((error) => {
+        console.error('Error fetching GIFs:', error);
+        return of({ results: [] });
+      })
+    );
   }
 
   trendingGifs(limit = 20) {
     const url = `${this.baseUrl}/featured?key=${this.apiKey}&client_key=my_test_app&limit=${limit}`;
-    return this.http.get<{ results: any[] }>(url);
+    return this.http.get<{ results: any[] }>(url).pipe(
+      catchError((error) => {
+        console.error('Error fetching GIFs:', error);
+        return of({ results: [] });
+      })
+    );
   }
 }
