@@ -22,6 +22,7 @@ export class GifService {
     }&client_key=my_test_app&limit=${limit}`;
     return this.http.get<{ results: any[] }>(url).pipe(
       catchError((error) => {
+        console.log('Catching errors: searchGifs');
         console.error('Error fetching GIFs:', error);
         return of({ results: [] });
       })
@@ -32,6 +33,7 @@ export class GifService {
     const url = `${this.baseUrl}/featured?key=${this.apiKey}&client_key=my_test_app&limit=${limit}`;
     return this.http.get<{ results: any[] }>(url).pipe(
       catchError((error) => {
+        console.log('Catching errors: trendingGifs');
         console.error('Error fetching GIFs:', error);
         return of({ results: [] });
       })
