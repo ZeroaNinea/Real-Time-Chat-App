@@ -30,8 +30,8 @@ export class GifService {
   }
 
   trendingGifs(limit = 20) {
+    // const limitStr = limit.toString();
     const url = `${this.baseUrl}/search?q=excited&key=${this.apiKey}&client_key=my_test_app&limit=${limit}`;
-    // https://tenor.googleapis.com/v2/search?q=excited&key=AIzaSyCeUgqzaZhxMmo_mgpkeXbXgFAfm8zoAX4&client_key=my_test_app&limit=8
     return this.http.get<{ results: any[] }>(url).pipe(
       catchError((error) => {
         console.log('Catching errors: trendingGifs');
