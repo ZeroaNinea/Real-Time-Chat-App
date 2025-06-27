@@ -1,10 +1,12 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GifService } from '../../services/gif/gif.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-gif-picker',
-  imports: [FormsModule],
+  imports: [FormsModule, MatButtonModule, MatIconModule],
   standalone: true,
   templateUrl: './gif-picker.component.html',
   styleUrl: './gif-picker.component.scss',
