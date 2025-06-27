@@ -16,7 +16,6 @@ import { ChatRoomRole } from '../../models/chat-room-roles.alias';
 import { ChatRooms } from '../../models/chat-rooms.interface';
 import { PopulatedNotification } from '../../models/notification.model';
 import { PrivateChatRoom } from '../../models/private-chat-room.model';
-import { removeFavorite } from '../../../../../../../backend/src/controllers/favorites.controller';
 
 @Injectable({
   providedIn: 'root',
