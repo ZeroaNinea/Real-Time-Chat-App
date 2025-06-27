@@ -42,11 +42,6 @@ export class GifPickerComponent {
   loadMore() {
     if (!this.next) return;
 
-    // const method = this.searchTerm.trim() ? 'searchGifs' : 'trendingGifs';
-    // this.gifService[method](this.searchTerm, 20, this.next).subscribe((res) => {
-    //   this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
-    //   this.next = res.next;
-    // });
     if (this.searchTerm) {
       this.gifService
         .searchGifs(this.searchTerm, 20, this.next)
