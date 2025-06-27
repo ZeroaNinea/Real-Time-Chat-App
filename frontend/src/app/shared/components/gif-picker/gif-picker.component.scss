@@ -47,6 +47,11 @@
 }
 
 .more-button {
-  display: flex;
   margin-top: 0.5rem;
+
+  .loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }

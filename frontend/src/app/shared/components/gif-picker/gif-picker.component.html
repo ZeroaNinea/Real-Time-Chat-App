@@ -17,9 +17,15 @@
   @if (next) {
   <button mat-stroked-button (click)="loadMore()" class="primary more-button">
     @if (isLoading) {
-    <mat-spinner diameter="20"></mat-spinner>
-    Loading... } @else {
-    <mat-icon>refresh</mat-icon>
+    <div class="loading">
+      <mat-spinner diameter="20" class=""></mat-spinner>
+      Loading...
+    </div>
+    } @else {
+    <div class="load-more">
+      <mat-icon>refresh</mat-icon>
+      Load more
+    </div>
     }
   </button>
   }
