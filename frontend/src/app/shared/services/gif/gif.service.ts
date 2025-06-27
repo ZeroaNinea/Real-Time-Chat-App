@@ -16,24 +16,26 @@ export class GifService {
 
   constructor() {}
 
-  searchGifs(query: string, limit = 20) {
+  searchGifs(query: string, limit = 20, pos = '') {
     const url = `${this.baseUrl}/search?q=${encodeURIComponent(query)}&key=${
       this.apiKey
-    }&client_key=my_test_app&limit=${limit}`;
-    return this.http.get<{ results: any[] }>(url).pipe(
+    }&client_key=my_test_app&limit=${limit}${pos ? `&pos=${pos}` : ''}`;
+    return this.http.get<{ results: any[]; next: string }>(url).pipe(
       catchError((error) => {
         console.error('Error fetching GIFs:', error);
-        return of({ results: [] });
+        return of({ results: [], next: '' });
       })
     );
   }
 
-  trendingGifs(limit = 20) {
-    const url = `${this.baseUrl}/search?q=excited&key=${this.apiKey}&client_key=my_test_app&limit=${limit}`;
-    return this.http.get<{ results: any[] }>(url).pipe(
+  trendingGifs(limit = 20, pos = '') {
+    const url = `${this.baseUrl}/search?q=excited&key=${
+      this.apiKey
+    }&client_key=my_test_app&limit=${limit}${pos ? `&pos=${pos}` : ''}`;
+    return this.http.get<{ results: any[]; next: string }>(url).pipe(
       catchError((error) => {
         console.error('Error fetching GIFs:', error);
-        return of({ results: [] });
+        return of({ results: [], next: '' });
       })
     );
   }
