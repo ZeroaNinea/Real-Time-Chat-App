@@ -9,4 +9,8 @@
     <img [src]="gif" (click)="selectGif(gif)" class="gif" />
     }
   </div>
+
+  @if (next) {
+  <button (click)="loadMore()" class="load-more">Load More</button>
+  }
 </div>

@@ -16,22 +16,48 @@ export class GifPickerComponent {
 
   searchTerm = '';
   gifs: string[] = [];
+  next: string = '';
 
   constructor() {
     this.loadTrending();
   }
 
   loadTrending() {
-    this.gifService.trendingGifs().subscribe((res) => {
+    this.gifService.trendingGifs(20).subscribe((res) => {
       this.gifs = res.results.map((r) => r.media_formats.gif.url);
+      this.next = res.next;
     });
   }
 
   search() {
     if (!this.searchTerm.trim()) return this.loadTrending();
-    this.gifService.searchGifs(this.searchTerm).subscribe((res) => {
+    this.gifService.searchGifs(this.searchTerm, 20).subscribe((res) => {
       this.gifs = res.results.map((r) => r.media_formats.gif.url);
+      this.next = res.next;
     });
+  }
+
+  loadMore() {
+    if (!this.next) return;
+
+    // const method = this.searchTerm.trim() ? 'searchGifs' : 'trendingGifs';
+    // this.gifService[method](this.searchTerm, 20, this.next).subscribe((res) => {
+    //   this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
+    //   this.next = res.next;
+    // });
+    if (this.searchTerm) {
+      this.gifService
+        .searchGifs(this.searchTerm, 20, this.next)
+        .subscribe((res) => {
+          this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
+          this.next = res.next;
+        });
+    } else {
+      this.gifService.trendingGifs(20, this.next).subscribe((res) => {
+        this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
+        this.next = res.next;
+      });
+    }
   }
 
   selectGif(url: string) {
