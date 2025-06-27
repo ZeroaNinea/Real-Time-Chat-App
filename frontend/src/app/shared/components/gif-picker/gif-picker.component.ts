@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { GifService } from '../../services/gif/gif.service';
+import { ChatService } from '../../../chat/shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-gif-picker',
@@ -24,6 +25,7 @@ import { GifService } from '../../services/gif/gif.service';
 })
 export class GifPickerComponent {
   private gifService = inject(GifService);
+  private chatService = inject(ChatService);
 
   @Input() favoriteGifs: string[] = [];
 
@@ -77,5 +79,13 @@ export class GifPickerComponent {
 
   selectGif(url: string) {
     this.select.emit(url);
+  }
+
+  toggleFavorite(gifUrl: string) {
+    if (this.favoriteGifs.includes(gifUrl)) {
+      this.chatService.removeFavorite(gifUrl);
+    } else {
+      this.chatService.addFavorite(gifUrl);
+    }
   }
 }
