@@ -3,6 +3,7 @@ import express from 'express';
 import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../controllers/auth.controller';
 import {
+  addFavorite,
   getFavorites,
   removeFavorite,
 } from '../controllers/favorites.controller';
@@ -10,6 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/get-favorites', authMiddleware, asyncRoute(getFavorites));
+router.post('/add-favorite', authMiddleware, asyncRoute(addFavorite));
 router.delete('/remove-favorite', authMiddleware, asyncRoute(removeFavorite));
 
 export default router;
