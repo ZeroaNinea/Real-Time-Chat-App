@@ -20,10 +20,16 @@
     ></textarea>
 
     <div class="button-row">
-      <button mat-icon-button (click)="showGifPicker = !showGifPicker">
+      <button
+        mat-icon-button
+        (click)="showGifPicker = !showGifPicker; showEmojiPicker = false"
+      >
         <mat-icon>gif</mat-icon>
       </button>
-      <button mat-icon-button (click)="showEmojiPicker = !showEmojiPicker">
+      <button
+        mat-icon-button
+        (click)="showEmojiPicker = !showEmojiPicker; showGifPicker = false"
+      >
         <mat-icon>insert_emoticon</mat-icon>
       </button>
       <button
