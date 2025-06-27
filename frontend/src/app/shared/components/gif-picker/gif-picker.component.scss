@@ -46,7 +46,7 @@
         & {
           @include mat.theme(
             (
-              color: mat.$magenta-palette,
+              color: mat.$orange-palette,
             )
           );
         }
@@ -65,7 +65,7 @@
 .primary {
   @include mat.theme(
     (
-      color: mat.$yellow-palette,
+      color: mat.$blue-palette,
     )
   );
 }
