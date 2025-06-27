@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,6 +24,8 @@ import { GifService } from '../../services/gif/gif.service';
 })
 export class GifPickerComponent {
   private gifService = inject(GifService);
+
+  @Input() favoriteGifs: string[] = [];
 
   @Output() select = new EventEmitter<string>();
 
