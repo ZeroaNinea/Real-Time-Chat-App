@@ -289,6 +289,10 @@ export class ChatRoomComponent implements OnDestroy {
           console.log('Private chat rooms', this.privateChatRooms());
         });
       }
+
+      this.chatService.getFavorites().subscribe((favs) => {
+        console.log('Favorites', favs);
+      });
     });
   }
 
