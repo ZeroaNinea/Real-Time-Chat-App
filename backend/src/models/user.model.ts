@@ -14,6 +14,7 @@ export interface IUser {
   banlist?: ObjectId[];
   pendingRequests?: ObjectId[];
   deletionRequests?: ObjectId[];
+  favoriteGifs?: string[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -67,6 +68,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     },
     deletionRequests: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
+      default: [],
+    },
+    favoriteGifs: {
+      type: [String],
       default: [],
     },
   },
