@@ -16,8 +16,11 @@
 
   @if (next) {
   <button mat-stroked-button (click)="loadMore()" class="primary more-button">
-    More
-    <mat-icon>autorenew</mat-icon>
+    @if (isLoading) {
+    <mat-spinner diameter="20px"></mat-spinner>
+    Loading... } @else {
+    <mat-icon>refresh</mat-icon>
+    }
   </button>
   }
 </div>

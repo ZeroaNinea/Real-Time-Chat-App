@@ -1,10 +1,12 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GifService } from '../../services/gif/gif.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { GifService } from '../../services/gif/gif.service';
 
 @Component({
   selector: 'app-gif-picker',
@@ -14,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   standalone: true,
   templateUrl: './gif-picker.component.html',
@@ -27,7 +30,7 @@ export class GifPickerComponent {
   searchTerm = '';
   gifs: string[] = [];
   next: string = '';
-  loading = false;
+  isLoading = false;
 
   constructor() {
     this.loadTrending();
@@ -51,7 +54,7 @@ export class GifPickerComponent {
   loadMore() {
     if (!this.next) return;
 
-    this.loading = true;
+    this.isLoading = true;
 
     if (this.searchTerm) {
       this.gifService
@@ -67,7 +70,7 @@ export class GifPickerComponent {
       });
     }
 
-    setTimeout(() => (this.loading = false), 2000);
+    setTimeout(() => (this.isLoading = false), 1000);
   }
 
   selectGif(url: string) {
