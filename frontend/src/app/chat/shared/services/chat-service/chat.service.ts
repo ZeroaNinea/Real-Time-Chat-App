@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { Chat } from '../../models/chat.model';
 import { Channel } from '../../models/channel.model';
@@ -22,6 +22,7 @@ import { PrivateChatRoom } from '../../models/private-chat-room.model';
 })
 export class ChatService {
   private http = inject(HttpClient);
+  private favorites$ = new BehaviorSubject<string[]>([]);
 
   constructor() {}
 
@@ -184,5 +185,15 @@ export class ChatService {
     return this.http.get<PrivateChatRoom[]>(
       `${environment.backendUrl}/chat/private/get-private-chat-rooms`
     );
+  }
+
+  getFavorites() {
+    return this.http
+      .get<string[]>(`${environment.backendUrl}/favorites/get-favorites`)
+      .pipe(
+        tap((favs) => {
+          this.favorites$.next(favs);
+        })
+      );
   }
 }
