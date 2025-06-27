@@ -55,6 +55,10 @@ export class TextFormatPipe implements PipeTransform {
       return `<code class="code-span">${text}</code>`;
     };
 
+    Renderer.prototype.image = function ({ href }) {
+      return `<img src="${href}" class="image-gif">`;
+    };
+
     const escapeFormatting = (text: string) =>
       text
         .replace(/\\\*/g, '&#42;')
