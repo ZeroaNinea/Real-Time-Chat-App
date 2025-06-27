@@ -127,7 +127,6 @@ export class MessageInputComponent implements AfterViewInit {
   }
 
   onGifSelected(url: string) {
-    // Insert markdown image syntax or raw URL.
     this.message += ` ![](${url}) `;
     this.messageChange.emit(this.message);
     this.showGifPicker = false;
