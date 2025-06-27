@@ -26,21 +26,36 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    .gif {
-      width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      &:hover {
-        transform: scale(1.05);
-      }
-    }
+    .git-container {
+      .gif {
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: block;
 
-    .favorite-button {
-      position: absolute;
-      // top: 100px;
-      // right: 300px;
-      z-index: 3;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+
+      .favorite-button {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        z-index: 2;
+        padding: 2px;
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+        }
+
+        mat-icon {
+          font-size: 20px;
+        }
+      }
     }
   }
 }
