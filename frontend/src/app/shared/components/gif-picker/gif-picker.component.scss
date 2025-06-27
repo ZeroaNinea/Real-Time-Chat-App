@@ -2,8 +2,18 @@
 
 .gif-picker {
   background-color: var(--mat-sys-surface-container);
+  padding: 1rem;
+  border-radius: 12px;
 
   .search-field {
+    & {
+      @include mat.theme(
+        (
+          density: -2,
+        )
+      );
+    }
+
     width: 100%;
   }
 

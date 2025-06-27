@@ -27,6 +27,7 @@ export class GifPickerComponent {
   searchTerm = '';
   gifs: string[] = [];
   next: string = '';
+  loading = false;
 
   constructor() {
     this.loadTrending();
@@ -50,6 +51,8 @@ export class GifPickerComponent {
   loadMore() {
     if (!this.next) return;
 
+    this.loading = true;
+
     if (this.searchTerm) {
       this.gifService
         .searchGifs(this.searchTerm, 20, this.next)
@@ -63,6 +66,8 @@ export class GifPickerComponent {
         this.next = res.next;
       });
     }
+
+    setTimeout(() => (this.loading = false), 2000);
   }
 
   selectGif(url: string) {
