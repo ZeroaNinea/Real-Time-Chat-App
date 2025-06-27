@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models/user.model';
 
-export const getFavoriteGifs = async (req: Request, res: Response) => {
+export const getFavorites = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId).populate('favoriteGifs');
