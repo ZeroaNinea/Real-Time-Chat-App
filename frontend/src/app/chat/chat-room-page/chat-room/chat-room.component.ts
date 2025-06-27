@@ -99,6 +99,7 @@ export class ChatRoomComponent implements OnDestroy {
   readonly chatRoomRoles = signal<ChatRoomRole[]>([]);
   readonly privateChatRooms = signal<PrivateChatRoom[]>([]);
   readonly currentUser = this.authService.currentUser;
+  readonly favoriteGifs = signal<string[]>([]);
   readonly selectedChannel = computed(() => {
     const id = this.channelId();
     return id ? this.channels().find((c) => c._id === id) : null;
@@ -291,7 +292,8 @@ export class ChatRoomComponent implements OnDestroy {
       }
 
       this.chatService.getFavorites().subscribe((favs) => {
-        console.log('Favorites', favs);
+        this.favoriteGifs.set(favs);
+        console.log('Favorites', this.favoriteGifs());
       });
     });
   }
