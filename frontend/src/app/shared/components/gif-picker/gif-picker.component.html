@@ -1,9 +1,13 @@
 <div class="gif-picker">
-  <input
-    [(ngModel)]="searchTerm"
-    (input)="search()"
-    placeholder="Search GIFs..."
-  />
+  <mat-form-field appearance="outline">
+    <mat-label>Search GIFs</mat-label>
+    <input
+      matInput
+      [(ngModel)]="searchTerm"
+      (input)="search()"
+      placeholder="Search GIFs..."
+    />
+  </mat-form-field>
   <div class="gif-grid">
     @for (gif of gifs; track $index) {
     <img [src]="gif" (click)="selectGif(gif)" class="gif" />

@@ -3,10 +3,18 @@ import { FormsModule } from '@angular/forms';
 import { GifService } from '../../services/gif/gif.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-gif-picker',
-  imports: [FormsModule, MatButtonModule, MatIconModule],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   standalone: true,
   templateUrl: './gif-picker.component.html',
   styleUrl: './gif-picker.component.scss',
