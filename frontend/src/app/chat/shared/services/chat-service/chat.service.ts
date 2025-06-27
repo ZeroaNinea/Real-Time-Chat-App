@@ -196,4 +196,16 @@ export class ChatService {
         })
       );
   }
+
+  addFavorite(gifUrl: string) {
+    return this.http
+      .post<string[]>(`${environment.backendUrl}/favorites/add-favorite`, {
+        gifUrl,
+      })
+      .pipe(
+        tap((favs) => {
+          this.favorites$.next(favs);
+        })
+      );
+  }
 }
