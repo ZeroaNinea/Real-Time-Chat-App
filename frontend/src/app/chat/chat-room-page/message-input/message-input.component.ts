@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,6 +40,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() replyingToMessage: Message | null = null;
   @Input() members: PopulatedUser[] = [];
   @Input() isPrivate: boolean = false;
+  @Input() favoriteGifs = signal<string[]>([]);
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
