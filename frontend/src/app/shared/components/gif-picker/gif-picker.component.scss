@@ -1,9 +1,10 @@
 @use "@angular/material" as mat;
 
 .gif-picker {
-  background-color: var(--mat-sys-surface-container);
+  background-color: var(--mat-sys-background);
   padding: 1rem;
   border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
 
   .search-field {
     & {
