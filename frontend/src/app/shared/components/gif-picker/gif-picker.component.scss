@@ -23,16 +23,19 @@
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 0.5rem;
     max-height: 300px;
+    padding: 0.5rem;
     overflow-y: auto;
     overflow-x: hidden;
 
-    .git-container {
+    .gif-container {
+      position: relative;
+      border-radius: 8px;
+
       .gif {
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s;
-        display: block;
 
         &:hover {
           transform: scale(1.05);
@@ -40,21 +43,20 @@
       }
 
       .favorite-button {
+        & {
+          @include mat.theme(
+            (
+              color: mat.$magenta-palette,
+            )
+          );
+        }
+
         position: absolute;
-        top: 6px;
-        right: 6px;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 50%;
+        top: 5px;
+        right: 83px;
+        width: 30px;
+        height: 30px;
         z-index: 2;
-        padding: 2px;
-
-        &:hover {
-          background: rgba(255, 255, 255, 1);
-        }
-
-        mat-icon {
-          font-size: 20px;
-        }
       }
     }
   }
@@ -63,7 +65,7 @@
 .primary {
   @include mat.theme(
     (
-      color: mat.$blue-palette,
+      color: mat.$yellow-palette,
     )
   );
 }
