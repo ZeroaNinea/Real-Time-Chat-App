@@ -61,6 +61,13 @@
         z-index: 2;
       }
     }
+
+    .no-favorites {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
   }
 }
 

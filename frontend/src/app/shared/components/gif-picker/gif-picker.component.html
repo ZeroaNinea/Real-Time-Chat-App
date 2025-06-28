@@ -31,8 +31,8 @@
       </div>
     </mat-tab>
     <mat-tab label="Favorites">
+      @if (areThereFavorites()) { @for (gif of favoriteGifs; track $index) {
       <div class="gif-grid">
-        @if (areThereFavorites()) { @for (gif of favoriteGifs; track $index) {
         <div class="gif-container">
           <img [src]="gif" (click)="selectGif(gif)" class="gif" />
           <button
@@ -44,10 +44,10 @@
             <mat-icon>star</mat-icon>
           </button>
         </div>
-        } } @else {
-        <div class="no-favorites">No favorites yet.</div>
-        }
       </div>
+      } } @else {
+      <div class="no-favorites">No favorites yet.</div>
+      }
     </mat-tab>
   </mat-tab-group>
 
