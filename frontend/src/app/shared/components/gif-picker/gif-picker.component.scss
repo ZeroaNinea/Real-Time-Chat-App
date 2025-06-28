@@ -18,45 +18,49 @@
     width: 100%;
   }
 
-  .gif-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.5rem;
-    max-height: 300px;
-    padding: 0.5rem;
-    overflow-y: auto;
-    overflow-x: hidden;
+  mat-tab-group {
+    mat-tab {
+      .gif-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.5rem;
+        max-height: 300px;
+        padding: 0.5rem;
+        overflow-y: auto;
+        overflow-x: hidden;
 
-    .gif-container {
-      position: relative;
-      border-radius: 8px;
+        .gif-container {
+          position: relative;
+          border-radius: 8px;
 
-      .gif {
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s;
+          .gif {
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
 
-        &:hover {
-          transform: scale(1.05);
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+
+          .favorite-button {
+            & {
+              @include mat.theme(
+                (
+                  color: mat.$orange-palette,
+                )
+              );
+            }
+
+            position: absolute;
+            top: 5px;
+            right: 83px;
+            width: 30px;
+            height: 30px;
+            z-index: 2;
+          }
         }
-      }
-
-      .favorite-button {
-        & {
-          @include mat.theme(
-            (
-              color: mat.$orange-palette,
-            )
-          );
-        }
-
-        position: absolute;
-        top: 5px;
-        right: 83px;
-        width: 30px;
-        height: 30px;
-        z-index: 2;
       }
     }
   }

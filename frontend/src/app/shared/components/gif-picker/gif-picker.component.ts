@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GifService } from '../../services/gif/gif.service';
 import { ChatService } from '../../../chat/shared/services/chat-service/chat.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-gif-picker',
@@ -20,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatTabsModule,
   ],
   standalone: true,
   templateUrl: './gif-picker.component.html',
