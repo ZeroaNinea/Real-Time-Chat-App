@@ -49,33 +49,3 @@ body {
   margin-top: 0.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
-
-.particle {
-  & {
-    @include mat.theme(
-      (
-        color: mat.$orange-palette,
-      )
-    );
-  }
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: var(--mat-sys-primary);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: burst 600ms ease-out forwards;
-  pointer-events: none;
-  z-index: 3;
-}
-
-@keyframes burst {
-  100% {
-    transform: translate(calc(var(--x, 0) * 40px), calc(var(--y, 0) * 40px))
-      scale(0);
-    opacity: 0;
-  }
-}
