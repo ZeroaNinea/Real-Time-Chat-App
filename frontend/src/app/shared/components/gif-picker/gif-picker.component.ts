@@ -73,11 +73,13 @@ export class GifPickerComponent {
       this.gifService
         .searchGifs(this.searchTerm, 20, this.next)
         .subscribe((res) => {
+          this.gifs = [];
           this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
           this.next = res.next;
         });
     } else {
       this.gifService.trendingGifs(20, this.next).subscribe((res) => {
+        this.gifs = [];
         this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
         this.next = res.next;
       });
