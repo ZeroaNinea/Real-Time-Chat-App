@@ -90,7 +90,14 @@ export class GifPickerComponent {
     this.select.emit(url);
   }
 
-  toggleFavorite(gifUrl: string) {
+  toggleFavorite(gifUrl: string, event: MouseEvent) {
+    const button = (event.currentTarget as HTMLElement).parentElement!;
+    const container = button.querySelector('.particle-container');
+
+    if (!container) return;
+
+    this.animateParticles(container);
+
     if (this.favoriteGifs.includes(gifUrl)) {
       this.chatService.removeFavorite(gifUrl).subscribe(() => {
         console.log('Favorite removed:', gifUrl);

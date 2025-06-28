@@ -20,7 +20,7 @@
             <button
               mat-mini-fab
               matTooltip="Add to favorites"
-              (click)="toggleFavorite(gif)"
+              (click)="toggleFavorite(gif, $event)"
               class="favorite-button"
             >
               <mat-icon>{{
@@ -43,7 +43,7 @@
             <button
               mat-mini-fab
               matTooltip="Remove from favorites"
-              (click)="toggleFavorite(gif)"
+              (click)="toggleFavorite(gif, $event)"
               class="favorite-button"
             >
               <mat-icon>star</mat-icon>
