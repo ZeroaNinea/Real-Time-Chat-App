@@ -67,11 +67,11 @@
 
         .particle-container {
           position: absolute;
-          top: 2px;
-          right: 83px;
-          pointer-events: none;
+          top: 0;
+          left: 0;
           width: 30px;
           height: 30px;
+          pointer-events: none;
           overflow: visible;
           z-index: 3;
 
