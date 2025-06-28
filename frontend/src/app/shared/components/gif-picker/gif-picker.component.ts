@@ -123,9 +123,9 @@ export class GifPickerComponent {
       });
       container.appendChild(particle);
 
-      // setTimeout(() => {
-      //   container.removeChild(particle);
-      // }, 600);
+      setTimeout(() => {
+        container.removeChild(particle);
+      }, 600);
     }
   }
 
