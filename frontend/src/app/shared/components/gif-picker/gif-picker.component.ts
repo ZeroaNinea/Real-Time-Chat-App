@@ -101,4 +101,8 @@ export class GifPickerComponent {
       });
     }
   }
+
+  areThereFavorites() {
+    return this.favoriteGifs.length > 0;
+  }
 }
