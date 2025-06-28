@@ -28,7 +28,6 @@ export class ChatService {
     afterNextRender(() => {
       this.getFavorites().subscribe((favs) => {
         this.favorites$.next(favs);
-        console.log('favoriteGifs', this.favorites$);
       });
     });
   }
@@ -205,7 +204,6 @@ export class ChatService {
   }
 
   addFavorite(gifUrl: string) {
-    console.log('addFavorite called in the servce:', gifUrl);
     return this.http
       .post<string[]>(`${environment.backendUrl}/favorites/add-favorite`, {
         gifUrl,
