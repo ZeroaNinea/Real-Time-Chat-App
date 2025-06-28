@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { GifService } from '../../services/gif/gif.service';
 import { ChatService } from '../../../chat/shared/services/chat-service/chat.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-gif-picker',
@@ -18,6 +19,7 @@ import { ChatService } from '../../../chat/shared/services/chat-service/chat.ser
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   standalone: true,
   templateUrl: './gif-picker.component.html',
