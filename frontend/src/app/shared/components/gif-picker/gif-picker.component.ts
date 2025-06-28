@@ -113,8 +113,10 @@ export class GifPickerComponent {
     for (let i = 0; i < 12; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-      particle.style.setProperty('--x', `${Math.random() * 2 - 1}`);
-      particle.style.setProperty('--y', `${Math.random() * 2 - 1}`);
+      requestAnimationFrame(() => {
+        particle.style.setProperty('--x', `${Math.random() * 2 - 1}`);
+        particle.style.setProperty('--y', `${Math.random() * 2 - 1}`);
+      });
       container.appendChild(particle);
 
       setTimeout(() => {
