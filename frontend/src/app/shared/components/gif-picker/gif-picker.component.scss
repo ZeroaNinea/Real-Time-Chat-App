@@ -67,25 +67,27 @@
 
         .particle-container {
           position: absolute;
-          top: 5px;
+          top: 2px;
           right: 83px;
           pointer-events: none;
           width: 30px;
           height: 30px;
           overflow: visible;
           z-index: 3;
-        }
 
-        .particle {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 6px;
-          height: 6px;
-          background: gold;
-          border-radius: 50%;
-          animation: burst 600ms ease-out forwards;
-          transform: translate(-50%, -50%);
+          .particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: gold;
+            border-radius: 50%;
+            animation: burst 600ms ease-out forwards;
+            transform: translate(-50%, -50%);
+
+            z-index: 3;
+          }
         }
 
         @keyframes burst {
@@ -134,5 +136,12 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+}
+
+@keyframes burst {
+  100% {
+    transform: translate(calc(var(--x) * 40px), calc(var(--y) * 40px)) scale(0);
+    opacity: 0;
   }
 }
