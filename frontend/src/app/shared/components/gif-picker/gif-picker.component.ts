@@ -27,7 +27,7 @@ export class GifPickerComponent {
   private gifService = inject(GifService);
   private chatService = inject(ChatService);
 
-  @Input() favoriteGifs: string[] = [];
+  favoriteGifs: string[] = [];
 
   @Output() select = new EventEmitter<string>();
 
@@ -38,6 +38,10 @@ export class GifPickerComponent {
 
   constructor() {
     this.loadTrending();
+
+    this.chatService.favorites$.subscribe((favs) => {
+      this.favoriteGifs = favs;
+    });
   }
 
   loadTrending() {
