@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .particle {
   & {
     @include mat.theme(

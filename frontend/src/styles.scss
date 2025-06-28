@@ -3,6 +3,7 @@
 @import "styles/text-formatting.scss";
 @import "styles/star.scss";
 @import "styles/emoji.scss";
+@import "styles/image-gif.scss";
 
 @import "highlight.js/styles/github.css";
 @import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
@@ -38,12 +39,4 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.image-gif {
-  max-width: 365px;
-  max-height: 365px;
-  border-radius: 0.5rem;
-  margin-top: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
