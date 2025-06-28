@@ -22,7 +22,7 @@ import { PrivateChatRoom } from '../../models/private-chat-room.model';
 })
 export class ChatService {
   private http = inject(HttpClient);
-  private favorites$ = new BehaviorSubject<string[]>([]);
+  favorites$ = new BehaviorSubject<string[]>([]);
 
   constructor() {
     afterNextRender(() => {
