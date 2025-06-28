@@ -207,7 +207,7 @@ export class ChatService {
   addFavorite(gifUrl: string) {
     console.log('addFavorite called in the servce:', gifUrl);
     return this.http
-      .post<string[]>(`${environment.backendUrl}/favorites/add-favorites`, {
+      .post<string[]>(`${environment.backendUrl}/favorites/add-favorite`, {
         gifUrl,
       })
       .pipe(

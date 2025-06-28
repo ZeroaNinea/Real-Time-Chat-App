@@ -40,7 +40,6 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() replyingToMessage: Message | null = null;
   @Input() members: PopulatedUser[] = [];
   @Input() isPrivate: boolean = false;
-  @Input() favoriteGifs = signal<string[]>([]);
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
