@@ -114,14 +114,16 @@ export class GifPickerComponent {
       const particle = document.createElement('div');
       particle.className = 'particle';
       requestAnimationFrame(() => {
+        particle.style.setProperty('height', `6px`);
+        particle.style.setProperty('width', `6px`);
         particle.style.setProperty('--x', `${Math.random() * 2 - 1}`);
         particle.style.setProperty('--y', `${Math.random() * 2 - 1}`);
       });
       container.appendChild(particle);
 
-      setTimeout(() => {
-        container.removeChild(particle);
-      }, 600);
+      // setTimeout(() => {
+      //   container.removeChild(particle);
+      // }, 600);
     }
   }
 
