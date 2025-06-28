@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { afterNextRender, inject, Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
@@ -24,7 +24,14 @@ export class ChatService {
   private http = inject(HttpClient);
   private favorites$ = new BehaviorSubject<string[]>([]);
 
-  constructor() {}
+  constructor() {
+    afterNextRender(() => {
+      this.getFavorites();
+      this.favorites$.subscribe((favs) => {
+        console.log('favs', favs);
+      });
+    });
+  }
 
   createChatRoom(data: FormData) {
     return this.http.post<Chat>(
@@ -198,8 +205,9 @@ export class ChatService {
   }
 
   addFavorite(gifUrl: string) {
+    console.log('addFavorite called in the servce:', gifUrl);
     return this.http
-      .post<string[]>(`${environment.backendUrl}/favorites/add-favorite`, {
+      .post<string[]>(`${environment.backendUrl}/favorites/add-favorites`, {
         gifUrl,
       })
       .pipe(

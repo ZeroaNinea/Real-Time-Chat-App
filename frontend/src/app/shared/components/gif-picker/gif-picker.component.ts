@@ -82,9 +82,11 @@ export class GifPickerComponent {
   }
 
   toggleFavorite(gifUrl: string) {
+    console.log('Favorite gif:', gifUrl);
     if (this.favoriteGifs.includes(gifUrl)) {
       this.chatService.removeFavorite(gifUrl);
     } else {
+      console.log('Adding favorite gif:', gifUrl);
       this.chatService.addFavorite(gifUrl);
     }
   }
