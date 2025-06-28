@@ -87,12 +87,14 @@ export class GifPickerComponent {
   }
 
   toggleFavorite(gifUrl: string) {
-    console.log('Favorite gif:', gifUrl);
     if (this.favoriteGifs.includes(gifUrl)) {
-      this.chatService.removeFavorite(gifUrl);
+      this.chatService.removeFavorite(gifUrl).subscribe(() => {
+        console.log('Favorite removed:', gifUrl);
+      });
     } else {
-      console.log('Adding favorite gif:', gifUrl);
-      this.chatService.addFavorite(gifUrl);
+      this.chatService.addFavorite(gifUrl).subscribe(() => {
+        console.log('Favorite added:', gifUrl);
+      });
     }
   }
 }

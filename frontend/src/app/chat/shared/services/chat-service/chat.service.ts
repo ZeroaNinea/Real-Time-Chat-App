@@ -26,9 +26,9 @@ export class ChatService {
 
   constructor() {
     afterNextRender(() => {
-      this.getFavorites();
-      this.favorites$.subscribe((favs) => {
-        console.log('favs', favs);
+      this.getFavorites().subscribe((favs) => {
+        this.favorites$.next(favs);
+        console.log('favoriteGifs', this.favorites$);
       });
     });
   }
