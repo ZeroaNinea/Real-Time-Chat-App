@@ -44,21 +44,23 @@
         }
       }
 
-      .favorite-button {
-        & {
-          @include mat.theme(
-            (
-              color: mat.$orange-palette,
-            )
-          );
-        }
-
+      .favorite-wrapper {
         position: absolute;
         top: 5px;
-        right: 83px;
+        right: 5px;
         width: 30px;
         height: 30px;
         z-index: 2;
+
+        .favorite-button {
+          & {
+            @include mat.theme(
+              (
+                color: mat.$orange-palette,
+              )
+            );
+          }
+        }
       }
     }
   }

@@ -16,16 +16,19 @@
         @for (gif of gifs; track $index) {
         <div class="gif-container">
           <img [src]="gif" (click)="selectGif(gif)" class="gif" />
-          <button
-            mat-mini-fab
-            matTooltip="Add to favorites"
-            (click)="toggleFavorite(gif)"
-            class="favorite-button"
-          >
-            <mat-icon>{{
-              favoriteGifs.includes(gif) ? "star" : "star_border"
-            }}</mat-icon>
-          </button>
+          <div class="favorite-wrapper">
+            <button
+              mat-mini-fab
+              matTooltip="Add to favorites"
+              (click)="toggleFavorite(gif)"
+              class="favorite-button"
+            >
+              <mat-icon>{{
+                favoriteGifs.includes(gif) ? "star" : "star_border"
+              }}</mat-icon>
+            </button>
+            <div class="particle-container" #particleContainer></div>
+          </div>
         </div>
         }
       </div>
@@ -36,14 +39,17 @@
         @for (gif of favoriteGifs; track $index) {
         <div class="gif-container">
           <img [src]="gif" (click)="selectGif(gif)" class="gif" />
-          <button
-            mat-mini-fab
-            matTooltip="Remove from favorites"
-            (click)="toggleFavorite(gif)"
-            class="favorite-button"
-          >
-            <mat-icon>star</mat-icon>
-          </button>
+          <div class="favorite-wrapper">
+            <button
+              mat-mini-fab
+              matTooltip="Remove from favorites"
+              (click)="toggleFavorite(gif)"
+              class="favorite-button"
+            >
+              <mat-icon>star</mat-icon>
+            </button>
+            <div class="particle-container" #particleContainer></div>
+          </div>
         </div>
         }
       </div>
