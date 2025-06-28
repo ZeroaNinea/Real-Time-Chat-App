@@ -1,6 +1,8 @@
 @use "@angular/material" as mat;
 
 @import "styles/text-formatting.scss";
+@import "styles/star.scss";
+@import "styles/emoji.scss";
 
 @import "highlight.js/styles/github.css";
 @import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
@@ -36,10 +38,6 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.emoji-mart-search-icon {
-  margin-top: 0.27rem;
 }
 
 .image-gif {
