@@ -1,4 +1,7 @@
 @use "@angular/material" as mat;
+
+@import "styles/text-formatting.scss";
+
 @import "highlight.js/styles/github.css";
 @import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
 
@@ -33,96 +36,6 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.hljs {
-  @include mat.theme(
-    (
-      color: mat.$magenta-palette,
-    )
-  );
-
-  border-radius: 10px;
-
-  & {
-    background-color: var(--mat-sys-surface-container);
-    box-shadow: 2px 2px 125px 2px var(--mat-sys-primary-container);
-  }
-}
-
-.spoiler {
-  background-color: var(--mat-sys-outline);
-  color: var(--mat-sys-outline);
-  border-radius: 5px;
-  padding: 0 8px;
-  cursor: pointer;
-
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: var(--mat-sys-background);
-  }
-}
-
-.code-span {
-  background-color: var(--mat-sys-surface-container);
-  border: 1px solid var(--mat-sys-outline);
-  border-radius: 5px;
-  padding: 2px 8px 2px 8px;
-}
-
-.code-block-wrapper {
-  position: relative;
-  margin: 0;
-
-  code {
-    display: block;
-    overflow-x: auto !important;
-    padding-right: 5rem !important;
-
-    & {
-      box-shadow: 1px 1px 25px 1px var(--mat-sys-secondary-container);
-    }
-  }
-
-  .copy-button {
-    @include mat.theme(
-      (
-        color: mat.$rose-palette,
-      )
-    );
-
-    position: absolute;
-    top: 1.4rem;
-    right: 0.5rem;
-    padding: 0 0.75rem;
-    height: 1.5rem;
-    font-size: 0.75rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-
-    background-color: var(--mat-sys-primary-container);
-    color: var(--mat-sys-on-secondary-container);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-
-    transition: background-color 0.2s ease, color 0.2s ease,
-      transform 0.1s ease-in-out;
-
-    &:hover {
-      background-color: var(--mat-sys-primary-fixed-dim);
-      color: var(--mat-sys-on-primary-container);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-
-    &.copied {
-      background-color: var(--mat-sys-tertiary);
-      color: var(--mat-sys-on-tertiary);
-    }
-  }
 }
 
 .emoji-mart-search-icon {
