@@ -61,6 +61,7 @@ export class TextFormatPipe implements PipeTransform {
           <img src="${href}" class="image-gif">
           <div class="marked-star-wrapper">
             <button
+              data-gif-url="${href}"
               class="marked-star-button"
             >
               <img src="assets/star.svg" />
