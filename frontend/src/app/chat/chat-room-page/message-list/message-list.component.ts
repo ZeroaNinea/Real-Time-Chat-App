@@ -110,9 +110,9 @@ export class MessageListComponent implements OnInit, OnDestroy {
       .closest('.marked-star-wrapper')
       ?.querySelector('.marked-particle-container');
 
-    // if (particleContainer) {
-    // this.animateParticles(particleContainer);
-    // }
+    if (particleContainer) {
+      this.animateParticles(particleContainer);
+    }
 
     this.addRippleEffect(button, event);
     // this.toggleFavorite(gifUrl);
@@ -131,6 +131,24 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
     button.appendChild(ripple);
     setTimeout(() => ripple.remove(), 150);
+  }
+
+  animateParticles(container: Element) {
+    for (let i = 0; i < 12; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      requestAnimationFrame(() => {
+        particle.style.setProperty('height', `6px`);
+        particle.style.setProperty('width', `6px`);
+        particle.style.setProperty('--x', `${Math.random() * 2 - 1}`);
+        particle.style.setProperty('--y', `${Math.random() * 2 - 1}`);
+      });
+      container.appendChild(particle);
+
+      setTimeout(() => {
+        container.removeChild(particle);
+      }, 600);
+    }
   }
 
   isGrouped(index: number): boolean {
