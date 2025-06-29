@@ -1,20 +1,36 @@
 @use "@angular/material" as mat;
 
 .marked-gif-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   border-radius: 8px;
+  max-width: 365px;
+  max-height: 365px;
+  padding: 0;
+  margin: 0;
 
   .image-gif {
-    max-width: 365px;
-    max-height: 365px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
     border-radius: 0.5rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
   .marked-star-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
-    top: 0%;
-    left: 15%;
+    top: 5%;
+    left: 7%;
+
+    width: 40px;
+    height: 40px;
+
     z-index: 2;
 
     .marked-star-button {
