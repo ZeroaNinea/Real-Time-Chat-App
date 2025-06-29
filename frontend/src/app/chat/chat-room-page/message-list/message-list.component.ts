@@ -1,16 +1,11 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
-  afterNextRender,
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   Output,
-  QueryList,
-  ViewChildren,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -46,7 +41,7 @@ import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pi
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent implements AfterViewInit {
+export class MessageListComponent implements OnDestroy {
   @Input() messages!: Message[];
   @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
@@ -92,31 +87,30 @@ export class MessageListComponent implements AfterViewInit {
 
   isCopied = false;
 
-  @ViewChildren('messageContainer', { read: ElementRef })
-  messageContainers!: QueryList<ElementRef>;
+  // @ViewChildren('messageContainer', { read: ElementRef })
+  // messageContainers!: QueryList<ElementRef>;
 
-  ngAfterViewInit() {
-    this.messageContainers.forEach(({ nativeElement }) => {
-      nativeElement.addEventListener('click', (event: MouseEvent) => {
-        console.log('Clicked', event);
-        const target = event.target as HTMLElement;
-        const button = target.closest('.marked-star-button') as HTMLElement;
+  ngOnDestroy() {
+    document.body.removeEventListener('click', this.handleGifClick.bind(this));
+  }
 
-        if (button) {
-          const gifUrl = button.dataset['gifUrl']!;
-          const particleContainer = button
-            .closest('.marked-star-wrapper')
-            ?.querySelector('.marked-particle-container');
+  handleGifClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const button = target.closest('.marked-star-button') as HTMLElement;
 
-          // if (particleContainer) {
-          // this.animateParticles(particleContainer);
-          // }
+    if (!button) return;
 
-          this.addRippleEffect(button, <MouseEvent>event);
-          // this.toggleFavorite(gifUrl, button);
-        }
-      });
-    });
+    const gifUrl = button.dataset['gifUrl']!;
+    const particleContainer = button
+      .closest('.marked-star-wrapper')
+      ?.querySelector('.marked-particle-container');
+
+    // if (particleContainer) {
+    // this.animateParticles(particleContainer);
+    // }
+
+    this.addRippleEffect(button, event);
+    // this.toggleFavorite(gifUrl);
   }
 
   addRippleEffect(button: HTMLElement, event: MouseEvent) {
