@@ -56,7 +56,19 @@ export class TextFormatPipe implements PipeTransform {
     };
 
     Renderer.prototype.image = function ({ href }) {
-      return `<img src="${href}" class="image-gif">`;
+      return `
+        <div class="marked-gif-image-wrapper">
+          <img src="${href}" class="image-gif">
+          <div class="marked-star-wrapper">
+            <button
+              class="marked-star-button"
+            >
+              <img src="assets/star.svg" />
+            </button>
+            <div class="marked-particle-container" #particleContainer></div>
+          </div>
+        </div>
+      `;
     };
 
     const escapeFormatting = (text: string) =>
