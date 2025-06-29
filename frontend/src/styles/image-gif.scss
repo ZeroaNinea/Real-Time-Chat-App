@@ -55,7 +55,7 @@
       color: var(--mat-sys-primary);
       font-weight: bold;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+      overflow: visible;
       transition: background-color 0.2s ease, color 0.2s ease;
       cursor: pointer;
       z-index: 2;

@@ -1,10 +1,15 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
+  afterNextRender,
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   inject,
   Input,
   Output,
+  QueryList,
+  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -41,7 +46,7 @@ import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pi
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent {
+export class MessageListComponent implements AfterViewInit {
   @Input() messages!: Message[];
   @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
@@ -86,6 +91,48 @@ export class MessageListComponent {
   }
 
   isCopied = false;
+
+  @ViewChildren('messageContainer', { read: ElementRef })
+  messageContainers!: QueryList<ElementRef>;
+
+  ngAfterViewInit() {
+    this.messageContainers.forEach(({ nativeElement }) => {
+      nativeElement.addEventListener('click', (event: MouseEvent) => {
+        console.log('Clicked', event);
+        const target = event.target as HTMLElement;
+        const button = target.closest('.marked-star-button') as HTMLElement;
+
+        if (button) {
+          const gifUrl = button.dataset['gifUrl']!;
+          const particleContainer = button
+            .closest('.marked-star-wrapper')
+            ?.querySelector('.marked-particle-container');
+
+          // if (particleContainer) {
+          // this.animateParticles(particleContainer);
+          // }
+
+          this.addRippleEffect(button, <MouseEvent>event);
+          // this.toggleFavorite(gifUrl, button);
+        }
+      });
+    });
+  }
+
+  addRippleEffect(button: HTMLElement, event: MouseEvent) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+
+    button.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  }
 
   isGrouped(index: number): boolean {
     if (index === 0) return true;
