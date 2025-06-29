@@ -30,10 +30,12 @@
       width: 30px;
       height: 30px;
 
-      img {
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+
         position: absolute;
-        top: 4%;
-        left: 4%;
+        top: 5%;
+        left: 5%;
       }
     }
 
