@@ -45,7 +45,6 @@ export class GifPickerComponent {
 
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
-      console.log('favoriteGifs', this.favoriteGifs);
     });
   }
 

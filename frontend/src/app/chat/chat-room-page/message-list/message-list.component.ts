@@ -24,6 +24,7 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pipe';
+import { ChatService } from '../../shared/services/chat-service/chat.service';
 
 @Component({
   selector: 'app-message-list',
@@ -71,12 +72,15 @@ export class MessageListComponent implements OnInit, OnDestroy {
   @Output() loadOlderMessages = new EventEmitter<void>();
 
   private dialog = inject(MatDialog);
+  private chatService = inject(ChatService);
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
     const timeB = new Date(b.createdAt).getTime();
     return Math.abs(timeA - timeB) < 60000;
   }
+
+  favoriteGifs: string[] = [];
 
   get filteredMessages() {
     if (this.isPrivate) {
@@ -88,8 +92,12 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   isCopied = false;
 
-  // @ViewChildren('messageContainer', { read: ElementRef })
-  // messageContainers!: QueryList<ElementRef>;
+  constructor() {
+    this.chatService.favorites$.subscribe((favs) => {
+      this.favoriteGifs = favs;
+      console.log(this.favoriteGifs);
+    });
+  }
 
   ngOnInit() {
     document.body.addEventListener('click', this.handleGifClick.bind(this));
