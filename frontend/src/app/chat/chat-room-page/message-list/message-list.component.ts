@@ -5,6 +5,7 @@ import {
   inject,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 
@@ -41,7 +42,7 @@ import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pi
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent implements OnDestroy {
+export class MessageListComponent implements OnInit, OnDestroy {
   @Input() messages!: Message[];
   @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
@@ -89,6 +90,10 @@ export class MessageListComponent implements OnDestroy {
 
   // @ViewChildren('messageContainer', { read: ElementRef })
   // messageContainers!: QueryList<ElementRef>;
+
+  ngOnInit() {
+    document.body.addEventListener('click', this.handleGifClick.bind(this));
+  }
 
   ngOnDestroy() {
     document.body.removeEventListener('click', this.handleGifClick.bind(this));
