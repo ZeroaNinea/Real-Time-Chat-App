@@ -13,8 +13,8 @@
 
   .marked-star-wrapper {
     position: absolute;
-    top: 2%;
-    left: 2%;
+    top: 0%;
+    left: 15%;
     z-index: 2;
 
     .marked-star-button {
@@ -26,16 +26,30 @@
         );
       }
 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       position: relative;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
+      border-radius: 30%;
+      border: none;
+      background-color: var(--mat-sys-surface-container-highest);
+      color: var(--mat-sys-primary);
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.2s ease, color 0.2s ease;
+      cursor: pointer;
+      z-index: 2;
+
+      &:hover {
+        background-color: var(--mat-sys-primary-container);
+        color: var(--mat-sys-on-primary-container);
+      }
 
       .material-symbols-outlined {
         font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-
-        position: absolute;
-        top: 5%;
-        left: 5%;
       }
     }
 

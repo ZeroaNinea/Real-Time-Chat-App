@@ -64,10 +64,7 @@ export class TextFormatPipe implements PipeTransform {
               data-gif-url="${href}"
               class="marked-star-button"
             >
-              <span class="material-symbols-outlined">star_half</span>
-              <span class="material-symbols-outlined">
-                star_outline
-              </span>
+              <span class="material-symbols-outlined">star</span>
             </button>
             <div class="marked-particle-container" #particleContainer></div>
           </div>
