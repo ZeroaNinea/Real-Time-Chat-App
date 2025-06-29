@@ -94,43 +94,6 @@ export class GifPickerComponent {
     this.select.emit(url);
   }
 
-  // toggleFavorite(gifUrl: string, event: MouseEvent) {
-  //   const button = (event.currentTarget as HTMLElement).parentElement!;
-  //   const container = button.querySelector('.particle-container');
-
-  //   if (!container) return;
-
-  //   this.animateParticles(container);
-
-  //   if (this.favoriteGifs.includes(gifUrl)) {
-  //     this.chatService.removeFavorite(gifUrl).subscribe(() => {
-  //       console.log('Favorite removed:', gifUrl);
-  //     });
-  //   } else {
-  //     this.chatService.addFavorite(gifUrl).subscribe(() => {
-  //       console.log('Favorite added:', gifUrl);
-  //     });
-  //   }
-  // }
-
-  // animateParticles(container: Element) {
-  //   for (let i = 0; i < 12; i++) {
-  //     const particle = document.createElement('div');
-  //     particle.className = 'particle';
-  //     requestAnimationFrame(() => {
-  //       particle.style.setProperty('height', `6px`);
-  //       particle.style.setProperty('width', `6px`);
-  //       particle.style.setProperty('--x', `${Math.random() * 2 - 1}`);
-  //       particle.style.setProperty('--y', `${Math.random() * 2 - 1}`);
-  //     });
-  //     container.appendChild(particle);
-
-  //     setTimeout(() => {
-  //       container.removeChild(particle);
-  //     }, 600);
-  //   }
-  // }
-
   areThereFavorites() {
     return this.favoriteGifs.length > 0;
   }
