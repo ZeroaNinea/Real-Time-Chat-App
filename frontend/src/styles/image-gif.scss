@@ -1,7 +1,49 @@
-.image-gif {
-  max-width: 365px;
-  max-height: 365px;
-  border-radius: 0.5rem;
-  margin-top: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+.marked-gif-image-wrapper {
+  position: relative;
+  border-radius: 8px;
+
+  .image-gif {
+    max-width: 365px;
+    max-height: 365px;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .marked-star-wrapper {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    z-index: 2;
+
+    .marked-star-button {
+      & {
+        @include mat.theme(
+          (
+            color: mat.$orange-palette,
+          )
+        );
+      }
+
+      position: relative;
+      width: 30px;
+      height: 30px;
+
+      img {
+        position: absolute;
+        top: 4%;
+        left: 4%;
+      }
+    }
+
+    .marked-particle-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 3;
+    }
+  }
 }
