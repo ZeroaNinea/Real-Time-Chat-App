@@ -55,7 +55,7 @@
       color: var(--mat-sys-primary);
       font-weight: bold;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      overflow: visible;
+      overflow: hidden;
       transition: background-color 0.2s ease, color 0.2s ease;
       cursor: pointer;
       z-index: 2;
@@ -65,11 +65,15 @@
         color: var(--mat-sys-on-primary-container);
       }
 
-      span.ripple {
+      .ripple {
         position: absolute;
         border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        top: -1%;
+        left: -1%;
         transform: scale(0);
-        animation: ripple 600ms linear;
+        animation: ripple 150ms linear;
         background-color: rgba(0, 0, 0, 0.3);
         pointer-events: none;
         z-index: 1;

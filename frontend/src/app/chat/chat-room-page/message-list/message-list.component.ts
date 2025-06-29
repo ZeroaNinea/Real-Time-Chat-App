@@ -130,7 +130,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     ripple.style.top = `${y}px`;
 
     button.appendChild(ripple);
-    // setTimeout(() => ripple.remove(), 600);
+    setTimeout(() => ripple.remove(), 150);
   }
 
   isGrouped(index: number): boolean {
