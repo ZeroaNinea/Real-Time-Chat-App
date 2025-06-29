@@ -123,7 +123,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     }
 
     this.addRippleEffect(button, event);
-    // this.toggleFavorite(gifUrl);
+    this.toggleFavorite(gifUrl);
   }
 
   addRippleEffect(button: HTMLElement, event: MouseEvent) {
@@ -156,6 +156,18 @@ export class MessageListComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         container.removeChild(particle);
       }, 600);
+    }
+  }
+
+  toggleFavorite(gifUrl: string) {
+    if (this.favoriteGifs.includes(gifUrl)) {
+      this.chatService.removeFavorite(gifUrl).subscribe(() => {
+        console.log('Favorite removed:', gifUrl);
+      });
+    } else {
+      this.chatService.addFavorite(gifUrl).subscribe(() => {
+        console.log('Favorite added:', gifUrl);
+      });
     }
   }
 
