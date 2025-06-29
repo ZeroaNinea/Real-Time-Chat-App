@@ -12,7 +12,11 @@ export class FavoriteToggleDirective {
 
   @Input('appFavoriteToggle') gifUrl!: string;
 
-  favoritesGifs: string[] = [];
+  favoriteGifs: string[] = [];
 
-  constructor() {}
+  constructor() {
+    this.chatService.favorites$.subscribe((favs) => {
+      this.favoriteGifs = favs;
+    });
+  }
 }
