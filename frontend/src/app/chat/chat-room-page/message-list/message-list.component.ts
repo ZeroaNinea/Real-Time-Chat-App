@@ -97,7 +97,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
       console.log(this.favoriteGifs);
-      setTimeout(() => this.applyFilledClassesToFavorites(), 0);
+      setTimeout(() => this.applyFilledClassesToFavorites(), 100);
     });
   }
 
