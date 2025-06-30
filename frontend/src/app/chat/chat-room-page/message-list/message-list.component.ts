@@ -1,5 +1,6 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
+  afterNextRender,
   Component,
   EventEmitter,
   inject,
@@ -96,6 +97,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
       console.log(this.favoriteGifs);
+      this.applyFilledClassesToFavorites();
     });
   }
 
@@ -187,6 +189,21 @@ export class MessageListComponent implements OnInit, OnDestroy {
     } else {
       icon.classList.add('filled');
     }
+  }
+
+  applyFilledClassesToFavorites() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      '.marked-star-button'
+    );
+
+    buttons.forEach((button) => {
+      const gifUrl = button.dataset['gifUrl'];
+      const icon = button.querySelector('span.material-symbols-outlined');
+
+      if (gifUrl && icon && this.favoriteGifs.includes(gifUrl)) {
+        icon.classList.add('filled');
+      }
+    });
   }
 
   isGrouped(index: number): boolean {
