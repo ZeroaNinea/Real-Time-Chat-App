@@ -124,7 +124,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
     this.addRippleEffect(button, event);
     this.toggleFavorite(gifUrl);
-    this.toggleFilledClass(gifUrl);
+    this.toggleFilledClass(gifUrl, button);
   }
 
   addRippleEffect(button: HTMLElement, event: MouseEvent) {
@@ -172,12 +172,20 @@ export class MessageListComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleFilledClass(gifUrl: string) {
-    const span = document.querySelector('span.material-symbols-outlined');
-    if (span && this.favoriteGifs.includes(gifUrl)) {
-      span.classList.toggle('filled');
+  toggleFilledClass(gifUrl: string, button: HTMLElement) {
+    const icon = button.querySelector('span.material-symbols-outlined');
+
+    if (!icon) {
+      console.error('Icon not found inside the button');
+      return;
+    }
+
+    const isFavorited = this.favoriteGifs.includes(gifUrl);
+
+    if (isFavorited) {
+      icon.classList.remove('filled');
     } else {
-      console.error('No element found with class `material-symbols-outlined`');
+      icon.classList.add('filled');
     }
   }
 
