@@ -72,34 +72,75 @@ export class TextFormatPipe implements PipeTransform {
       `;
     };
 
+    // Renderer.prototype.link = function ({ href, title, text }) {
+    //   console.log('Link:', href, text, title);
+    //   if (text === 'video') {
+    //     return `
+    //       <div class="message-video-wrapper">
+    //         <video class="message-video" controls>
+    //           <source src="${href}" type="video/${href.split('.').pop()}">
+    //           Your browser does not support the video tag.
+    //         </video>
+    //       </div>
+    //     `;
+    //   }
+    //   if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
+    //     const videoId = href.includes('youtu.be')
+    //       ? href.split('/').pop()
+    //       : new URL(href).searchParams.get('v');
+
+    //     return `
+    //       <iframe
+    //         class="message-youtube"
+    //         src="https://www.youtube.com/embed/${videoId}"
+    //         frameborder="0"
+    //         allowfullscreen
+    //       ></iframe>
+    //     `;
+    //   }
+
+    //   return `<a href="${href}" title="${title || ''}">${text}</a>`;
+    // };
     Renderer.prototype.link = function ({ href, title, text }) {
-      console.log('Link:', href, text, title);
-      if (text === 'video') {
-        return `
-          <div class="message-video-wrapper">
-            <video class="message-video" controls>
-              <source src="${href}" type="video/${href.split('.').pop()}">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        `;
-      }
       if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
         const videoId = href.includes('youtu.be')
           ? href.split('/').pop()
           : new URL(href).searchParams.get('v');
-
         return `
-          <iframe
-            class="message-youtube"
-            src="https://www.youtube.com/embed/${videoId}"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        `;
+      <iframe
+        class="message-youtube"
+        src="https://www.youtube.com/embed/${videoId}"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    `;
+      }
+      if (href.includes('vimeo.com/')) {
+        const videoId = href.split('/').pop();
+        return `
+      <iframe
+        class="message-vimeo"
+        src="https://player.vimeo.com/video/${videoId}"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    `;
       }
 
-      return `<a href="${href}" title="${title || ''}">${text}</a>`;
+      if (/\.(mp4|webm|ogg)$/i.test(href)) {
+        return `
+      <div class="message-video-wrapper">
+        <video class="message-video" controls>
+          <source src="${href}" type="video/${href.split('.').pop()}">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    `;
+      }
+
+      return `<a href="${href}" title="${
+        title || ''
+      }" target="_blank" rel="noopener">${text}</a>`;
     };
 
     const escapeFormatting = (text: string) =>
