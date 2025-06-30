@@ -228,7 +228,7 @@ backend/
 <br />
 ➡️ Step 32: Add an upload attachment button (images, videos, GIFs etc...)
 <br />
-➡️ Step 33: Add a GIF picker button.
+✅ Step 33: Add a GIF picker button.
 <br />
 ✅ Step 34: Markdown formating toolbar (**bold**, _italic_, **underline**, ~~strike~~, `code`)
 <br />
