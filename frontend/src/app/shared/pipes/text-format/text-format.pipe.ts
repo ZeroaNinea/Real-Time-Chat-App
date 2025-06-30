@@ -72,6 +72,19 @@ export class TextFormatPipe implements PipeTransform {
       `;
     };
 
+    Renderer.prototype.link = function ({ href, title, text }) {
+      if (text === 'video') {
+        return `
+      <video class="message-video" controls>
+        <source src="${href}" type="video/${href.split('.').pop()}">
+        Your browser does not support the video tag.
+      </video>
+    `;
+      }
+
+      return `<a href="${href}" title="${title || ''}">${text}</a>`;
+    };
+
     const escapeFormatting = (text: string) =>
       text
         .replace(/\\\*/g, '&#42;')
