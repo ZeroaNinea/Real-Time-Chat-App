@@ -40,3 +40,20 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.message-video {
+  max-width: 365px;
+  max-height: 365px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: block;
+  z-index: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+.message-video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

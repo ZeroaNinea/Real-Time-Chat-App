@@ -12,7 +12,7 @@ export class TextFormatPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
 
   async transform(markdown: string): Promise<SafeHtml> {
-    // console.log(Renderer.prototype);
+    console.log(Renderer.prototype);
     Renderer.prototype.paragraph = function ({ tokens }) {
       let text = this.parser.parseInline(tokens);
 
@@ -73,13 +73,30 @@ export class TextFormatPipe implements PipeTransform {
     };
 
     Renderer.prototype.link = function ({ href, title, text }) {
+      console.log('Link:', href, text, title);
       if (text === 'video') {
         return `
-      <video class="message-video" controls>
-        <source src="${href}" type="video/${href.split('.').pop()}">
-        Your browser does not support the video tag.
-      </video>
-    `;
+          <div class="message-video-wrapper">
+            <video class="message-video" controls>
+              <source src="${href}" type="video/${href.split('.').pop()}">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        `;
+      }
+      if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
+        const videoId = href.includes('youtu.be')
+          ? href.split('/').pop()
+          : new URL(href).searchParams.get('v');
+
+        return `
+          <iframe
+            class="message-youtube"
+            src="https://www.youtube.com/embed/${videoId}"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        `;
       }
 
       return `<a href="${href}" title="${title || ''}">${text}</a>`;
@@ -96,7 +113,8 @@ export class TextFormatPipe implements PipeTransform {
         .replace(/\\\-/g, '&#45;');
 
     const rawHtml = marked(escapeFormatting(markdown), {
-      breaks: false,
+      breaks: true,
+      gfm: true,
     });
 
     const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
