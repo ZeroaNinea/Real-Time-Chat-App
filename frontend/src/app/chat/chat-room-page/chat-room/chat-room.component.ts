@@ -121,6 +121,7 @@ export class ChatRoomComponent implements OnDestroy {
   hasMoreMessages = true;
   isLoadingMessages = false;
   oldestMessageId: string | null = null;
+  favoriteGifs: string[] = [];
 
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
@@ -289,6 +290,10 @@ export class ChatRoomComponent implements OnDestroy {
           console.log('Private chat rooms', this.privateChatRooms());
         });
       }
+    });
+
+    this.chatService.favorites$.subscribe((favs) => {
+      this.favoriteGifs = favs;
     });
   }
 
@@ -512,6 +517,8 @@ export class ChatRoomComponent implements OnDestroy {
 
           // console.log('Reply messages ids:', this.replyMessagesIds());
           // console.log('Messages:', this.replyMessages());
+
+          setTimeout(() => this.applyFilledClassesToFavorites(), 100);
         });
     } else {
       this.chatService
@@ -548,6 +555,8 @@ export class ChatRoomComponent implements OnDestroy {
 
           // console.log('Reply messages ids:', this.replyMessagesIds());
           // console.log('Messages:', this.replyMessages());
+
+          setTimeout(() => this.applyFilledClassesToFavorites(), 100);
         });
     }
   }
@@ -601,6 +610,8 @@ export class ChatRoomComponent implements OnDestroy {
 
           // console.log('Reply messages ids:', this.replyMessagesIds());
           // console.log('Messages:', this.replyMessages());
+
+          setTimeout(() => this.applyFilledClassesToFavorites(), 100);
         });
     } else {
       this.chatService
@@ -646,8 +657,25 @@ export class ChatRoomComponent implements OnDestroy {
 
           // console.log('Reply messages ids:', this.replyMessagesIds());
           // console.log('Messages:', this.replyMessages());
+
+          setTimeout(() => this.applyFilledClassesToFavorites(), 100);
         });
     }
+  }
+
+  applyFilledClassesToFavorites() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      '.marked-star-button'
+    );
+
+    buttons.forEach((button) => {
+      const gifUrl = button.dataset['gifUrl'];
+      const icon = button.querySelector('span.material-symbols-outlined');
+
+      if (gifUrl && icon && this.favoriteGifs.includes(gifUrl)) {
+        icon.classList.add('filled');
+      }
+    });
   }
 
   sendMessage() {

@@ -96,8 +96,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
   constructor() {
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
-      console.log(this.favoriteGifs);
-      setTimeout(() => this.applyFilledClassesToFavorites(), 100);
     });
   }
 
@@ -189,21 +187,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
     } else {
       icon.classList.add('filled');
     }
-  }
-
-  applyFilledClassesToFavorites() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>(
-      '.marked-star-button'
-    );
-
-    buttons.forEach((button) => {
-      const gifUrl = button.dataset['gifUrl'];
-      const icon = button.querySelector('span.material-symbols-outlined');
-
-      if (gifUrl && icon && this.favoriteGifs.includes(gifUrl)) {
-        icon.classList.add('filled');
-      }
-    });
   }
 
   isGrouped(index: number): boolean {
