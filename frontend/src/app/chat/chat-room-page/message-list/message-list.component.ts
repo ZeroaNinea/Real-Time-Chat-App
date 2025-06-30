@@ -124,6 +124,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
     this.addRippleEffect(button, event);
     this.toggleFavorite(gifUrl);
+    this.toggleFilledClass(gifUrl);
   }
 
   addRippleEffect(button: HTMLElement, event: MouseEvent) {
@@ -168,6 +169,15 @@ export class MessageListComponent implements OnInit, OnDestroy {
       this.chatService.addFavorite(gifUrl).subscribe(() => {
         console.log('Favorite added:', gifUrl);
       });
+    }
+  }
+
+  toggleFilledClass(gifUrl: string) {
+    const span = document.querySelector('span.material-symbols-outlined');
+    if (span && this.favoriteGifs.includes(gifUrl)) {
+      span.classList.toggle('filled');
+    } else {
+      console.error('No element found with class `material-symbols-outlined`');
     }
   }
 
