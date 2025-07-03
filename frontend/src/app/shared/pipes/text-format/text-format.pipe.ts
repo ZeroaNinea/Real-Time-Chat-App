@@ -142,6 +142,58 @@ export class TextFormatPipe implements PipeTransform {
         }
       }
 
+      // Facebook
+      if (href.includes('facebook.com/') && href.includes('/videos/')) {
+        const encoded = encodeURIComponent(href);
+        return `
+          <iframe
+            class="message-facebook"
+            src="https://www.facebook.com/plugins/video.php?href=${encoded}"
+            title="${title || 'Facebook video'}"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        `;
+      }
+
+      // Twitch
+      if (href.includes('clips.twitch.tv/')) {
+        const match = href.match(/clips\.twitch\.tv\/(\w+)/);
+        const clipId = match ? match[1] : null;
+        if (clipId) {
+          return `
+            <iframe
+              class="message-twitch"
+              src="https://clips.twitch.tv/embed?clip=${clipId}&parent=${
+            location.hostname
+          }"
+              title="${title || 'Twitch clip'}"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          `;
+        }
+      }
+
+      // TikTok
+      if (href.includes('tiktok.com/')) {
+        const match = href.match(/tiktok\.com\/@[\w.-]+\/video\/(\d+)/);
+        const videoId = match ? match[1] : null;
+        if (videoId) {
+          return `
+            <iframe
+              class="message-tiktok"
+              src="https://www.tiktok.com/embed/${videoId}"
+              title="${title || 'TikTok video'}"
+              frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          `;
+        }
+      }
+
       return `<a href="${href}" title="${title || ''}">${text}</a>`;
     };
 
