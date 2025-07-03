@@ -73,31 +73,39 @@ export class TextFormatPipe implements PipeTransform {
     };
 
     Renderer.prototype.link = function ({ href, title, text }) {
-      console.log('Link:', href, text, title);
-      if (text === 'video') {
-        return `
-          <div class="message-video-wrapper">
-            <video class="message-video" controls>
-              <source src="${href}" type="video/${href.split('.').pop()}">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        `;
-      }
-      // if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
-      //   const videoId = href.includes('youtu.be')
-      //     ? href.split('/').pop()
-      //     : new URL(href).searchParams.get('v');
+      const lowerHref = href.toLowerCase();
 
-      //   return `
-      //     <iframe
-      //       class="message-youtube"
-      //       src="https://www.youtube.com/embed/${videoId}"
-      //       frameborder="0"
-      //       allowfullscreen
-      //     ></iframe>
-      //   `;
-      // }
+      if (/\.(mp4|webm|ogg)$/i.test(lowerHref)) {
+        return `
+      <div class="message-video-wrapper">
+        <video class="message-video" controls>
+          <source src="${href}" type="video/${href.split('.').pop()}">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    `;
+      }
+
+      if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
+        const videoId = href.includes('youtu.be')
+          ? href.split('/').pop()
+          : new URL(href).searchParams.get('v');
+
+        if (videoId) {
+          return `
+        <iframe
+          class="message-youtube"
+          width="100%"
+          height="315"
+          src="https://www.youtube.com/embed/${videoId}"
+          title="${title || 'YouTube video'}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      `;
+        }
+      }
 
       return `<a href="${href}" title="${title || ''}">${text}</a>`;
     };
