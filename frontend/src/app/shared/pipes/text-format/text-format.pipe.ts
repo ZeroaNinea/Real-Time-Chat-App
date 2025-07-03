@@ -125,7 +125,20 @@ export class TextFormatPipe implements PipeTransform {
       gfm: true,
     });
 
-    const cleanHtml = DOMPurify.default.sanitize(await rawHtml);
+    const cleanHtml = DOMPurify.default.sanitize(await rawHtml, {
+      ADD_TAGS: ['iframe', 'video', 'source'],
+      ADD_ATTR: [
+        'allow',
+        'allowfullscreen',
+        'frameborder',
+        'scrolling',
+        'src',
+        'height',
+        'width',
+        'controls',
+        'type',
+      ],
+    });
 
     return this.sanitizer.bypassSecurityTrustHtml(cleanHtml);
   }
