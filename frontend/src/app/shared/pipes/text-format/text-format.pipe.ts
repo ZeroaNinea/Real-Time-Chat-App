@@ -75,6 +75,7 @@ export class TextFormatPipe implements PipeTransform {
     Renderer.prototype.link = function ({ href, title, text }) {
       const lowerHref = href.toLowerCase();
 
+      // HTML5 videos (mp4, webm, etc.)
       if (/\.(mp4|webm|ogg)$/i.test(lowerHref)) {
         return `
           <div class="message-video-wrapper">
@@ -86,11 +87,11 @@ export class TextFormatPipe implements PipeTransform {
         `;
       }
 
+      // YouTube
       if (href.includes('youtube.com/watch') || href.includes('youtu.be')) {
         const videoId = href.includes('youtu.be')
           ? href.split('/').pop()
           : new URL(href).searchParams.get('v');
-
         if (videoId) {
           return `
             <iframe
@@ -99,6 +100,42 @@ export class TextFormatPipe implements PipeTransform {
               title="${title || 'YouTube video'}"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          `;
+        }
+      }
+
+      // Vimeo
+      if (href.includes('vimeo.com/')) {
+        const match = href.match(/vimeo\.com\/(\d+)/);
+        const videoId = match ? match[1] : null;
+        if (videoId) {
+          return `
+            <iframe
+              class="message-vimeo"
+              src="https://player.vimeo.com/video/${videoId}"
+              title="${title || 'Vimeo video'}"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          `;
+        }
+      }
+
+      // Streamable
+      if (href.includes('streamable.com/')) {
+        const match = href.match(/streamable\.com\/(\w+)/);
+        const videoId = match ? match[1] : null;
+        if (videoId) {
+          return `
+            <iframe
+              class="message-streamable"
+              src="https://streamable.com/e/${videoId}"
+              title="${title || 'Streamable video'}"
+              frameborder="0"
+              allow="autoplay"
               allowfullscreen
             ></iframe>
           `;
