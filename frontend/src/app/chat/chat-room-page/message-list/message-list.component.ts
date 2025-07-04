@@ -1,5 +1,6 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
+  afterNextRender,
   AfterViewInit,
   Component,
   EventEmitter,
@@ -194,6 +195,8 @@ export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   renderTikToks() {
+    console.log('Rendering TikToks');
+
     const placeholders = document.querySelectorAll('.tiktok-placeholder');
     placeholders.forEach((placeholder) => {
       const videoId = placeholder.getAttribute('data-id');

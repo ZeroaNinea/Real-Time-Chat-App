@@ -12,7 +12,7 @@ export class TextFormatPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
 
   async transform(markdown: string): Promise<SafeHtml> {
-    console.log(Renderer.prototype);
+    // console.log(Renderer.prototype);
     Renderer.prototype.paragraph = function ({ tokens }) {
       let text = this.parser.parseInline(tokens);
 
