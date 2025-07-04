@@ -203,16 +203,54 @@ export class MessageListComponent implements OnInit, OnDestroy {
       fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`)
         .then((res) => res.json())
         .then((data) => {
-          el.innerHTML = data.html;
+          const match = data.html.match(/<blockquote[\s\S]*<\/blockquote>/);
+          if (match) {
+            el.innerHTML = match[0];
+          }
 
-          if (!document.querySelector('#tiktok-embed-script')) {
+          if (!document.getElementById('tiktok-embed-script')) {
             const script = document.createElement('script');
-            script.id = 'tiktok-embed-script';
             script.src = 'https://www.tiktok.com/embed.js';
+            script.id = 'tiktok-embed-script';
             script.async = true;
+            script.onload = () => {
+              (window as any).tiktok?.embeds?.load?.();
+
+              setTimeout(() => {
+                const iframe = el.querySelector('iframe');
+                const blockquote = el.querySelector('blockquote');
+                console.log('TikTok debug:', {
+                  iframe,
+                  blockquote,
+                  html: el.innerHTML,
+                });
+
+                if (!iframe) {
+                  console.warn(
+                    'TikTok iframe NOT injected. embed.js might be blocked or failed.'
+                  );
+                }
+              }, 2000);
+            };
             document.body.appendChild(script);
           } else {
             (window as any).tiktok?.embeds?.load?.();
+
+            setTimeout(() => {
+              const iframe = el.querySelector('iframe');
+              const blockquote = el.querySelector('blockquote');
+              console.log('TikTok debug:', {
+                iframe,
+                blockquote,
+                html: el.innerHTML,
+              });
+
+              if (!iframe) {
+                console.warn(
+                  'TikTok iframe NOT injected. embed.js might be blocked or failed.'
+                );
+              }
+            }, 2000);
           }
         });
     });
