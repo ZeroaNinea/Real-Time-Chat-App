@@ -1,7 +1,6 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
-  afterNextRender,
-  AfterViewInit,
+  afterRender,
   Component,
   EventEmitter,
   inject,
@@ -45,7 +44,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MessageListComponent implements OnInit, OnDestroy {
   @Input() messages!: Message[];
   @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
@@ -95,6 +94,10 @@ export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
   isCopied = false;
 
   constructor() {
+    afterRender(() => {
+      this.renderTikToks();
+    });
+
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
     });
@@ -102,10 +105,6 @@ export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     document.body.addEventListener('click', this.handleGifClick.bind(this));
-  }
-
-  ngAfterViewInit() {
-    this.renderTikToks();
   }
 
   ngOnDestroy() {
@@ -198,6 +197,8 @@ export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Rendering TikToks');
 
     const placeholders = document.querySelectorAll('.tiktok-placeholder');
+    if (placeholders.length === 0) return;
+
     placeholders.forEach((placeholder) => {
       const videoId = placeholder.getAttribute('data-id');
       const url = placeholder.getAttribute('data-url');
@@ -205,21 +206,37 @@ export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!videoId || !url) return;
 
       placeholder.innerHTML = `
-      <blockquote class="tiktok-embed" cite="${url}" data-video-id="${videoId}" style="max-width: 325px;">
+      <blockquote class="tiktok-embed"
+        cite="${url}"
+        data-video-id="${videoId}"
+        style="max-width: 325px;">
         <section></section>
       </blockquote>
     `;
-
-      if (!document.querySelector('#tiktok-embed-script')) {
-        const script = document.createElement('script');
-        script.src = 'https://www.tiktok.com/embed.js';
-        script.id = 'tiktok-embed-script';
-        script.async = true;
-        document.body.appendChild(script);
-      } else {
-        (window as any).tiktok?.embeds?.load?.();
-      }
     });
+
+    const existingScript = document.getElementById(
+      'tiktok-embed-script'
+    ) as HTMLScriptElement;
+
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://www.tiktok.com/embed.js';
+      script.id = 'tiktok-embed-script';
+      script.async = true;
+
+      script.onload = () => {
+        console.log('TikTok embed.js loaded');
+        (window as any).tiktok?.embeds?.load?.();
+      };
+
+      document.body.appendChild(script);
+    } else {
+      setTimeout(() => {
+        console.log('TikTok embed.js already loaded, calling embeds.load');
+        (window as any).tiktok?.embeds?.load?.();
+      }, 0);
+    }
   }
 
   isGrouped(index: number): boolean {
