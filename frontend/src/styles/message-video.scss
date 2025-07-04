@@ -24,18 +24,12 @@
   border-radius: 0.5rem;
 }
 
-.responsive-tiktok-wrapper {
-  position: relative;
-  width: 326px;
-  height: 580px;
-  overflow: hidden;
-  border-radius: 0.5rem;
+.tiktok-placeholder {
+  max-width: 325px;
+  width: 100%;
+  margin: 1rem 0;
 
-  iframe {
-    width: 100%;
-    height: 100%;
-    transform: scale(0.9);
-    transform-origin: top left;
-    pointer-events: auto;
+  .tiktok-embed {
+    width: 100% !important;
   }
 }
