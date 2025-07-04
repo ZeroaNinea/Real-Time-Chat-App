@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
-  afterNextRender,
+  AfterViewInit,
   Component,
   EventEmitter,
   inject,
@@ -44,7 +44,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent implements OnInit, OnDestroy {
+export class MessageListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() messages!: Message[];
   @Input() replyMessages: Message[] = [];
   @Input() members!: PopulatedUser[];
@@ -101,6 +101,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     document.body.addEventListener('click', this.handleGifClick.bind(this));
+  }
+
+  ngAfterViewInit() {
+    this.renderTikToks();
   }
 
   ngOnDestroy() {
@@ -187,6 +191,32 @@ export class MessageListComponent implements OnInit, OnDestroy {
     } else {
       icon.classList.add('filled');
     }
+  }
+
+  renderTikToks() {
+    const placeholders = document.querySelectorAll('.tiktok-placeholder');
+    placeholders.forEach((placeholder) => {
+      const videoId = placeholder.getAttribute('data-id');
+      const url = placeholder.getAttribute('data-url');
+
+      if (!videoId || !url) return;
+
+      placeholder.innerHTML = `
+      <blockquote class="tiktok-embed" cite="${url}" data-video-id="${videoId}" style="max-width: 325px;">
+        <section></section>
+      </blockquote>
+    `;
+
+      if (!document.querySelector('#tiktok-embed-script')) {
+        const script = document.createElement('script');
+        script.src = 'https://www.tiktok.com/embed.js';
+        script.id = 'tiktok-embed-script';
+        script.async = true;
+        document.body.appendChild(script);
+      } else {
+        (window as any).tiktok?.embeds?.load?.();
+      }
+    });
   }
 
   isGrouped(index: number): boolean {

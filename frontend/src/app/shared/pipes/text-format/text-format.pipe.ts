@@ -182,15 +182,7 @@ export class TextFormatPipe implements PipeTransform {
         const videoId = match ? match[1] : null;
         if (videoId) {
           return `
-            <div class="responsive-tiktok-wrapper">
-              <iframe
-                src="https://www.tiktok.com/embed/${videoId}"
-                title="${title || 'TikTok video'}"
-                frameborder="0"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
+            <span class="tiktok-placeholder" data-id="${videoId}" data-url="${href}"></span>
           `;
         }
       }
