@@ -202,17 +202,16 @@ export class MessageListComponent implements OnInit, OnDestroy {
     placeholders.forEach((placeholder) => {
       const videoId = placeholder.getAttribute('data-id');
       const url = placeholder.getAttribute('data-url');
-
       if (!videoId || !url) return;
 
       placeholder.innerHTML = `
-      <blockquote class="tiktok-embed"
-        cite="${url}"
-        data-video-id="${videoId}"
-        style="max-width: 325px;">
-        <section></section>
-      </blockquote>
-    `;
+        <blockquote class="tiktok-embed"
+          cite="${url}"
+          data-video-id="${videoId}"
+          style="max-width: 325px;">
+          <section></section>
+        </blockquote>
+      `;
     });
 
     const existingScript = document.getElementById(
@@ -220,22 +219,22 @@ export class MessageListComponent implements OnInit, OnDestroy {
     ) as HTMLScriptElement;
 
     if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://www.tiktok.com/embed.js';
-      script.id = 'tiktok-embed-script';
-      script.async = true;
-
-      script.onload = () => {
-        console.log('TikTok embed.js loaded');
-        (window as any).tiktok?.embeds?.load?.();
-      };
-
-      document.body.appendChild(script);
-    } else {
       setTimeout(() => {
-        console.log('TikTok embed.js already loaded, calling embeds.load');
-        (window as any).tiktok?.embeds?.load?.();
-      }, 0);
+        if (!document.getElementById('tiktok-embed-script')) {
+          const script = document.createElement('script');
+          script.src = 'https://www.tiktok.com/embed.js';
+          script.id = 'tiktok-embed-script';
+          script.async = true;
+          script.onload = () => {
+            console.log('TikTok embed.js loaded');
+            (window as any).tiktok?.embeds?.load?.();
+          };
+          document.body.appendChild(script);
+        } else {
+          console.log('TikTok embed.js already loaded, calling embeds.load');
+          (window as any).tiktok?.embeds?.load?.();
+        }
+      }, 5000);
     }
   }
 
