@@ -194,48 +194,28 @@ export class MessageListComponent implements OnInit, OnDestroy {
   }
 
   renderTikToks() {
-    console.log('Rendering TikToks');
+    const placeholders = document.querySelectorAll('.tiktok-fetching');
 
-    const placeholders = document.querySelectorAll('.tiktok-placeholder');
-    if (placeholders.length === 0) return;
+    placeholders.forEach((el) => {
+      const url = el.getAttribute('data-url');
+      if (!url) return;
 
-    placeholders.forEach((placeholder) => {
-      const videoId = placeholder.getAttribute('data-id');
-      const url = placeholder.getAttribute('data-url');
-      if (!videoId || !url) return;
+      fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          el.innerHTML = data.html;
 
-      placeholder.innerHTML = `
-        <blockquote class="tiktok-embed"
-          cite="${url}"
-          data-video-id="${videoId}"
-          style="max-width: 325px;">
-          <section></section>
-        </blockquote>
-      `;
-    });
-
-    const existingScript = document.getElementById(
-      'tiktok-embed-script'
-    ) as HTMLScriptElement;
-
-    if (!existingScript) {
-      setTimeout(() => {
-        if (!document.getElementById('tiktok-embed-script')) {
-          const script = document.createElement('script');
-          script.src = 'https://www.tiktok.com/embed.js';
-          script.id = 'tiktok-embed-script';
-          script.async = true;
-          script.onload = () => {
-            console.log('TikTok embed.js loaded');
+          if (!document.querySelector('#tiktok-embed-script')) {
+            const script = document.createElement('script');
+            script.id = 'tiktok-embed-script';
+            script.src = 'https://www.tiktok.com/embed.js';
+            script.async = true;
+            document.body.appendChild(script);
+          } else {
             (window as any).tiktok?.embeds?.load?.();
-          };
-          document.body.appendChild(script);
-        } else {
-          console.log('TikTok embed.js already loaded, calling embeds.load');
-          (window as any).tiktok?.embeds?.load?.();
-        }
-      }, 5000);
-    }
+          }
+        });
+    });
   }
 
   isGrouped(index: number): boolean {

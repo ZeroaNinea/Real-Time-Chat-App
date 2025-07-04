@@ -182,7 +182,7 @@ export class TextFormatPipe implements PipeTransform {
         const videoId = match ? match[1] : null;
         if (videoId) {
           return `
-            <div class="tiktok-placeholder" data-id="${videoId}" data-url="${href}"></div>
+            <div class="tiktok-fetching" data-url="${href}"></div>
           `;
         }
       }
