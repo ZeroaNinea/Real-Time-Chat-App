@@ -225,6 +225,12 @@ export class TextFormatPipe implements PipeTransform {
         'width',
         'controls',
         'type',
+        'accelerometer',
+        'autoplay',
+        'clipboard-write',
+        'encrypted-media',
+        'gyroscope',
+        'picture-in-picture',
       ],
     });
 

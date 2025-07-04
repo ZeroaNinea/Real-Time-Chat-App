@@ -4,6 +4,7 @@
 @import "styles/star.scss";
 @import "styles/emoji.scss";
 @import "styles/image-gif.scss";
+@import "styles/message-video.scss";
 
 @import "highlight.js/styles/github.css";
 @import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
@@ -39,40 +40,4 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.message-video-wrapper {
-  margin: 0.5rem 0;
-}
-
-.message-video {
-  width: 100%;
-  height: 100%;
-  border-radius: 0.5rem;
-}
-
-.message-youtube,
-.message-vimeo,
-.message-tiktok,
-.message-facebook,
-.message-twitch {
-  width: 100%;
-  min-height: 200px;
-  border-radius: 0.5rem;
-}
-
-.responsive-tiktok-wrapper {
-  position: relative;
-  width: 326px;
-  height: 580px;
-  overflow: hidden;
-  border-radius: 0.5rem;
-
-  iframe {
-    width: 100%;
-    height: 100%;
-    transform: scale(0.9);
-    transform-origin: top left;
-    pointer-events: auto;
-  }
 }
