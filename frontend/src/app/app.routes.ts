@@ -33,10 +33,12 @@ export const routes: Routes = [
   {
     path: 'chat-room/:chatId',
     component: ChatRoomComponent,
+    data: { RenderMode: 'no-pre-render' },
   },
   {
     path: 'chat-room/:chatId/channel/:channelId',
     component: ChatRoomComponent,
+    data: { RenderMode: 'no-pre-render' },
   },
   {
     path: 'main',
