@@ -7,6 +7,7 @@ import { authGuard } from './auth/auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ChatRoomComponent } from './chat/chat-room-page/chat-room/chat-room.component';
 import { MainComponent } from './chat/main-page/main/main.component';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
   {
@@ -33,12 +34,10 @@ export const routes: Routes = [
   {
     path: 'chat-room/:chatId',
     component: ChatRoomComponent,
-    data: { RenderMode: 'no-pre-render' },
   },
   {
     path: 'chat-room/:chatId/channel/:channelId',
     component: ChatRoomComponent,
-    data: { RenderMode: 'no-pre-render' },
   },
   {
     path: 'main',
