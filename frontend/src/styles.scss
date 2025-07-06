@@ -1,13 +1,13 @@
 @use "@angular/material" as mat;
 
-@import "styles/text-formatting.scss";
-@import "styles/star.scss";
-@import "styles/emoji.scss";
-@import "styles/image-gif.scss";
-@import "styles/message-video.scss";
+@use "styles/text-formatting.scss" as *;
+@use "styles/star.scss" as *;
+@use "styles/emoji.scss" as *;
+@use "styles/image-gif.scss" as *;
+@use "styles/message-video.scss" as *;
 
-@import "highlight.js/styles/github.css";
-@import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
+@use "highlight.js/styles/github.css" as *;
+@use "../node_modules/@ctrl/ngx-emoji-mart/picker.css" as *;
 
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -20,7 +20,7 @@ html {
       typography: Roboto,
       density: 0,
       use-system-variables: true,
-    system-variables-prefix: sys,
+      system-variables-prefix: sys,
     )
   );
 }
