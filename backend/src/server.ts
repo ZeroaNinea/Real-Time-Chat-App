@@ -3,7 +3,7 @@ import { setupSocket } from './socket';
 import http from 'http';
 
 import config from './config/env';
-import { rotateKeys } from '../cryptography/rsa-keys-rotation';
+import { rotateKeys } from './cryptography/rsa-keys-rotation';
 import { connectToDatabase } from './config/db';
 import { redisClient } from './config/redis';
 

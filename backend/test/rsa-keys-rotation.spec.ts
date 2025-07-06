@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import fs from 'fs';
 import crypto from 'crypto';
 import path from 'path';
-import { rotateKeys } from '..//cryptography/rsa-keys-rotation';
+import { rotateKeys } from '../src/cryptography/rsa-keys-rotation';
 
 describe('rotateKeys()', () => {
   let existsSyncStub: sinon.SinonStub;

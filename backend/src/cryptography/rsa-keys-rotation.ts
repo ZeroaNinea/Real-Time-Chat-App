@@ -3,7 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 
 export const rotateKeys = () => {
-  const keysDir = path.join(__dirname, '../keys');
+  const keysDir = path.join(__dirname, '../../keys');
   const keyMapPath = path.join(keysDir, 'key-map.json');
 
   // Ensure keys directory exists.
@@ -34,8 +34,8 @@ export const rotateKeys = () => {
     const now = new Date();
     const newKid = now.toISOString().split('T')[0];
 
-    const privateKeyPath = path.join(keysDir, `${newKid}.private.pem`);
-    const publicKeyPath = path.join(keysDir, `${newKid}.public.pem`);
+    const privateKeyPath = path.join(keysDir, `../../${newKid}.private.pem`);
+    const publicKeyPath = path.join(keysDir, `../../${newKid}.public.pem`);
 
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
       modulusLength: 2048,
@@ -56,8 +56,8 @@ export const rotateKeys = () => {
       if (toDelete) {
         delete keyMap[toDelete];
 
-        const privPath = path.join(keysDir, `${toDelete}.private.pem`);
-        const pubPath = path.join(keysDir, `${toDelete}.public.pem`);
+        const privPath = path.join(keysDir, `../../${toDelete}.private.pem`);
+        const pubPath = path.join(keysDir, `../../${toDelete}.public.pem`);
         if (fs.existsSync(privPath)) fs.unlinkSync(privPath);
         if (fs.existsSync(pubPath)) fs.unlinkSync(pubPath);
       }

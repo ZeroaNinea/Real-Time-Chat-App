@@ -3,11 +3,11 @@ import fs from 'fs';
 
 // Read the key and IV as Buffers.
 const key = Buffer.from(
-  fs.readFileSync('./keys/encryption.key', 'utf-8'),
+  fs.readFileSync('../keys/encryption.key', 'utf-8'),
   'hex'
 );
 const iv = Buffer.from(
-  fs.readFileSync('./keys/init_vector.key', 'utf-8'),
+  fs.readFileSync('../keys/init_vector.key', 'utf-8'),
   'hex'
 );
 
