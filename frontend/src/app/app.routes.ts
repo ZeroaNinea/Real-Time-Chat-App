@@ -7,6 +7,7 @@ import { authGuard } from './auth/auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ChatRoomComponent } from './chat/chat-room-page/chat-room/chat-room.component';
 import { MainComponent } from './chat/main-page/main/main.component';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
   {

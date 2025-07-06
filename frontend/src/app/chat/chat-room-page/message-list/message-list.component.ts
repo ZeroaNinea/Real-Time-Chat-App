@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {
-  afterRender,
+  afterEveryRender,
   Component,
   EventEmitter,
   inject,
@@ -94,7 +94,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   isCopied = false;
 
   constructor() {
-    afterRender(() => {
+    afterEveryRender(() => {
       this.renderTikToks();
     });
 
