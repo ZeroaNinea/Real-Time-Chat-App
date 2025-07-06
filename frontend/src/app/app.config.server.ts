@@ -5,16 +5,7 @@ import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 
 const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(),
-    provideServerRouting(serverRoutes),
-    // provideServerRouting(serverRoutes, {
-    //   renderMode: (route: ServerRoute) =>
-    //     route.path?.includes(':chatId') || route.path?.includes(':channelId')
-    //       ? 'no-prerender'
-    //       : undefined,
-    // } as any),
-  ],
+  providers: [provideServerRendering(), provideServerRouting(serverRoutes)],
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
