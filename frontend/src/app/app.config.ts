@@ -9,8 +9,8 @@ import {
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 // import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
+// import { provideStore } from '@ngrx/store';
+// import { provideStoreDevtools } from '@ngrx/store-devtools';
 import {
   provideHttpClient,
   withFetch,
@@ -31,19 +31,19 @@ export const appConfig: ApplicationConfig = {
     // provideAnimations(),
 
     // NgRx Store
-    provideStore(),
+    // provideStore(),
 
     // NgRx DevTools
-    provideStoreDevtools({
-      maxAge: 25,
-      logOnly: false,
-      autoPause: true,
-      features: {
-        pause: false,
-        lock: true,
-        persist: true,
-      },
-    }),
+    // provideStoreDevtools({
+    //   maxAge: 25,
+    //   logOnly: false,
+    //   autoPause: true,
+    //   features: {
+    //     pause: false,
+    //     lock: true,
+    //     persist: true,
+    //   },
+    // }),
 
     // Interceptors
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
