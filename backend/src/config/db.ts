@@ -1,23 +1,21 @@
 import mongoose from 'mongoose';
 import config from './env';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let mongoServer: MongoMemoryServer | null = null;
+let mongoServer: any = null;
 
 export const connectToDatabase = async () => {
   try {
     if (config.NODE_ENV === 'test') {
+      const { MongoMemoryServer } = await import('mongodb-memory-server');
       mongoServer = await MongoMemoryServer.create();
       await mongoose.connect(mongoServer.getUri(), {
         serverSelectionTimeoutMS: 5000,
       });
       console.log(' ✅ In-memory MongoDB connected!');
     } else {
-      const uri = `${config.DIALECT}://${config.DB_USER}:${config.DB_PASSWORD}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
-      await mongoose.connect(uri, {
-        // serverSelectionTimeoutMS: 100000,
-      });
+      const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
+      await mongoose.connect(uri);
       console.log(' ✅ MongoDB connected!');
     }
   } catch (err) {
