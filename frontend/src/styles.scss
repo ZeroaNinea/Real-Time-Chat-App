@@ -9,7 +9,8 @@
 @import "highlight.js/styles/github.css";
 @import "../node_modules/@ctrl/ngx-emoji-mart/picker.css";
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 html {
   color-scheme: light dark;
@@ -19,6 +20,7 @@ html {
       typography: Roboto,
       density: 0,
       use-system-variables: true,
+    system-variables-prefix: sys,
     )
   );
 }
