@@ -14,7 +14,8 @@ export const connectToDatabase = async () => {
       console.log(' ✅ In-memory MongoDB connected!');
     } else {
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
-      const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
+      // const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
+      const uri = `mongodb+srv://zeroaninea:${encodedPassword}@real-time-chat-app.xj7zrbl.mongodb.net/?retryWrites=true&w=majority&appName=Real-Time-Chat-App`;
       await mongoose.connect(uri);
       console.log(' ✅ MongoDB connected!');
       console.log('Mongoose version:', mongoose.version);
