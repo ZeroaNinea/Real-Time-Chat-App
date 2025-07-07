@@ -69,5 +69,3 @@ export const rotateKeys = () => {
     console.log(' ℹ️ No rotation needed today.');
   }
 };
-
-rotateKeys();
