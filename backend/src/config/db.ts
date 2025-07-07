@@ -17,6 +17,7 @@ export const connectToDatabase = async () => {
       const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
       await mongoose.connect(uri);
       console.log(' ✅ MongoDB connected!');
+      console.log('Mongoose version:', mongoose.version);
     }
   } catch (err) {
     console.error(' ❌ MongoDB connection error:', err);

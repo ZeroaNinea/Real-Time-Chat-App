@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import path from 'path';
 
 // Define keys directory.
-const keysDir = path.join(__dirname, '../keys/');
+const keysDir = path.join(__dirname, '../../keys/');
 
 // Ensure keys directory exists.
 if (!fs.existsSync(keysDir)) {
