@@ -15,6 +15,7 @@ export interface EnvConfig {
   REDIS_HOST: string;
   REDIS_PORT: number;
   REDIS_PASSWORD: string;
+  UPSTASH_REDIS_URL: string;
 }
 
 const config: EnvConfig = {
@@ -29,6 +30,7 @@ const config: EnvConfig = {
   REDIS_HOST: process.env.REDIS_HOST || 'localhost',
   REDIS_PORT: Number(process.env.REDIS_PORT || 6379),
   REDIS_PASSWORD: process.env.REDIS_PASSWORD || '',
+  UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL || '',
 };
 
 export default config;
