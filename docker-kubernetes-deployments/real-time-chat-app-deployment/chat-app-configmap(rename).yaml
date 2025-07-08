@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: chat-app
+data:
+  DIALECT: mongodb
+  DB_HOST: <YOUR_DB_HOST>
+  DB_PORT: '27017'
+  DB_NAME: <YOUR_DB_NAME>
+  REDIS_HOST: <YOUR_UPSTASH_REDIS_HOST>
+  REDIS_PORT: '<YOUR_UPSTASH_REDIS_PORT>'
+  PORT: '5000'
+### Replace <YOUR_DB_HOST>, <YOUR_DB_NAME>, <YOUR_UPSTASH_REDIS_HOST>, and <YOUR_UPSTASH_REDIS_PORT> with your actual values.
+### This config map is used to store environment variables for the backend service.
+### Rename this file to "chat-app-configmap.yaml" and update the values accordingly.
