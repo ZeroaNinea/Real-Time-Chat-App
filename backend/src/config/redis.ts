@@ -1,4 +1,4 @@
-import ioredis, { Redis } from 'ioredis';
+import { Redis } from 'ioredis';
 import config from './env';
 
 const { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } = config;
