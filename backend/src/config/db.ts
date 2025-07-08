@@ -52,4 +52,17 @@ Or teporarily use Google DNS:
 ```bash
 sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 ```
+
+The permanent solution:
+```bash
+sudo resolvectl dns enp3s0 8.8.8.8
+sudo resolvectl flush-caches
+```
+*/
+
+/*
+Check the network interfaces:
+```bash
+ip a
+```
 */
