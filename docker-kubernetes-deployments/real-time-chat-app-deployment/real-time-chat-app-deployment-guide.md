@@ -1,6 +1,10 @@
 # Real-Time-Chat-App Deployment Guide
 
-To deploy:
+This guide will help you deploy all Kubernetes resources for the Real-Time-Chat-App.
+
+## Deploy
+
+Apply the resources in the following order:
 
 ```bash
 kubectl apply -f chat-app-namespace.yaml
@@ -11,10 +15,11 @@ kubectl apply -f chat-app-backend-deployment.yaml
 kubectl apply -f chat-app-frontend-service.yaml
 kubectl apply -f chat-app-frontend-deployment.yaml
 kubectl apply -f chat-app-ingress.yaml
-
 ```
 
-To delete:
+## Delete
+
+To remove all resources, run:
 
 ```bash
 kubectl delete -f chat-app-namespace.yaml
@@ -25,5 +30,11 @@ kubectl delete -f chat-app-backend-deployment.yaml
 kubectl delete -f chat-app-frontend-service.yaml
 kubectl delete -f chat-app-frontend-deployment.yaml
 kubectl delete -f chat-app-ingress.yaml
-
 ```
+
+---
+
+**Tips:**
+
+- Make sure to update any placeholder values in your `chat-app-configmap.yaml` and `chat-app-secret.yaml` before deploying.
+- The order matters: namespace first, then secrets/configs, then services/deployments, then ingress.
