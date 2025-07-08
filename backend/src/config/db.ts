@@ -15,7 +15,7 @@ export const connectToDatabase = async () => {
     } else {
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
       // const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
-      const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}/?retryWrites=true&w=majority&appName=Cluster0`;
+      const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}/${config.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
       await mongoose.connect(uri);
       console.log(' ✅ MongoDB connected!');
     }
