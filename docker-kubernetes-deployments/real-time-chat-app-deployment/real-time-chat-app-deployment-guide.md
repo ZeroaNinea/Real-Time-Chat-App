@@ -15,6 +15,7 @@ kubectl apply -f chat-app-backend-deployment.yaml
 kubectl apply -f chat-app-frontend-service.yaml
 kubectl apply -f chat-app-frontend-deployment.yaml
 kubectl apply -f chat-app-ingress.yaml
+
 ```
 
 ## Delete
@@ -30,6 +31,7 @@ kubectl delete -f chat-app-backend-deployment.yaml
 kubectl delete -f chat-app-frontend-service.yaml
 kubectl delete -f chat-app-frontend-deployment.yaml
 kubectl delete -f chat-app-ingress.yaml
+
 ```
 
 ---
