@@ -34,3 +34,22 @@ export const disconnectDatabase = async () => {
 };
 
 export default mongoose;
+
+/*
+// To connect to MongoDB Atlas
+
+Check the current DNS:
+```bash
+nslookup cluster0.opjboom.mongodb.net
+```
+
+Edit the `/etc/resolv.conf` file to use Google DNS:
+```plaintext
+nameserver 8.8.8.8
+```
+
+Or teporarily use Google DNS:
+```bash
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+```
+*/
