@@ -1,1 +1,3 @@
+# Real-Time-Chat-App deployment
 chat-app-secret.yaml
+chat-app-configmap.yaml
