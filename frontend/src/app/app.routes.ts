@@ -33,14 +33,17 @@ export const routes: Routes = [
   {
     path: 'chat-room/:chatId',
     component: ChatRoomComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'chat-room/:chatId/channel/:channelId',
     component: ChatRoomComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'main',
     component: MainComponent,
+    canActivate: [authGuard],
   },
   {
     path: '401',
