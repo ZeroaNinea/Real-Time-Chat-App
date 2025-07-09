@@ -13,4 +13,8 @@ export const serverRoutes: ServerRoute[] = [
     path: 'chat-room/:chatId/channel/:channelId',
     renderMode: RenderMode.Server,
   },
+  {
+    path: 'account',
+    renderMode: RenderMode.Prerender,
+  },
 ];

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -16,7 +16,6 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
 import { PronounsComponent } from '../pronouns/pronouns.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { UserCardComponent } from '../user-card/user-card.component';
-import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -39,10 +38,6 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class AccountComponent implements OnInit {
   private http = inject(HttpClient);
-  // private authService = inject(AuthService);
-  // readonly user = computed(() => this.authService.currentUser());
-
-  // user: User | null = null;
   user!: User;
 
   setSection(section: string) {
@@ -61,13 +56,4 @@ export class AccountComponent implements OnInit {
       },
     });
   }
-  // ngOnInit() {
-  //   const user = this.authService.currentUser();
-  //   console.log('User data:', user, '=============');
-  //   if (!user) {
-  //     console.error('User data not available');
-  //   } else {
-  //     this.user = user;
-  //   }
-  // }
 }
