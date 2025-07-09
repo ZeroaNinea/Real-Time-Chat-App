@@ -15,6 +15,6 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'account',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Client,
   },
 ];
