@@ -1,17 +1,12 @@
-import { isPlatformBrowser } from '@angular/common';
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject, PLATFORM_ID } from '@angular/core';
+import { inject } from '@angular/core';
+
+import { AuthTokenService } from '../services/auth-token.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const platformId = inject(PLATFORM_ID);
+  const tokenService = inject(AuthTokenService);
 
-  if (!isPlatformBrowser(platformId)) {
-    return next(req);
-  }
-
-  if (typeof window === 'undefined') return next(req);
-
-  const token = localStorage.getItem('accessToken');
+  const token = tokenService.getAccessToken();
 
   if (req.url.startsWith('https://tenor.googleapis.com')) {
     return next(req);
