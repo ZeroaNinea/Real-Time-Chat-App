@@ -1,6 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  if (typeof window === 'undefined') return next(req);
+
   const token = localStorage.getItem('accessToken');
 
   if (req.url.startsWith('https://tenor.googleapis.com')) {

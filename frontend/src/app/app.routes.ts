@@ -29,6 +29,7 @@ export const routes: Routes = [
   {
     path: 'chat-room',
     component: ChatRoomComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'chat-room/:chatId',
