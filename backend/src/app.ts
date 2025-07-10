@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'http://real-time-chat-app.local'],
+    origin: ['http://localhost:4200', 'https://real-time-chat-app.local'],
     credentials: true,
   })
 );
