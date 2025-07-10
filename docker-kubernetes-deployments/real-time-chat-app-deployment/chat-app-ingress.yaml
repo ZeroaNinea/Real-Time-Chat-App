@@ -4,8 +4,7 @@ metadata:
   name: chat-app-ingress
   namespace: chat-app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    spec.ingressClassName: nginx
+    ingressClassName: nginx
 spec:
   rules:
     - host: real-time-chat-app.local
