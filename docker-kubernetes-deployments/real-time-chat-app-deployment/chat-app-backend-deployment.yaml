@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: zeroaninea/chat-backend:latest
+          image: zeroaninea/real-time-chat-app-backend:latest
           ports:
             - containerPort: 5000
           resources:
