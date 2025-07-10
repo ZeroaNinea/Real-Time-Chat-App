@@ -34,6 +34,8 @@ kubectl delete -f chat-app-namespace.yaml
 
 ```
 
+Now access the application by this path: [https://real-time-chat-app.local]
+
 ---
 
 **Tips:**
