@@ -8,7 +8,17 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'https://real-time-chat-app.local'],
+    origin: (origin, callback) => {
+      const allowed = [
+        'http://localhost:4200',
+        'https://real-time-chat-app.local',
+      ];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
