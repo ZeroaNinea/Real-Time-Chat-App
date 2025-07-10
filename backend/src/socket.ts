@@ -11,7 +11,7 @@ import { registerSocketHandlers } from './sockets';
 export function setupSocket(server: HttpServer, app: Express) {
   const io = new Server(server, {
     cors: {
-      origin: ['http://localhost:4200', 'http://real-time-chat-app.local'],
+      origin: ['http://localhost:4200', 'https://real-time-chat-app.local'],
       methods: ['GET', 'POST'],
       credentials: true,
     },
