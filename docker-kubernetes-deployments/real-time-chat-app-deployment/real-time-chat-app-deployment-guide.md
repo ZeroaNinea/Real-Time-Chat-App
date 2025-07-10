@@ -23,7 +23,6 @@ kubectl apply -f chat-app-ingress.yaml
 To remove all resources, run:
 
 ```bash
-kubectl delete -f chat-app-namespace.yaml
 kubectl delete -f chat-app-secret.yaml
 kubectl delete -f chat-app-configmap.yaml
 kubectl delete -f chat-app-backend-service.yaml
@@ -31,6 +30,7 @@ kubectl delete -f chat-app-backend-deployment.yaml
 kubectl delete -f chat-app-frontend-service.yaml
 kubectl delete -f chat-app-frontend-deployment.yaml
 kubectl delete -f chat-app-ingress.yaml
+kubectl delete -f chat-app-namespace.yaml
 
 ```
 
