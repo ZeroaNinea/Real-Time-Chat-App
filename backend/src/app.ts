@@ -10,6 +10,6 @@ app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
-app.use(router);
+app.use('/api', router);
 
 export { app };
