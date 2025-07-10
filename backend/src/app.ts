@@ -6,7 +6,12 @@ import path from 'path';
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:4200', 'http://real-time-chat-app.local'],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
