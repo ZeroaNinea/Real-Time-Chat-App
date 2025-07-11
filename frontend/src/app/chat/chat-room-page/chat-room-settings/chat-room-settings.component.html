@@ -5,7 +5,11 @@
   <h3>{{ chatName }}</h3>
   @if ((isAdmin || isOwner) && !isPrivate) {
   <button mat-button (click)="openSettingsDialog()">Edit Settings</button>
-  } @else if (isPrivate) {
+  @if (isOwner) {
+  <button mat-button (click)="deleteRoom.emit()" class="warn">
+    Delete Chat Room
+  </button>
+  } } @else if (isPrivate) {
   <button
     mat-button
     [disabled]="isDeletionRequested()"
