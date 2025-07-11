@@ -56,6 +56,8 @@ export const createChat = async (req: Request, res: Response) => {
   try {
     const { name, topic } = req.body;
 
+    console.log(name, topic);
+
     if (!name) {
       return res.status(400).json({ message: 'Chat name is required' });
     }

@@ -24,7 +24,7 @@ app.use(
 );
 app.use(express.json());
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/api', router);
 
 export { app };
