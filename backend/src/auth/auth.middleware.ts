@@ -44,6 +44,12 @@ export const authMiddleware = async (
     }
     req.user = user;
 
+    console.log('Authorization header:', authHeader);
+    console.log('Extracted token:', token);
+    console.log('Decoded JWT:', decoded);
+    console.log('Redis key:', redisKey, 'Exists:', exists);
+    console.log('User:', user);
+
     next();
   } catch (error) {
     res.status(401).json({ message: 'Invalid token.' });

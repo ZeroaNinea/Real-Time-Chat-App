@@ -56,8 +56,6 @@ export const createChat = async (req: Request, res: Response) => {
   try {
     const { name, topic } = req.body;
 
-    console.log(name, topic);
-
     if (!name) {
       return res.status(400).json({ message: 'Chat name is required' });
     }
@@ -67,11 +65,11 @@ export const createChat = async (req: Request, res: Response) => {
     const chat = await Chat.create({
       name,
       isPrivate: false,
+      topic: topic,
+      thumbnail: thumbnail,
       roles: [
         {
           name: 'Owner',
-          topic: topic,
-          thumbnail: thumbnail,
           description: 'Full permissions',
           permissions: [
             'canBan',
