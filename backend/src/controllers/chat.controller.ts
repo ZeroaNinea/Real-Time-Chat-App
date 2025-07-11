@@ -61,8 +61,6 @@ export const createChat = async (req: Request, res: Response) => {
     }
 
     const thumbnail = req.file?.filename;
-
-    console.log('Creating chat for user:', req.user?._id);
     const chat = await Chat.create({
       name,
       isPrivate: false,
@@ -257,6 +255,10 @@ export const getChat = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
     const chatId = req.params.chatId;
+
+    if (!chatId || chatId === 'null') {
+      throw new Error('Invalid chat ID');
+    }
 
     const chat = await Chat.findById(chatId).populate('members');
     if (!chat) return res.status(404).json({ message: 'Chat not found' });
