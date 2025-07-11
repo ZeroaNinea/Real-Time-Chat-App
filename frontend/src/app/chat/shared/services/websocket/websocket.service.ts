@@ -50,7 +50,7 @@ export class WebsocketService implements OnDestroy {
 
     const token = localStorage.getItem('accessToken');
 
-    this.socket = io(environment.backendUrl, {
+    this.socket = io(environment.socketUrl, {
       transports: ['websocket'],
       auth: {
         token,
