@@ -33,6 +33,7 @@ export class ChatService {
   }
 
   createChatRoom(data: FormData) {
+    console.log('from the service', data);
     return this.http.post<Chat>(
       `${environment.backendUrl}/chat/create-chat`,
       data

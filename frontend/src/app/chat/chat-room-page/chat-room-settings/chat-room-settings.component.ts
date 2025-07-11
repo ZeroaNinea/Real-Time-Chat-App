@@ -106,6 +106,7 @@ export class ChatRoomSettingsComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        console.log(result);
         this.chatNameChange.emit(result.name);
         this.chatTopicChange.emit(result.topic);
         // this.chatThumbnailChange.emit(result.file);

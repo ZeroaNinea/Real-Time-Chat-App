@@ -728,6 +728,8 @@ export class ChatRoomComponent implements OnDestroy {
     formData.append('name', this.chatName());
     formData.append('topic', this.chatTopic());
 
+    console.log('Form data:', formData);
+
     const checkFile = this.thumbnailFile();
     if (checkFile instanceof File) {
       formData.append('thumbnail', checkFile);
@@ -739,6 +741,7 @@ export class ChatRoomComponent implements OnDestroy {
         .updateChatRoom(this.chatId()!, formData)
         .subscribe(() => console.log('Room updated'));
     } else {
+      console.log('Creating new chat room.');
       // Creating a new chat room.
       this.chatService.createChatRoom(formData).subscribe({
         next: (createdRoom) => {
