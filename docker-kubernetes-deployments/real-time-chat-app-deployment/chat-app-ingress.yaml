@@ -10,6 +10,13 @@ spec:
     - host: real-time-chat-app.local
       http:
         paths:
+          - path: /socket.io
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 80
           - path: /api
             pathType: Prefix
             backend:
