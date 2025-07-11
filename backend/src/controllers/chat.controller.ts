@@ -62,6 +62,7 @@ export const createChat = async (req: Request, res: Response) => {
 
     const thumbnail = req.file?.filename;
 
+    console.log('Creating chat for user:', req.user?._id);
     const chat = await Chat.create({
       name,
       isPrivate: false,
