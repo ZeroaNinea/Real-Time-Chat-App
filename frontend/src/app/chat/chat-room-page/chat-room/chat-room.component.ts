@@ -266,9 +266,11 @@ export class ChatRoomComponent implements OnDestroy {
         this.loadInitialMessages();
       }
 
-      this.chatService
-        .getChatMembers(this.chatId()!)
-        .subscribe((members) => this.populatedUsers.set(members));
+      if (this.chatId()) {
+        this.chatService
+          .getChatMembers(this.chatId()!)
+          .subscribe((members) => this.populatedUsers.set(members));
+      }
 
       if (member) {
         // Found in members.
@@ -727,8 +729,6 @@ export class ChatRoomComponent implements OnDestroy {
     const formData = new FormData();
     formData.append('name', this.chatName());
     formData.append('topic', this.chatTopic());
-
-    console.log('Form data:', formData);
 
     const checkFile = this.thumbnailFile();
     if (checkFile instanceof File) {
