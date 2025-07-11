@@ -25,7 +25,12 @@ router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
 router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
-router.post('/create-chat', authMiddleware, asyncRoute(createChat));
+router.post(
+  '/create-chat',
+  authMiddleware,
+  uploadChatThumbnail,
+  asyncRoute(createChat)
+);
 router.patch(
   '/update-chat/:chatId',
   authMiddleware,
