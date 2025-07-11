@@ -22,6 +22,9 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
   styleUrl: './chat-room-settings-dialog.component.scss',
 })
 export class ChatRoomSettingsDialogComponent {
+  name = '';
+  topic = '';
+
   thumbnailPreview: string | null = null;
   selectedFile: File | null = null;
   chatService = inject(ChatService);
@@ -40,6 +43,9 @@ export class ChatRoomSettingsDialogComponent {
     // if (data.thumbnailUrl) {
     // this.thumbnailPreview = data.thumbnailUrl;
     // }
+
+    this.name = data.name;
+    this.topic = data.topic;
   }
 
   onCancel() {
