@@ -3,19 +3,26 @@ kind: Ingress
 metadata:
   name: chat-app-ingress
   namespace: chat-app
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-request-buffering: 'off'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
 spec:
   ingressClassName: nginx
   rules:
     - host: real-time-chat-app.local
       http:
         paths:
-          # - path: /
-          #   pathType: ImplementationSpecific
-          #   backend:
-          #     service:
-          #       name: backend
-          #       port:
-          #         number: 80
+          - path: /socket.io
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 80
           - path: /api
             pathType: Prefix
             backend:
