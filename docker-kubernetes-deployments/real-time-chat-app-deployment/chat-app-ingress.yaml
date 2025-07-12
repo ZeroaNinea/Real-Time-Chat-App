@@ -4,6 +4,8 @@ metadata:
   name: chat-app-ingress
   namespace: chat-app
   annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-request-buffering: 'off'
@@ -16,8 +18,8 @@ spec:
     - host: real-time-chat-app.local
       http:
         paths:
-          - path: /socket.io
-            pathType: Prefix
+          - path: /socket.io(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: backend
