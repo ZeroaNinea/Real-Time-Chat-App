@@ -2,6 +2,31 @@
 
 This guide will help you deploy all Kubernetes resources for the Real-Time-Chat-App.
 
+## Docker Compose
+
+Use `docker compose` to create images.
+
+```bash
+docker compose up --build
+
+```
+
+Now tag the images.
+
+```bash
+docker image tag real-time-chat-app-frontend:latest <YOUR_USERNAME>/chat-frontend:latest
+docker image tag real-time-chat-app-backend:latest <YOUR_USERNAME>/chat-backend:latest
+
+```
+
+Push them into your DockerHub.
+
+```bash
+docker push <YOUR_USERNAME>/chat-frontend:latest
+docker push <YOUR_USERNAME>/chat-backend:latest
+
+```
+
 ## Deploy
 
 Apply the resources in the following order:
