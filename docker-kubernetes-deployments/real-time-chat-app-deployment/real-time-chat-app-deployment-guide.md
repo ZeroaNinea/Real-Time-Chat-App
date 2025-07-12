@@ -4,10 +4,16 @@ This guide will help you deploy all Kubernetes resources for the Real-Time-Chat-
 
 ## Docker Compose
 
-Use `docker compose` to create images.
+Restart Docker (if you're using Linux).
 
 ```bash
 sudo systemctl restart docker
+
+```
+
+Use `docker compose` to create images.
+
+```bash
 docker compose up --build
 
 ```
