@@ -89,6 +89,8 @@ export function setupSocket(server: HttpServer, app: Express) {
         onlineUsers.delete(userId);
         socket.broadcast.emit('userOffline', { userId });
       }
+
+      console.log('Connected users:', onlineUsers);
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
