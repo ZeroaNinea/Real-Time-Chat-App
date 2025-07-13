@@ -144,7 +144,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 │   │   ├── member.handlers.ts
 │   │   ├── mesage.handlers.ts
 │   │   └── social.handlers.ts
-│   └── socket.ts # The main Socker.Io file.
+│   └── socket.ts # The main Socket.IO file.
 ├── test
 │   ├── app.spec.ts
 │   ├── auth.middleware.spec.ts
@@ -390,7 +390,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 │   │   │           │   └── chat.service.ts # All HTTP(S) requests for chat rooms.
 │   │   │           └── websocket
 │   │   │               ├── websocket.service.spec.ts
-│   │   │               └── websocket.service.ts # All Socket.Io requests.
+│   │   │               └── websocket.service.ts # All Socket.IO requests.
 │   │   ├── home
 │   │   │   ├── home.component.html
 │   │   │   ├── home.component.scss
