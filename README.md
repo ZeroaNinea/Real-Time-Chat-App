@@ -72,7 +72,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 | Layer    | Technology                                                                                                                                           |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Frontend | Angular, SCSS, Angular Material                                                                                                                      |
+| Frontend | Angular 20, SCSS, Angular Material                                                                                                                   |
 | Backend  | Node.js, Express, Socket.IO                                                                                                                          |
 | Auth     | JWT, Redis (token store)                                                                                                                             |
 | Database | MongoDB, Mongoose                                                                                                                                    |
