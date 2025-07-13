@@ -42,8 +42,6 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 ## 🖼️ Screenshots
 
-> Replace the filenames with your actual screenshots!
-
 ### 🌐 Landing Page
 
 ![Landing Page](./screenshots/home.png)
