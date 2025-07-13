@@ -86,7 +86,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 ### Backend
 
-```bash
+```plaintext
 .
 ├── Dockerfile
 ├── nodemon.json
@@ -165,7 +165,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 ### Frontend
 
-```bash
+```plaintext
 .
 ├── angular.json
 ├── Dockerfile
