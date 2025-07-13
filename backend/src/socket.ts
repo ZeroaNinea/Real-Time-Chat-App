@@ -59,12 +59,33 @@ export function setupSocket(server: HttpServer, app: Express) {
 
   app.set('io', io);
 
+  const onlineUsers = new Map<string, Set<string>>();
+
   io.on('connection', (socket) => {
     console.log('A user connected.');
+
+    const userId = socket.data.user._id.toString();
+
+    if (!onlineUsers.has(userId)) {
+      onlineUsers.set(userId, new Set());
+    }
+    onlineUsers.get(userId)!.add(socket.id);
+
+    socket.broadcast.emit('userOnline', { userId });
+
     registerSocketHandlers(io, socket);
 
     socket.on('disconnect', () => {
       console.log('User disconnected.');
+      const userId = socket.data.user._id.toString();
+      const sockets = onlineUsers.get(userId);
+      if (!sockets) return;
+
+      sockets.delete(socket.id);
+      if (sockets.size === 0) {
+        onlineUsers.delete(userId);
+        socket.broadcast.emit('userOffline', { userId });
+      }
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
