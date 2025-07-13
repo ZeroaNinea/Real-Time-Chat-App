@@ -72,15 +72,15 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 ## 🧰 Tech Stack
 
-| Layer    | Technology                                                                                                           |
-| -------- | -------------------------------------------------------------------------------------------------------------------- |
-| Frontend | Angular, SCSS, Angular Material                                                                                      |
-| Backend  | Node.js, Express, Socket.IO                                                                                          |
-| Auth     | JWT, Redis (token store)                                                                                             |
-| Database | MongoDB, Mongoose                                                                                                    |
-| Realtime | Socket.IO                                                                                                            |
-| DevOps   | Docker, Kubernetes (Minikube)                                                                                        |
-| Testing  | Mocha & Chai (backend), Jasmine & Karma (frontend), Cypress (E2E), Artillery (performance), LighthouseCI (standards) |
+| Layer    | Technology                                                                                                                                           |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend | Angular, SCSS, Angular Material                                                                                                                      |
+| Backend  | Node.js, Express, Socket.IO                                                                                                                          |
+| Auth     | JWT, Redis (token store)                                                                                                                             |
+| Database | MongoDB, Mongoose                                                                                                                                    |
+| Realtime | Socket.IO                                                                                                                                            |
+| DevOps   | Docker, Kubernetes (Minikube)                                                                                                                        |
+| Testing  | Mocha & Chai (backend), Jasmine & Karma (frontend), Cypress (E2E), Artillery (performance), LighthouseCI (standards), Clinic.Js (backend algorithms) |
 
 ---
 
