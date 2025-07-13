@@ -11,6 +11,13 @@ sudo systemctl restart docker
 
 ```
 
+Don't forget to enable ingresses in Minikube.
+
+```bash
+minikube addons enable ingress
+
+```
+
 Use `docker compose` to create images.
 
 ```bash
