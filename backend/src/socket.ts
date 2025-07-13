@@ -74,6 +74,8 @@ export function setupSocket(server: HttpServer, app: Express) {
     socket.broadcast.emit('userOnline', { userId });
     socket.emit('onlineUsers', Array.from(onlineUsers.keys()));
 
+    console.log('Connected users:', onlineUsers);
+
     registerSocketHandlers(io, socket);
 
     socket.on('disconnect', () => {
