@@ -462,7 +462,7 @@ The deployments are placed in the [`docker-kubernetes-deployments`](./docker-kub
 
 - **[MongoDB](./docker-kubernetes-deployments/mongodb-deployments/mongodb/)**
 - **[MongoDB Express](./docker-kubernetes-deployments/mongodb-deployments/mongodb-express/)**
-- **[This preject](./docker-kubernetes-deployments/real-time-chat-app-deployment/):** Images are deployed with Docker. Uses `docker compose` and K8s ingress.
+- **[This preject:](./docker-kubernetes-deployments/real-time-chat-app-deployment/)** Images are deployed with Docker. Uses `docker compose` and K8s ingress.
 
 ## License
 
