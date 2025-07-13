@@ -72,6 +72,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     onlineUsers.get(userId)!.add(socket.id);
 
     socket.broadcast.emit('userOnline', { userId });
+    socket.emit('onlineUsers', Array.from(onlineUsers.keys()));
 
     registerSocketHandlers(io, socket);
 
