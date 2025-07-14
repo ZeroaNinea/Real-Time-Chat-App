@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-status-dot',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './status-dot.component.html',
   styleUrl: './status-dot.component.scss',
 })
-export class StatusDotComponent {}
+export class StatusDotComponent {
+  @Input() status: 'online' | 'offline' | 'idle' | 'typing' = 'offline';
+}
