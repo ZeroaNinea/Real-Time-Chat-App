@@ -181,7 +181,6 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
   );
 
   socket.on('changeChannelOrder', async ({ channelIds, chatId }, callback) => {
-    console.log('Changing channel order...');
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) return callback?.({ error: 'Chat not found' });
@@ -195,8 +194,6 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const memberRoles = member.roles.map((role: string) => {
         return chat.roles.find((r: Role) => r.name === role);
       });
-
-      console.log('memberRoles', memberRoles);
 
       const hasChannelEditPermissions = memberRoles.some(
         (role: Role): boolean => {
@@ -214,7 +211,6 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       );
 
       if (!hasChannelEditPermissions) {
-        console.log('You are not authorized to change the channel order');
         return callback?.({
           error: 'You are not authorized to change the channel order',
         });
@@ -244,11 +240,8 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       await Channel.bulkWrite(bulkOps);
 
-      console.log(JSON.stringify(bulkOps));
-
       const updatedChannels = await Channel.find({ chatId }).sort('order');
 
-      console.log('updatedChannels', updatedChannels);
       io.to(chatId).emit('channelsUpdated', updatedChannels);
 
       callback?.({ success: true });
