@@ -72,9 +72,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     onlineUsers.get(userId)!.add(socket.id);
 
     socket.broadcast.emit('userOnline', userId);
-    socket.emit('onlineUsers', Array.from(onlineUsers.keys()));
-
-    console.log('Connected users:', onlineUsers);
+    io.emit('onlineUsers', Array.from(onlineUsers.keys()));
 
     registerSocketHandlers(io, socket);
 
@@ -89,8 +87,6 @@ export function setupSocket(server: HttpServer, app: Express) {
         onlineUsers.delete(userId);
         socket.broadcast.emit('userOffline', userId);
       }
-
-      console.log('Connected users:', onlineUsers);
     });
 
     socket.on('joinChatRoom', ({ chatId }) => {
