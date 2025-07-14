@@ -365,4 +365,24 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenTypingStart(): Observable<{
+    userId: string;
+    chatId: string;
+    channelId: string;
+  }> {
+    return new Observable((observer) => {
+      this.socket.on('userTypingStart', (data) => observer.next(data));
+    });
+  }
+
+  listenTypingStop(): Observable<{
+    userId: string;
+    chatId: string;
+    channelId: string;
+  }> {
+    return new Observable((observer) => {
+      this.socket.on('userTypingStop', (data) => observer.next(data));
+    });
+  }
 }
