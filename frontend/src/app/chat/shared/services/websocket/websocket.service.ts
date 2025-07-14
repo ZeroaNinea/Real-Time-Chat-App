@@ -315,24 +315,30 @@ export class WebsocketService implements OnDestroy {
   }
 
   listenUserOnline(): Observable<string> {
+    console.log('Listening for user online...');
     return new Observable((observer) => {
       this.socket.on('userOnline', (data) => {
+        console.log('User online from the service:', data);
         observer.next(data);
       });
     });
   }
 
   listenUserOffline(): Observable<string> {
+    console.log('Listening for user offline...');
     return new Observable((observer) => {
       this.socket.on('userOffline', (data) => {
+        console.log('User offline from the service:', data);
         observer.next(data);
       });
     });
   }
 
   listenInitialOnlineUsers(): Observable<string[]> {
+    console.log('Listening for initial online users...');
     return new Observable((observer) => {
       this.socket.on('onlineUsers', (data: string[]) => {
+        console.log('Online users from the service:', data);
         observer.next(data);
       });
     });
