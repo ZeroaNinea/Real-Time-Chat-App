@@ -35,6 +35,8 @@ export class MemberListComponent {
   @Input() currentUserFriends: string[] = [];
   @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
+  @Input() onlineUsers: Set<string> = new Set();
+
   environment = environment;
 
   constructor() {
