@@ -321,8 +321,6 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenChannelEditions().subscribe((channel) => {
-      console.log('Channel edited:', channel);
-
       this.channels.update((chs) =>
         chs.map((c) => (c._id === channel._id ? channel : c))
       );

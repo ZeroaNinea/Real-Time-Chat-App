@@ -76,7 +76,6 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
   });
 
   socket.on('editChannelTopic', async ({ channelId, topic }, callback) => {
-    console.log('Editing channel topic...');
     try {
       const userId = socket.data.user._id;
 
