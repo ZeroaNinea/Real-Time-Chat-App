@@ -313,4 +313,28 @@ export class WebsocketService implements OnDestroy {
       });
     });
   }
+
+  listenUserOnline(): Observable<{ userId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('userOnline', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  listenUserOffline(): Observable<{ userId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('userOffline', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  listenInitialOnlineUsers(): Observable<string[]> {
+    return new Observable((observer) => {
+      this.socket.on('onlineUsers', (data: string[]) => {
+        observer.next(data);
+      });
+    });
+  }
 }
