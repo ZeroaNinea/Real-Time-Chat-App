@@ -76,6 +76,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
   });
 
   socket.on('editChannelTopic', async ({ channelId, topic }, callback) => {
+    console.log('Editing channel topic...');
     try {
       const userId = socket.data.user._id;
 
@@ -100,7 +101,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       channel.topic = topic;
       await channel.save();
 
-      io.to(chat._id.toString()).emit('channelEdited', { channel });
+      io.to(chat._id.toString()).emit('channelEdited', channel);
       callback?.({ success: true, channel });
     } catch (err) {
       console.error(err);
@@ -129,7 +130,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       channel.name = name;
       await channel.save();
 
-      io.to(chat._id.toString()).emit('channelEdited', { channel });
+      io.to(chat._id.toString()).emit('channelEdited', channel);
       callback?.({ success: true, channel });
     } catch (err) {
       console.error(err);
@@ -170,7 +171,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         channel.permissions = updatedPermissions;
         await channel.save();
 
-        io.to(chat._id.toString()).emit('channelEdited', { channel });
+        io.to(chat._id.toString()).emit('channelEdited', channel);
         callback?.({ success: true, channel });
       } catch (err) {
         console.error(err);

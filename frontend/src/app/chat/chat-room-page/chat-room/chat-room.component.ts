@@ -320,6 +320,14 @@ export class ChatRoomComponent implements OnDestroy {
       this.channels.update((chs) => chs.filter((c) => c._id !== channelId));
     });
 
+    this.wsService.listenChannelEditions().subscribe((channel) => {
+      console.log('Channel edited:', channel);
+
+      this.channels.update((chs) =>
+        chs.map((c) => (c._id === channel._id ? channel : c))
+      );
+    });
+
     this.wsService.listenNewMessage().subscribe((msg) => {
       this.messages.update((msgs) => [...msgs, msg]);
     });

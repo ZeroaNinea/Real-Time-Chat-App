@@ -145,6 +145,14 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
+  listenChannelEditions(): Observable<Channel> {
+    return new Observable((observer) => {
+      this.socket.on('channelEdited', (channel: Channel) => {
+        observer.next(channel);
+      });
+    });
+  }
+
   listenNewMessage(): Observable<Message> {
     return new Observable((observer) => {
       this.socket.on('message', (message: Message) => {
