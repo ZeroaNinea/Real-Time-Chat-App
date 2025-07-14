@@ -9,6 +9,9 @@
           alt="Avatar"
           class="user-avatar"
         />
+        @if (onlineUsers.has(member.user._id)) {
+        <span class="status-dot online"></span>
+        }
       </div>
       <div class="user-info">
         <div class="user-name-pronouns">
