@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
   ViewChild,
@@ -16,6 +17,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { GifPickerComponent } from '../../../shared/components/gif-picker/gif-picker.component';
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-message-input',
@@ -51,6 +53,10 @@ export class MessageInputComponent implements AfterViewInit {
 
   showEmojiPicker = false;
   showGifPicker = false;
+
+  private wsService = inject(WebsocketService);
+
+  private typingTimeout: any;
 
   ngAfterViewInit() {
     const textarea = this.textarea.nativeElement;
@@ -130,5 +136,14 @@ export class MessageInputComponent implements AfterViewInit {
     this.message += ` ![](${url}) `;
     this.messageChange.emit(this.message);
     this.showGifPicker = false;
+  }
+
+  onInputChange() {
+    this.wsService.emitTypingStart(this.chatId, this.channelId);
+
+    clearTimeout(this.typingTimeout);
+    this.typingTimeout = setTimeout(() => {
+      this.wsService.emitTypingStop(this.chatId, this.channelId);
+    }, 3000);
   }
 }

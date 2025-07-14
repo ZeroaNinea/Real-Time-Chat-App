@@ -169,6 +169,20 @@ export class WebsocketService implements OnDestroy {
     this.socket.emit('joinChatRoom', { chatId });
   }
 
+  emitTypingStart(chatId: string | null, channelId: string | null) {
+    if (chatId === null || channelId === null) {
+      return;
+    }
+    this.socket.emit('typingStart', { chatId, channelId });
+  }
+
+  emitTypingStop(chatId: string | null, channelId: string | null) {
+    if (chatId === null || channelId === null) {
+      return;
+    }
+    this.socket.emit('typingStop', { chatId, channelId });
+  }
+
   listenMessageDeletions(): Observable<{ messageId: string }> {
     return new Observable((observer) => {
       this.socket.on('messageDeleted', (data) => {
