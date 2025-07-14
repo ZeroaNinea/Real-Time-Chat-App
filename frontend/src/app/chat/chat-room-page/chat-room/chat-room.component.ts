@@ -117,6 +117,8 @@ export class ChatRoomComponent implements OnDestroy {
   previousScrollHeight = 0;
   previousChannelId: string | null = null;
 
+  private onlineUsers = new Set<string>();
+
   // oldestMessageTimestamp: string | null = null;
   hasMoreMessages = true;
   isLoadingMessages = false;
@@ -157,6 +159,10 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.currentUser()?.id;
     const user = this.populatedUsers().find((u) => u.user._id === id);
     return user?.user?.pendingRequests || [];
+  }
+
+  getOnlineUsers(): Set<string> {
+    return this.onlineUsers;
   }
 
   constructor() {
@@ -473,16 +479,17 @@ export class ChatRoomComponent implements OnDestroy {
       });
     });
 
-    // I'll implement this later.
-    // this.wsService.listenUserJoined().subscribe((user) => {
-    //   this.populatedUsers.update((users) => [...users, user]);
-    // });
+    this.wsService.listenInitialOnlineUsers().subscribe((userIds) => {
+      this.onlineUsers = new Set(userIds);
+    });
 
-    // this.wsService.listenUserLeft().subscribe(({ userId }) => {
-    //   this.populatedUsers.update((users) =>
-    //     users.filter((u) => u._id !== userId)
-    //   );
-    // });
+    this.wsService.listenUserOnline().subscribe((userId) => {
+      this.onlineUsers.add(userId);
+    });
+
+    this.wsService.listenUserOffline().subscribe((userId) => {
+      this.onlineUsers.delete(userId);
+    });
   }
 
   loadInitialMessages() {

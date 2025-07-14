@@ -314,7 +314,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenUserOnline(): Observable<{ userId: string }> {
+  listenUserOnline(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('userOnline', (data) => {
         observer.next(data);
@@ -322,7 +322,7 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenUserOffline(): Observable<{ userId: string }> {
+  listenUserOffline(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('userOffline', (data) => {
         observer.next(data);
