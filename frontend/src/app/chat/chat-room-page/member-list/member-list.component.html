@@ -10,7 +10,7 @@
           class="user-avatar"
         />
         @if (onlineUsers.has(member.user._id)) {
-        <span class="status-dot online"></span>
+        <app-status-dot status="online" class="status-dot"></app-status-dot>
         }
       </div>
       <div class="user-info">

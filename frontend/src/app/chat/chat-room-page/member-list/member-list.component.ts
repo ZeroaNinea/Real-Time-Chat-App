@@ -13,10 +13,11 @@ import { environment } from '../../../../environments/environment';
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
+import { StatusDotComponent } from '../../shared/components/status-dot/status-dot.component';
 
 @Component({
   selector: 'app-member-list',
-  imports: [MatListModule],
+  imports: [MatListModule, StatusDotComponent],
   standalone: true,
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss',
