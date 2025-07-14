@@ -71,7 +71,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     }
     onlineUsers.get(userId)!.add(socket.id);
 
-    socket.broadcast.emit('userOnline', { userId });
+    socket.broadcast.emit('userOnline', userId);
     socket.emit('onlineUsers', Array.from(onlineUsers.keys()));
 
     console.log('Connected users:', onlineUsers);
@@ -87,7 +87,7 @@ export function setupSocket(server: HttpServer, app: Express) {
       sockets.delete(socket.id);
       if (sockets.size === 0) {
         onlineUsers.delete(userId);
-        socket.broadcast.emit('userOffline', { userId });
+        socket.broadcast.emit('userOffline', userId);
       }
 
       console.log('Connected users:', onlineUsers);
