@@ -476,16 +476,19 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenInitialOnlineUsers().subscribe((userIds) => {
+      console.log('Initial online users: ', userIds);
       this.onlineUsers.set(new Set(userIds));
     });
 
     this.wsService.listenUserOnline().subscribe((userId) => {
+      console.log('User online: ', userId);
       const current = new Set(this.onlineUsers());
       current.add(userId);
       this.onlineUsers.set(current);
     });
 
     this.wsService.listenUserOffline().subscribe((userId) => {
+      console.log('User offline: ', userId);
       const current = new Set(this.onlineUsers());
       current.delete(userId);
       this.onlineUsers.set(current);
