@@ -37,6 +37,10 @@ export class MemberListComponent {
   @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
   @Input() onlineUsers: Set<string> = new Set();
+  @Input() typingUsers: Map<string, Set<string>> = new Map<
+    string,
+    Set<string>
+  >();
 
   environment = environment;
 
