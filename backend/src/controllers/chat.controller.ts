@@ -132,7 +132,25 @@ export const createChat = async (req: Request, res: Response) => {
       members: [
         {
           user: req.user._id,
-          roles: ['Owner'],
+          roles: [
+            {
+              name: 'Owner',
+              description: 'Full permissions',
+              permissions: [
+                'canBan',
+                'canMute',
+                'canDeleteMessages',
+                'canCreateChannels',
+                'canEditChannels',
+                'canDeleteChannels',
+                'canDeleteChatroom',
+                'canAssignRoles',
+                'canAssignAdmins',
+                'canAssignModerators',
+              ],
+              canBeSelfAssigned: false,
+            },
+          ],
         },
       ],
     });

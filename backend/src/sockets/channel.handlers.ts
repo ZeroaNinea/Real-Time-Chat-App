@@ -6,6 +6,7 @@ import { Channel, ChannelDocument } from '../models/channel.model';
 
 import { Member } from '../../types/member.alias';
 import { addChannelService } from '../services/chat.service';
+import { Role } from '../../types/role.alias';
 
 export function registerChannelHandlers(io: Server, socket: Socket) {
   socket.on('addChannel', async ({ chatId, channelName }) => {
@@ -180,6 +181,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
   );
 
   socket.on('changeChannelOrder', async ({ channelIds, chatId }, callback) => {
+    console.log('Changing channel order...');
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) return callback?.({ error: 'Chat not found' });
@@ -190,14 +192,23 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       if (!member)
         return callback?.({ error: 'You are not a member of this chat' });
 
-      const isAdminOrOwner =
-        member.roles.includes('Admin') || member.roles.includes('Owner');
+      const hasChannelEditPermissions = member.roles.some(
+        (role: Role): boolean => {
+          if (role.permissions) {
+            return (
+              (role.permissions.includes('canEditChannels') &&
+                role.permissions.includes('canEditChannelOrder')) ||
+              role.name === 'Admin' ||
+              role.name === 'Owner'
+            );
+          } else {
+            return false;
+          }
+        }
+      );
 
-      const hasChannelEditPermissions =
-        member.permissions.includes('canEditChannels') &&
-        member.permissions.includes('canDeleteChannels');
-
-      if (!isAdminOrOwner || !hasChannelEditPermissions) {
+      if (!hasChannelEditPermissions) {
+        console.log('You are not authorized to change the channel order');
         return callback?.({
           error: 'You are not authorized to change the channel order',
         });
