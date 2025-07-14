@@ -118,7 +118,7 @@ export class ChatRoomComponent implements OnDestroy {
   previousChannelId: string | null = null;
 
   readonly onlineUsers = signal<Set<string>>(new Set());
-  typingUsers = new Map<string, Set<string>>();
+  typingUsers = signal(new Map<string, Set<string>>());
 
   // oldestMessageTimestamp: string | null = null;
   hasMoreMessages = true;
@@ -502,19 +502,29 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenTypingStart().subscribe(({ userId, channelId }) => {
-      if (!this.typingUsers.has(channelId)) {
-        this.typingUsers.set(channelId, new Set());
-      }
-      this.typingUsers.get(channelId)!.add(userId);
+      const current = this.typingUsers();
+      const updated = new Map(current);
+
+      if (!updated.has(channelId)) updated.set(channelId, new Set());
+      updated.get(channelId)!.add(userId);
+
+      this.typingUsers.set(updated);
+
+      console.log('Typing users: ', this.typingUsers());
     });
 
     this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
-      const users = this.typingUsers.get(channelId);
+      const current = this.typingUsers();
+      const updated = new Map(current);
+
+      const users = updated.get(channelId);
       if (!users) return;
       users.delete(userId);
-      if (users.size === 0) {
-        this.typingUsers.delete(channelId);
-      }
+      if (users.size === 0) updated.delete(channelId);
+
+      this.typingUsers.set(updated);
+
+      console.log('Typing users: ', this.typingUsers());
     });
   }
 
