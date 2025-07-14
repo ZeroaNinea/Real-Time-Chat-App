@@ -197,7 +197,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         member.permissions.includes('canEditChannels') &&
         member.permissions.includes('canDeleteChannels');
 
-      if (!isAdminOrOwner && !hasChannelEditPermissions) {
+      if (!isAdminOrOwner || !hasChannelEditPermissions) {
         return callback?.({
           error: 'You are not authorized to change the channel order',
         });
