@@ -1,20 +1,34 @@
+@use "@angular/material" as mat;
+
 .status-dot {
   position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid white;
-  background-color: gray;
+  border: 2px solid var(--mat-sys-surface-container);
+  background-color: var(--mat-sys-outline);
 
   &.online {
-    background-color: #4caf50;
-  }
+    background-color: var(--mat-sys-primary);
 
-  &.offline {
-    background-color: #9e9e9e;
+    & {
+      @include mat.theme(
+        (
+          color: mat.$green-palette,
+        )
+      );
+    }
   }
 
   &.idle {
-    background-color: #ffc107;
+    background-color: var(--mat-sys-primary);
+
+    & {
+      @include mat.theme(
+        (
+          color: mat.$yellow-palette,
+        )
+      );
+    }
   }
 }
