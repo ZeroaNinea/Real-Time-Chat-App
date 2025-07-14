@@ -192,7 +192,13 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       if (!member)
         return callback?.({ error: 'You are not a member of this chat' });
 
-      const hasChannelEditPermissions = member.roles.some(
+      const memberRoles = member.roles.map((role: string) => {
+        return chat.roles.find((r: Role) => r.name === role);
+      });
+
+      console.log('memberRoles', memberRoles);
+
+      const hasChannelEditPermissions = memberRoles.some(
         (role: Role): boolean => {
           if (role.permissions) {
             return (
