@@ -11,6 +11,8 @@
         />
         @if (onlineUsers.has(member.user._id)) {
         <app-status-dot status="online" class="status-dot"></app-status-dot>
+        } @else {
+        <app-status-dot status="offline" class="status-dot"></app-status-dot>
         }
       </div>
       <div class="user-info">
