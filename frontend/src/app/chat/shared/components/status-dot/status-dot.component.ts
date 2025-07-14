@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-status-dot',
-  imports: [],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './status-dot.component.html',
   styleUrl: './status-dot.component.scss',
