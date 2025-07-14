@@ -502,6 +502,7 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenTypingStart().subscribe(({ userId, channelId }) => {
+      console.log('Typing start...');
       const current = this.typingUsers();
       const updated = new Map(current);
 
@@ -514,6 +515,7 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
+      console.log('Typing stop...');
       const current = this.typingUsers();
       const updated = new Map(current);
 
