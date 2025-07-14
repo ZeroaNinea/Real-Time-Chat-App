@@ -15,6 +15,7 @@
       [(ngModel)]="message"
       (ngModelChange)="messageChange.emit($event)"
       (keydown.enter)="replyingToMessage ? onReply($event) : onEnter($event)"
+      (input)="onInputChange()"
       placeholder="Type a message"
       class="message-textarea"
     ></textarea>
