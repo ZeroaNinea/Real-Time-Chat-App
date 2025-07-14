@@ -118,6 +118,7 @@ export class ChatRoomComponent implements OnDestroy {
   previousChannelId: string | null = null;
 
   readonly onlineUsers = signal<Set<string>>(new Set());
+  typingUsers = new Map<string, Set<string>>();
 
   // oldestMessageTimestamp: string | null = null;
   hasMoreMessages = true;
@@ -498,6 +499,22 @@ export class ChatRoomComponent implements OnDestroy {
       const current = new Set(this.onlineUsers());
       current.delete(userId);
       this.onlineUsers.set(current);
+    });
+
+    this.wsService.listenTypingStart().subscribe(({ userId, channelId }) => {
+      if (!this.typingUsers.has(channelId)) {
+        this.typingUsers.set(channelId, new Set());
+      }
+      this.typingUsers.get(channelId)!.add(userId);
+    });
+
+    this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
+      const users = this.typingUsers.get(channelId);
+      if (!users) return;
+      users.delete(userId);
+      if (users.size === 0) {
+        this.typingUsers.delete(channelId);
+      }
     });
   }
 
