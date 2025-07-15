@@ -32,6 +32,7 @@ export class MemberListComponent {
   @Input() isOwner: boolean = false;
   @Input() isModerator: boolean = false;
   @Input() chatId: string | null = null;
+  @Input() channelId: string | null = null;
   @Input() chatRoomRoles: ChatRoomRole[] = [];
   @Input() currentUserFriends: string[] = [];
   @Input() currentUserBanList: string[] = [];
@@ -92,12 +93,6 @@ export class MemberListComponent {
         currentUserPendingRequests: this.currentUserPendingRequests,
       },
       width: '400px',
-    });
-  }
-
-  getTypingUsersForChannel(channelId: string) {
-    return computed(() => {
-      return this.typingUsers.get(channelId) ?? new Set<string>();
     });
   }
 
