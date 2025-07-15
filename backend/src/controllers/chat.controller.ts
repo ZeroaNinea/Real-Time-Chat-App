@@ -132,7 +132,7 @@ export const createChat = async (req: Request, res: Response) => {
       members: [
         {
           user: req.user._id,
-          roles: ['Owner'],
+          roles: ['Owner', 'Member'],
         },
       ],
     });
