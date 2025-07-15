@@ -21,8 +21,16 @@
   }
 
   &.typing {
-    background-color: #ff4081;
+    background-color: var(--mat-sys-primary);
     animation: typingPulse 1s infinite ease-in-out;
+
+    & {
+      @include mat.theme(
+        (
+          color: mat.$rose-palette,
+        )
+      );
+    }
   }
 
   &.idle {
