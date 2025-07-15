@@ -20,6 +20,11 @@
     }
   }
 
+  &.typing {
+    background-color: #ff4081;
+    animation: typingPulse 1s infinite ease-in-out;
+  }
+
   &.idle {
     background-color: var(--mat-sys-primary);
 
@@ -30,5 +35,16 @@
         )
       );
     }
+  }
+}
+
+@keyframes typingPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
   }
 }
