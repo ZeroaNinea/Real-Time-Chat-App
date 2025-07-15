@@ -119,6 +119,21 @@ export class MessageInputComponent implements AfterViewInit {
     return '';
   }
 
+  getTypingUsernames(): string[] {
+    if (!this.channelId) return [];
+
+    const userIds = this.typingUsers.get(this.channelId) ?? new Set();
+    const usernames: string[] = [];
+
+    for (const id of userIds) {
+      if (id === this.currentUserId) continue;
+      const user = this.members.find((m) => m.user._id === id);
+      if (user) usernames.push(user.user.username);
+    }
+
+    return usernames;
+  }
+
   addEmoji(event: any) {
     const emoji = event.emoji.native || event.emoji;
     const textarea = this.textarea.nativeElement;
