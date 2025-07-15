@@ -42,6 +42,10 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() replyingToMessage: Message | null = null;
   @Input() members: PopulatedUser[] = [];
   @Input() isPrivate: boolean = false;
+  @Input() typingUsers: Map<string, Set<string>> = new Map<
+    string,
+    Set<string>
+  >();
 
   @Output() messageChange = new EventEmitter<string>();
   @Output() send = new EventEmitter<void>();
