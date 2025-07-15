@@ -10,6 +10,13 @@
 }
 <div class="message-input-container">
   <div class="input-row">
+    @if (typing.length) {
+    <div class="typing-indicator">
+      {{ typing.join(", ") }}
+      {{ typing.length === 1 ? "is" : "are" }} typing...
+    </div>
+    }
+
     <textarea
       #textarea
       [(ngModel)]="message"
