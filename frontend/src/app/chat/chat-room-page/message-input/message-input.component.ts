@@ -78,6 +78,7 @@ export class MessageInputComponent implements AfterViewInit {
         this.send.emit();
       }
       this.textarea.nativeElement.style.height = '4.5rem';
+      this.wsService.emitTypingStop(this.chatId, this.channelId);
     }
   }
 
@@ -89,6 +90,7 @@ export class MessageInputComponent implements AfterViewInit {
       this.send.emit();
     }
     this.textarea.nativeElement.style.height = '4.5rem';
+    this.wsService.emitTypingStop(this.chatId, this.channelId);
   }
 
   onReply(event: Event) {
