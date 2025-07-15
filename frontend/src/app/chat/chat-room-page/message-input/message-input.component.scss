@@ -55,6 +55,17 @@
 
 .message-input-container {
   position: relative;
+
+  .typing-indicator {
+    position: absolute;
+    top: -25px;
+    left: 10px;
+
+    font-size: 0.85rem;
+    color: var(--mat-sys-outline);
+    margin: 0.25rem 0 0.5rem 0.25rem;
+    font-style: italic;
+  }
 }
 
 .reply-indicator {

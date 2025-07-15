@@ -127,7 +127,7 @@ export class MessageInputComponent implements AfterViewInit {
     const usernames: string[] = [];
 
     for (const id of userIds) {
-      // if (id === this.currentUserId) continue;
+      if (id === this.currentUserId) continue;
       const user = this.members.find((m) => m.user._id === id);
       if (user) usernames.push(user.user.username);
     }

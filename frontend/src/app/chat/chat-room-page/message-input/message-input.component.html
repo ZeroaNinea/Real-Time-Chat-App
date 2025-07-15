@@ -10,10 +10,10 @@
 }
 <div class="message-input-container">
   <div class="input-row">
-    @if (typing.length) {
+    @if (getTypingUsernames().length) {
     <div class="typing-indicator">
-      {{ typing.join(", ") }}
-      {{ typing.length === 1 ? "is" : "are" }} typing...
+      {{ getTypingUsernames().join(", ") }}
+      {{ getTypingUsernames().length === 1 ? "is" : "are" }} typing...
     </div>
     }
 
