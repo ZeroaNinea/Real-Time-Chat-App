@@ -507,8 +507,11 @@ export class ChatRoomComponent implements OnDestroy {
       const current = this.typingUsers();
       const updated = new Map(current);
 
-      if (!updated.has(channelId)) updated.set(channelId, new Set());
-      updated.get(channelId)!.add(userId);
+      const oldSet = updated.get(channelId) ?? new Set<string>();
+      const newSet = new Set(oldSet);
+      newSet.add(userId);
+
+      updated.set(channelId, newSet);
 
       this.typingUsers.set(updated);
 
@@ -520,10 +523,17 @@ export class ChatRoomComponent implements OnDestroy {
       const current = this.typingUsers();
       const updated = new Map(current);
 
-      const users = updated.get(channelId);
-      if (!users) return;
-      users.delete(userId);
-      if (users.size === 0) updated.delete(channelId);
+      const oldSet = updated.get(channelId);
+      if (!oldSet) return;
+
+      const newSet = new Set(oldSet);
+      newSet.delete(userId);
+
+      if (newSet.size === 0) {
+        updated.delete(channelId);
+      } else {
+        updated.set(channelId, newSet);
+      }
 
       this.typingUsers.set(updated);
 
