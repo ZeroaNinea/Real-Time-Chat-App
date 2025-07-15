@@ -4,7 +4,8 @@ export function registerTypingHandlers(io: Server, socket: Socket) {
   socket.on('typingStart', ({ chatId, channelId }) => {
     console.log('typingStart', { chatId, channelId });
     const channelRoom = `${chatId}:${channelId}`;
-    socket.to(channelRoom).emit('userTypingStart', {
+
+    socket.to(chatId).emit('userTypingStart', {
       userId: socket.data.user._id,
       chatId,
       channelId,
@@ -14,7 +15,8 @@ export function registerTypingHandlers(io: Server, socket: Socket) {
   socket.on('typingStop', ({ chatId, channelId }) => {
     console.log('typingStop', { chatId, channelId });
     const channelRoom = `${chatId}:${channelId}`;
-    socket.to(channelRoom).emit('userTypingStop', {
+
+    socket.to(chatId).emit('userTypingStop', {
       userId: socket.data.user._id,
       chatId,
       channelId,
