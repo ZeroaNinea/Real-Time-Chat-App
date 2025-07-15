@@ -38,6 +38,7 @@ export class MessageInputComponent implements AfterViewInit {
   @Input() message!: string;
   @Input() chatId: string | null = null;
   @Input() channelId: string | null = null;
+  @Input() currentUserId: string | undefined;
   @Input() replyingToMessage: Message | null = null;
   @Input() members: PopulatedUser[] = [];
   @Input() isPrivate: boolean = false;

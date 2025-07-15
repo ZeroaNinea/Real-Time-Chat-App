@@ -91,6 +91,7 @@
       [members]="populatedUsers()"
       [chatId]="chatId()"
       [channelId]="channelId()"
+      [currentUserId]="currentUser()?.id"
       [replyingToMessage]="replyingToMessage()"
       [isPrivate]="isPrivate()"
       (cancelReply)="cancelReply()"
