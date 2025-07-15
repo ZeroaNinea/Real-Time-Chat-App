@@ -1,7 +1,7 @@
 import {
   afterNextRender,
-  AfterViewInit,
   Component,
+  computed,
   inject,
   Input,
 } from '@angular/core';
@@ -92,6 +92,12 @@ export class MemberListComponent {
         currentUserPendingRequests: this.currentUserPendingRequests,
       },
       width: '400px',
+    });
+  }
+
+  getTypingUsersForChannel(channelId: string) {
+    return computed(() => {
+      return this.typingUsers.get(channelId) ?? new Set<string>();
     });
   }
 
