@@ -308,6 +308,7 @@ export class ChatRoomComponent implements OnDestroy {
     console.log('Connected to websocket.');
 
     this.wsService.joinChatRoom(this.chatId()!);
+    this.wsService.joinChatRoom(`${this.chatId()}:${this.channelId()}`);
 
     this.wsService.listenChannelUpdates().subscribe((updatedChannels) => {
       this.channels.set(updatedChannels);
