@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
-import { IdleService } from '../../../../shared/services/idle/idle.service';
+import { Component, Input } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-status-dot',
-  imports: [CommonModule],
+  imports: [CommonModule, MatTooltipModule],
   standalone: true,
   templateUrl: './status-dot.component.html',
   styleUrl: './status-dot.component.scss',
