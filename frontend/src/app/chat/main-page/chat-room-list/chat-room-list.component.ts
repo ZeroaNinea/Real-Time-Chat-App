@@ -77,7 +77,6 @@ export class ChatRoomListComponent implements OnChanges {
     );
 
     if (user?.roles.includes('Owner')) {
-      console.log('User is the owner of this room');
       return true;
     } else {
       return false;
