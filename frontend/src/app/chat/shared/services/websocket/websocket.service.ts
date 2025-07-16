@@ -183,6 +183,14 @@ export class WebsocketService implements OnDestroy {
     this.socket.emit('typingStop', { chatId, channelId });
   }
 
+  emitUserIdle() {
+    this.emit('userIdle', {});
+  }
+
+  emitUserActive() {
+    this.emit('userActive', {});
+  }
+
   listenMessageDeletions(): Observable<{ messageId: string }> {
     return new Observable((observer) => {
       this.socket.on('messageDeleted', (data) => {
@@ -383,6 +391,18 @@ export class WebsocketService implements OnDestroy {
   }> {
     return new Observable((observer) => {
       this.socket.on('userTypingStop', (data) => observer.next(data));
+    });
+  }
+
+  listenUserIdle(): Observable<{ userId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('userIdle', (data) => observer.next(data));
+    });
+  }
+
+  listenUserActive(): Observable<{ userId: string }> {
+    return new Observable((observer) => {
+      this.socket.on('userActive', (data) => observer.next(data));
     });
   }
 }

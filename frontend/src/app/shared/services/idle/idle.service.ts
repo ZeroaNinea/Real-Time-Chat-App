@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from '../../../chat/shared/services/websocket/websocket.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class IdleService {
-  constructor() {}
-
   private timeout: any;
-  private delay = 60000;
+  private idleDelay = 60000;
+  private isIdle = false;
 
   init(wsService: WebsocketService) {
-    const reset = () => {
+    const resetIdleTimer = () => {
+      if (this.isIdle) {
+        wsService.emitUserActive();
+        this.isIdle = false;
+      }
+
       clearTimeout(this.timeout);
-      wsService.emitUserActive();
       this.timeout = setTimeout(() => {
         wsService.emitUserIdle();
-      }, this.delay);
+        this.isIdle = true;
+      }, this.idleDelay);
     };
 
     ['mousemove', 'keydown', 'click', 'scroll'].forEach((event) =>
-      window.addEventListener(event, reset)
+      window.addEventListener(event, resetIdleTimer)
     );
 
-    reset();
+    resetIdleTimer();
   }
 }
