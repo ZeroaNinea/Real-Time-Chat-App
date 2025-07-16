@@ -8,7 +8,7 @@ export class IdleService {
   constructor() {}
 
   private timeout: any;
-  private delay = 60000; // 1 minute
+  private delay = 60000;
 
   init(wsService: WebsocketService) {
     const reset = () => {
