@@ -13,17 +13,11 @@ export class IdleService {
 
   init(wsService: WebsocketService) {
     this.wsService.listenUserActive().subscribe((userId) => {
-      console.log('User is active.', userId);
-
       this.idleUsers.update((users) => users.filter((u) => u !== userId));
-      console.log('Idle users:', this.idleUsers());
     });
 
     this.wsService.listenUserIdle().subscribe((userId) => {
-      console.log('User is idle.', userId);
-
       this.idleUsers.update((users) => [...users, userId]);
-      console.log('Idle users:', this.idleUsers());
     });
 
     const resetIdleTimer = () => {
