@@ -15,6 +15,8 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 import { StatusDotComponent } from '../../shared/components/status-dot/status-dot.component';
 
+import { IdleService } from '../../../shared/services/idle/idle.service';
+
 @Component({
   selector: 'app-member-list',
   imports: [MatListModule, StatusDotComponent],
@@ -24,6 +26,7 @@ import { StatusDotComponent } from '../../shared/components/status-dot/status-do
 })
 export class MemberListComponent {
   private dialog = inject(MatDialog);
+  private idleService = inject(IdleService);
 
   @Input() members: PopulatedUser[] = [];
   @Input() currentUserId: string | undefined;

@@ -221,6 +221,8 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     afterNextRender(() => {
+      this.wsService.connect();
+      this.idleService.init(this.wsService);
       this.route.paramMap.subscribe((params) => {
         const id = params.get('chatId');
         const channelId = params.get('channelId');

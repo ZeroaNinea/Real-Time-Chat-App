@@ -1,11 +1,4 @@
-import {
-  afterEveryRender,
-  afterNextRender,
-  inject,
-  Injectable,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { WebsocketService } from '../../../chat/shared/services/websocket/websocket.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +6,7 @@ export class IdleService {
   private wsService = inject(WebsocketService);
 
   private timeout: any;
-  private idleDelay = 60000;
+  private idleDelay = 1000;
   private isIdle = false;
 
   idleUsers = signal<string[]>([]);
