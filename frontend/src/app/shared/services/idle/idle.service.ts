@@ -6,7 +6,7 @@ export class IdleService {
   private wsService = inject(WebsocketService);
 
   private timeout: any;
-  private idleDelay = 1000;
+  private idleDelay = 60000;
   private isIdle = false;
 
   idleUsers = signal<string[]>([]);
