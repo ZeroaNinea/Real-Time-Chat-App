@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { afterNextRender, Component, inject, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -16,6 +16,9 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
 import { PronounsComponent } from '../pronouns/pronouns.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { UserCardComponent } from '../user-card/user-card.component';
+
+import { WebsocketService } from '../../chat/shared/services/websocket/websocket.service';
+import { IdleService } from '../../shared/services/idle/idle.service';
 
 @Component({
   selector: 'app-account',
@@ -37,8 +40,19 @@ import { UserCardComponent } from '../user-card/user-card.component';
   styleUrl: './account.component.scss',
 })
 export class AccountComponent implements OnInit {
+  private wsService = inject(WebsocketService);
+  private idleService = inject(IdleService);
+
   private http = inject(HttpClient);
   user!: User;
+
+  constructor() {
+    afterNextRender(() => {
+      this.wsService.disconnect();
+      this.wsService.connect();
+      this.idleService.init(this.wsService);
+    });
+  }
 
   setSection(section: string) {
     this.selectedSection = section;
