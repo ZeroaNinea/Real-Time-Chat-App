@@ -13,6 +13,8 @@
           [status]="
             typingUsers.get(channelId!)?.has(member.user._id)
               ? 'typing'
+              : idleService.idleUsers().includes(member.user._id)
+              ? 'idle'
               : onlineUsers.has(member.user._id)
               ? 'online'
               : 'offline'

@@ -26,7 +26,6 @@ import { IdleService } from '../../../shared/services/idle/idle.service';
 })
 export class MemberListComponent {
   private dialog = inject(MatDialog);
-  private idleService = inject(IdleService);
 
   @Input() members: PopulatedUser[] = [];
   @Input() currentUserId: string | undefined;
@@ -47,6 +46,8 @@ export class MemberListComponent {
   >();
 
   environment = environment;
+
+  idleService = inject(IdleService);
 
   constructor() {
     afterNextRender(() => {

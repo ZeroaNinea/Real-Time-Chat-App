@@ -34,7 +34,7 @@
   }
 
   &.idle {
-    background-color: var(--mat-sys-primary);
+    background-color: var(--mat-sys-primary-fixed-dim);
 
     & {
       @include mat.theme(

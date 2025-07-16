@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { IdleService } from '../../../../shared/services/idle/idle.service';
 
 @Component({
   selector: 'app-status-dot',
