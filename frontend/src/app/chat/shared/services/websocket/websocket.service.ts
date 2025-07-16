@@ -394,13 +394,13 @@ export class WebsocketService implements OnDestroy {
     });
   }
 
-  listenUserIdle(): Observable<{ userId: string }> {
+  listenUserIdle(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('userIdle', (data) => observer.next(data));
     });
   }
 
-  listenUserActive(): Observable<{ userId: string }> {
+  listenUserActive(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('userActive', (data) => observer.next(data));
     });

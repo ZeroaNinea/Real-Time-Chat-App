@@ -543,14 +543,6 @@ export class ChatRoomComponent implements OnDestroy {
 
       console.log('Typing users: ', this.typingUsers());
     });
-
-    this.wsService.listenUserActive().subscribe((userId) => {
-      console.log('User is active.', userId);
-    });
-
-    this.wsService.listenUserIdle().subscribe((userId) => {
-      console.log('User is idle.', userId);
-    });
   }
 
   loadInitialMessages() {
