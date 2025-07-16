@@ -5,6 +5,8 @@ export function registerIdleHandlers(io: Server, socket: Socket) {
     const userId = socket.data.user._id.toString();
 
     if (!userId) return;
+
+    console.log('User idle:', userId);
     socket.broadcast.emit('userIdle', { userId });
   });
 
@@ -12,6 +14,8 @@ export function registerIdleHandlers(io: Server, socket: Socket) {
     const userId = socket.data.user._id.toString();
 
     if (!userId) return;
+
+    console.log('User active:', userId);
     socket.broadcast.emit('userActive', { userId });
   });
 }

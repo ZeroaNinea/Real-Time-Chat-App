@@ -43,6 +43,7 @@ import { Member } from '../../shared/models/member.alias';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { PrivateChatRoom } from '../../shared/models/private-chat-room.model';
+import { IdleService } from '../../../shared/services/idle/idle.service';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -71,6 +72,7 @@ export class ChatRoomComponent implements OnDestroy {
   replyMessages = signal<Message[]>([]);
   replyMessagesIds = signal<string[]>([]);
   private wsService = inject(WebsocketService);
+  private idleService = inject(IdleService);
   private sub?: Subscription;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -234,6 +236,8 @@ export class ChatRoomComponent implements OnDestroy {
           this.isAdmin.set(true);
         }
       });
+
+      this.idleService.init(this.wsService);
     });
   }
 
@@ -538,6 +542,14 @@ export class ChatRoomComponent implements OnDestroy {
       this.typingUsers.set(updated);
 
       console.log('Typing users: ', this.typingUsers());
+    });
+
+    this.wsService.listenUserActive().subscribe((userId) => {
+      console.log('User is active.', userId);
+    });
+
+    this.wsService.listenUserIdle().subscribe((userId) => {
+      console.log('User is idle.', userId);
     });
   }
 
@@ -1063,4 +1075,7 @@ export class ChatRoomComponent implements OnDestroy {
       }
     );
   }
+}
+function afterEeveryRender(arg0: () => void) {
+  throw new Error('Function not implemented.');
 }

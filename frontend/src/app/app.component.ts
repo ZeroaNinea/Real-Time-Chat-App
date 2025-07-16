@@ -18,20 +18,20 @@ import { WebsocketService } from './chat/shared/services/websocket/websocket.ser
 export class AppComponent {
   title = 'frontend';
 
-  private idleService = inject(IdleService);
-  private wsService = inject(WebsocketService);
+  // private idleService = inject(IdleService);
+  // private wsService = inject(WebsocketService);
 
-  constructor() {
-    afterEveryRender(() => {
-      this.idleService.init(this.wsService);
+  // constructor() {
+  //   afterEveryRender(() => {
+  //     this.idleService.init(this.wsService);
 
-      this.wsService.listenUserActive().subscribe((userId) => {
-        console.log('User is active.', userId);
-      });
+  //     this.wsService.listenUserActive().subscribe((userId) => {
+  //       console.log('User is active.', userId);
+  //     });
 
-      this.wsService.listenUserIdle().subscribe((userId) => {
-        console.log('User is idle.', userId);
-      });
-    });
-  }
+  //     this.wsService.listenUserIdle().subscribe((userId) => {
+  //       console.log('User is idle.', userId);
+  //     });
+  //   });
+  // }
 }

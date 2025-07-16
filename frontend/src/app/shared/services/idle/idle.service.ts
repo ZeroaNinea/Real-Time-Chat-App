@@ -8,8 +8,6 @@ export class IdleService {
   private isIdle = false;
 
   init(wsService: WebsocketService) {
-    wsService.connect();
-
     const resetIdleTimer = () => {
       if (this.isIdle) {
         wsService.emitUserActive();
