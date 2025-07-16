@@ -234,6 +234,7 @@ export class ChatRoomComponent implements OnDestroy {
         } else if (!id) {
           this.isOwner.set(true);
           this.isAdmin.set(true);
+          this.wsService.disconnect();
           this.wsService.connect();
           this.idleService.init(this.wsService);
         }
