@@ -236,8 +236,6 @@ export class ChatRoomComponent implements OnDestroy {
           this.isAdmin.set(true);
         }
       });
-
-      this.idleService.init(this.wsService);
     });
   }
 
@@ -313,6 +311,8 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.wsService.joinChatRoom(this.chatId()!);
     this.wsService.joinChatRoom(`${this.chatId()}:${this.channelId()}`);
+
+    this.idleService.init(this.wsService);
 
     this.wsService.listenChannelUpdates().subscribe((updatedChannels) => {
       this.channels.set(updatedChannels);

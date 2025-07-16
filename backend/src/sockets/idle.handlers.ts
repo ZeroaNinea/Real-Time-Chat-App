@@ -7,7 +7,7 @@ export function registerIdleHandlers(io: Server, socket: Socket) {
     if (!userId) return;
 
     console.log('User idle:', userId);
-    socket.broadcast.emit('userIdle', userId);
+    io.emit('userIdle', userId);
   });
 
   socket.on('userActive', () => {
@@ -16,6 +16,6 @@ export function registerIdleHandlers(io: Server, socket: Socket) {
     if (!userId) return;
 
     console.log('User active:', userId);
-    socket.broadcast.emit('userActive', userId);
+    io.emit('userActive', userId);
   });
 }
