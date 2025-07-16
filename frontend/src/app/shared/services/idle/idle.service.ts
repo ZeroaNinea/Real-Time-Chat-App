@@ -1,34 +1,41 @@
-import { afterNextRender, inject, Injectable, signal } from '@angular/core';
+import {
+  afterEveryRender,
+  inject,
+  Injectable,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { WebsocketService } from '../../../chat/shared/services/websocket/websocket.service';
 
 @Injectable({ providedIn: 'root' })
-export class IdleService {
+export class IdleService implements OnInit {
   private wsService = inject(WebsocketService);
 
   private timeout: any;
-  private idleDelay = 60000;
+  private idleDelay = 1000;
   private isIdle = false;
 
   idleUsers = signal<string[]>([]);
 
-  constructor() {
-    afterNextRender(() => {
-      this.wsService.listenUserActive().subscribe((userId) => {
-        console.log('User is active.', userId);
+  ngOnInit() {
+    this.wsService.listenUserActive().subscribe((userId) => {
+      console.log('User is active.', userId);
 
-        this.idleUsers.update((users) => users.filter((u) => u !== userId));
-      });
+      this.idleUsers.update((users) => users.filter((u) => u !== userId));
+      console.log('Idle users:', this.idleUsers());
+    });
 
-      this.wsService.listenUserIdle().subscribe((userId) => {
-        console.log('User is idle.', userId);
+    this.wsService.listenUserIdle().subscribe((userId) => {
+      console.log('User is idle.', userId);
 
-        this.idleUsers.update((users) => [...users, userId]);
-      });
+      this.idleUsers.update((users) => [...users, userId]);
+      console.log('Idle users:', this.idleUsers());
     });
   }
 
   init(wsService: WebsocketService) {
     const resetIdleTimer = () => {
+      console.log(this.idleUsers());
       if (this.isIdle) {
         wsService.emitUserActive();
         this.isIdle = false;
