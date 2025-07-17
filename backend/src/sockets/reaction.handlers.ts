@@ -36,6 +36,10 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
       message.reactions.push({ emoji: reaction, user: currentUserId });
     }
 
-    io.to(chatId).emit('reactionToggled', message);
+    io.to(chatId).emit('reactionToggled', {
+      messageId,
+      reaction,
+      userId: currentUserId,
+    });
   });
 }
