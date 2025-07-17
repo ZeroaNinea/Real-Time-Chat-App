@@ -1,11 +1,12 @@
 import { Socket, Server } from 'socket.io';
 import { Types } from 'mongoose';
 
+import emojiRegex from 'emoji-regex';
+
 import { Message } from '../models/message.model';
 import { Reaction } from '../../types/reaction.alias';
 import { Chat } from '../models/chat.model';
 import { Member } from '../../types/member.alias';
-import emojiRegex from 'emoji-regex';
 
 export function registerReactionHandlers(io: Server, socket: Socket) {
   socket.on(
@@ -20,8 +21,9 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
       const regex = emojiRegex();
 
       if (!regex.test(reaction.trim())) {
+        return callback?.({ error: 'Reaction must be a valid emoji' });
       }
-      return callback?.({ error: 'Reaction must be a valid emoji' });
+
       const message = await Message.findById(messageId);
       if (!message) {
         return callback?.({ error: 'Message not found' });
