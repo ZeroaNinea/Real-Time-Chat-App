@@ -10,7 +10,7 @@ export interface IMessage {
   replyTo: mongoose.Types.ObjectId | null;
   reactions: {
     emoji: string;
-    user: [mongoose.Types.ObjectId];
+    user: mongoose.Types.ObjectId[];
   }[];
   timestamp?: Date;
 }
