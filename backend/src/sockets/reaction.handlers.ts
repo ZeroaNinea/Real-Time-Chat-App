@@ -1,9 +1,10 @@
 import { Socket, Server } from 'socket.io';
+import { Types } from 'mongoose';
+
 import { Message } from '../models/message.model';
 import { Reaction } from '../../types/reaction.alias';
 import { Chat } from '../models/chat.model';
 import { Member } from '../../types/member.alias';
-import { Types } from 'mongoose';
 
 export function registerReactionHandlers(io: Server, socket: Socket) {
   socket.on(
