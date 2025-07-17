@@ -191,6 +191,10 @@ export class WebsocketService implements OnDestroy {
     this.emit('userActive', {});
   }
 
+  toggleReaction(chatId: string, messageId: string, reaction: string) {
+    this.emit('toggleReaction', { chatId, messageId, reaction });
+  }
+
   listenMessageDeletions(): Observable<{ messageId: string }> {
     return new Observable((observer) => {
       this.socket.on('messageDeleted', (data) => {
@@ -403,6 +407,16 @@ export class WebsocketService implements OnDestroy {
   listenUserActive(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('userActive', (data) => observer.next(data));
+    });
+  }
+
+  listenReactionToggle(): Observable<{
+    messageId: string;
+    reaction: string;
+    userId: string;
+  }> {
+    return new Observable((observer) => {
+      this.socket.on('reactionToggled', (data) => observer.next(data));
     });
   }
 }
