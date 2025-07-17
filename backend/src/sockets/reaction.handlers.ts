@@ -5,6 +5,7 @@ import { Message } from '../models/message.model';
 import { Reaction } from '../../types/reaction.alias';
 import { Chat } from '../models/chat.model';
 import { Member } from '../../types/member.alias';
+import emojiRegex from 'emoji-regex';
 
 export function registerReactionHandlers(io: Server, socket: Socket) {
   socket.on(
@@ -16,13 +17,19 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'Missing messageId or reaction' });
       }
 
-      if (reaction.length > 1) {
-        return callback?.({ error: 'Reaction must be a single emoji' });
-      }
+      const regex = emojiRegex();
 
+      if (!regex.test(reaction.trim())) {
+      }
+      return callback?.({ error: 'Reaction must be a valid emoji' });
       const message = await Message.findById(messageId);
       if (!message) {
         return callback?.({ error: 'Message not found' });
+      }
+
+      const matched = reaction.trim().match(regex);
+      if (!matched || matched.length !== 1 || matched[0] !== reaction.trim()) {
+        return callback?.({ error: 'Only one emoji is allowed' });
       }
 
       const currentChatRoom = await Chat.findById(chatId);
