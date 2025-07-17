@@ -7,13 +7,11 @@ export interface IMessage {
   sender: mongoose.Types.ObjectId;
   text: string;
   isEdited: boolean;
-  replyTo: mongoose.Types.ObjectId;
-  reactions: [
-    {
-      emoji: string;
-      users: mongoose.Types.ObjectId;
-    }
-  ];
+  replyTo: mongoose.Types.ObjectId | null;
+  reactions: {
+    emoji: string;
+    user: mongoose.Types.ObjectId;
+  }[];
   timestamp?: Date;
 }
 
