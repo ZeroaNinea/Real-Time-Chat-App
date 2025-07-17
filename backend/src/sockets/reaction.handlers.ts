@@ -34,6 +34,10 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not a member of this chat room' });
       }
 
+      if (message.reactions.length > 10) {
+        return callback?.({ error: 'Too many reactions' });
+      }
+
       const reactionEntry = message.reactions.find(
         (r: Reaction) => r.emoji === reaction
       );
