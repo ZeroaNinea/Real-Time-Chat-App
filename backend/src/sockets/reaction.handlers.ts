@@ -16,6 +16,10 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'Missing messageId or reaction' });
       }
 
+      if (reaction.length > 1) {
+        return callback?.({ error: 'Reaction must be a single emoji' });
+      }
+
       const message = await Message.findById(messageId);
       if (!message) {
         return callback?.({ error: 'Message not found' });
