@@ -8,6 +8,12 @@ export interface IMessage {
   text: string;
   isEdited: boolean;
   replyTo: mongoose.Types.ObjectId;
+  reactions: [
+    {
+      emoji: string;
+      users: mongoose.Types.ObjectId;
+    }
+  ];
   timestamp?: Date;
 }
 
@@ -42,6 +48,23 @@ const MessageSchema = new mongoose.Schema<MessageDocument>(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Message',
       default: null,
+    },
+    reactions: [
+      {
+        emoji: {
+          type: String,
+          required: true,
+        },
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          required: true,
+        },
+      },
+    ],
+    timestamp: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
