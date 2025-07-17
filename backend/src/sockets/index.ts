@@ -7,6 +7,7 @@ import { registerMemberHandlers } from './member.handlers';
 import { registerSocialHandlers } from './social.handlers';
 import { registerTypingHandlers } from './typing.handlers';
 import { registerIdleHandlers } from './idle.handlers';
+import { registerReactionHandlers } from './reaction.handlers';
 
 export function registerSocketHandlers(io: Server, socket: Socket) {
   registerMessageHandlers(io, socket);
@@ -16,4 +17,5 @@ export function registerSocketHandlers(io: Server, socket: Socket) {
   registerSocialHandlers(io, socket);
   registerTypingHandlers(io, socket);
   registerIdleHandlers(io, socket);
+  registerReactionHandlers(io, socket);
 }
