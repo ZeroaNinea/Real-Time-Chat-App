@@ -10,7 +10,7 @@ export interface IMessage {
   replyTo: mongoose.Types.ObjectId | null;
   reactions: {
     emoji: string;
-    user: mongoose.Types.ObjectId;
+    user: [mongoose.Types.ObjectId];
   }[];
   timestamp?: Date;
 }
@@ -53,11 +53,13 @@ const MessageSchema = new mongoose.Schema<MessageDocument>(
           type: String,
           required: true,
         },
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-          required: true,
-        },
+        users: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+          },
+        ],
       },
     ],
     timestamp: {
