@@ -98,9 +98,13 @@
     <button mat-icon-button matTooltip="Copy" (click)="onCopy(msg.text)">
       <mat-icon> @if (isCopied) { check } @else { content_copy }</mat-icon>
     </button>
+    <button mat-icon-button matTooltip="React">
+      <mat-icon>mood</mat-icon>
+    </button>
   </div>
   }
 </div>
+
 } } @else {
 <div class="empty-message-container">
   <p class="empty-message">No messages yet...</p>
