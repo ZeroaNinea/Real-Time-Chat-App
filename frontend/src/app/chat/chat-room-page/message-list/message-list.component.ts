@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -108,6 +109,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   isCopied = false;
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
+  updatedReactions = signal<string[]>([]);
 
   constructor() {
     afterEveryRender(() => {
