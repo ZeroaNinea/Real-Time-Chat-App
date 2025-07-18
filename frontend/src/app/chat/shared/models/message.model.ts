@@ -6,5 +6,9 @@ export interface Message {
   text: string;
   isEdited: boolean;
   replyTo: string;
+  reactions: {
+    emoji: string;
+    user: string[];
+  };
   createdAt: string;
 }
