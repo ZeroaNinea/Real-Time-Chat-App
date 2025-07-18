@@ -105,6 +105,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
   constructor() {
     afterEveryRender(() => {
       this.renderTikToks();
+
+      console.log(this.messages);
     });
 
     this.chatService.favorites$.subscribe((favs) => {
