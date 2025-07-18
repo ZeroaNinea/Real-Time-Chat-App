@@ -79,6 +79,19 @@
       </div>
       }
     </div>
+    @if (msg.reactions.length > 0) {
+    <div class="reactions">
+      @for (reaction of msg.reactions; track [reaction.emoji, $index]) {
+      <button
+        class="reaction-button"
+        [class.reacted]="reaction.users.includes(currentUserId!)"
+        (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
+      >
+        {{ reaction.emoji }} {{ reaction.users.length }}
+      </button>
+      }
+    </div>
+    }
   </div>
   @if (hoveredMessageId === msg._id) {
   <div class="message-actions">
@@ -101,18 +114,6 @@
     <button mat-icon-button (click)="showPickerFor(msg._id)" matTooltip="React">
       <mat-icon>mood</mat-icon>
     </button>
-  </div>
-  } @if (msg.reactions.length > 0) {
-  <div class="reactions">
-    @for (reaction of msg.reactions; track [reaction.emoji, $index]) {
-    <button
-      class="reaction-button"
-      [class.reacted]="reaction.users.includes(currentUserId!)"
-      (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
-    >
-      {{ reaction.emoji }} {{ reaction.users.length }}
-    </button>
-    }
   </div>
   }
 </div>
