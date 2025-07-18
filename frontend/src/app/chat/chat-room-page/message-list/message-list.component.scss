@@ -297,6 +297,19 @@
   }
 
   .reactions {
+    .reaction-button {
+      &.reacted {
+        background-color: var(--mat-sys-primary-container);
+
+        @include mat.chips-overrides(
+          (
+            outline-color: var(--mat-sys-primary),
+            label-text-color: var(--mat-sys-primary),
+          )
+        );
+      }
+    }
+
     & {
       @include mat.theme(
         (
