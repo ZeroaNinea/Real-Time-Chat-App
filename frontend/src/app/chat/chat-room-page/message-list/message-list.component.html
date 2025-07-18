@@ -102,6 +102,18 @@
       <mat-icon>mood</mat-icon>
     </button>
   </div>
+  } @if (msg.reactions.length > 0) {
+  <div class="reactions">
+    @for (reaction of msg.reactions; track [reaction.emoji, $index]) {
+    <button
+      class="reaction-button"
+      [class.reacted]="reaction.users.includes(currentUserId!)"
+      (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
+    >
+      {{ reaction.emoji }} {{ reaction.users.length }}
+    </button>
+    }
+  </div>
   }
 </div>
 @if (activeReactionMessageId === msg._id) {

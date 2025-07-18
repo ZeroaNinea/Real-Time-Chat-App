@@ -8,7 +8,7 @@ export interface Message {
   replyTo: string;
   reactions: {
     emoji: string;
-    user: string[];
-  };
+    users: string[];
+  }[];
   createdAt: string;
 }
