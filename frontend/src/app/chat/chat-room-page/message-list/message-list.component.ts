@@ -17,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
@@ -31,7 +33,6 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 import { PickerComponent, PickerModule } from '@ctrl/ngx-emoji-mart';
-import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-message-list',
@@ -84,6 +85,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private chatService = inject(ChatService);
   private wsService = inject(WebsocketService);
+  private _snackbar = inject(MatSnackBar);
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
@@ -437,7 +439,23 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   toggleReaction(event: any, messageId: string) {
     const emoji = event?.emoji?.native || event?.emoji;
-    this.wsService.toggleReaction(this.chatId!, messageId, emoji);
+    this.wsService.emit(
+      'toggleReaction',
+      {
+        chatId: this.chatId,
+        messageId,
+        reaction: emoji,
+      },
+      (res) => {
+        if (res?.error) {
+          this._snackbar.open(
+            res.error.message || 'Failed to toggle reaction',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      }
+    );
     this.activeReactionMessageId = null;
   }
 
