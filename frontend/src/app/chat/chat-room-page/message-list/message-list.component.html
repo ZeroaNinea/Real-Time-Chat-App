@@ -89,7 +89,11 @@
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
       >
         {{ reaction.emoji }}
-        <app-reaction-count [count]="reaction.users.length" />
+        <app-reaction-count
+          [count]="reaction.users.length"
+          [emoji]="reaction.emoji"
+          [shouldAnimate]="reaction.emoji === updatedEmoji()"
+        />
       </mat-chip>
       }
     </mat-chip-set>

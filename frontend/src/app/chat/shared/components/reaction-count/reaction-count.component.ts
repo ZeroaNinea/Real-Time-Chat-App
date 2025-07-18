@@ -14,36 +14,27 @@ import { trigger, transition, style, animate } from '@angular/animations';
   templateUrl: './reaction-count.component.html',
   styleUrl: './reaction-count.component.scss',
   animations: [
-    trigger('slideUp', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate(
-          '150ms ease-out',
-          style({ transform: 'translateY(0)', opacity: 1 })
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '150ms ease-in',
-          style({ transform: 'translateY(-100%)', opacity: 0 })
-        ),
+    trigger('bump', [
+      transition(':enter', []),
+      transition('* => true', [
+        style({ transform: 'scale(1)' }),
+        animate('150ms ease', style({ transform: 'scale(1.3)' })),
+        animate('150ms ease', style({ transform: 'scale(1)' })),
       ]),
     ]),
   ],
 })
 export class ReactionCountComponent implements OnChanges {
   @Input() count = 0;
-  previousCount = 0;
+  @Input() emoji = '';
+  @Input() shouldAnimate = false;
 
-  constructor() {
-    afterNextRender(() => {
-      console.log('ReactionCountComponent initialized:', this.count);
-    });
-  }
+  animationState = false;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['count'] && !changes['count'].firstChange) {
-      this.previousCount = changes['count'].previousValue;
+    if (changes['shouldAnimate'] && this.shouldAnimate) {
+      this.animationState = true;
+      setTimeout(() => (this.animationState = false), 300);
     }
   }
 }

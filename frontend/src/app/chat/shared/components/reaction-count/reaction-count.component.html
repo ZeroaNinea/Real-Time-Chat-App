@@ -1,11 +1,3 @@
-<div class="reaction-count-wrapper">
-  @if (previousCount !== count) {
-  <div class="reaction-count" [@slideUp]>
-    {{ count }}
-  </div>
-  } @else {
-  <div class="reaction-count">
-    {{ count }}
-  </div>
-  }
+<div class="reaction-count" [@bump]="shouldAnimate ? true : 'none'">
+  {{ count }}
 </div>
