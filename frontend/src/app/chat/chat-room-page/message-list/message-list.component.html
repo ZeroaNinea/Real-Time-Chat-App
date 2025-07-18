@@ -88,7 +88,8 @@
         [class.reacted]="reaction.users.includes(currentUserId!)"
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
       >
-        {{ reaction.emoji }} {{ reaction.users.length }}
+        {{ reaction.emoji }}
+        <app-reaction-count [count]="reaction.users.length" />
       </mat-chip>
       }
     </mat-chip-set>
