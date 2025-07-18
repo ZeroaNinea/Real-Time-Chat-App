@@ -1,3 +1,5 @@
-<div class="reaction-count" [@bump]="shouldAnimate ? true : 'none'">
-  {{ count }}
+<div class="reaction-count-container">
+  <div class="reaction-count-inner" [@countChange]="count">
+    {{ count }}
+  </div>
 </div>
