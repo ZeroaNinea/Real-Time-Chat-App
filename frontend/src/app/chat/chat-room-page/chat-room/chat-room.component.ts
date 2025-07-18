@@ -546,6 +546,40 @@ export class ChatRoomComponent implements OnDestroy {
 
       console.log('Typing users: ', this.typingUsers());
     });
+
+    this.wsService
+      .listenReactionToggle()
+      .subscribe(({ messageId, reaction, userId }) => {
+        this.messages.update((messages) =>
+          messages.map((msg) => {
+            if (msg._id !== messageId) return msg;
+
+            const existingReaction = msg.reactions.find(
+              (r) => r.emoji === reaction
+            );
+
+            if (existingReaction) {
+              const userIndex = existingReaction.users.indexOf(userId);
+
+              if (userIndex !== -1) {
+                existingReaction.users.splice(userIndex, 1);
+
+                if (existingReaction.users.length === 0) {
+                  msg.reactions = msg.reactions.filter(
+                    (r) => r.emoji !== reaction
+                  );
+                }
+              } else {
+                existingReaction.users.push(userId);
+              }
+            } else {
+              msg.reactions.push({ emoji: reaction, users: [userId] });
+            }
+
+            return { ...msg };
+          })
+        );
+      });
   }
 
   loadInitialMessages() {
