@@ -105,4 +105,11 @@
 <div class="empty-message-container">
   <p class="empty-message">No messages yet...</p>
 </div>
+} @if (showReactionPicker) {
+<emoji-mart
+  set="google"
+  theme="light"
+  (emojiSelect)="toggleReaction($event)"
+  class="emoji-picker"
+></emoji-mart>
 }
