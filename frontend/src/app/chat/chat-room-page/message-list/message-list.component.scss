@@ -295,6 +295,16 @@
       width: 100%;
     }
   }
+
+  .reactions {
+    & {
+      @include mat.theme(
+        (
+          density: -1,
+        )
+      );
+    }
+  }
 }
 
 .edit-input {
