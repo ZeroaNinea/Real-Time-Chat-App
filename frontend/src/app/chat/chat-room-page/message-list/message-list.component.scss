@@ -299,7 +299,11 @@
   .reactions {
     .reaction-button {
       &.reacted {
-        background-color: var(--mat-sys-primary-container);
+        @include mat.theme(
+          (
+            color: mat.$cyan-palette,
+          )
+        );
 
         @include mat.chips-overrides(
           (
