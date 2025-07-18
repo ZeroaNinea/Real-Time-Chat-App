@@ -81,7 +81,8 @@
     </div>
     @if (msg.reactions.length > 0) {
     <mat-chip-set class="reactions">
-      @for (reaction of msg.reactions; track [reaction.emoji, $index]) {
+      @for (reaction of msg.reactions; track reactionTrackFn($index, reaction))
+      {
       <mat-chip
         class="reaction-button"
         [class.reacted]="reaction.users.includes(currentUserId!)"

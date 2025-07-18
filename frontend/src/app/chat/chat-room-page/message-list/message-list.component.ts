@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
+import { Reaction } from '../../shared/models/reaction.alias';
 
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
@@ -438,5 +439,9 @@ export class MessageListComponent implements OnInit, OnDestroy {
     const emoji = event?.emoji?.native || event?.emoji;
     this.wsService.toggleReaction(this.chatId!, messageId, emoji);
     this.activeReactionMessageId = null;
+  }
+
+  reactionTrackFn(index: number, reaction: Reaction) {
+    return `${reaction.emoji}-${index}`;
   }
 }
