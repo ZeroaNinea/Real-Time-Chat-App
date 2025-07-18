@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import {
   afterEveryRender,
   Component,
@@ -52,6 +52,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
     TextFormatPipe,
     AsyncPipe,
     DatePipe,
+    CommonModule,
   ],
   standalone: true,
   templateUrl: './message-list.component.html',
@@ -109,7 +110,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   isCopied = false;
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
-  updatedEmoji = signal<string | null>(null);
+  changedEmoji: string | null = null;
 
   constructor() {
     afterEveryRender(() => {
@@ -443,8 +444,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   toggleReaction(event: any, messageId: string) {
     const emoji = event?.emoji?.native || event?.emoji;
-    this.updatedEmoji.set(emoji);
-
+    this.changedEmoji = emoji;
     this.wsService.emit(
       'toggleReaction',
       {
@@ -460,7 +460,9 @@ export class MessageListComponent implements OnInit, OnDestroy {
             { duration: 3000 }
           );
         } else {
-          setTimeout(() => this.updatedEmoji.set(null), 300);
+          setTimeout(() => {
+            this.changedEmoji = null;
+          }, 300);
         }
       }
     );
