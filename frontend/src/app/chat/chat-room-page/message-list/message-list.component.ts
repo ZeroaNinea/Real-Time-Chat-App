@@ -30,6 +30,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 import { PickerComponent, PickerModule } from '@ctrl/ngx-emoji-mart';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-message-list',
@@ -41,6 +42,7 @@ import { PickerComponent, PickerModule } from '@ctrl/ngx-emoji-mart';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+    MatChipsModule,
     PickerModule,
     TextFormatPipe,
     AsyncPipe,

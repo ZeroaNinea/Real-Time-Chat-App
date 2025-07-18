@@ -80,17 +80,17 @@
       }
     </div>
     @if (msg.reactions.length > 0) {
-    <div class="reactions">
+    <mat-chip-set class="reactions">
       @for (reaction of msg.reactions; track [reaction.emoji, $index]) {
-      <button
+      <mat-chip
         class="reaction-button"
         [class.reacted]="reaction.users.includes(currentUserId!)"
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
       >
         {{ reaction.emoji }} {{ reaction.users.length }}
-      </button>
+      </mat-chip>
       }
-    </div>
+    </mat-chip-set>
     }
   </div>
   @if (hoveredMessageId === msg._id) {
