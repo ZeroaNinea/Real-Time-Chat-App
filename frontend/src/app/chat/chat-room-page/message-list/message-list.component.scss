@@ -176,18 +176,6 @@
       }
     }
   }
-
-  .emoji-picker-container {
-    position: relative;
-    z-index: 1;
-
-    .emoji-picker {
-      position: absolute;
-      bottom: -150px;
-      left: 50px;
-      z-index: 1;
-    }
-  }
 }
 
 .reply-link {
@@ -344,4 +332,11 @@ div.reply.first:not(.own) {
     max-width: 80%;
     line-height: 1.5;
   }
+}
+
+.emoji-picker {
+  position: absolute;
+  bottom: -150px;
+  left: 50px;
+  z-index: 1;
 }

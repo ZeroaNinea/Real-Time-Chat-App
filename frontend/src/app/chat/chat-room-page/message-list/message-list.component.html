@@ -106,15 +106,6 @@
       <mat-icon>mood</mat-icon>
     </button>
   </div>
-  } @if (showReactionPicker) {
-  <div class="emoji-picker-container">
-    <emoji-mart
-      set="google"
-      theme="light"
-      (emojiSelect)="toggleReaction($event)"
-      class="emoji-picker"
-    ></emoji-mart>
-  </div>
   }
 </div>
 
@@ -122,4 +113,11 @@
 <div class="empty-message-container">
   <p class="empty-message">No messages yet...</p>
 </div>
+} @if (showReactionPicker) {
+<emoji-mart
+  set="google"
+  theme="light"
+  (emojiSelect)="toggleReaction($event)"
+  class="emoji-picker"
+></emoji-mart>
 }
