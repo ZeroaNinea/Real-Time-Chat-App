@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
@@ -28,6 +34,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class ReactionCountComponent implements OnChanges {
   @Input() count = 0;
   previousCount = 0;
+
+  constructor() {
+    afterNextRender(() => {
+      console.log('ReactionCountComponent initialized:', this.count);
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['count'] && !changes['count'].firstChange) {
