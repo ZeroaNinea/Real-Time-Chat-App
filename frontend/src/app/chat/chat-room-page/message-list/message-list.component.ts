@@ -25,7 +25,10 @@ import { ChatRoomRole } from '../../shared/models/chat-room-roles.alias';
 import { environment } from '../../../../environments/environment';
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pipe';
+
 import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+
 import { PickerComponent, PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @Component({
@@ -77,6 +80,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   private dialog = inject(MatDialog);
   private chatService = inject(ChatService);
+  private wsService = inject(WebsocketService);
 
   private isSameMinute(a: Message, b: Message): boolean {
     const timeA = new Date(a.createdAt).getTime();
@@ -96,6 +100,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   isCopied = false;
   showReactionPicker = false;
+  activeReactionMessageId: string | null = null;
 
   constructor() {
     afterEveryRender(() => {
@@ -420,7 +425,14 @@ export class MessageListComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  toggleReaction(event: Event) {
-    console.log('`toggleReaction` called:', event);
+  showPickerFor(messageId: string) {
+    this.activeReactionMessageId =
+      this.activeReactionMessageId === messageId ? null : messageId;
+  }
+
+  toggleReaction(event: any, messageId: string) {
+    const emoji = event?.emoji?.native || event?.emoji;
+    this.wsService.toggleReaction(this.chatId!, messageId, emoji);
+    this.activeReactionMessageId = null;
   }
 }
