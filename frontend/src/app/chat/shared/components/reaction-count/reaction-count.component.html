@@ -1,1 +1,7 @@
-<p>reaction-count works!</p>
+<div class="reaction-count-wrapper">
+  @if (previousCount !== count) {
+  <div class="reaction-count" [@slideUp]>
+    {{ count }}
+  </div>
+  }
+</div>
