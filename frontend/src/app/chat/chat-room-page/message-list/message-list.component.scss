@@ -336,7 +336,7 @@ div.reply.first:not(.own) {
 
 .emoji-picker {
   position: absolute;
-  bottom: -150px;
-  left: 50px;
+  top: 100px;
+  left: 50%;
   z-index: 1;
 }
