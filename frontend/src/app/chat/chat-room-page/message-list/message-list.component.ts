@@ -121,6 +121,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
   animatingReactions = new Set<string>();
+  tempReactionCounts = new Map<string, number>();
 
   constructor() {
     afterEveryRender(() => {
@@ -456,7 +457,16 @@ export class MessageListComponent implements OnInit, OnDestroy {
     const key = `${messageId}-${emoji}`;
     this.animatingReactions.add(key);
 
-    console.log('before', this.animatingReactions);
+    const message = this.messages.find((msg) => msg._id === messageId);
+    const reaction = message?.reactions.find((r) => r.emoji === emoji);
+    const reacted = reaction?.users.includes(this.currentUserId!);
+
+    if (reaction) {
+      const newCount = reacted
+        ? reaction.users.length - 1
+        : reaction.users.length + 1;
+      this.tempReactionCounts.set(key, newCount);
+    }
 
     this.wsService.emit(
       'toggleReaction',
@@ -473,10 +483,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
             { duration: 3000 }
           );
         } else {
-          // setTimeout(() => {
           this.animatingReactions.delete(key);
-          // });
-          console.log(this.animatingReactions);
+          // this.tempReactionCounts.delete(key);
         }
       }
     );
