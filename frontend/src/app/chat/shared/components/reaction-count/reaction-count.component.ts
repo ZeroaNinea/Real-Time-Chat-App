@@ -30,6 +30,7 @@ export class ReactionCountComponent implements OnChanges {
   animationKey: string | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('Changes:', changes);
     if (changes['count'] && changes['count'].previousValue !== undefined) {
       this.animationKey = `${this.count}-${Date.now()}`;
     }

@@ -1,9 +1,10 @@
-@if (shouldAnimate) {
+<!-- @if (shouldAnimate) { -->
 <div class="reaction-count">
   <div class="number-front" [@countChange]="animationKey">
-    {{ reacted ? count - 1 : count + 1 }}
+    <!-- {{ reacted ? count - 1 : count + 1 }} -->
+    {{ count }}
   </div>
 </div>
-} @else {
+<!-- } @else {
 <div class="reaction-count">{{ count }}</div>
-}
+} -->
