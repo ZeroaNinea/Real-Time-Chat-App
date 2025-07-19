@@ -93,6 +93,7 @@
           [count]="reaction.users.length"
           [emoji]="reaction.emoji"
           [shouldAnimate]="animatingReactions.has(key)"
+          [reacted]="reaction.users.includes(currentUserId!)"
         />
       </mat-chip>
       }

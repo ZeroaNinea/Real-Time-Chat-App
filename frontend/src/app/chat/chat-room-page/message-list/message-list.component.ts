@@ -8,7 +8,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  signal,
 } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';

@@ -24,24 +24,16 @@ export class ReactionCountComponent implements OnChanges {
   @Input() count = 0;
   @Input() emoji = '';
   @Input() shouldAnimate = false;
+  @Input() reacted!: boolean;
 
+  animationState: 'active' | 'inactive' = 'inactive';
   animationKey: string | null = null;
-  prevCount = 0;
 
   ngOnChanges(changes: SimpleChanges) {
-    const countChanged = this.prevCount !== this.count;
-    const shouldTrigger = this.shouldAnimate && countChanged;
-
-    if (shouldTrigger) {
+    console.log(this.reacted);
+    if (changes['count'] && this.shouldAnimate) {
+      console.log('shouldAnimate changed to (if)', this.shouldAnimate);
       this.animationKey = `${this.count}-${Date.now()}`;
-    } else {
-      this.animationKey = null;
     }
-
-    this.prevCount = this.count;
-
-    console.log(
-      `emoji=${this.emoji}, count=${this.count}, animate=${this.shouldAnimate}, prev=${this.prevCount}, key=${this.animationKey}`
-    );
   }
 }
