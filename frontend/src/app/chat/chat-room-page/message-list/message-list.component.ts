@@ -110,7 +110,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   isCopied = false;
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
-  changedEmoji: string | null = null;
+  animatingReactions = new Set<string>();
 
   constructor() {
     afterEveryRender(() => {
@@ -444,7 +444,14 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   toggleReaction(event: any, messageId: string) {
     const emoji = event?.emoji?.native || event?.emoji;
-    this.changedEmoji = emoji;
+
+    const key = `${messageId}-${emoji}`;
+    this.animatingReactions.add(key);
+
+    setTimeout(() => {
+      this.animatingReactions.delete(key);
+    }, 400);
+
     this.wsService.emit(
       'toggleReaction',
       {
@@ -459,10 +466,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
             'Close',
             { duration: 3000 }
           );
-        } else {
-          setTimeout(() => {
-            this.changedEmoji = null;
-          }, 300);
         }
       }
     );

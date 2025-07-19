@@ -92,7 +92,7 @@
         <app-reaction-count
           [count]="reaction.users.length"
           [emoji]="reaction.emoji"
-          [shouldAnimate]="reaction.emoji === changedEmoji"
+          [shouldAnimate]="animatingReactions.has(`${msg._id}-${reaction.emoji}`)"
         />
       </mat-chip>
       }
