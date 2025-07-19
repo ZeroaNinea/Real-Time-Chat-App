@@ -95,13 +95,23 @@
             [@countChange]="animatingReactions.has(key)"
             [@.disabled]="!animatingReactions.has(key)"
           >
-            {{
+            {{ reaction.users.length }}
+            <!-- {{ displayReactionCount(key, reaction) }} -->
+            <!-- @if (animatingReactions.has(key)) { @if
+            (reaction.users.includes(currentUserId!)) {
+            {{ reaction.users.length - 1 }}
+            } @else {
+            {{ reaction.users.length + 1 }}
+            } } @else {
+            {{ reaction.users.length }}
+            } -->
+            <!-- {{
               animatingReactions.has(key)
                 ? reaction.users.includes(currentUserId!)
                   ? reaction.users.length - 1
                   : reaction.users.length + 1
                 : reaction.users.length
-            }}
+            }} -->
           </div>
         </div>
       </mat-chip>
