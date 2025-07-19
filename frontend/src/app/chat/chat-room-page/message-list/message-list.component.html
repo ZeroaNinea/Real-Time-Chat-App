@@ -89,31 +89,15 @@
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
       >
         {{ reaction.emoji }}
-        <!-- <app-reaction-count
-          [count]="reaction.users.length"
-          [emoji]="reaction.emoji"
-          [shouldAnimate]="animatingReactions.has(key)"
-          [reacted]="reaction.users.includes(currentUserId!)"
-        /> -->
         <div class="reaction-count">
           <div
             class="number-front"
-            [@countChange]="animatingReactions.has(key) ? key : null"
+            [@countChange]="animatingReactions.has(key)"
             [@.disabled]="!animatingReactions.has(key)"
           >
-            <!-- {{ reacted ? count - 1 : count + 1 }} -->
             {{ reaction.users.length }}
           </div>
         </div>
-        <!-- @if (animatingReactions.has(key)) {
-        <div class="reaction-count">
-          <div class="number-front" [@countChange]="key">
-            {{ reaction.users.length }}
-          </div>
-        </div>
-        } @else {
-        <div class="reaction-count">{{ reaction.users.length }}</div>
-        } -->
       </mat-chip>
       }
     </mat-chip-set>
