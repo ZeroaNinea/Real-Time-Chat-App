@@ -164,6 +164,8 @@ export class ChatRoomComponent implements OnDestroy {
     return user?.user?.pendingRequests || [];
   }
 
+  animatingReactionsSocket = signal(new Set<string>());
+
   constructor() {
     effect(() => {
       // Scroll when messages change and user is at bottom.
@@ -571,6 +573,9 @@ export class ChatRoomComponent implements OnDestroy {
                 }
               } else {
                 existingReaction.users.push(userId);
+                this.animatingReactionsSocket.set(
+                  new Set(`${messageId}-${reaction}`)
+                );
               }
             } else {
               msg.reactions.push({ emoji: reaction, users: [userId] });

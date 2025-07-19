@@ -90,6 +90,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   @Input() channelId!: string | null;
   @Input() chatId: string | null = null;
   @Input() isPrivate: boolean = false;
+  @Input() animatingReactionsSocket = new Set<string>();
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
