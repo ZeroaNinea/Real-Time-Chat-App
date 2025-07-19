@@ -26,13 +26,11 @@ export class ReactionCountComponent implements OnChanges {
   @Input() shouldAnimate = false;
   @Input() reacted!: boolean;
 
-  animationState: 'active' | 'inactive' = 'inactive';
+  // animationState: 'active' | 'inactive' = 'inactive';
   animationKey: string | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.reacted);
-    if (changes['count'] && this.shouldAnimate) {
-      console.log('shouldAnimate changed to (if)', this.shouldAnimate);
+    if (changes['count'] && changes['count'].previousValue !== undefined) {
       this.animationKey = `${this.count}-${Date.now()}`;
     }
   }
