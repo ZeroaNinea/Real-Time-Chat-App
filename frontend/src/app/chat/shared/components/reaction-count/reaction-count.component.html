@@ -1,3 +1,7 @@
+@if (shouldAnimate) {
 <div [@countChange]="animationKey" class="reaction-count">
   {{ count }}
 </div>
+} @else {
+<div class="reaction-count">{{ count }}</div>
+}
