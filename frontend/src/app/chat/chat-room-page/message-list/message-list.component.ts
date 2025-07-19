@@ -484,7 +484,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
           );
         } else {
           this.animatingReactions.delete(key);
-          // this.tempReactionCounts.delete(key);
+          this.tempReactionCounts.delete(key);
         }
       }
     );
@@ -493,5 +493,9 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   reactionTrackFn(index: number, reaction: Reaction) {
     return `${reaction.emoji}-${index}`;
+  }
+
+  reactedByUsers(userIds: string[]) {
+    return userIds;
   }
 }

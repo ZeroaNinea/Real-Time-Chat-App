@@ -84,9 +84,10 @@
       @for (reaction of msg.reactions; track reactionTrackFn($index, reaction))
       { @let key = `${msg._id}-${reaction.emoji}`;
       <mat-chip
-        class="reaction-button"
+        matTooltip="{{ reactedByUsers(reaction.users) }}"
         [class.reacted]="reaction.users.includes(currentUserId!)"
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
+        class="reaction-button"
       >
         {{ reaction.emoji }}
         <div class="reaction-count">
