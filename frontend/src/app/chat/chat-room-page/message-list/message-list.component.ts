@@ -456,9 +456,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     const key = `${messageId}-${emoji}`;
     this.animatingReactions.add(key);
 
-    setTimeout(() => {
-      this.animatingReactions.delete(key);
-    }, 400);
+    console.log('before', this.animatingReactions);
 
     this.wsService.emit(
       'toggleReaction',
@@ -474,6 +472,11 @@ export class MessageListComponent implements OnInit, OnDestroy {
             'Close',
             { duration: 3000 }
           );
+        } else {
+          // setTimeout(() => {
+          this.animatingReactions.delete(key);
+          // });
+          console.log(this.animatingReactions);
         }
       }
     );

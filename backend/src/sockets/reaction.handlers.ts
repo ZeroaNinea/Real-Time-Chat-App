@@ -85,6 +85,8 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
         reaction,
         userId: currentUserId,
       });
+
+      return callback?.({ success: true });
     }
   );
 }
