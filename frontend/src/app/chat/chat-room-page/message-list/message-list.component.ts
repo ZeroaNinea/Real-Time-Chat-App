@@ -28,7 +28,6 @@ import { Reaction } from '../../shared/models/reaction.alias';
 
 import { UserCardDialogComponent } from '../../dialogs/user-card-dialog/user-card-dialog.component';
 import { PickerComponent, PickerModule } from '@ctrl/ngx-emoji-mart';
-import { ReactionCountComponent } from '../../shared/components/reaction-count/reaction-count.component';
 
 import { environment } from '../../../../environments/environment';
 import { TextFormatPipe } from '../../../shared/pipes/text-format/text-format.pipe';
