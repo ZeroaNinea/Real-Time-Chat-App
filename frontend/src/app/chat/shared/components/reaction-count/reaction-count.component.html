@@ -1,6 +1,3 @@
-<div
-  [@countChange]="shouldAnimate ? animationState : null"
-  class="reaction-count"
->
+<div [@countChange]="animationKey" class="reaction-count">
   {{ count }}
 </div>
