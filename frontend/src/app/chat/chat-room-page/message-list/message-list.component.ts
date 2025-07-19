@@ -496,6 +496,9 @@ export class MessageListComponent implements OnInit, OnDestroy {
   }
 
   reactedByUsers(userIds: string[]) {
-    return userIds;
+    return this.members
+      .filter((m) => userIds.includes(m.user._id))
+      .map((m) => m.user.username)
+      .join(', ');
   }
 }

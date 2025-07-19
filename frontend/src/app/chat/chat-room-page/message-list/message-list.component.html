@@ -84,23 +84,21 @@
       @for (reaction of msg.reactions; track reactionTrackFn($index, reaction))
       { @let key = `${msg._id}-${reaction.emoji}`;
       <mat-chip
-        matTooltip="{{ reactedByUsers(reaction.users) }}"
+        matTooltip="Reacted by: {{ reactedByUsers(reaction.users) }}"
         [class.reacted]="reaction.users.includes(currentUserId!)"
         (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
         class="reaction-button"
       >
         {{ reaction.emoji }}
-        <div class="reaction-count">
-          <div
-            class="number-front"
-            [@countChange]="animatingReactions.has(key)"
-            [@.disabled]="
-              !animatingReactions.has(key) ||
-              tempReactionCounts.get(key) === reaction.users.length
-            "
-          >
-            {{ tempReactionCounts.get(key) ?? reaction.users.length }}
-          </div>
+        <div
+          class="reaction-count"
+          [@countChange]="animatingReactions.has(key)"
+          [@.disabled]="
+            !animatingReactions.has(key) ||
+            tempReactionCounts.get(key) === reaction.users.length
+          "
+        >
+          {{ tempReactionCounts.get(key) ?? reaction.users.length }}
         </div>
       </mat-chip>
       }
