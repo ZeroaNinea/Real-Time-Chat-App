@@ -9,6 +9,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +40,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   selector: 'app-message-list',
   imports: [
     PickerComponent,
-    ReactionCountComponent,
+    // ReactionCountComponent,
     MatIconModule,
     MatButtonModule,
     FormsModule,
@@ -56,6 +57,17 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   standalone: true,
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss',
+  animations: [
+    trigger('countChange', [
+      transition('* => *', [
+        style({ opacity: 0, transform: 'translateY(20%)' }),
+        animate(
+          '200ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class MessageListComponent implements OnInit, OnDestroy {
   @Input() messages!: Message[];
