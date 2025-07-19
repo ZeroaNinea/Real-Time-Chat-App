@@ -93,7 +93,10 @@
           <div
             class="number-front"
             [@countChange]="animatingReactions.has(key)"
-            [@.disabled]="!animatingReactions.has(key)"
+            [@.disabled]="
+              !animatingReactions.has(key) ||
+              tempReactionCounts.get(key) === reaction.users.length
+            "
           >
             {{ tempReactionCounts.get(key) ?? reaction.users.length }}
           </div>
