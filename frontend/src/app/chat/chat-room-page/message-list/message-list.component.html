@@ -70,7 +70,7 @@
       <div class="rendered-message" #messageContainer>
         <span [innerHTML]="msg.text | textFormat | async"></span>
       </div>
-      <div>
+      <div class="message-attachment">
         @if (msg.isEdited) {
         <span class="edited">(Edited)</span>
         } @if (!isGrouped($index) && hoveredMessageId === msg._id) {
@@ -82,7 +82,7 @@
     @if (msg.reactions.length > 0) {
     <mat-chip-set class="reactions">
       @for (reaction of msg.reactions; track reactionTrackFn($index, reaction))
-      {
+      { @let key = `${msg._id}-${reaction.emoji}`;
       <mat-chip
         class="reaction-button"
         [class.reacted]="reaction.users.includes(currentUserId!)"
@@ -92,7 +92,7 @@
         <app-reaction-count
           [count]="reaction.users.length"
           [emoji]="reaction.emoji"
-          [shouldAnimate]="animatingReactions.has(`${msg._id}-${reaction.emoji}`)"
+          [shouldAnimate]="animatingReactions.has(key)"
         />
       </mat-chip>
       }

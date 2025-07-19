@@ -30,8 +30,8 @@ export class ReactionCountComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('shouldAnimate changed to (ngOnChanges)', this.shouldAnimate);
-    if (changes['count'] && false) {
-      console.log('shouldAnimate changed to (if)', this.shouldAnimate);
+
+    if (changes['count'] && this.shouldAnimate) {
       this.animationKey = `${this.count}-${Date.now()}`;
     }
   }
