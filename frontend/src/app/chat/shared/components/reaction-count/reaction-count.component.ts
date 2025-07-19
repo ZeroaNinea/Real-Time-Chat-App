@@ -26,7 +26,7 @@ export class ReactionCountComponent implements OnChanges {
   @Input() shouldAnimate = false;
 
   animationKey: string | null = null;
-  private prevCount = 0;
+  prevCount = 0;
 
   ngOnChanges(changes: SimpleChanges) {
     const countChanged = this.prevCount !== this.count;

@@ -1,6 +1,9 @@
 @if (shouldAnimate) {
-<div [@countChange]="animationKey" class="reaction-count">
-  {{ count }}
+<div class="reaction-count">
+  <!-- <div class="number-back">{{ prevCount }}</div> -->
+  <div class="number-front" [@countChange]="animationKey">
+    {{ count }}
+  </div>
 </div>
 } @else {
 <div class="reaction-count">{{ count }}</div>

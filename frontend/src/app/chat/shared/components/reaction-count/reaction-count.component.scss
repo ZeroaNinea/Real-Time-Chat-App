@@ -1,3 +1,14 @@
 .reaction-count {
+  position: relative;
   display: inline-block;
+  width: 0.5rem;
+}
+
+.number-back,
+.number-front {
+  position: absolute;
+  top: -14px;
+  // left: 0;
+  width: 100%;
+  text-align: center;
 }
