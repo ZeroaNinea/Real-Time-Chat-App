@@ -315,7 +315,7 @@
 
       .reaction-count {
         display: inline-block;
-        transition: opacity 200ms ease-out, transform 200ms ease-out;
+        transition: opacity 100ms ease-out, transform 100ms ease-out;
 
         &--animating {
           opacity: 0;
