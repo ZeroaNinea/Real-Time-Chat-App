@@ -165,7 +165,6 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   animatingReactions = signal<Set<string>>(new Set());
-  pendingRemovalReactions = signal<Set<string>>(new Set());
 
   constructor() {
     effect(() => {
@@ -553,51 +552,16 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService
       .listenReactionToggle()
       .subscribe(({ messageId, reaction, userId }) => {
-        // const key = `${messageId}-${reaction}`;
-        // const set = new Set(this.animatingReactions());
-        // set.add(key);
-        // this.animatingReactions.set(set);
-
-        // setTimeout(() => {
-        //   const updated = new Set(this.animatingReactions());
-        //   updated.delete(key);
-        //   this.animatingReactions.set(updated);
-        // }, 100);
-
-        // this.messages.update((messages) =>
-        //   messages.map((msg) => {
-        //     if (msg._id !== messageId) return msg;
-
-        //     const existingReaction = msg.reactions.find(
-        //       (r) => r.emoji === reaction
-        //     );
-
-        //     if (existingReaction) {
-        //       const userIndex = existingReaction.users.indexOf(userId);
-
-        //       if (userIndex !== -1) {
-        //         existingReaction.users.splice(userIndex, 1);
-
-        //         if (existingReaction.users.length === 0) {
-        //           msg.reactions = msg.reactions.filter(
-        //             (r) => r.emoji !== reaction
-        //           );
-        //         }
-        //       } else {
-        //         existingReaction.users.push(userId);
-        //       }
-        //     } else {
-        //       msg.reactions.push({ emoji: reaction, users: [userId] });
-        //     }
-
-        //     return { ...msg };
-        //   })
-        // );
-
         const key = `${messageId}-${reaction}`;
-        const animatingSet = new Set(this.animatingReactions());
-        animatingSet.add(key);
-        this.animatingReactions.set(animatingSet);
+        const set = new Set(this.animatingReactions());
+        set.add(key);
+        this.animatingReactions.set(set);
+
+        setTimeout(() => {
+          const updated = new Set(this.animatingReactions());
+          updated.delete(key);
+          this.animatingReactions.set(updated);
+        }, 100);
 
         this.messages.update((messages) =>
           messages.map((msg) => {
@@ -613,35 +577,10 @@ export class ChatRoomComponent implements OnDestroy {
               if (userIndex !== -1) {
                 existingReaction.users.splice(userIndex, 1);
 
-                // Defer deletion if count becomes 0
                 if (existingReaction.users.length === 0) {
-                  const pendingSet = new Set(this.pendingRemovalReactions());
-                  pendingSet.add(key);
-                  this.pendingRemovalReactions.set(pendingSet);
-
-                  // Delay actual removal for animation
-                  setTimeout(() => {
-                    this.messages.update((messages) =>
-                      messages.map((m) => {
-                        if (m._id !== messageId) return m;
-                        m.reactions = m.reactions.filter(
-                          (r) => !(r.emoji === reaction && r.users.length === 0)
-                        );
-                        return { ...m };
-                      })
-                    );
-
-                    // Cleanup
-                    const updatedAnim = new Set(this.animatingReactions());
-                    updatedAnim.delete(key);
-                    this.animatingReactions.set(updatedAnim);
-
-                    const updatedPending = new Set(
-                      this.pendingRemovalReactions()
-                    );
-                    updatedPending.delete(key);
-                    this.pendingRemovalReactions.set(updatedPending);
-                  }, 300); // match your animation duration
+                  msg.reactions = msg.reactions.filter(
+                    (r) => r.emoji !== reaction
+                  );
                 }
               } else {
                 existingReaction.users.push(userId);

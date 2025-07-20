@@ -79,7 +79,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
   @Input() chatId: string | null = null;
   @Input() isPrivate: boolean = false;
   @Input() animatingReactions: Set<string> = new Set();
-  @Input() pendingRemovalReactions: Set<string> = new Set();
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
