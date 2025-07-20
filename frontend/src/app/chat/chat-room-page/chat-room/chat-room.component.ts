@@ -586,9 +586,22 @@ export class ChatRoomComponent implements OnDestroy {
                     updated.delete(key);
                     this.pendingRemovalRequests.set(updated);
 
-                    msg.reactions = msg.reactions.filter(
-                      (r) => r.emoji !== reaction
-                    );
+                    // msg.reactions = msg.reactions.filter(
+                    //   (r) => r.emoji !== reaction
+                    // );
+                    setTimeout(() => {
+                      this.messages.update((messages) =>
+                        messages.map((m) => {
+                          if (m._id !== messageId) return m;
+                          return {
+                            ...m,
+                            reactions: m.reactions.filter(
+                              (r) => r.emoji !== reaction
+                            ),
+                          };
+                        })
+                      );
+                    }, 300);
                   }, 100);
                 }
               } else {
