@@ -110,8 +110,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
 
-  tempReactionCounts = new Map<string, number>();
-
   constructor() {
     afterEveryRender(() => {
       this.renderTikToks();
