@@ -39,7 +39,6 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
   selector: 'app-message-list',
   imports: [
     PickerComponent,
-    // ReactionCountComponent,
     MatIconModule,
     MatButtonModule,
     FormsModule,
@@ -455,20 +454,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
   toggleReaction(event: any, messageId: string) {
     const emoji = event?.emoji?.native || event?.emoji;
 
-    const key = `${messageId}-${emoji}`;
-    // this.animatingReactions.add(key);
-
-    const message = this.messages.find((msg) => msg._id === messageId);
-    const reaction = message?.reactions.find((r) => r.emoji === emoji);
-    const reacted = reaction?.users.includes(this.currentUserId!);
-
-    if (reaction) {
-      const newCount = reacted
-        ? reaction.users.length - 1
-        : reaction.users.length + 1;
-      this.tempReactionCounts.set(key, newCount);
-    }
-
     this.wsService.emit(
       'toggleReaction',
       {
@@ -483,9 +468,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
             'Close',
             { duration: 3000 }
           );
-        } else {
-          // this.animatingReactions.delete(key);
-          this.tempReactionCounts.delete(key);
         }
       }
     );

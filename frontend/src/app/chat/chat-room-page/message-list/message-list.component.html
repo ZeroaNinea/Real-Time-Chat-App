@@ -94,7 +94,7 @@
           class="reaction-count"
           [class.reaction-count--animating]="animatingReactions.has(key)"
         >
-          {{ tempReactionCounts.get(key) ?? reaction.users.length }}
+          {{ reaction.users.length }}
         </div>
       </mat-chip>
       }
