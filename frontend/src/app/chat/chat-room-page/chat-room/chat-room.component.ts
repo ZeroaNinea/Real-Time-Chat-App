@@ -165,6 +165,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   animatingReactions = signal<Set<string>>(new Set());
+  pendingRemovalReactions = signal<Set<string>>(new Set());
 
   constructor() {
     effect(() => {
