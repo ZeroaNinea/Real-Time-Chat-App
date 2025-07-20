@@ -92,7 +92,9 @@
         {{ reaction.emoji }}
         <div
           class="reaction-count"
-          [class.reaction-count--animating]="animatingReactions.has(key)"
+          [class.reaction-count--animating]="
+            animatingReactions.has(key) || pendingRemovalRequests.has(key)
+          "
         >
           {{ reaction.users.length }}
         </div>

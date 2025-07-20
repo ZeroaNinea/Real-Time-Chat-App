@@ -165,6 +165,7 @@ export class ChatRoomComponent implements OnDestroy {
   }
 
   animatingReactions = signal<Set<string>>(new Set());
+  pendingRemovalRequests = signal<Set<string>>(new Set());
 
   constructor() {
     effect(() => {
@@ -578,9 +579,17 @@ export class ChatRoomComponent implements OnDestroy {
                 existingReaction.users.splice(userIndex, 1);
 
                 if (existingReaction.users.length === 0) {
-                  msg.reactions = msg.reactions.filter(
-                    (r) => r.emoji !== reaction
-                  );
+                  this.pendingRemovalRequests.set(new Set(key));
+
+                  setTimeout(() => {
+                    const updated = new Set(this.pendingRemovalRequests());
+                    updated.delete(key);
+                    this.pendingRemovalRequests.set(updated);
+
+                    msg.reactions = msg.reactions.filter(
+                      (r) => r.emoji !== reaction
+                    );
+                  }, 100);
                 }
               } else {
                 existingReaction.users.push(userId);

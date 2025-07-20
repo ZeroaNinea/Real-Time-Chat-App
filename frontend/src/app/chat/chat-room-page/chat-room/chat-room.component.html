@@ -80,6 +80,7 @@
         [currentUserPendingRequests]="currentUserPendingRequests()"
         [isPrivate]="isPrivate()"
         [animatingReactions]="animatingReactions()"
+        [pendingRemovalRequests]="pendingRemovalRequests()"
         (onDelete)="deleteMessage($event)"
         (onEdit)="editMessage($event)"
         (onReply)="startReplyingToMessage($event)"
