@@ -586,9 +586,6 @@ export class ChatRoomComponent implements OnDestroy {
                     updated.delete(key);
                     this.pendingRemovalRequests.set(updated);
 
-                    // msg.reactions = msg.reactions.filter(
-                    //   (r) => r.emoji !== reaction
-                    // );
                     setTimeout(() => {
                       this.messages.update((messages) =>
                         messages.map((m) => {
