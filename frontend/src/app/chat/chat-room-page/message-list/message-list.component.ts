@@ -456,7 +456,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     const emoji = event?.emoji?.native || event?.emoji;
 
     const key = `${messageId}-${emoji}`;
-    this.animatingReactions.add(key);
+    // this.animatingReactions.add(key);
 
     const message = this.messages.find((msg) => msg._id === messageId);
     const reaction = message?.reactions.find((r) => r.emoji === emoji);
@@ -484,7 +484,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
             { duration: 3000 }
           );
         } else {
-          this.animatingReactions.delete(key);
+          // this.animatingReactions.delete(key);
           this.tempReactionCounts.delete(key);
         }
       }

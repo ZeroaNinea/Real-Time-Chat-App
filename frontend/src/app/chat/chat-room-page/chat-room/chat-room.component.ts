@@ -561,7 +561,7 @@ export class ChatRoomComponent implements OnDestroy {
           const updated = new Set(this.animatingReactions());
           updated.delete(key);
           this.animatingReactions.set(updated);
-        }, 300);
+        }, 100);
 
         this.messages.update((messages) =>
           messages.map((msg) => {
