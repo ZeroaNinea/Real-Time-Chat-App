@@ -90,7 +90,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   @Input() channelId!: string | null;
   @Input() chatId: string | null = null;
   @Input() isPrivate: boolean = false;
-  @Input() animatingReactionsSocket = new Set<string>();
+  @Input() animatingReactions: Set<string> = new Set();
 
   @Output() onDelete = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<Message>();
@@ -121,7 +121,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   isCopied = false;
   showReactionPicker = false;
   activeReactionMessageId: string | null = null;
-  animatingReactions = new Set<string>();
+
   tempReactionCounts = new Map<string, number>();
 
   constructor() {

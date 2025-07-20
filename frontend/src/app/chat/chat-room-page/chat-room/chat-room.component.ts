@@ -164,7 +164,7 @@ export class ChatRoomComponent implements OnDestroy {
     return user?.user?.pendingRequests || [];
   }
 
-  animatingReactionsSocket = signal(new Set<string>());
+  animatingReactions = signal<Set<string>>(new Set());
 
   constructor() {
     effect(() => {
@@ -552,6 +552,17 @@ export class ChatRoomComponent implements OnDestroy {
     this.wsService
       .listenReactionToggle()
       .subscribe(({ messageId, reaction, userId }) => {
+        const key = `${messageId}-${reaction}`;
+        const set = new Set(this.animatingReactions());
+        set.add(key);
+        this.animatingReactions.set(set);
+
+        setTimeout(() => {
+          const updated = new Set(this.animatingReactions());
+          updated.delete(key);
+          this.animatingReactions.set(updated);
+        }, 300);
+
         this.messages.update((messages) =>
           messages.map((msg) => {
             if (msg._id !== messageId) return msg;
@@ -573,9 +584,6 @@ export class ChatRoomComponent implements OnDestroy {
                 }
               } else {
                 existingReaction.users.push(userId);
-                this.animatingReactionsSocket.set(
-                  new Set(`${messageId}-${reaction}`)
-                );
               }
             } else {
               msg.reactions.push({ emoji: reaction, users: [userId] });

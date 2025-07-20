@@ -90,13 +90,19 @@
         class="reaction-button"
       >
         {{ reaction.emoji }}
-        <div
+        <!-- <div
           class="reaction-count"
           [@countChange]="animatingReactions.has(key)"
           [@.disabled]="
             !animatingReactions.has(key) ||
             tempReactionCounts.get(key) === reaction.users.length
           "
+        >
+          {{ tempReactionCounts.get(key) ?? reaction.users.length }}
+        </div> -->
+        <div
+          class="reaction-count"
+          [class.reaction-count--animating]="animatingReactions.has(key)"
         >
           {{ tempReactionCounts.get(key) ?? reaction.users.length }}
         </div>
