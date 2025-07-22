@@ -95,8 +95,7 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
 
         return callback?.({ success: true });
       } catch (err) {
-        console.error(err);
-        callback?.({ error: err });
+        return callback?.({ error: err });
       }
     }
   );
