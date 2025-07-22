@@ -48,7 +48,7 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
       }
 
       if (
-        message.reactions.length > 10 &&
+        message.reactions.length >= 20 &&
         !message.reactions.find((r: Reaction) => r.emoji === reaction)
       ) {
         return callback?.({ error: 'Too many reactions' });
