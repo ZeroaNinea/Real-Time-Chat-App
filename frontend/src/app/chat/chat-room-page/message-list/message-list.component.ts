@@ -9,7 +9,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
