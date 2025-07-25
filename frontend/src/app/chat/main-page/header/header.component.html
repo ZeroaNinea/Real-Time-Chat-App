@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
   <span class="app-title">Real-Time Chat App</span>
   <span class="spacer"></span>
-  <a mat-button routerLink="/rooms">Rooms</a>
-  <a mat-button routerLink="/friends">Friends</a>
-  <a mat-button routerLink="/notifications">Notifications</a>
+  <a mat-button [routerLink]="'/'">Home</a>
+  <a mat-button [routerLink]="'/account'">Account</a>
+  <a mat-button [routerLink]="'/login'">Login</a>
+  <a mat-button [routerLink]="'/register'">Register</a>
 </mat-toolbar>
