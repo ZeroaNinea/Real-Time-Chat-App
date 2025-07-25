@@ -45,6 +45,10 @@
 
     &.first.last {
       border-bottom-right-radius: 0.3rem !important;
+
+      .message-content {
+        max-width: 69% !important;
+      }
     }
 
     @include mat.theme(
