@@ -1,1 +1,26 @@
-<p>hamburger-menu works!</p>
+<button mat-icon-button [matMenuTriggerFor]="navMenu" matTooltip="Navigation">
+  <mat-icon>menu</mat-icon>
+</button>
+
+<mat-menu #navMenu="matMenu">
+  <button mat-menu-item [routerLink]="'/'">
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/main'">
+    <mat-icon>chat</mat-icon>
+    <span>Chats</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/account'">
+    <mat-icon>account_circle</mat-icon>
+    <span>Account</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/login'">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/register'">
+    <mat-icon>person_add</mat-icon>
+    <span>Register</span>
+  </button>
+</mat-menu>
