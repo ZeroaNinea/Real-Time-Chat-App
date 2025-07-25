@@ -18,6 +18,7 @@ import { Message } from '../../shared/models/message.model';
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 import { GifPickerComponent } from '../../../shared/components/gif-picker/gif-picker.component';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+import { HamburgerMenuComponent } from '../../shared/components/hamburger-menu/hamburger-menu.component';
 
 @Component({
   selector: 'app-message-input',
@@ -27,6 +28,7 @@ import { WebsocketService } from '../../shared/services/websocket/websocket.serv
     MatButtonModule,
     PickerModule,
     GifPickerComponent,
+    HamburgerMenuComponent,
   ],
   // inputs: ['message'], // Hey girl! You can specify the `@Input` this way if you want.
   // outputs: ['messageChange', 'send'], // Same for `@Output`.
