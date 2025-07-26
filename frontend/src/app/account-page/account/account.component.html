@@ -49,6 +49,13 @@
     >
       Delete Account
     </a>
+    <a
+      mat-list-item
+      (click)="setSection('navigation')"
+      [class.active]="selectedSection === 'navigation'"
+    >
+      Navigation
+    </a>
   </mat-nav-list>
 
   <div class="account-main">
