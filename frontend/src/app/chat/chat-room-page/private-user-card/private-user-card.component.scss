@@ -6,10 +6,20 @@
   height: 100%;
 
   .card-header {
+    position: relative;
+
     .user-pronouns {
       color: var(--mat-sys-outline);
       font-size: 0.85rem;
       font-weight: 400;
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: 20px;
+      left: 45px;
+      width: 10px;
+      height: 10px;
     }
   }
 
