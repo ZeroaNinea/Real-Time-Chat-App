@@ -5,13 +5,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
+import { IdleService } from '../../../shared/services/idle/idle.service';
+
+import { StatusDotComponent } from '../../shared/components/status-dot/status-dot.component';
+
 import { PopulatedUser } from '../../shared/models/populated-user.model';
 
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-private-user-card',
-  imports: [MatIconModule, MatCardModule, MatButtonModule],
+  imports: [StatusDotComponent, MatIconModule, MatCardModule, MatButtonModule],
   standalone: true,
   templateUrl: './private-user-card.component.html',
   styleUrl: './private-user-card.component.scss',
@@ -22,12 +26,20 @@ export class PrivateUserCardComponent {
   @Input() currentUserFriends: string[] = [];
   @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
+  @Input() channelId: string | null = null;
+  @Input() onlineUsers: Set<string> = new Set();
+  @Input() typingUsers: Map<string, Set<string>> = new Map<
+    string,
+    Set<string>
+  >();
 
   private wsService = inject(WebsocketService);
   private _snackbar = inject(MatSnackBar);
 
   private environment = environment;
   public isChecked: boolean = false;
+
+  idleService = inject(IdleService);
 
   get otherUser(): PopulatedUser | undefined {
     return this.members.find((m) => m.user._id !== this.currentUserId);

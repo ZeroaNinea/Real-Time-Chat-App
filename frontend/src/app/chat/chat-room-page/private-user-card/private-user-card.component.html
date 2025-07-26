@@ -6,6 +6,18 @@
       [src]="getAvatarUrl(otherUser.user._id)"
       alt="Avatar"
     />
+    <app-status-dot
+      [status]="
+        typingUsers.get(channelId!)?.has(otherUser.user._id)
+          ? 'typing'
+          : idleService.idleUsers().includes(otherUser.user._id)
+          ? 'idle'
+          : onlineUsers.has(otherUser.user._id)
+          ? 'online'
+          : 'offline'
+      "
+      class="status-dot"
+    ></app-status-dot>
     <mat-card-title>{{ otherUser.user.username }}</mat-card-title>
     <mat-card-subtitle class="user-pronouns">{{
       otherUser.user.pronouns
