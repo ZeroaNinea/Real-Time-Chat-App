@@ -99,6 +99,12 @@
       </p>
       <app-delete-account [user]="user" (userChange)="user = $event" />
     </div>
+    } @case ('navigation') {
+    <div>
+      <h2>Navigation</h2>
+      <p>Quickly jump to other areas of the app.</p>
+      <app-account-navigation></app-account-navigation>
+    </div>
     } }
   </div>
 
