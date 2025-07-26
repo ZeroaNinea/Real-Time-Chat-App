@@ -19,6 +19,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 
 import { WebsocketService } from '../../chat/shared/services/websocket/websocket.service';
 import { IdleService } from '../../shared/services/idle/idle.service';
+import { AccountNavigationComponent } from '../account-navigation/account-navigation.component';
 
 @Component({
   selector: 'app-account',
@@ -31,6 +32,7 @@ import { IdleService } from '../../shared/services/idle/idle.service';
     PasswordComponent,
     PronounsComponent,
     LogoutComponent,
+    AccountNavigationComponent,
     MatTabsModule,
     MatSidenavModule,
     MatListModule,
