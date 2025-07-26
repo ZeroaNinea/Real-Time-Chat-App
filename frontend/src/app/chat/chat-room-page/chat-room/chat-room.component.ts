@@ -517,15 +517,15 @@ export class ChatRoomComponent implements OnDestroy {
       const current = this.typingUsers();
       const updated = new Map(current);
 
-      const oldSet = updated.get(channelId || '') ?? new Set<string>();
+      const oldSet = updated.get(channelId) ?? new Set<string>();
       const newSet = new Set(oldSet);
       newSet.add(userId);
 
-      updated.set(channelId || '', newSet);
+      updated.set(channelId, newSet);
 
       this.typingUsers.set(updated);
 
-      // console.log('Typing users: ', this.typingUsers());
+      console.log('Typing users: ', this.typingUsers());
     });
 
     this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
@@ -533,21 +533,21 @@ export class ChatRoomComponent implements OnDestroy {
       const current = this.typingUsers();
       const updated = new Map(current);
 
-      const oldSet = updated.get(channelId || '');
+      const oldSet = updated.get(channelId);
       if (!oldSet) return;
 
       const newSet = new Set(oldSet);
       newSet.delete(userId);
 
       if (newSet.size === 0) {
-        updated.delete(channelId || '');
+        updated.delete(channelId);
       } else {
-        updated.set(channelId || '', newSet);
+        updated.set(channelId, newSet);
       }
 
       this.typingUsers.set(updated);
 
-      // console.log('Typing users: ', this.typingUsers());
+      console.log('Typing users: ', this.typingUsers());
     });
 
     this.wsService

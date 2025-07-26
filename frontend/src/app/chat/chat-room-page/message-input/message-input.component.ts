@@ -123,9 +123,9 @@ export class MessageInputComponent implements AfterViewInit {
   }
 
   getTypingUsernames(): string[] {
-    if (!this.channelId) return [];
+    if (!this.channelId && !this.chatId) return [];
 
-    const userIds = this.typingUsers.get(this.channelId) ?? new Set();
+    const userIds = this.typingUsers.get(this.channelId!) ?? new Set();
     const usernames: string[] = [];
 
     for (const id of userIds) {

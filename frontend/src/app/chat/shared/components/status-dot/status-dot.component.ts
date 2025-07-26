@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { afterNextRender, Component, Input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -11,4 +11,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class StatusDotComponent {
   @Input() status: 'online' | 'offline' | 'idle' | 'typing' = 'offline';
+
+  comment() {
+    // afterNextRender(() => {
+    console.log('Current status:', this.status);
+    // });
+  }
 }
