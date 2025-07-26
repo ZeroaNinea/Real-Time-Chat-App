@@ -8,7 +8,7 @@
     />
     <app-status-dot
       [status]="
-        typingUsers.get(channelId!)?.has(otherUser.user._id)
+        typingUsers.get(channelId || '')?.has(otherUser.user._id)
           ? 'typing'
           : idleService.idleUsers().includes(otherUser.user._id)
           ? 'idle'
