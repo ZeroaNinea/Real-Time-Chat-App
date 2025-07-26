@@ -1,4 +1,10 @@
-import { afterNextRender, Component, inject, OnInit } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -16,10 +22,10 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
 import { PronounsComponent } from '../pronouns/pronouns.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { UserCardComponent } from '../user-card/user-card.component';
+import { AccountNavigationComponent } from '../account-navigation/account-navigation.component';
 
 import { WebsocketService } from '../../chat/shared/services/websocket/websocket.service';
 import { IdleService } from '../../shared/services/idle/idle.service';
-import { AccountNavigationComponent } from '../account-navigation/account-navigation.component';
 
 @Component({
   selector: 'app-account',
@@ -48,11 +54,71 @@ export class AccountComponent implements OnInit {
   private http = inject(HttpClient);
   user!: User;
 
+  onlineUsers = signal<Set<string>>(new Set());
+  typingUsers = signal(new Map<string, Set<string>>());
+
   constructor() {
     afterNextRender(() => {
       this.wsService.disconnect();
       this.wsService.connect();
       this.idleService.init(this.wsService);
+
+      this.wsService.listenInitialOnlineUsers().subscribe((userIds) => {
+        // console.log('Initial online users: ', userIds);
+        this.onlineUsers.set(new Set(userIds));
+      });
+
+      this.wsService.listenUserOnline().subscribe((userId) => {
+        // console.log('User online: ', userId);
+        const current = new Set(this.onlineUsers());
+        current.add(userId);
+        this.onlineUsers.set(current);
+      });
+
+      this.wsService.listenUserOffline().subscribe((userId) => {
+        // console.log('User offline: ', userId);
+        const current = new Set(this.onlineUsers());
+        current.delete(userId);
+        this.onlineUsers.set(current);
+      });
+
+      this.wsService.listenTypingStart().subscribe(({ userId, channelId }) => {
+        // console.log('Typing start...');
+        const current = this.typingUsers();
+        const updated = new Map(current);
+
+        const oldSet = updated.get(channelId) ?? new Set<string>();
+        const newSet = new Set(oldSet);
+        newSet.add(userId);
+
+        updated.set(channelId, newSet);
+
+        this.typingUsers.set(updated);
+
+        // console.log('Typing users: ', this.typingUsers());
+      });
+
+      this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
+        // console.log('Typing stop...');
+        const current = this.typingUsers();
+        const updated = new Map(current);
+
+        const oldSet = updated.get(channelId);
+        if (!oldSet) return;
+
+        const newSet = new Set(oldSet);
+        newSet.delete(userId);
+
+        if (newSet.size === 0) {
+          updated.delete(channelId);
+        } else {
+          updated.set(channelId, newSet);
+        }
+
+        this.typingUsers.set(updated);
+
+        // console.log('Typing users: ', this.typingUsers());
+      });
     });
   }
 
