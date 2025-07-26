@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 })
 export class UserCardComponent implements OnInit {
   @Input() user!: User;
+
   environment = environment;
 
   // constructor() {
