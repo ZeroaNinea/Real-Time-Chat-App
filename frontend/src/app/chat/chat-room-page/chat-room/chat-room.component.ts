@@ -499,21 +499,21 @@ export class ChatRoomComponent implements OnDestroy {
     });
 
     this.wsService.listenUserOnline().subscribe((userId) => {
-      console.log('User online: ', userId);
+      // console.log('User online: ', userId);
       const current = new Set(this.onlineUsers());
       current.add(userId);
       this.onlineUsers.set(current);
     });
 
     this.wsService.listenUserOffline().subscribe((userId) => {
-      console.log('User offline: ', userId);
+      // console.log('User offline: ', userId);
       const current = new Set(this.onlineUsers());
       current.delete(userId);
       this.onlineUsers.set(current);
     });
 
     this.wsService.listenTypingStart().subscribe(({ userId, channelId }) => {
-      console.log('Typing start...');
+      // console.log('Typing start...');
       const current = this.typingUsers();
       const updated = new Map(current);
 
@@ -525,11 +525,11 @@ export class ChatRoomComponent implements OnDestroy {
 
       this.typingUsers.set(updated);
 
-      console.log('Typing users: ', this.typingUsers());
+      // console.log('Typing users: ', this.typingUsers());
     });
 
     this.wsService.listenTypingStop().subscribe(({ userId, channelId }) => {
-      console.log('Typing stop...');
+      // console.log('Typing stop...');
       const current = this.typingUsers();
       const updated = new Map(current);
 
@@ -547,7 +547,7 @@ export class ChatRoomComponent implements OnDestroy {
 
       this.typingUsers.set(updated);
 
-      console.log('Typing users: ', this.typingUsers());
+      // console.log('Typing users: ', this.typingUsers());
     });
 
     this.wsService
