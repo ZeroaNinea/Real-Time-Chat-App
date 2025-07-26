@@ -1,0 +1,14 @@
+@use "@angular/material" as mat;
+
+.navigation-links {
+  display: flex;
+  gap: 1.5rem;
+
+  & {
+    @include mat.theme(
+      (
+        color: mat.$blue-palette,
+      )
+    );
+  }
+}
