@@ -54,6 +54,7 @@ export class PrivateUserCardComponent {
     }, 2000);
   }
 
+  // Test comment
   getAvatarUrl(userId: string | undefined): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
     return avatar
