@@ -3,8 +3,12 @@ import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 
 import { PrivateChatRoom } from '../../shared/models/private-chat-room.model';
+
 import { ChatService } from '../../shared/services/chat-service/chat.service';
+import { IdleService } from '../../../shared/services/idle/idle.service';
+
 import { environment } from '../../../../environments/environment';
+
 import { StatusDotComponent } from '../../shared/components/status-dot/status-dot.component';
 
 @Component({
@@ -21,6 +25,8 @@ export class PrivateFriendListComponent {
   private router = inject(Router);
 
   environment = environment;
+
+  idleService = inject(IdleService);
 
   message(targetUserId: string) {
     this.chatService.getOrCreatePrivateChat(targetUserId).subscribe((res) => {
