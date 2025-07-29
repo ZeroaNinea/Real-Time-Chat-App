@@ -44,6 +44,8 @@
     @if (isPrivate()) {
     <app-private-friend-list
       [privateChatRooms]="privateChatRooms()"
+      [onlineUsers]="onlineUsers()"
+      [typingUsers]="typingUsers()"
     ></app-private-friend-list>
     } @else {
     <app-channel-list

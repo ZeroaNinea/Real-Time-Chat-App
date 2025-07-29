@@ -20,6 +20,11 @@ import { StatusDotComponent } from '../../shared/components/status-dot/status-do
 })
 export class PrivateFriendListComponent {
   @Input() privateChatRooms: PrivateChatRoom[] = [];
+  @Input() onlineUsers: Set<string> = new Set();
+  @Input() typingUsers: Map<string, Set<string>> = new Map<
+    string,
+    Set<string>
+  >();
 
   private chatService = inject(ChatService);
   private router = inject(Router);
