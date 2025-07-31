@@ -105,12 +105,15 @@
   </div>
   @if (hoveredMessageId === msg._id) {
   <div class="message-actions">
+    @if (msg.sender !== currentUserId) {
     <button mat-icon-button matTooltip="Reply" (click)="onReply.emit(msg)">
       <mat-icon>reply</mat-icon>
     </button>
+    } @if (msg.sender === currentUserId) {
     <button mat-icon-button matTooltip="Edit" (click)="startEditing(msg)">
       <mat-icon>edit</mat-icon>
     </button>
+    } @if (isAdmin || isOwner || isModerator || msg.sender === currentUserId) {
     <button
       mat-icon-button
       matTooltip="Delete"
@@ -118,6 +121,7 @@
     >
       <mat-icon>delete</mat-icon>
     </button>
+    }
     <button mat-icon-button matTooltip="Copy" (click)="onCopy(msg.text)">
       <mat-icon> @if (isCopied) { check } @else { content_copy }</mat-icon>
     </button>
