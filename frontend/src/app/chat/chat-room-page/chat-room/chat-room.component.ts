@@ -108,7 +108,23 @@ export class ChatRoomComponent implements OnDestroy {
   readonly currentUserRoles = computed(() => {
     const id = this.currentUser()?.id;
     const member = this.members().find((m) => m.user === id);
+
+    console.log('Current user roles:', member?.roles);
+    console.log('Current chat room roles:', this.chatRoomRoles());
+
     return member?.roles || [];
+  });
+
+  readonly currentUserPermissions = computed(() => {
+    return this.currentUserRoles().flatMap((roleName) => {
+      const permissions =
+        this.chatRoomRoles().find((r: ChatRoomRole) => r.name === roleName)
+          ?.permissions || [];
+
+      console.log('Current user permissions:', permissions);
+
+      return permissions;
+    });
   });
 
   @ViewChild('scrollContainer')
