@@ -1,0 +1,34 @@
+@use "@angular/material" as mat;
+
+.landing-container {
+  text-align: center;
+  padding: 4rem 1rem;
+
+  .tagline {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--mat-sys-outline);
+  }
+
+  .landing-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    .primary {
+      @include mat.theme(
+        (
+          color: mat.$blue-palette,
+        )
+      );
+    }
+
+    .accent {
+      @include mat.theme(
+        (
+          color: mat.$yellow-palette,
+        )
+      );
+    }
+  }
+}
