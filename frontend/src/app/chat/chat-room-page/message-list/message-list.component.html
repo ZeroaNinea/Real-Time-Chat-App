@@ -113,7 +113,8 @@
     <button mat-icon-button matTooltip="Edit" (click)="startEditing(msg)">
       <mat-icon>edit</mat-icon>
     </button>
-    } @if (isAdmin || isOwner || isModerator || msg.sender === currentUserId) {
+    } @if (isAdmin || isOwner || isModerator || msg.sender === currentUserId ||
+    currentUserPermissions.includes('canDeleteMessages')) {
     <button
       mat-icon-button
       matTooltip="Delete"
