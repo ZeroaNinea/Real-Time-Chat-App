@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { HeaderComponent } from '../chat/main-page/header/header.component';
+import { LangingHeaderComponent } from '../langing-header/langing-header.component';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, HeaderComponent],
+  imports: [RouterLink, LangingHeaderComponent],
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
