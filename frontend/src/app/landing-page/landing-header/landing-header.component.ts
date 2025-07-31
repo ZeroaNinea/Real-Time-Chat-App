@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
+
 import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'app-langing-header',
+  selector: 'app-landing-header',
   imports: [MatToolbarModule, MatButtonModule, RouterModule],
   standalone: true,
-  templateUrl: './langing-header.component.html',
-  styleUrl: './langing-header.component.scss',
+  templateUrl: './landing-header.component.html',
+  styleUrl: './landing-header.component.scss',
 })
-export class LangingHeaderComponent {}
+export class LandingHeaderComponent {}

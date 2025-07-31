@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LangingHeaderComponent } from './langing-header.component';
+import { LandingHeaderComponent } from './landing-header.component';
 
-describe('LangingHeaderComponent', () => {
-  let component: LangingHeaderComponent;
-  let fixture: ComponentFixture<LangingHeaderComponent>;
+describe('LandingHeaderComponent', () => {
+  let component: LandingHeaderComponent;
+  let fixture: ComponentFixture<LandingHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LangingHeaderComponent]
+      imports: [LandingHeaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LangingHeaderComponent);
+    fixture = TestBed.createComponent(LandingHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
