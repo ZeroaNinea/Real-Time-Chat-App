@@ -1,6 +1,7 @@
 import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import {
   afterEveryRender,
+  afterNextRender,
   Component,
   EventEmitter,
   inject,
@@ -67,6 +68,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
   @Input() currentUserFriends: string[] = [];
   @Input() currentUserBanList: string[] = [];
   @Input() currentUserPendingRequests: string[] = [];
+  @Input() currentUserPermissions: string[] = [];
+
   environment = environment;
 
   hoveredMessageId: string | null = null;
@@ -113,6 +116,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
   constructor() {
     afterEveryRender(() => {
       this.renderTikToks();
+
+      console.log('Current user permissions', this.currentUserPermissions);
     });
 
     this.chatService.favorites$.subscribe((favs) => {

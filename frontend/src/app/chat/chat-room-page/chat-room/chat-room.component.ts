@@ -109,9 +109,6 @@ export class ChatRoomComponent implements OnDestroy {
     const id = this.currentUser()?.id;
     const member = this.members().find((m) => m.user === id);
 
-    console.log('Current user roles:', member?.roles);
-    console.log('Current chat room roles:', this.chatRoomRoles());
-
     return member?.roles || [];
   });
 
@@ -121,9 +118,7 @@ export class ChatRoomComponent implements OnDestroy {
         this.chatRoomRoles().find((r: ChatRoomRole) => r.name === roleName)
           ?.permissions || [];
 
-      console.log('Current user permissions:', permissions);
-
-      return permissions;
+      return [...new Set(permissions)];
     });
   });
 
