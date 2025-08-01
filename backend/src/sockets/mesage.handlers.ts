@@ -135,11 +135,11 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         m.user.equals(socket.data.user._id)
       );
 
+      if (!member) {
+        return callback?.({ error: 'You are not a member of this chat' });
+      }
+
       const isSender = message.sender.equals(socket.data.user._id);
-      // const isPrivileged =
-      //   member?.roles.includes('Admin') ||
-      //   member?.roles.includes('Owner') ||
-      //   member?.roles.includes('Moderator');
 
       if (!isSender) {
         return callback?.({
