@@ -7,6 +7,7 @@ import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.alias';
 import { addChannelService } from '../services/chat.service';
 import { Role } from '../../types/role.alias';
+import { checkPermission } from '../services/check-permission.service';
 
 export function registerChannelHandlers(io: Server, socket: Socket) {
   socket.on('addChannel', async ({ chatId, channelName }) => {
@@ -50,8 +51,10 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const isAdmin =
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
-      if (!isAdmin) {
-        return callback?.({ error: 'Only admins can delete channels' });
+      const currentUserPermissions = await checkPermission(chat, member);
+
+      if (!isAdmin && !currentUserPermissions.includes('canDeleteChannels')) {
+        return callback?.({ error: 'You are not allowed to delete channels' });
       }
 
       await Message.deleteMany({ channelId });
