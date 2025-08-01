@@ -136,12 +136,12 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       );
 
       const isSender = message.sender.equals(socket.data.user._id);
-      const isPrivileged =
-        member?.roles.includes('Admin') ||
-        member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+      // const isPrivileged =
+      //   member?.roles.includes('Admin') ||
+      //   member?.roles.includes('Owner') ||
+      //   member?.roles.includes('Moderator');
 
-      if (!isSender && !isPrivileged) {
+      if (!isSender) {
         return callback?.({
           error: 'You are not allowed to edit this message',
         });
