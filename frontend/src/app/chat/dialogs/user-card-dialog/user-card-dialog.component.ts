@@ -147,13 +147,9 @@ export class UserCardDialogComponent implements OnChanges {
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
-    console.log(this.data.chatRoomRoles, this.data.selectedUser.roles);
-
     this.availableRoles = this.data.chatRoomRoles.filter((role) =>
       this.canEditRole(this.data.currentUserRoles, role.name)
     );
-
-    console.log('Available roles:', this.availableRoles);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
