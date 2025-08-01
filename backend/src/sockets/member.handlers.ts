@@ -38,8 +38,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
         member?.roles.includes('Moderator') ||
-        (currentUserPermissions.includes('canAssignRoles') &&
-          currentUserPermissions.includes('canAssignModerators'));
+        currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to create roles' });
@@ -101,10 +100,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         m.user.equals(socket.data.user._id)
       );
 
+      const currentUserPermissions = await checkPermission(chat, member);
+
       const isPrivileged =
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+        member?.roles.includes('Moderator') ||
+        currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to delete roles' });
@@ -181,10 +183,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         m.user.equals(socket.data.user._id)
       );
 
+      const currentUserPermissions = await checkPermission(chat, member);
+
       const isPrivileged =
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+        member?.roles.includes('Moderator') ||
+        currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to edit roles' });
@@ -274,13 +279,32 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         m.user.equals(socket.data.user._id)
       );
 
+      const currentUserPermissions = await checkPermission(chat, member);
+
       const isPrivileged =
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+        member?.roles.includes('Moderator') ||
+        currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to assign roles' });
+      }
+
+      if (
+        role.name === 'Moderator' &&
+        !currentUserPermissions.includes('canAssignModerators')
+      ) {
+        return callback?.({
+          error: 'You are not allowed to assign moderators',
+        });
+      }
+
+      if (
+        role.name === 'Admin' &&
+        !currentUserPermissions.includes('canAssignAdmins')
+      ) {
+        return callback?.({ error: 'You are not allowed to assign admins' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
@@ -415,6 +439,8 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         m.user.equals(userId)
       );
 
+      const currentUserPermissions = await checkPermission(chat, actingMember);
+
       if (!actingMember || !targetMember) {
         return callback?.({ error: 'Member not found' });
       }
@@ -422,15 +448,12 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const isPrivileged =
         actingMember.roles.includes('Admin') ||
         actingMember.roles.includes('Owner') ||
-        actingMember.roles.includes('Moderator');
+        actingMember.roles.includes('Moderator') ||
+        currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to remove roles' });
       }
-
-      // if (actingMember.user.equals(userId)) {
-      //   return callback?.({ error: 'You cannot remove your own role' });
-      // }
 
       if (!canEditRole(actingMember.roles, role)) {
         return callback?.({
