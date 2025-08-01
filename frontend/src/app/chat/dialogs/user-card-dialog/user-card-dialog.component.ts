@@ -40,7 +40,7 @@ import { ChatService } from '../../shared/services/chat-service/chat.service';
   templateUrl: './user-card-dialog.component.html',
   styleUrl: './user-card-dialog.component.scss',
 })
-export class UserCardDialogComponent implements OnChanges {
+export class UserCardDialogComponent {
   isAdmin: boolean = false;
   isOwner: boolean = false;
   isModerator: boolean = false;
@@ -152,11 +152,11 @@ export class UserCardDialogComponent implements OnChanges {
     );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['chatRoomRoles']) {
-      console.log('Received chatRoomRoles:', this.chatRoomRoles);
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['chatRoomRoles']) {
+  //     console.log('Received chatRoomRoles:', this.chatRoomRoles);
+  //   }
+  // }
 
   get currentUserRoles(): string[] {
     return this.data.currentUserRoles;
