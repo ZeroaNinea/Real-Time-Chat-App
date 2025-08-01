@@ -143,7 +143,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
 
       if (!isSender) {
         return callback?.({
-          error: 'You are not allowed to edit this message',
+          error: 'Only the sender of the message can edit it',
         });
       }
 
