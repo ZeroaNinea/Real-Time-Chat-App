@@ -1,8 +1,11 @@
 import { Server, Socket } from 'socket.io';
+
 import { Chat } from '../models/chat.model';
 import { Message } from '../models/message.model';
 import { Member } from '../../types/member.alias';
 import { User } from '../models/user.model';
+
+import { checkPermission } from '../services/check-permission.service';
 
 export function registerMessageHandlers(io: Server, socket: Socket) {
   socket.on('message', async ({ chatId, channelId, message: text }) => {
@@ -93,14 +96,17 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         m.user.equals(socket.data.user._id)
       );
 
+      const currentUserPermissions = await checkPermission(chat, member);
+
       const isSender = message.sender.equals(socket.data.user._id);
       const isPrivileged =
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+        member?.roles.includes('Moderator') ||
+        currentUserPermissions.includes('canDeleteMessages');
 
       if (!isSender && !isPrivileged) {
-        return callback?.({ error: 'Only admins can delete messages' });
+        return callback?.({ error: 'You are not allowed to delete messages' });
       }
 
       await Message.findByIdAndDelete(messageId);
