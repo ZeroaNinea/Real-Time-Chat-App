@@ -163,12 +163,6 @@ export class UserCardDialogComponent {
     });
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['chatRoomRoles']) {
-  //     console.log('Received chatRoomRoles:', this.chatRoomRoles);
-  //   }
-  // }
-
   get currentUserRoles(): string[] {
     return this.data.currentUserRoles;
   }
