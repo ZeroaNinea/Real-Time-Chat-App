@@ -190,11 +190,9 @@ export class UserCardDialogComponent {
   saveStatus(): void {
     this.wsService.emit('editStatus', { status: this.updatedStatus }, (res) => {
       if (res?.error) {
-        this._snackbar.open(
-          res.error.message || 'Failed to reply message',
-          'Close',
-          { duration: 3000 }
-        );
+        this._snackbar.open(res.error || 'Failed to edit status', 'Close', {
+          duration: 3000,
+        });
       }
     });
 
