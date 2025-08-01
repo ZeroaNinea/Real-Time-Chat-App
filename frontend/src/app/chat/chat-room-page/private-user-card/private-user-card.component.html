@@ -28,7 +28,7 @@
     <div class="user-info">
       <div class="status-bubble">
         <div class="bubble-content">
-          <span class="status-text">{{
+          <span class="status-text" [class.empty]="!otherUser.user.status">{{
             otherUser.user.status || "No status set"
           }}</span>
         </div>

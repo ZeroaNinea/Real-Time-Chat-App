@@ -92,6 +92,10 @@
             max-width: 90%;
             transition: all 0.3s ease;
           }
+
+          .status-text.empty {
+            color: var(--mat-sys-outline);
+          }
         }
 
         &:hover .bubble-content {
