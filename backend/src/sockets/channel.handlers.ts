@@ -120,7 +120,9 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const isAdmin =
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
-      if (!isAdmin) {
+      const currentUserPermissions = await checkPermission(chat, member);
+
+      if (!isAdmin && !currentUserPermissions.includes('canEditChannels')) {
         return callback?.({ error: 'Only admins can rename channels' });
       }
 
