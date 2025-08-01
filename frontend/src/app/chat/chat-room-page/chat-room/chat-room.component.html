@@ -53,6 +53,7 @@
       [channels]="channels()"
       [isAdmin]="isAdmin()"
       [isOwner]="isOwner()"
+      [currentUserPermissions]="currentUserPermissions()"
       (removeChannel)="onChannelRemove($event)"
       (renameChannel)="onChannelRename($event)"
       (addChannel)="addChannel()"

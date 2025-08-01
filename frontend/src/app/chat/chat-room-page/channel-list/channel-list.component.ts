@@ -41,6 +41,7 @@ export class ChannelListComponent implements OnChanges {
   @Input() isOwner = false;
   @Input() channels: Channel[] = [];
   @Input() chatId: string | null = null;
+  @Input() currentUserPermissions: string[] = [];
 
   @Output() removeChannel = new EventEmitter<string>();
   @Output() renameChannel = new EventEmitter<{ id: string; name: string }>();

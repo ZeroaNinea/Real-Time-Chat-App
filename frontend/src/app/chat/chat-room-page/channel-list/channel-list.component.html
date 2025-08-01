@@ -2,14 +2,16 @@
   <button mat-raised-button (click)="manageRoles()" class="role-management">
     Roles
   </button>
-  @if (isAdmin && chatId) {
+  @if (isAdmin || isOwner ||
+  currentUserPermissions.includes('canCreateChannels') && chatId) {
   <button mat-raised-button (click)="addNewChannel()" class="add-channel">
     Add Channel
   </button>
   }
 </div>
 
-@if (isAdmin && chatId) {
+@if (isAdmin || isOwner || currentUserPermissions.includes('canEditChannels') &&
+chatId) {
 <div cdkDropList (cdkDropListDropped)="onDrop($event)">
   @for (channel of channels; track $index) {
   <div cdkDrag matRipple [matRippleTrigger]="trigger">
@@ -29,6 +31,7 @@
         <mat-icon>edit</mat-icon>
       </button>
 
+      @if (currentUserPermissions.includes('canDeleteChannels')) {
       <button
         mat-icon-button
         matTooltip="Delete"
@@ -37,6 +40,7 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
+      }
     </div>
   </div>
   }

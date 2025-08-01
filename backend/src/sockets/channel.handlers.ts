@@ -33,7 +33,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
       if (!isAdmin) {
-        throw new Error('Only admins can add channels');
+        throw new Error('Only admins or owner can add channels');
       }
 
       const newChannel = await addChannelService(chatId, channelName, userId);
