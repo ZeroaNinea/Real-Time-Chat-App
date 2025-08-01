@@ -39,7 +39,13 @@
 
     <app-permissions
       [channelId]="channelId()"
-      [canEdit]="isAdmin() || isOwner()"
+      [canEdit]="
+        isAdmin() ||
+        isOwner() ||
+        (currentUserPermissions().includes('canEditChannels') &&
+          currentUserPermissions().includes('canDeleteChannels') &&
+          currentUserPermissions().includes('canCreateChannels'))
+      "
       (openPermissionsDialog)="openPermissionsDialog()"
     ></app-permissions>
   </div>
