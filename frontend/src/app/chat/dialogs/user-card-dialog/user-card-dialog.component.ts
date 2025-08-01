@@ -147,9 +147,20 @@ export class UserCardDialogComponent {
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
-    this.availableRoles = this.data.chatRoomRoles.filter((role) =>
-      this.canEditRole(this.data.currentUserRoles, role.name)
-    );
+    this.availableRoles = this.data.chatRoomRoles.filter((role) => {
+      if (
+        !this.currentUserRoles.includes('Owner') ||
+        !this.currentUserRoles.includes('Admin') ||
+        !this.currentUserRoles.includes('Moderator')
+      ) {
+        this.canAssignPermissionsBelowOwnLevel(
+          this.currentUserPermissions,
+          role.permissions
+        );
+      } else {
+        this.canEditRole(this.data.currentUserRoles, role.name);
+      }
+    });
   }
 
   // ngOnChanges(changes: SimpleChanges): void {
