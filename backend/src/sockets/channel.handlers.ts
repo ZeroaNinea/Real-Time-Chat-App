@@ -28,21 +28,6 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         throw new Error('Private chat rooms cannot have channels');
       }
 
-      const member = chat.members.find((m: Member) => m.user.equals(userId));
-      const isAdmin =
-        member?.roles.includes('Admin') || member?.roles.includes('Owner');
-
-      const currentUserPermissions = member?.roles.map((role: string) => {
-        const permissions =
-          chat.roles.find((r: Role) => r.name === role)?.permissions || [];
-
-        return [...new Set(permissions)];
-      });
-
-      if (!isAdmin || !currentUserPermissions?.includes('canCreateChannels')) {
-        throw new Error('You do not have required permissions to add channels');
-      }
-
       const newChannel = await addChannelService(chatId, channelName, userId);
 
       io.to(chatId).emit('channelAdded', newChannel);

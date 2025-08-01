@@ -1,6 +1,7 @@
 import { Chat } from '../models/chat.model';
 import { Channel } from '../models/channel.model';
 import { Member } from '../../types/member.alias';
+import { Role } from '../../types/role.alias';
 
 export async function addChannelService(
   chatId: string,
@@ -15,7 +16,17 @@ export async function addChannelService(
     ['Owner', 'Admin'].includes(r)
   );
 
-  if (!isAdminOrOwner) {
+  const currentUserPermissions = member?.roles.map((role: string) => {
+    const permissions =
+      chat.roles.find((r: Role) => r.name === role)?.permissions || [];
+
+    return [...new Set(permissions)];
+  });
+
+  if (
+    !isAdminOrOwner &&
+    !currentUserPermissions?.flat().includes('canCreateChannels')
+  ) {
     throw new Error('Only admins or owner can add channels');
   }
 
