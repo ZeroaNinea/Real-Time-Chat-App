@@ -4,11 +4,13 @@ import { User } from '../models/user.model';
 import { Chat } from '../models/chat.model';
 
 import { Member } from '../../types/member.alias';
+import { ChatRoomRole } from '../../types/chat-room-role.alias';
+
 import {
   canAssignPermissionsBelowOwnLevel,
   canEditRole,
 } from '../helpers/check-role-editing-permissions';
-import { ChatRoomRole } from '../../types/chat-room-role.alias';
+import { checkPermission } from '../services/check-permission.service';
 
 export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('createRole', async ({ role, chatId }, callback) => {
@@ -19,6 +21,8 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
+
+      const currentUserPermissions = await checkPermission(chat, member);
 
       if (
         role.name === 'Admin' ||
@@ -33,7 +37,9 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const isPrivileged =
         member?.roles.includes('Admin') ||
         member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator');
+        member?.roles.includes('Moderator') ||
+        (currentUserPermissions.includes('canAssignRoles') &&
+          currentUserPermissions.includes('canAssignModerators'));
 
       if (!isPrivileged) {
         return callback?.({ error: 'You are not allowed to create roles' });
