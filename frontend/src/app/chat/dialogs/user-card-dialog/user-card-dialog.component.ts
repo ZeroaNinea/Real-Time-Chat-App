@@ -148,18 +148,18 @@ export class UserCardDialogComponent {
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
     this.availableRoles = this.data.chatRoomRoles.filter((role) => {
-      if (
-        !this.currentUserRoles.includes('Owner') ||
-        !this.currentUserRoles.includes('Admin') ||
-        !this.currentUserRoles.includes('Moderator')
-      ) {
-        return this.canAssignPermissionsBelowOwnLevel(
-          this.currentUserPermissions,
-          role.permissions
-        );
-      } else {
-        return this.canEditRole(this.data.currentUserRoles, role.name);
-      }
+      // if (
+      //   !this.currentUserRoles.includes('Owner') ||
+      //   !this.currentUserRoles.includes('Admin') ||
+      //   !this.currentUserRoles.includes('Moderator')
+      // ) {
+      return this.canAssignPermissionsBelowOwnLevel(
+        this.currentUserPermissions,
+        role.permissions
+      );
+      // } else {
+      //   return this.canEditRole(this.data.currentUserRoles, role.name);
+      // }
     });
   }
 
