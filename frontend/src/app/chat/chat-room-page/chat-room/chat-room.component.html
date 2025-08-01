@@ -27,7 +27,11 @@
   <div class="top-center">
     <app-channel-topic
       [topic]="selectedChannel()?.topic"
-      [canEdit]="isAdmin() || isOwner()"
+      [canEdit]="
+        isAdmin() ||
+        isOwner() ||
+        currentUserPermissions().includes('canEditChannels')
+      "
       [channelId]="channelId()"
       [chatTopic]="chatTopic()"
       (topicChange)="onTopicChange($event)"
