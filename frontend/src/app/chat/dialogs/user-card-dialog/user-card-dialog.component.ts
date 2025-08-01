@@ -95,6 +95,7 @@ export class UserCardDialogComponent implements OnChanges {
     if (targetRole === 'Owner') return false;
 
     const targetRank = this.roleRanks[targetRole] ?? 0;
+
     const highestAssignerRank = Math.max(
       ...assignerRoles.map((r) => this.roleRanks[r] ?? 0)
     );
@@ -146,17 +147,13 @@ export class UserCardDialogComponent implements OnChanges {
     this.isModerator = this.data.isModerator;
     this.canEditRoles = this.isAdmin || this.isOwner || this.isModerator;
 
-    this.availableRoles = this.data.chatRoomRoles.filter(
-      (role) =>
-        role.name !== 'Owner' &&
-        this.canEditRole(this.data.selectedUser.roles, role.name)
+    console.log(this.data.chatRoomRoles, this.data.selectedUser.roles);
+
+    this.availableRoles = this.data.chatRoomRoles.filter((role) =>
+      this.canEditRole(this.data.currentUserRoles, role.name)
     );
 
-    if (this.data.selectedUser.user._id === this.data.currentUserId) {
-      this.availableRoles = this.availableRoles.filter(
-        (role) => role.name !== 'Banned' && role.name !== 'Muted'
-      );
-    }
+    console.log('Available roles:', this.availableRoles);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
