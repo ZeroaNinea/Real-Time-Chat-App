@@ -200,9 +200,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (!canEditRole(member?.roles || [], role)) {
-        return callback?.({
-          error: 'You cannot edit roles higher than your own',
-        });
+        if (currentUserPermissions.length === 0) {
+          return callback?.({
+            error: 'You cannot edit roles higher than your own',
+          });
+        }
       }
 
       if (
