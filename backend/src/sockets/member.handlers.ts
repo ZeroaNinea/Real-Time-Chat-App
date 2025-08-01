@@ -14,6 +14,7 @@ import { checkPermission } from '../services/check-permission.service';
 
 export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('createRole', async ({ role, chatId }, callback) => {
+    console.log('createRole', role, chatId);
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) return callback?.({ error: 'Chat not found' });
@@ -45,9 +46,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (!canEditRole(member?.roles || [], role)) {
-        return callback?.({
-          error: 'You cannot create roles higher than your own',
-        });
+        if (currentUserPermissions.length === 0) {
+          return callback?.({
+            error: 'You cannot create roles higher than your own',
+          });
+        }
       }
 
       const memberRoles = chat.members.find((m: Member) =>
@@ -71,8 +74,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
           )
         ) {
           return callback?.({
-            error:
-              'You cannot assign permissions equal to or greater than your own',
+            error: 'You cannot create roles equal to or greater than your own',
           });
         }
       }
@@ -113,9 +115,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (!canEditRole(member?.roles || [], role)) {
-        return callback?.({
-          error: 'You cannot delete roles higher than your own',
-        });
+        if (currentUserPermissions.length === 0) {
+          return callback?.({
+            error: 'You cannot delete roles higher than your own',
+          });
+        }
       }
 
       if (

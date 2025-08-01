@@ -151,11 +151,9 @@ export class RoleManagementComponent {
       },
       (res) => {
         if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to create role',
-            'Close',
-            { duration: 3000 }
-          );
+          this._snackbar.open(res.error || 'Failed to create role', 'Close', {
+            duration: 3000,
+          });
         } else {
           this._snackbar.open('Role saved!', 'Close', { duration: 2000 });
           this.resetForm();
@@ -173,11 +171,9 @@ export class RoleManagementComponent {
       },
       (res) => {
         if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to delete role',
-            'Close',
-            { duration: 3000 }
-          );
+          this._snackbar.open(res.error || 'Failed to delete role', 'Close', {
+            duration: 3000,
+          });
         } else {
           this._snackbar.open('Role deleted!', 'Close', { duration: 2000 });
         }
@@ -200,11 +196,9 @@ export class RoleManagementComponent {
       },
       (res) => {
         if (res?.error) {
-          this._snackbar.open(
-            res.error.message || 'Failed to toggle role',
-            'Close',
-            { duration: 3000 }
-          );
+          this._snackbar.open(res.error || 'Failed to toggle role', 'Close', {
+            duration: 3000,
+          });
         } else {
           this._snackbar.open('Role toggled!', 'Close', { duration: 2000 });
         }
