@@ -16,7 +16,7 @@ chatId) {
   @for (channel of channels; track $index) {
   <div cdkDrag matRipple [matRippleTrigger]="trigger">
     <div #trigger class="channel-item">
-      <span class="channel-link">
+      <span matTooltip="{{ channel.name }}" class="channel-link">
         <a [routerLink]="['/chat-room', chatId, 'channel', channel._id]">
           {{ channel.name }}
         </a>
