@@ -39,6 +39,8 @@ mat-form-field {
     pointer-events: none;
     transition: all 0.2s ease;
 
+    white-space: pre;
+
     span {
       display: block;
     }
