@@ -157,7 +157,14 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         const isAdmin =
           member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
-        if (!isAdmin) {
+        const currentUserPermissions = await checkPermission(chat, member);
+
+        if (
+          !isAdmin &&
+          !currentUserPermissions.includes('canEditChannels') &&
+          !currentUserPermissions.includes('canDeleteChannels') &&
+          !currentUserPermissions.includes('canCreateChannels')
+        ) {
           return callback?.({ error: 'Only admins can edit permissions' });
         }
 
@@ -199,7 +206,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
           if (role.permissions) {
             return (
               (role.permissions.includes('canEditChannels') &&
-                role.permissions.includes('canEditChannelOrder')) ||
+                role.permissions.includes('canCreateChannels')) ||
               role.name === 'Admin' ||
               role.name === 'Owner'
             );
