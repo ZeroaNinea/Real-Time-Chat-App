@@ -1,5 +1,6 @@
 <div class="role-management-container">
-  @if (isOwner || isAdmin || isModerator) {
+  @if (isOwner || isAdmin || isModerator ||
+  currentUserPermissions.includes('canAssignRoles')) {
   <div class="create-role">
     <h2>Manage Roles</h2>
 
@@ -117,7 +118,8 @@
           >
             <div class="role-item">
               <span class="role-name">{{ role.name }}</span>
-              @if (isOwner || isAdmin || isModerator) {
+              @if (isOwner || isAdmin || isModerator ||
+              currentUserPermissions.includes('canAssignRoles')) {
               <div class="role-actions">
                 <button
                   mat-icon-button
