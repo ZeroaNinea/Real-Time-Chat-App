@@ -105,11 +105,9 @@ export class PrivateUserCardComponent {
   banUser(user: PopulatedUser) {
     this.wsService.emit('banUser', user.user._id, (res) => {
       if (res?.error) {
-        this._snackbar.open(
-          res.error.message || 'Failed to ban user',
-          'Close',
-          { duration: 3000 }
-        );
+        this._snackbar.open(res.error || 'Failed to ban user', 'Close', {
+          duration: 3000,
+        });
       } else {
         this.currentUserBanList.push(user.user._id);
         this.currentUserFriends = this.currentUserFriends.filter(
@@ -124,11 +122,9 @@ export class PrivateUserCardComponent {
   unbanUser(user: PopulatedUser) {
     this.wsService.emit('unbanUser', user.user._id, (res) => {
       if (res?.error) {
-        this._snackbar.open(
-          res.error.message || 'Failed to unban user',
-          'Close',
-          { duration: 3000 }
-        );
+        this._snackbar.open(res.error || 'Failed to unban user', 'Close', {
+          duration: 3000,
+        });
       } else {
         this.currentUserBanList = this.currentUserBanList.filter(
           (id) => id !== user.user._id
