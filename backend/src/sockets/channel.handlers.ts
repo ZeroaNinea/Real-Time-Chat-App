@@ -32,9 +32,9 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const isAdmin =
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
-      const currentUserPermissions = member?.roles.map((role: Role) => {
+      const currentUserPermissions = member?.roles.map((role: string) => {
         const permissions =
-          chat.roles.find((r: Role) => r.name === role.name)?.permissions || [];
+          chat.roles.find((r: Role) => r.name === role)?.permissions || [];
 
         return [...new Set(permissions)];
       });
