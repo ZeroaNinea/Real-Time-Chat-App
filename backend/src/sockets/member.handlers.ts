@@ -313,9 +313,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (!canEditRole(member?.roles || [], role)) {
-        return callback?.({
-          error: 'You cannot edit roles higher than your own',
-        });
+        if (currentUserPermissions.length === 0) {
+          return callback?.({
+            error: 'You cannot edit assign higher than your own',
+          });
+        }
       }
 
       const updatedMember = chat.members.find((m: Member) =>
@@ -461,9 +463,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (!canEditRole(actingMember.roles, role)) {
-        return callback?.({
-          error: 'You cannot remove roles higher than your own',
-        });
+        if (currentUserPermissions.length === 0) {
+          return callback?.({
+            error: 'You cannot remove roles higher than your own',
+          });
+        }
       }
 
       if (!targetMember.roles.includes(role)) {
