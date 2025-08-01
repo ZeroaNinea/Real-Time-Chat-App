@@ -40,7 +40,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       });
 
       if (!isAdmin || !currentUserPermissions?.includes('canCreateChannels')) {
-        throw new Error('Only admins or owner can add channels');
+        throw new Error('You do not have required permissions to add channels');
       }
 
       const newChannel = await addChannelService(chatId, channelName, userId);
