@@ -153,12 +153,12 @@ export class UserCardDialogComponent {
         !this.currentUserRoles.includes('Admin') ||
         !this.currentUserRoles.includes('Moderator')
       ) {
-        this.canAssignPermissionsBelowOwnLevel(
+        return this.canAssignPermissionsBelowOwnLevel(
           this.currentUserPermissions,
           role.permissions
         );
       } else {
-        this.canEditRole(this.data.currentUserRoles, role.name);
+        return this.canEditRole(this.data.currentUserRoles, role.name);
       }
     });
   }
