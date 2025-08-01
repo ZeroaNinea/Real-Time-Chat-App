@@ -14,7 +14,6 @@ import { checkPermission } from '../services/check-permission.service';
 
 export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('createRole', async ({ role, chatId }, callback) => {
-    console.log('createRole', role, chatId);
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) return callback?.({ error: 'Chat not found' });
