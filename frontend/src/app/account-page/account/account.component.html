@@ -1,62 +1,31 @@
 <div class="account-page">
-  <mat-nav-list class="account-sidebar">
-    <a
-      mat-list-item
-      (click)="setSection('username-bio')"
-      [class.active]="selectedSection === 'username-bio'"
-    >
-      Username & Bio
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('pronouns')"
-      [class.active]="selectedSection === 'pronouns'"
-    >
-      Pronouns
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('email')"
-      [class.active]="selectedSection === 'email'"
-    >
-      Email
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('password')"
-      [class.active]="selectedSection === 'password'"
-    >
-      Password
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('avatar')"
-      [class.active]="selectedSection === 'avatar'"
-    >
-      Avatar
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('logout')"
-      [class.active]="selectedSection === 'logout'"
-    >
-      Log Out
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('delete')"
-      [class.active]="selectedSection === 'delete'"
-    >
-      Delete Account
-    </a>
-    <a
-      mat-list-item
-      (click)="setSection('navigation')"
-      [class.active]="selectedSection === 'navigation'"
-    >
-      Navigation
-    </a>
-  </mat-nav-list>
+  <div class="account-sidebar">
+    @if (!isSmallScreen) {
+    <mat-nav-list>
+      @for (section of sections; track $index) {
+      <a
+        mat-list-item
+        (click)="setSection(section.key)"
+        [class.active]="selectedSection === section.key"
+      >
+        {{ section.label }}
+      </a>
+      }
+    </mat-nav-list>
+    } @else {
+    <h2 class="section-select-title">Select Section</h2>
+    <mat-form-field appearance="fill" class="section-select">
+      <mat-label>Section</mat-label>
+      <mat-select [(ngModel)]="selectedSection">
+        @for (section of sections; track $index) {
+        <mat-option [value]="section.key">
+          {{ section.label }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
+  </div>
 
   <div class="account-main">
     @switch (selectedSection) { @case ('username-bio') {

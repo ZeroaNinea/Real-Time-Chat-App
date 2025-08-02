@@ -11,6 +11,9 @@ import { HttpClient } from '@angular/common/http';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 import { environment } from '../../../environments/environment';
 import { AccountEmailComponent } from '../account-email/account-email.component';
@@ -26,6 +29,7 @@ import { AccountNavigationComponent } from '../account-navigation/account-naviga
 
 import { WebsocketService } from '../../chat/shared/services/websocket/websocket.service';
 import { IdleService } from '../../shared/services/idle/idle.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-account',
@@ -42,6 +46,9 @@ import { IdleService } from '../../shared/services/idle/idle.service';
     MatTabsModule,
     MatSidenavModule,
     MatListModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
   ],
   standalone: true,
   templateUrl: './account.component.html',
@@ -57,6 +64,8 @@ export class AccountComponent implements OnInit {
   onlineUsers = signal<Set<string>>(new Set());
   typingUsers = signal(new Map<string, Set<string>>());
 
+  isSmallScreen = window.innerWidth <= 768;
+
   constructor() {
     afterNextRender(() => {
       this.wsService.disconnect();
@@ -71,6 +80,17 @@ export class AccountComponent implements OnInit {
 
   selectedSection = 'username-bio';
 
+  sections = [
+    { key: 'username-bio', label: 'Username & Bio' },
+    { key: 'pronouns', label: 'Pronouns' },
+    { key: 'email', label: 'Email' },
+    { key: 'password', label: 'Password' },
+    { key: 'avatar', label: 'Avatar' },
+    { key: 'logout', label: 'Log Out' },
+    { key: 'delete', label: 'Delete Account' },
+    { key: 'navigation', label: 'Navigation' },
+  ];
+
   ngOnInit() {
     this.http.get<User>(`${environment.backendUrl}/auth/account`).subscribe({
       next: (data) => {
@@ -79,6 +99,10 @@ export class AccountComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching user data', error);
       },
+    });
+
+    window.addEventListener('resize', () => {
+      this.isSmallScreen = window.innerWidth <= 768;
     });
   }
 }
