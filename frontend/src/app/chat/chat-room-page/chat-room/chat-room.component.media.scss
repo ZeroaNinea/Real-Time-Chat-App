@@ -1,0 +1,36 @@
+@media (max-width: 768px) {
+  .chat-room-layout {
+    grid-template-areas:
+      "top-left"
+      "top-center"
+      "main"
+      "left"
+      "right";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+    height: auto;
+  }
+
+  .left-sidebar,
+  .right-sidebar {
+    padding: 0.5rem;
+    // border-radius: 0;
+    border-radius: 8px !important;
+  }
+
+  .top-left,
+  .top-center {
+    justify-content: flex-start;
+    padding: 0.5rem;
+  }
+
+  .main {
+    padding: 0.5rem;
+    height: auto;
+  }
+
+  .message-list {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+}

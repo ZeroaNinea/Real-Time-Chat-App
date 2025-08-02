@@ -64,7 +64,7 @@ import { IdleService } from '../../../shared/services/idle/idle.service';
   ],
   standalone: true,
   templateUrl: './chat-room.component.html',
-  styleUrl: './chat-room.component.scss',
+  styleUrls: ['./chat-room.component.scss', './chat-room.component.media.scss'],
 })
 export class ChatRoomComponent implements OnDestroy {
   message = signal('');
