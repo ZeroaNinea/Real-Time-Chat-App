@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .chat-room-layout {
   display: grid;
   grid-template-areas:
@@ -27,10 +29,18 @@
 
 .left-sidebar {
   grid-area: left;
-  background-color: var(--mat-sys-surface-container);
+  background-color: var(--mat-sys-surface-container-low);
   padding: 1rem;
   border-radius: 8px;
   overflow-y: auto;
+
+  & {
+    @include mat.theme(
+      (
+        color: mat.$azure-palette,
+      )
+    );
+  }
 }
 
 .main {
@@ -48,13 +58,21 @@
 
 .right-sidebar {
   grid-area: right;
-  background-color: var(--mat-sys-surface-container);
+  background-color: var(--mat-sys-surface-container-low);
   padding: 1rem;
   border-radius: 8px;
   overflow-y: auto;
 
   &.private {
     padding: 0;
+  }
+
+  & {
+    @include mat.theme(
+      (
+        color: mat.$azure-palette,
+      )
+    );
   }
 }
 

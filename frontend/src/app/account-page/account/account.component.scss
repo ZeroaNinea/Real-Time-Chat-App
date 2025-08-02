@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .account-page {
   display: grid;
   grid-template-columns: 200px 1fr 250px;
@@ -9,9 +11,18 @@
 }
 
 .account-sidebar {
-  background: #f9f9f9;
+  // background: #f9f9f9;
+  background-color: var(--mat-sys-surface-container-low);
   border-radius: 0.75rem;
   padding: 1rem;
+
+  & {
+    @include mat.theme(
+      (
+        color: mat.$azure-palette,
+      )
+    );
+  }
 }
 
 .account-main {
@@ -22,7 +33,6 @@
 }
 
 .account-card {
-  background: #f3f4f6;
   padding: 0;
   border-radius: 0.75rem;
 }

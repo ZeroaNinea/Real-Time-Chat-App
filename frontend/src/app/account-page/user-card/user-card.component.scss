@@ -1,7 +1,9 @@
+@use "@angular/material" as mat;
+
 .user-card {
-  background-color: #f3f4f6;
+  background-color: var(--mat-sys-surface-container-low);
   box-shadow: none;
-  height: 90vh;
+  height: 93vh;
   // width: 120%;
 
   mat-card-title {
@@ -22,6 +24,14 @@
     padding: 1.5rem;
     padding-top: 0rem;
     padding-bottom: 2.5rem;
+  }
+
+  & {
+    @include mat.theme(
+      (
+        color: mat.$azure-palette,
+      )
+    );
   }
 }
 
