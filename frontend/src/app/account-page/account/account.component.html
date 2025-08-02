@@ -13,7 +13,7 @@
       }
     </mat-nav-list>
     } @else {
-    <h2 class="section-select-title">Select Section</h2>
+    <h2>Select Section</h2>
     <mat-form-field appearance="fill" class="section-select">
       <mat-label>Section</mat-label>
       <mat-select [(ngModel)]="selectedSection">
@@ -23,6 +23,9 @@
         </mat-option>
         }
       </mat-select>
+      <mat-hint class="section-select-hint"
+        >Select a section to change your account settings.</mat-hint
+      >
     </mat-form-field>
     }
   </div>

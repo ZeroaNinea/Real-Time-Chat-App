@@ -10,7 +10,7 @@
 
   .account-sidebar {
     order: 1;
-    width: 100%;
+    width: 97.5%;
     padding: 0.5rem;
     margin-bottom: 1rem;
   }
@@ -31,6 +31,7 @@
 
     .section-select {
       width: 90%;
+      margin-bottom: 0.25rem;
 
       & {
         @include mat.theme(
@@ -40,5 +41,9 @@
         );
       }
     }
+  }
+
+  .section-select-hint {
+    color: var(--mat-sys-outline);
   }
 }
