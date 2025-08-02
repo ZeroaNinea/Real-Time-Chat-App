@@ -14,7 +14,19 @@
   .left-sidebar,
   .right-sidebar {
     padding: 0.5rem;
-    border-radius: 8px;
+    border-radius: 0;
+  }
+
+  .left-sidebar {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  .right-sidebar {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+
+    margin-bottom: 0.5rem;
   }
 
   .top-left,
