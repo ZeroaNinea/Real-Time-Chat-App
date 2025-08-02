@@ -45,7 +45,7 @@ import { IdleService } from '../../shared/services/idle/idle.service';
   ],
   standalone: true,
   templateUrl: './account.component.html',
-  styleUrl: './account.component.scss',
+  styleUrls: ['./account.component.scss', './account.component.media.scss'],
 })
 export class AccountComponent implements OnInit {
   private wsService = inject(WebsocketService);

@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+  .account-page {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    height: auto;
+  }
+
+  .account-sidebar {
+    order: 1;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .account-main {
+    order: 2;
+    padding: 1rem;
+  }
+
+  .account-card {
+    order: 3;
+    margin-top: 1rem;
+  }
+}
