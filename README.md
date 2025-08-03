@@ -32,7 +32,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 - Direct (1-on-1) private chat
 - View friend's status and activity
 
-### 🧠 Reactions & Real-Time Status _(Coming soon)_
+### 🧠 Reactions & Real-Time Status
 
 - Add emoji reactions to messages
 - See who’s online, offline, or idle
