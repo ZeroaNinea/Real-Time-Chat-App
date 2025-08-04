@@ -1,18 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
-// import jwt from 'jsonwebtoken';
 import { signToken } from '../auth/jwt.service';
 
 import { User } from '../models/user.model';
 import { redisClient } from '../config/redis';
 import { buildAccountResponse } from '../helpers/account-response';
-
-// Get keys.
-const privateKey = fs.readFileSync(
-  path.join(__dirname, '../../keys/private.pem'),
-  'utf-8'
-);
 
 // Middleware to handle async routes.
 export const asyncRoute =
