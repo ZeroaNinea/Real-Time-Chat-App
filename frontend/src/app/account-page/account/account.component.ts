@@ -29,7 +29,6 @@ import { AccountNavigationComponent } from '../account-navigation/account-naviga
 
 import { WebsocketService } from '../../chat/shared/services/websocket/websocket.service';
 import { IdleService } from '../../shared/services/idle/idle.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-account',
