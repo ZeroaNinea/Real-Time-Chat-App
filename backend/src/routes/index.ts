@@ -16,4 +16,8 @@ router.use('/notification', notificationRoutes);
 router.use('/social', socialRoutes);
 router.use('/favorites', favoritesRoutes);
 
+router.get('/healthcheck', (_req, res) => {
+  res.status(200).send('OK');
+});
+
 export default router;
