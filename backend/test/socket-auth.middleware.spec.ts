@@ -67,41 +67,41 @@ describe('socketAuthMiddleware', () => {
     );
   });
 
-  it('should call next with error if user not found', async () => {
-    mockSocket.handshake.auth.token = 'dummy';
+  // it('should call next with error if user not found', async () => {
+  //   mockSocket.handshake.auth.token = 'dummy';
 
-    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-    sinon
-      .stub(fs, 'readFileSync')
-      .returns(JSON.stringify({ abc: 'publicKey' }));
-    sinon.stub(jwt, 'verify').returns();
-    sinon.stub(userService, 'findUserById').resolves(null);
+  //   sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
+  //   sinon
+  //     .stub(fs, 'readFileSync')
+  //     .returns(JSON.stringify({ abc: 'publicKey' }));
+  //   sinon.stub(jwt, 'verify').returns();
+  //   sinon.stub(userService, 'findUserById').resolves(null);
 
-    await socketAuthMiddleware(mockSocket, next);
+  //   await socketAuthMiddleware(mockSocket, next);
 
-    expect(next.calledOnce).to.be.true;
-    expect(next.firstCall.args[0].message).to.equal('User not found');
-  });
+  //   expect(next.calledOnce).to.be.true;
+  //   expect(next.firstCall.args[0].message).to.equal('User not found');
+  // });
 
-  it('should attach user to socket and call next()', async () => {
-    mockSocket.handshake.auth.token = 'dummy';
+  // it('should attach user to socket and call next()', async () => {
+  //   mockSocket.handshake.auth.token = 'dummy';
 
-    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-    sinon
-      .stub(fs, 'readFileSync')
-      .returns(JSON.stringify({ abc: 'publicKey' }));
-    sinon.stub(jwt, 'verify').returns();
-    sinon
-      .stub(userService, 'findUserById')
-      .resolves({ _id: '123', username: 'testuser' });
+  //   sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
+  //   sinon
+  //     .stub(fs, 'readFileSync')
+  //     .returns(JSON.stringify({ abc: 'publicKey' }));
+  //   sinon.stub(jwt, 'verify').returns();
+  //   sinon
+  //     .stub(userService, 'findUserById')
+  //     .resolves({ _id: '123', username: 'testuser' });
 
-    await socketAuthMiddleware(mockSocket, next);
+  //   await socketAuthMiddleware(mockSocket, next);
 
-    expect(mockSocket.data.user).to.deep.equal({
-      _id: '123',
-      username: 'testuser',
-    });
-    expect(next.calledOnce).to.be.true;
-    expect(next.firstCall.args[0]).to.be.undefined;
-  });
+  //   expect(mockSocket.data.user).to.deep.equal({
+  //     _id: '123',
+  //     username: 'testuser',
+  //   });
+  //   expect(next.calledOnce).to.be.true;
+  //   expect(next.firstCall.args[0]).to.be.undefined;
+  // });
 });

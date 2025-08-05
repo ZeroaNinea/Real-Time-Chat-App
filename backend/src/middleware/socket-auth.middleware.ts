@@ -32,7 +32,7 @@ export const socketAuthMiddleware = async (
       algorithms: ['RS256'],
     }) as jwt.JwtPayload;
 
-    const userId = payload.sub || payload.id;
+    const userId = payload ? payload.sub || payload.id : null;
     if (!userId) throw new Error('Token missing subject/user ID');
 
     const user = await findUserById(userId);
