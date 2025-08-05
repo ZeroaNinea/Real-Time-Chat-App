@@ -116,8 +116,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
   constructor() {
     afterEveryRender(() => {
       this.renderTikToks();
-
-      console.log('Current user permissions', this.currentUserPermissions);
     });
 
     this.chatService.favorites$.subscribe((favs) => {
