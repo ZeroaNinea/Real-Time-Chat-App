@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import { ExtendedError, Socket } from 'socket.io';
 
-import { findUserById } from '../services/user.service';
+import * as userService from '../services/user.service';
 
 export const socketAuthMiddleware = async (
   socket: Socket,
@@ -35,7 +35,7 @@ export const socketAuthMiddleware = async (
     const userId = payload ? payload.sub || payload.id : null;
     if (!userId) throw new Error('Token missing subject/user ID');
 
-    const user = await findUserById(userId);
+    const user = await userService.findUserById(userId);
     if (!user) throw new Error('User not found');
 
     socket.data.user = user;

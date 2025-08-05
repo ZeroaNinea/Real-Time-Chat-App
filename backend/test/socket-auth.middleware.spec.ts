@@ -67,21 +67,25 @@ describe('socketAuthMiddleware', () => {
     );
   });
 
-  // it('should call next with error if user not found', async () => {
-  //   mockSocket.handshake.auth.token = 'dummy';
+  it('should call next with error if user not found', async () => {
+    mockSocket.handshake.auth.token = 'dummy';
 
-  //   sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-  //   sinon
-  //     .stub(fs, 'readFileSync')
-  //     .returns(JSON.stringify({ abc: 'publicKey' }));
-  //   sinon.stub(jwt, 'verify').returns();
-  //   sinon.stub(userService, 'findUserById').resolves(null);
+    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
+    sinon
+      .stub(fs, 'readFileSync')
+      .returns(JSON.stringify({ abc: 'publicKey' }));
+    // sinon
+    //   .stub(jwt, 'verify')
+    //   .returns({ id: '123' } as unknown as jwt.JwtPayload);
+    sinon.stub(userService, 'findUserById').resolves(null);
 
-  //   await socketAuthMiddleware(mockSocket, next);
+    await socketAuthMiddleware(mockSocket, next);
 
-  //   expect(next.calledOnce).to.be.true;
-  //   expect(next.firstCall.args[0].message).to.equal('User not found');
-  // });
+    expect(next.calledOnce).to.be.true;
+    expect((next.firstCall.args[0] as Error).message).to.equal(
+      'User not found'
+    );
+  });
 
   // it('should attach user to socket and call next()', async () => {
   //   mockSocket.handshake.auth.token = 'dummy';
