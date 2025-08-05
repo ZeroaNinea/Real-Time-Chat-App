@@ -35,7 +35,7 @@ describe('socketAuthMiddleware', () => {
     await socketAuthMiddleware(mockSocket, next);
 
     expect(next.calledOnce).to.be.true;
-    expect(next.firstCall.args[0].message).to.equal('Invalid token');
+    expect(next.firstCall.args[0].message).to.equal('Token missing "kid"');
   });
 
   it('should call next with error if public key is missing', async () => {

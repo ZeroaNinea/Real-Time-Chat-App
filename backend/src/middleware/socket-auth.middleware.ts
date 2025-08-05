@@ -41,8 +41,10 @@ export const socketAuthMiddleware = async (
     socket.data.user = user;
 
     next();
-  } catch (err) {
+  } catch (err: unknown) {
     console.error('JWT error:', err);
-    next(new Error('Invalid token'));
+    next(
+      new Error(err instanceof Error ? err.message : 'Authentication error')
+    );
   }
 };
