@@ -74,10 +74,9 @@ describe('socketAuthMiddleware', () => {
     sinon
       .stub(fs, 'readFileSync')
       .returns(JSON.stringify({ abc: 'publicKey' }));
-    sinon.stub(jwt, 'verify').returns();
-    // sinon
-    //   .stub(jwt, 'verify')
-    //   .returns({ id: '123' } as unknown as jwt.JwtPayload);
+    sinon.stub(jwt, 'verify').callsFake(() => {
+      return { id: '123' };
+    });
 
     sinon.stub(userService, 'findUserById').resolves(null);
 
@@ -89,25 +88,27 @@ describe('socketAuthMiddleware', () => {
     );
   });
 
-  // it('should attach user to socket and call next()', async () => {
-  //   mockSocket.handshake.auth.token = 'dummy';
+  it('should attach user to socket and call next()', async () => {
+    mockSocket.handshake.auth.token = 'dummy';
 
-  //   sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-  //   sinon
-  //     .stub(fs, 'readFileSync')
-  //     .returns(JSON.stringify({ abc: 'publicKey' }));
-  //   sinon.stub(jwt, 'verify').returns();
-  //   sinon
-  //     .stub(userService, 'findUserById')
-  //     .resolves({ _id: '123', username: 'testuser' });
+    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
+    sinon
+      .stub(fs, 'readFileSync')
+      .returns(JSON.stringify({ abc: 'publicKey' }));
+    sinon.stub(jwt, 'verify').callsFake(() => {
+      return { id: '123' };
+    });
+    sinon
+      .stub(userService, 'findUserById')
+      .resolves({ _id: '123', username: 'testuser' });
 
-  //   await socketAuthMiddleware(mockSocket, next);
+    await socketAuthMiddleware(mockSocket, next);
 
-  //   expect(mockSocket.data.user).to.deep.equal({
-  //     _id: '123',
-  //     username: 'testuser',
-  //   });
-  //   expect(next.calledOnce).to.be.true;
-  //   expect(next.firstCall.args[0]).to.be.undefined;
-  // });
+    expect(mockSocket.data.user).to.deep.equal({
+      _id: '123',
+      username: 'testuser',
+    });
+    expect(next.calledOnce).to.be.true;
+    expect(next.firstCall.args[0]).to.be.undefined;
+  });
 });
