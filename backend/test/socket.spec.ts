@@ -4,17 +4,20 @@ import express from 'express';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import sinon from 'sinon';
 import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
 
 import authMiddleware from '../src/middleware/socket-auth.middleware';
 import onlineUsersModule from '../src/sockets/helpers/online-users';
 import socketHandlers from '../src/sockets';
 
-sinon.stub(authMiddleware, 'socketAuthMiddleware').callsFake((socket, next) => {
+sinon.stub(authMiddleware, 'socketAuthMiddleware').returns((socket, next) => {
   socket.data.user = { _id: '123' };
   next();
 });
 
 import { setupSocket } from '../src/socket';
+import userService from '../src/services/user.service';
 
 describe('setupSocket', () => {
   let server: ReturnType<typeof createServer>;
@@ -52,6 +55,17 @@ describe('setupSocket', () => {
       auth: { token: 'dummy' },
       transports: ['websocket'],
     });
+
+    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
+    sinon
+      .stub(fs, 'readFileSync')
+      .returns(JSON.stringify({ abc: 'publicKey' }));
+    sinon.stub(jwt, 'verify').callsFake(() => {
+      return { id: '123' };
+    });
+    sinon
+      .stub(userService, 'findUserById')
+      .resolves({ _id: '123', username: 'testuser' });
 
     clientSocket.on('connect', () => {
       expect(clientSocket.connected).to.be.true;

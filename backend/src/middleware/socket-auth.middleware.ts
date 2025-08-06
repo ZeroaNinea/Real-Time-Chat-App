@@ -11,6 +11,8 @@ export const socketAuthMiddleware = async (
   socket: Socket,
   next: (err?: ExtendedError) => void
 ) => {
+  console.log('REAL MIDDLEWARE CALLED', '==================================');
+
   const token = socket.handshake.auth.token;
   if (!token) return next(new Error('Authentication error'));
 
