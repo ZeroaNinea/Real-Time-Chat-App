@@ -81,7 +81,7 @@ describe('setupSocket', () => {
       transports: ['websocket'],
     });
 
-    clientSocket.on('connect', () => {
+    clientSocket.on('connect', async () => {
       clientSocket.emit('joinChatRoom', { chatId: 'abc' });
 
       clientSocket.on('roomJoined', ({ chatId }) => {
