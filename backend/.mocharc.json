@@ -3,5 +3,5 @@
   "require": "tsx",
   "extension": ["ts"],
   "spec": "test/**/*.spec.ts",
-  "timeout": 10000
+  "timeout": 5000
 }

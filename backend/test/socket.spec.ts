@@ -58,6 +58,8 @@ describe('setupSocket', () => {
         done();
       });
     });
+
+    done();
   });
 
   it('should emit online/offline events', (done) => {
