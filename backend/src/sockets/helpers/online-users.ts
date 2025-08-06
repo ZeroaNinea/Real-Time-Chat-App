@@ -19,9 +19,3 @@ export function removeUserSocket(userId: string, socketId: string): boolean {
 
   return false;
 }
-
-export default {
-  onlineUsers,
-  addUserSocket,
-  removeUserSocket,
-};
