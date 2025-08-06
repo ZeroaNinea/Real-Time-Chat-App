@@ -3,7 +3,6 @@ import { createServer } from 'http';
 import { setupSocket } from '../src/socket';
 import express from 'express';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
-import { Socket } from 'socket.io';
 import sinon from 'sinon';
 
 import onlineUsersModule from '../src/sockets/helpers/online-users';
@@ -66,7 +65,7 @@ describe('setupSocket', () => {
     const broadcastSpy = sinon.spy();
 
     const io = app.get('io');
-    io.on('connection', (socket: Socket) => {
+    io.on('connection', (socket: any) => {
       socket.broadcast.emit = broadcastSpy;
 
       socket.disconnect();
@@ -82,5 +81,7 @@ describe('setupSocket', () => {
       auth: { token: 'dummy' },
       transports: ['websocket'],
     });
+
+    done();
   });
 });

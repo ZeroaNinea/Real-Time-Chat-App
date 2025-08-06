@@ -3,12 +3,8 @@ import { Server as HttpServer } from 'http';
 import { Express } from 'express';
 
 import { socketAuthMiddleware } from './middleware/socket-auth.middleware';
-import { registerSocketHandlers } from './sockets';
-import {
-  addUserSocket,
-  removeUserSocket,
-  onlineUsers,
-} from './sockets/helpers/online-users';
+import onlineUsersModule from '../src/sockets/helpers/online-users';
+import socketHandlers from '../src/sockets';
 
 export function setupSocket(server: HttpServer, app: Express) {
   const io = new Server(server, {
@@ -26,15 +22,15 @@ export function setupSocket(server: HttpServer, app: Express) {
   io.on('connection', (socket) => {
     const userId = socket.data.user._id.toString();
 
-    addUserSocket(userId, socket.id);
+    onlineUsersModule.addUserSocket(userId, socket.id);
 
     socket.broadcast.emit('userOnline', userId);
-    io.emit('onlineUsers', Array.from(onlineUsers.keys()));
+    io.emit('onlineUsers', Array.from(onlineUsersModule.onlineUsers.keys()));
 
-    registerSocketHandlers(io, socket);
+    socketHandlers.registerSocketHandlers(io, socket);
 
     socket.on('disconnect', () => {
-      if (removeUserSocket(userId, socket.id)) {
+      if (onlineUsersModule.removeUserSocket(userId, socket.id)) {
         socket.broadcast.emit('userOffline', userId);
       }
     });
