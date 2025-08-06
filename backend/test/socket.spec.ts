@@ -64,17 +64,6 @@ describe('setupSocket', () => {
       transports: ['websocket'],
     });
 
-    // sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-    // sinon
-    //   .stub(fs, 'readFileSync')
-    //   .returns(JSON.stringify({ abc: 'publicKey' }));
-    // sinon.stub(jwt, 'verify').callsFake(() => {
-    //   return { id: '123' };
-    // });
-    // sinon
-    //   .stub(userService, 'findUserById')
-    //   .resolves({ _id: '123', username: 'testuser' });
-
     clientSocket.on('connect', () => {
       expect(clientSocket.connected).to.be.true;
       done();
@@ -85,45 +74,30 @@ describe('setupSocket', () => {
     });
   });
 
-  // it('should connect and emit join/chat events', (done) => {
-  //   clientSocket = Client(address, {
-  //     auth: { token: 'dummy' },
-  //     transports: ['websocket'],
-  //   });
+  it('should join a chat room and a channel', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: 'dummy' },
+      transports: ['websocket'],
+    });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: 'abc' });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: 'abc' });
 
-  //     clientSocket.on('roomJoined', ({ chatId }) => {
-  //       expect(chatId).to.equal('abc');
-  //       done();
-  //     });
-  //   });
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal('abc');
+        done();
+      });
 
-  //   done();
-  // });
+      clientSocket.emit('joinChannel', { channelId: 'def' });
 
-  // it('should emit online/offline events', (done) => {
-  //   const broadcastSpy = sinon.spy();
+      clientSocket.on('channelJoined', ({ channelId }) => {
+        expect(channelId).to.equal('def');
+        done();
+      });
+    });
 
-  //   const io = app.get('io');
-  //   io.on('connection', (socket: any) => {
-  //     socket.broadcast.emit = broadcastSpy;
-
-  //     socket.disconnect();
-
-  //     setTimeout(() => {
-  //       expect(broadcastSpy.calledWith('userOnline', '123')).to.be.true;
-  //       expect(broadcastSpy.calledWith('userOffline', '123')).to.be.true;
-  //       done();
-  //     }, 50);
-  //   });
-
-  //   clientSocket = Client(address, {
-  //     auth: { token: 'dummy' },
-  //     transports: ['websocket'],
-  //   });
-
-  //   done();
-  // });
+    clientSocket.on('connect_error', (err) => {
+      done(err);
+    });
+  });
 });
