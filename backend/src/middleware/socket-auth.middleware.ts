@@ -48,3 +48,5 @@ export const socketAuthMiddleware = async (
     );
   }
 };
+
+export default { socketAuthMiddleware };

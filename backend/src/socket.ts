@@ -15,7 +15,7 @@ export function setupSocket(server: HttpServer, app: Express) {
     },
   });
 
-  io.use(socketAuthMiddleware);
+  // io.use(socketAuthMiddleware);
 
   app.set('io', io);
 
