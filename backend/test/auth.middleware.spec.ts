@@ -42,6 +42,7 @@ describe('authMiddleware', () => {
     authMiddleware(req, res, next);
 
     expect(res.status.calledWith(401)).to.be.true;
+    console.log(JSON.stringify(res.json));
     expect(res.json.calledWith({ message: 'Invalid token.' })).to.be.true;
 
     (jwtService.verifyToken as sinon.SinonStub).restore();
