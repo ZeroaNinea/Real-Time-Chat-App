@@ -3,19 +3,13 @@ import { createServer } from 'http';
 import express from 'express';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import sinon from 'sinon';
-import { Server } from 'socket.io';
+import { Server, Socket as ServerSocket, ExtendedError } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
 import authMiddleware from '../src/middleware/socket-auth.middleware';
 import onlineUsersModule from '../src/sockets/helpers/online-users';
 import socketHandlers from '../src/sockets';
-
-sinon.stub(authMiddleware, 'socketAuthMiddleware').returns((socket, next) => {
-  socket.data.user = { _id: '123' };
-  next();
-});
-
 import { setupSocket } from '../src/socket';
 import userService from '../src/services/user.service';
 
@@ -36,6 +30,13 @@ describe('setupSocket', () => {
       address = `http://localhost:${port}`;
       done();
     });
+
+    sinon
+      .stub(authMiddleware, 'socketAuthMiddleware')
+      .callsFake(async (socket, next) => {
+        socket.data.user = { _id: '123' };
+        next();
+      });
 
     sinon.stub(onlineUsersModule, 'addUserSocket').callThrough();
     sinon.stub(onlineUsersModule, 'removeUserSocket').returns(true);
