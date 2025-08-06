@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import express from 'express';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import sinon from 'sinon';
-import { Server, Socket as ServerSocket, ExtendedError } from 'socket.io';
+import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
