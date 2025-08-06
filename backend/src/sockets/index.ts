@@ -19,3 +19,7 @@ export function registerSocketHandlers(io: Server, socket: Socket) {
   registerIdleHandlers(io, socket);
   registerReactionHandlers(io, socket);
 }
+
+export default {
+  registerSocketHandlers,
+};
