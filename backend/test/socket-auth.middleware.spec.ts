@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import { expect } from 'chai';
-import * as userService from '../src/services/user.service';
+import userService from '../src/services/user.service';
 
 describe('socketAuthMiddleware', () => {
   const mockSocket = {
@@ -74,9 +74,11 @@ describe('socketAuthMiddleware', () => {
     sinon
       .stub(fs, 'readFileSync')
       .returns(JSON.stringify({ abc: 'publicKey' }));
+    sinon.stub(jwt, 'verify').returns();
     // sinon
     //   .stub(jwt, 'verify')
     //   .returns({ id: '123' } as unknown as jwt.JwtPayload);
+
     sinon.stub(userService, 'findUserById').resolves(null);
 
     await socketAuthMiddleware(mockSocket, next);

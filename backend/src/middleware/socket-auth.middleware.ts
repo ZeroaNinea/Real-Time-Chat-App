@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import { ExtendedError, Socket } from 'socket.io';
 
-import * as userService from '../services/user.service';
+import userService from '../services/user.service';
 
 export const socketAuthMiddleware = async (
   socket: Socket,
