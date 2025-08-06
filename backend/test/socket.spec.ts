@@ -1,25 +1,18 @@
 import { expect } from 'chai';
 import { createServer } from 'http';
-
 import express from 'express';
-import {
-  io as Client,
-  type Socket as ClientSocket,
-  Socket,
-} from 'socket.io-client';
-import { Server, type Socket as ServerSocket } from 'socket.io';
+import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import sinon from 'sinon';
+import { Server } from 'socket.io';
 
+import authMiddleware from '../src/middleware/socket-auth.middleware';
 import onlineUsersModule from '../src/sockets/helpers/online-users';
 import socketHandlers from '../src/sockets';
-import socketAuthMiddleware from '../src/middleware/socket-auth.middleware';
 
-// sinon
-//   .stub(socketAuthMiddleware, 'socketAuthMiddleware')
-//   .callsFake((socket, next) => {
-//     socket.data.user = { _id: '123' };
-//     next();
-//   });
+sinon.stub(authMiddleware, 'socketAuthMiddleware').callsFake((socket, next) => {
+  socket.data.user = { _id: '123' };
+  next();
+});
 
 import { setupSocket } from '../src/socket';
 
@@ -27,23 +20,18 @@ describe('setupSocket', () => {
   let server: ReturnType<typeof createServer>;
   let app: ReturnType<typeof express>;
   let address: string;
-  let clientSocket: Socket;
+  let clientSocket: ClientSocket;
   let io: Server;
 
   beforeEach((done) => {
     app = express();
     server = createServer(app);
-    const io = setupSocket(server, app);
+    io = setupSocket(server, app);
 
     server.listen(() => {
       const port = (server.address() as any).port;
       address = `http://localhost:${port}`;
       done();
-    });
-
-    io.use((socket, next) => {
-      socket.data.user = { _id: '123' };
-      next();
     });
 
     sinon.stub(onlineUsersModule, 'addUserSocket').callThrough();
@@ -52,7 +40,7 @@ describe('setupSocket', () => {
   });
 
   afterEach((done) => {
-    if (clientSocket.connected) {
+    if (clientSocket?.connected) {
       clientSocket.disconnect();
     }
     sinon.restore();
@@ -66,7 +54,12 @@ describe('setupSocket', () => {
     });
 
     clientSocket.on('connect', () => {
+      expect(clientSocket.connected).to.be.true;
       done();
+    });
+
+    clientSocket.on('connect_error', (err) => {
+      done(err);
     });
   });
 
