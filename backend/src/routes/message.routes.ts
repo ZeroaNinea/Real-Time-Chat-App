@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { authMiddleware } from '../auth/auth.middleware';
-import { asyncRoute } from '../controllers/auth.controller';
+import { asyncRoute } from '../helpers/async-route';
 import {
   getMessages,
   getPrivateMessages,

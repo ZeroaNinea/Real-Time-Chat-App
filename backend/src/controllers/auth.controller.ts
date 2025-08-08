@@ -8,15 +8,15 @@ import { redisClient } from '../config/redis';
 import { buildAccountResponse } from '../helpers/account-response';
 
 // Middleware to handle async routes.
-export const asyncRoute =
-  (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
-    fn(req, res, next).catch((error: unknown) => {
-      if (error instanceof Error) {
-        console.error('Error in route:', error.message);
-      }
-      next(error);
-    });
-  };
+// export const asyncRoute =
+//   (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
+//     fn(req, res, next).catch((error: unknown) => {
+//       if (error instanceof Error) {
+//         console.error('Error in route:', error.message);
+//       }
+//       next(error);
+//     });
+//   };
 
 // The function to delete the avatar file. Called in the removeAvatar and deleteAccount controllers.
 const deleteAvatarFile = async (user: any) => {

@@ -2,7 +2,6 @@ import express from 'express';
 
 import {
   account,
-  asyncRoute,
   deleteAccount,
   login,
   logout,
@@ -16,6 +15,7 @@ import {
 } from '../controllers/auth.controller';
 import { authMiddleware } from '../auth/auth.middleware';
 import { uploadAvatar } from '../middleware/avatar-upload';
+import { asyncRoute } from '../helpers/async-route';
 
 const router = express.Router();
 
