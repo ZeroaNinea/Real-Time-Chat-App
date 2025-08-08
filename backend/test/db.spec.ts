@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
+import config from '../src/config/env';
 
 describe('Database Connection', () => {
   let connectStub: sinon.SinonStub;
@@ -51,35 +52,37 @@ describe('Database Connection', () => {
     process.env = originalEnv;
   });
 
-  // it('connects to external MongoDB in non-test environment', async () => {
-  //   dbModule = proxyquire('../src/config/db', {
-  //     mongoose: {
-  //       connect: connectStub,
-  //       disconnect: disconnectStub,
-  //       default: {},
-  //     },
-  //     './env': {
-  //       default: {
-  //         NODE_ENV: 'production',
-  //         DB_USER: 'admin',
-  //         DB_PASSWORD: 'adminpass',
-  //         DB_HOST: 'localhost',
-  //         DB_PORT: 27018,
-  //         DB_NAME: 'production_db',
-  //       },
-  //     },
-  //     'mongodb-memory-server': {
-  //       MongoMemoryServer: mongoMemoryStub,
-  //     },
-  //   });
+  it('connects to external MongoDB in non-test environment', async () => {
+    dbModule = proxyquire('../src/config/db', {
+      mongoose: {
+        connect: connectStub,
+        disconnect: disconnectStub,
+        default: {},
+      },
+      './env': {
+        default: {
+          NODE_ENV: 'production',
+          DB_USER: 'admin',
+          DB_PASSWORD: 'adminpass',
+          DB_HOST: 'localhost',
+          DB_PORT: 27018,
+          DB_NAME: 'production_db',
+        },
+      },
+      'mongodb-memory-server': {
+        MongoMemoryServer: mongoMemoryStub,
+      },
+    });
 
-  //   const expectedUri =
-  //     'mongodb://admin:adminpass@localhost:27018/production_db?authSource=admin';
+    const expectedUri =
+      'mongodb://admin:adminpass@localhost:27018/production_db?authSource=admin';
+    // const expectedUri =
+    //   'mongodb://admin:adminpass@localhost/production_db?retryWrites=true&w=majority&appName=Cluster0';
 
-  //   await dbModule.connectToDatabase();
-  //   expect(connectStub.calledOnceWith(expectedUri)).to.be.true;
-  //   expect(mongoMemoryStub.create.called).to.be.false;
-  // });
+    await dbModule.connectToDatabase();
+    expect(connectStub.calledOnceWith(expectedUri)).to.be.true;
+    expect(mongoMemoryStub.create.called).to.be.false;
+  });
 
   // it('disconnects from database and stops in-memory server', async () => {
   //   const stopStub = sinon.stub().resolves();
