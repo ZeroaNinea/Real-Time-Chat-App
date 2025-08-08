@@ -1,19 +1,18 @@
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 
-export function connectToDatabase() {
-  let connectStub: sinon.SinonStub;
-  let disconnectStub: sinon.SinonStub;
-  let mongoMemoryStub: any;
-  let dbModule: any;
-
+export function connectToDatabase(
+  connectStub?: sinon.SinonStub,
+  disconnectStub?: sinon.SinonStub,
+  mongoMemoryStub?: any,
+  dbModule?: any
+) {
   const originalEnv = process.env;
 
   process.env = { ...originalEnv };
   connectStub = sinon.stub().resolves();
   disconnectStub = sinon.stub().resolves();
 
-  // Stub MongoMemoryServer.
   const mockUri = 'mongodb://localhost:27017/in-memory-test';
   mongoMemoryStub = {
     create: sinon.stub().resolves({
@@ -26,7 +25,7 @@ export function connectToDatabase() {
     mongoose: {
       connect: connectStub,
       disconnect: disconnectStub,
-      default: {}, // export default mongoose.
+      default: {},
     },
     './env': {
       default: {
