@@ -75,6 +75,13 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should return username and passowrd are required /api/auth/login', async () => {
+    const res = await request(app).post('/api/auth/login').send({});
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Username and password are required.');
+  });
+
   it('should fail to create a new account without required fields /api/auth/register', async () => {
     const res = await request(app).post('/api/auth/register').send({});
 
