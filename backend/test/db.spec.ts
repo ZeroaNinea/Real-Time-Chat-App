@@ -126,7 +126,6 @@ describe('Database Connection', () => {
     await dbModule.disconnectDatabase();
 
     expect(disconnectStub.calledOnce).to.be.true;
-    // expect(stopStub.calledOnce).to.be.true;
   });
 
   it('handles connection error gracefully', async () => {
