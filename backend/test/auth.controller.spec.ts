@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import { verifyToken } from '../src/auth/jwt.service';
+import sinon from 'sinon';
 
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
+import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
   before(async () => {
@@ -62,10 +63,16 @@ describe('Auth Controller', () => {
   });
 
   it('should return server error during login /api/auth/login', async () => {
-    const res = await request(app).post('/api/auth/login').send({});
+    const stub = sinon.stub(User, 'findOne').throws(new Error('DB down'));
 
-    expect(res.status).to.equal(401);
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ username: 'whatever', password: 'whatever' });
+
+    expect(res.status).to.equal(500);
     expect(res.body.message).to.equal('Server error during login.');
+
+    stub.restore();
   });
 
   it('should fail to create a new account without required fields /api/auth/register', async () => {
