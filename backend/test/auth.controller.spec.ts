@@ -89,6 +89,16 @@ describe('Auth Controller', () => {
     expect(res.body.error).to.equal('Server error during registration.');
   });
 
+  it('should fail to delete an account without a token /api/auth/delete-account', async () => {
+    const res = await request(app)
+      .delete('/api/auth/delete-account')
+      .set('Authorization', `Bearer `)
+      .send({ password: '123' });
+
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal('Access denied. No token provided.');
+  });
+
   it('should delete the account /api/auth/delete-account', async () => {
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'newuser',

@@ -73,7 +73,6 @@ export const login = async (req: Request, res: Response) => {
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ message: 'No token provided.' });
 
     const { password } = req.body;
     if (!password)
