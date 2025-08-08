@@ -140,33 +140,6 @@ describe('Auth Controller', () => {
   //   stub.restore();
   // });
 
-  it('should return 404 if user not found /api/auth/delete-account', async () => {
-    const fakeUser = new User({
-      username: 'newuser',
-      email: 'newuser@email.com',
-      password: '123',
-    });
-
-    const stub = sinon.stub(User, 'findById');
-    stub.onFirstCall().resolves(fakeUser);
-    stub.onSecondCall().resolves(null);
-
-    const resLogin = await request(app).post('/api/auth/login').send({
-      username: 'newuser',
-      password: '123',
-    });
-
-    const res = await request(app)
-      .delete('/api/auth/delete-account')
-      .set('Authorization', `Bearer ${resLogin.body.token}`)
-      .send({ password: '123' });
-
-    expect(res.status).to.equal(404);
-    expect(res.body.message).to.equal('User not found.');
-
-    stub.restore();
-  });
-
   // it('should return 500 if DB error occurs /api/auth/delete-account', async () => {
   //   const stub = sinon.stub(User, 'findById').rejects(new Error('DB failure'));
 
@@ -186,23 +159,23 @@ describe('Auth Controller', () => {
   //   stub.restore();
   // });
 
-  // it('should delete the account /api/auth/delete-account', async () => {
-  //   const resLogin = await request(app).post('/api/auth/login').send({
-  //     username: 'newuser',
-  //     password: '123',
-  //   });
+  it('should delete the account /api/auth/delete-account', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
 
-  //   const token = verifyToken(resLogin.body.token);
+    const token = verifyToken(resLogin.body.token);
 
-  //   const res = await request(app)
-  //     .delete('/api/auth/delete-account')
-  //     .set('Authorization', `Bearer ${resLogin.body.token}`)
-  //     .send({ password: '123' });
+    const res = await request(app)
+      .delete('/api/auth/delete-account')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ password: '123' });
 
-  //   expect(resLogin.status).to.equal(200);
-  //   expect(resLogin.body.message).to.equal('Login successful!');
-  //   expect(token.username).to.equal('newuser');
-  //   expect(res.status).to.equal(200);
-  //   expect(res.body.message).to.equal('Account deleted successfully!');
-  // });
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Account deleted successfully!');
+  });
 });

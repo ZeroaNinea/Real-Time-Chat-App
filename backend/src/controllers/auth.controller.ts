@@ -80,7 +80,6 @@ export const deleteAccount = async (req: Request, res: Response) => {
 
     const userId = (req as any).user?.id;
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: 'User not found.' });
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid password.' });
