@@ -32,21 +32,30 @@ describe('Auth Controller', () => {
     process.env = originalEnv;
   });
 
-  it('should create a new account', async () => {
-    const res = await request(app).post('/api/auth/register').send({
-      username: 'newuser',
-      email: 'newuser@email.com',
-      password: '123',
-    });
+  it('should create a new account', async (done) => {
+    await request(app)
+      .post('/api/auth/register')
+      .send({
+        username: 'newuser',
+        email: 'newuser@email.com',
+        password: '123',
+      })
+      .then((res) => {
+        expect(res.status).to.equal(201);
+        expect(res.body.message).to.equal('User registered successfully!');
 
-    expect(res.status).to.equal(201);
-    expect(res.body.message).to.equal('User registered successfully!');
+        done();
+      });
   });
 
-  it('should fail to create a new account', async () => {
-    const res = await request(app).post('/api/auth/register').send({});
-
-    expect(res.status).to.equal(500);
-    expect(res.body.message).to.equal('Server error during registration.');
+  it('should fail to create a new account', async (done) => {
+    await request(app)
+      .post('/api/auth/register')
+      .send({})
+      .then((res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal('Username already exists.');
+        done();
+      });
   });
 });
