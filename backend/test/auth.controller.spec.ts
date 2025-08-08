@@ -51,6 +51,16 @@ describe('Auth Controller', () => {
     expect(token.username).to.equal('newuser');
   });
 
+  it('should return invalid username or password /api/auth/login', async () => {
+    const res = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '1234',
+    });
+
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal('Invalid username or password.');
+  });
+
   it('should fail to create a new account without required fields /api/auth/register', async () => {
     const res = await request(app).post('/api/auth/register').send({});
 
