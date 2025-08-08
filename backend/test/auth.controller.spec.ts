@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import request from 'supertest';
+import { verifyToken } from '../src/auth/jwt.service';
 
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
@@ -35,6 +36,19 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Username already exists.');
+  });
+
+  it('should login /api/auth/login', async () => {
+    const res = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(res.body.token);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
   });
 
   it('should fail to create a new account without required fields /api/auth/register', async () => {
