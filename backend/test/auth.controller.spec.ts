@@ -6,6 +6,7 @@ import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { verifyToken } from '../src/auth/jwt.service';
+import { redisClient } from '../src/config/redis';
 
 describe('Auth Controller', () => {
   before(async () => {
@@ -154,6 +155,29 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(500);
     expect(res.body.error).to.equal('Server error during account deletion.');
+
+    stub.restore();
+  });
+
+  it('should fail to log out because of a server error /api/auth/logout', async () => {
+    const stub = sinon.stub(redisClient, 'del').throws(new Error('Redis down'));
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .post('/api/auth/logout')
+      .set('Authorization', `Bearer ${resLogin.body.token}`);
+
+    // expect(resLogin.status).to.equal(200);
+    // expect(resLogin.body.message).to.equal('Login successful!');
+    // expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(500);
+    expect(res.body.error).to.equal('Server error during logout.');
 
     stub.restore();
   });
