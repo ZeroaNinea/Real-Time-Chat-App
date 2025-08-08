@@ -61,6 +61,13 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Invalid username or password.');
   });
 
+  it('should return server error during login /api/auth/login', async () => {
+    const res = await request(app).post('/api/auth/login').send({});
+
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal('Server error during login.');
+  });
+
   it('should fail to create a new account without required fields /api/auth/register', async () => {
     const res = await request(app).post('/api/auth/register').send({});
 
