@@ -1,38 +1,24 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import request from 'supertest';
 
-import { connectToDatabase } from './helpers/connect-disconnect-db';
 import { app } from '../src/app';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import { User } from '../src/models/user.model';
 
 describe('Auth Controller', () => {
-  let connectStub!: sinon.SinonStub;
-  let disconnectStub!: sinon.SinonStub;
-  let mongoMemoryStub: any;
-  let dbModule: any;
-
-  const originalEnv = process.env;
-
-  beforeEach(() => {
-    const connection = connectToDatabase(
-      connectStub,
-      disconnectStub,
-      mongoMemoryStub,
-      dbModule
-    );
-
-    connectStub = connection.connectStub;
-    disconnectStub = connection.disconnectStub;
-    mongoMemoryStub = connection.mongoMemoryStub;
-    dbModule = connection.dbModule;
+  before(async () => {
+    await connectToDatabase();
   });
 
-  afterEach(() => {
-    sinon.restore();
-    process.env = originalEnv;
+  afterEach(async () => {
+    await User.deleteMany({});
   });
 
-  it('should create a new account', async () => {
+  after(async () => {
+    await disconnectDatabase();
+  });
+
+  it('should create a new account /api/auth/register', async () => {
     const res = await request(app).post('/api/auth/register').send({
       username: 'newuser',
       email: 'newuser@email.com',
@@ -43,7 +29,26 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('User registered successfully!');
   });
 
-  it('should fail to create a new account', async () => {
+  it('should fail to create a new account with an existing username /api/auth/register', async () => {
+    await request(app).post('/api/auth/register').send({
+      username: 'newuser',
+      email: 'newuser@email.com',
+      password: '123',
+    });
+
+    const res = await request(app).post('/api/auth/register').send({
+      username: 'newuser',
+      email: 'newuser@email.com',
+      password: '123',
+    });
+
+    // return res.status(400).send('Username already exists.');
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Username already exists.');
+  });
+
+  it('should fail to create a new account without required fields /api/auth/register', async () => {
     const res = await request(app).post('/api/auth/register').send({});
 
     expect(res.status).to.equal(500);

@@ -37,7 +37,8 @@ export const register = async (req: Request, res: Response) => {
 
     // Check if user exists.
     const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).send('Username already exists.');
+    if (existingUser)
+      return res.status(400).json({ message: 'Username already exists.' });
 
     // Create new user.
     const user = new User({
