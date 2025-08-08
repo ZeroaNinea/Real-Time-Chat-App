@@ -21,7 +21,7 @@ export function connectToDatabase(
     }),
   };
 
-  dbModule = proxyquire('../src/config/db', {
+  dbModule = proxyquire('../../src/config/db', {
     mongoose: {
       connect: connectStub,
       disconnect: disconnectStub,
@@ -41,4 +41,6 @@ export function connectToDatabase(
       MongoMemoryServer: mongoMemoryStub,
     },
   });
+
+  return { connectStub, disconnectStub, mongoMemoryStub, dbModule };
 }

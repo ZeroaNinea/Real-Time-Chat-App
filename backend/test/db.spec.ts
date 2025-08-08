@@ -46,7 +46,17 @@ describe('Database Connection', () => {
     //   },
     // });
 
-    connectToDatabase(connectStub, disconnectStub, mongoMemoryStub, dbModule);
+    const connection = connectToDatabase(
+      connectStub,
+      disconnectStub,
+      mongoMemoryStub,
+      dbModule
+    );
+
+    connectStub = connection.connectStub;
+    disconnectStub = connection.disconnectStub;
+    mongoMemoryStub = connection.mongoMemoryStub;
+    dbModule = connection.dbModule;
   });
 
   afterEach(() => {
