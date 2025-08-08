@@ -14,9 +14,6 @@ export const connectToDatabase = async () => {
       console.log(' ✅ In-memory MongoDB connected!');
     } else {
       const encodedPassword = encodeURIComponent(config.DB_PASSWORD);
-      // const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}?authSource=admin`;
-      // const uri = `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}/${config.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
-
       const uri =
         config.DIALECT === 'mongodb+srv'
           ? `${config.DIALECT}://${config.DB_USER}:${encodedPassword}@${config.DB_HOST}/${config.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
