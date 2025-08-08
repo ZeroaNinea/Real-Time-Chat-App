@@ -119,45 +119,44 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Password is required.');
   });
 
-  // it('should return 404 if user not found /api/auth/delete-account', async () => {
-  //   const stub = sinon.stub(User, 'findById').resolves(null);
+  it('should fail to delete an account if the password is incorrect /api/auth/delete-account', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
 
-  //   const resLogin = await request(app).post('/api/auth/login').send({
-  //     username: 'newuser',
-  //     password: '123',
-  //   });
+    const token = verifyToken(resLogin.body.token);
 
-  //   const res = await request(app)
-  //     .delete('/api/auth/delete-account')
-  //     .set('Authorization', `Bearer ${resLogin.body.token}`)
-  //     .send({ password: '123' });
+    const res = await request(app)
+      .delete('/api/auth/delete-account')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ password: '1234' });
 
-  //   console.log(res.body, '=========================');
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal('Invalid password.');
+  });
 
-  //   expect(res.status).to.equal(404);
-  //   expect(res.body.message).to.equal('User not found.');
+  it('should return 500 if DB error occurs /api/auth/delete-account', async () => {
+    const stub = sinon.stub(User, 'deleteOne').throws(new Error('DB down'));
 
-  //   stub.restore();
-  // });
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
 
-  // it('should return 500 if DB error occurs /api/auth/delete-account', async () => {
-  //   const stub = sinon.stub(User, 'findById').rejects(new Error('DB failure'));
+    const res = await request(app)
+      .delete('/api/auth/delete-account')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ password: '123' });
 
-  //   const resLogin = await request(app).post('/api/auth/login').send({
-  //     username: 'newuser',
-  //     password: '123',
-  //   });
+    expect(res.status).to.equal(500);
+    expect(res.body.error).to.equal('Server error during account deletion.');
 
-  //   const res = await request(app)
-  //     .delete('/api/auth/delete-account')
-  //     .set('Authorization', `Bearer ${resLogin.body.token}`)
-  //     .send({ password: '123' });
-
-  //   expect(res.status).to.equal(500);
-  //   expect(res.body.error).to.equal('Server error during account deletion.');
-
-  //   stub.restore();
-  // });
+    stub.restore();
+  });
 
   it('should delete the account /api/auth/delete-account', async () => {
     const resLogin = await request(app).post('/api/auth/login').send({
