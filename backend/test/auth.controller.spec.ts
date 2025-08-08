@@ -10,11 +10,8 @@ describe('Auth Controller', () => {
     await connectToDatabase();
   });
 
-  afterEach(async () => {
-    await User.deleteMany({});
-  });
-
   after(async () => {
+    await User.deleteMany({});
     await disconnectDatabase();
   });
 
@@ -30,12 +27,6 @@ describe('Auth Controller', () => {
   });
 
   it('should fail to create a new account with an existing username /api/auth/register', async () => {
-    await request(app).post('/api/auth/register').send({
-      username: 'newuser',
-      email: 'newuser@email.com',
-      password: '123',
-    });
-
     const res = await request(app).post('/api/auth/register').send({
       username: 'newuser',
       email: 'newuser@email.com',
