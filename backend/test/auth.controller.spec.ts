@@ -158,6 +158,25 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should log out /api/auth/logout', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .post('/api/auth/logout')
+      .set('Authorization', `Bearer ${resLogin.body.token}`);
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Logged out successfully.');
+  });
+
   it('should delete the account /api/auth/delete-account', async () => {
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'newuser',
