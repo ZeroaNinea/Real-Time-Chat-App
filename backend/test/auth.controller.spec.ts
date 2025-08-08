@@ -40,5 +40,6 @@ describe('Auth Controller', () => {
     });
 
     expect(res.status).to.equal(201);
+    expect(res.body.message).to.equal('User registered successfully!');
   });
 });
