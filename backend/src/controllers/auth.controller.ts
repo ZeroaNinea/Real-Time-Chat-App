@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { signToken } from '../auth/jwt.service';
@@ -100,11 +100,7 @@ export const logout = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
-    if (!token || !req.auth?.id) {
-      return res.status(400).json({ message: 'No token or user ID provided.' });
-    }
-
-    const redisKey = `auth:${req.auth.id}:${token}`;
+    const redisKey = `auth:${req.auth?.id}:${token}`;
     await redisClient.del(redisKey);
 
     res.status(200).json({ message: 'Logged out successfully.' });
