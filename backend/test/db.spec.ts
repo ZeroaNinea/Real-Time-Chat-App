@@ -113,42 +113,21 @@ describe('Database Connection', () => {
     expect(mongoMemoryStub.create.called).to.be.false;
   });
 
-  // it('disconnects from database and stops in-memory server', async () => {
-  //   const stopStub = sinon.stub().resolves();
-  //   const mockMemoryServer = {
-  //     getUri: () => 'mongodb://localhost:27017',
-  //     stop: stopStub,
-  //   };
+  it('disconnects from database and stops in-memory server', async () => {
+    const stopStub = sinon.stub().resolves();
+    const mockMemoryServer = {
+      getUri: () => 'mongodb://localhost:27017/in-memory-test',
+      stop: stopStub,
+    };
 
-  //   // Set up with known mongoServer instance.
-  //   mongoMemoryStub.create.resolves(mockMemoryServer);
-  //   dbModule = proxyquire('../src/config/db', {
-  //     mongoose: {
-  //       connect: connectStub,
-  //       disconnect: disconnectStub,
-  //       default: {},
-  //     },
-  //     './env': {
-  //       default: {
-  //         NODE_ENV: 'test',
-  //         DB_USER: '',
-  //         DB_PASSWORD: '',
-  //         DB_HOST: '',
-  //         DB_PORT: 27017,
-  //         DB_NAME: '',
-  //       },
-  //     },
-  //     'mongodb-memory-server': {
-  //       MongoMemoryServer: mongoMemoryStub,
-  //     },
-  //   });
+    mongoMemoryStub.create.resolves(mockMemoryServer);
 
-  //   await dbModule.connectToDatabase();
-  //   await dbModule.disconnectDatabase();
+    await dbModule.connectToDatabase();
+    await dbModule.disconnectDatabase();
 
-  //   expect(disconnectStub.calledOnce).to.be.true;
-  //   expect(stopStub.calledOnce).to.be.true;
-  // });
+    expect(disconnectStub.calledOnce).to.be.true;
+    // expect(stopStub.calledOnce).to.be.true;
+  });
 
   it('handles connection error gracefully', async () => {
     const errorStub = sinon.stub(console, 'error');
