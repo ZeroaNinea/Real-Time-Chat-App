@@ -42,8 +42,6 @@ describe('Auth Controller', () => {
       password: '123',
     });
 
-    // return res.status(400).send('Username already exists.');
-
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Username already exists.');
   });
