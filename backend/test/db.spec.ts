@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
-import config from '../src/config/env';
 
 describe('Database Connection', () => {
   let connectStub: sinon.SinonStub;
@@ -52,7 +51,7 @@ describe('Database Connection', () => {
     process.env = originalEnv;
   });
 
-  it('connects to external MongoDB in non-test environment', async () => {
+  it('connects to external MongoDB with mongodb:// dialect', async () => {
     dbModule = proxyquire('../src/config/db', {
       mongoose: {
         connect: connectStub,
@@ -62,8 +61,8 @@ describe('Database Connection', () => {
       './env': {
         default: {
           NODE_ENV: 'production',
-          DB_USER: 'admin',
           DIALECT: 'mongodb',
+          DB_USER: 'admin',
           DB_PASSWORD: 'adminpass',
           DB_HOST: 'localhost',
           DB_PORT: 27018,
@@ -77,8 +76,37 @@ describe('Database Connection', () => {
 
     const expectedUri =
       'mongodb://admin:adminpass@localhost:27018/production_db?authSource=admin';
-    // const expectedUri =
-    //   'mongodb://admin:adminpass@localhost/production_db?retryWrites=true&w=majority&appName=Cluster0';
+
+    await dbModule.connectToDatabase();
+    expect(connectStub.calledOnceWith(expectedUri)).to.be.true;
+    expect(mongoMemoryStub.create.called).to.be.false;
+  });
+
+  it('connects to external MongoDB with mongodb+srv:// dialect', async () => {
+    dbModule = proxyquire('../src/config/db', {
+      mongoose: {
+        connect: connectStub,
+        disconnect: disconnectStub,
+        default: {},
+      },
+      './env': {
+        default: {
+          NODE_ENV: 'production',
+          DIALECT: 'mongodb+srv',
+          DB_USER: 'atlasuser',
+          DB_PASSWORD: 'atlaspass',
+          DB_HOST: 'cluster0.example.mongodb.net',
+          DB_PORT: 27018,
+          DB_NAME: 'atlas_db',
+        },
+      },
+      'mongodb-memory-server': {
+        MongoMemoryServer: mongoMemoryStub,
+      },
+    });
+
+    const expectedUri =
+      'mongodb+srv://atlasuser:atlaspass@cluster0.example.mongodb.net/atlas_db?retryWrites=true&w=majority&appName=Cluster0';
 
     await dbModule.connectToDatabase();
     expect(connectStub.calledOnceWith(expectedUri)).to.be.true;
