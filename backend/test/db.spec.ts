@@ -63,6 +63,7 @@ describe('Database Connection', () => {
         default: {
           NODE_ENV: 'production',
           DB_USER: 'admin',
+          DIALECT: 'mongodb',
           DB_PASSWORD: 'adminpass',
           DB_HOST: 'localhost',
           DB_PORT: 27018,
