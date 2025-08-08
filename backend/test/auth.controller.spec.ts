@@ -42,4 +42,11 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(201);
     expect(res.body.message).to.equal('User registered successfully!');
   });
+
+  it('should fail to create a new account', async () => {
+    const res = await request(app).post('/api/auth/register').send({});
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during registration.');
+  });
 });
