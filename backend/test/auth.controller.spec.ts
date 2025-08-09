@@ -471,25 +471,36 @@ describe('Auth Controller', () => {
     expect(res.body.pronouns).to.equal('they/them');
   });
 
-  it('should update avatar /api/auth/update-avatar', async () => {
-    const resLogin = await request(app).post('/api/auth/login').send({
+  it('should update the avatar /api/auth/update-avatar', async () => {
+    const loginRes = await request(app).post('/api/auth/login').send({
       username: 'newusername',
       password: 'newpassword',
     });
 
-    const token = verifyToken(resLogin.body.token);
+    const res = await request(app)
+      .post('/api/auth/update-avatar')
+      .set('Authorization', `Bearer ${loginRes.body.token}`)
+      .attach('avatar', Buffer.from('fake image'), {
+        filename: 'avatar.png',
+        contentType: 'image/png',
+      });
+
+    expect(res.status).to.equal(200);
+    expect(res.body.avatar).to.match(/^uploads\/avatars\//);
+  });
+
+  it('should fail to update the avatar without an avatar /api/auth/update-avatar', async () => {
+    const loginRes = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
 
     const res = await request(app)
-      .put('/api/auth/update-avatar')
-      .set('Authorization', `Bearer ${resLogin.body.token}`)
-      .send({ avatar: 'https://example.com/avatar.jpg' });
+      .post('/api/auth/update-avatar')
+      .set('Authorization', `Bearer ${loginRes.body.token}`)
+      .send({});
 
-    console.log(res.body, '===============================');
-
-    expect(resLogin.status).to.equal(200);
-    expect(resLogin.body.message).to.equal('Login successful!');
-    expect(token.username).to.equal('newusername');
-    expect(res.status).to.equal(200);
-    expect(res.body.avatar).to.equal('https://example.com/avatar.jpg');
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Avatar is required.');
   });
 });
