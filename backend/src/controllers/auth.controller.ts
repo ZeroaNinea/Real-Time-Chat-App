@@ -189,7 +189,7 @@ export const updatePassword = async (req: Request, res: Response) => {
 // Update avatar.
 export const updateAvatar = async (req: Request, res: Response) => {
   if (!req.file) {
-    return res.status(400).json({ message: 'No avatar uploaded' });
+    return res.status(400).json({ message: 'Avatar is required.' });
   }
 
   const oldAvatarPath = req.body.oldAvatar;
