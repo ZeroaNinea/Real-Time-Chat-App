@@ -8,18 +8,6 @@ import { redisClient } from '../config/redis';
 import { buildAccountResponse } from '../helpers/account-response';
 import pictureHelper from '../helpers/picture-helper';
 
-// The function to delete the avatar file. Called in the removeAvatar and deleteAccount controllers.
-// const deleteAvatarFile = async (user: any) => {
-//   if (user.avatar) {
-//     const fullPath = path.join(__dirname, '../../', user.avatar);
-//     if (fs.existsSync(fullPath)) {
-//       fs.unlinkSync(fullPath); // Delete the avatar file.
-//     }
-//     user.avatar = '';
-//     await user.save();
-//   }
-// };
-
 // Register user.
 export const register = async (req: Request, res: Response) => {
   try {
