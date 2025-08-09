@@ -215,12 +215,9 @@ export const updateAvatar = async (req: Request, res: Response) => {
 export const removeAvatar = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user?._id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
 
     await deleteAvatarFile(user);
-    res.status(200).json({ message: 'Avatar removed' });
+    res.status(200).json({ message: 'Avatar removed.' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error during avatar removal.' });

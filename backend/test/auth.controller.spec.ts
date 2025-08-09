@@ -537,4 +537,18 @@ describe('Auth Controller', () => {
     existsStub.restore();
     unlinkStub.restore();
   });
+
+  it('should remove the avatar /api/auth/remove-avatar', async () => {
+    const loginRes = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
+
+    const res = await request(app)
+      .delete('/api/auth/remove-avatar')
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Avatar removed.');
+  });
 });
