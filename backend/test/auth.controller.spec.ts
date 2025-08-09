@@ -348,6 +348,26 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Username is required');
   });
 
+  it('should fail to update the username and bio with an existing username /api/auth/update-username-bio', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-username-bio')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ username: 'newuser2', bio: 'newbio' });
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(409);
+    expect(res.body.message).to.equal('Username already in use');
+  });
+
   it('should update the username and bio /api/auth/update-username-bio', async () => {
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'newuser',
