@@ -208,10 +208,6 @@ export const updateAvatar = async (req: Request, res: Response) => {
     { new: true }
   );
 
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-
   res.status(200).json({ avatar: user.avatar });
 };
 

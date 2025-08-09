@@ -509,7 +509,7 @@ describe('Auth Controller', () => {
     const existsStub = sinon.stub(fs, 'existsSync').returns(true);
     const unlinkStub = sinon.stub(fs, 'unlinkSync');
 
-    const user = await User.create({
+    await User.create({
       username: 'user3',
       password: 'pass123',
       email: 'user3@email.com',
