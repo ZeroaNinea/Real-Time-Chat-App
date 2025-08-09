@@ -53,4 +53,14 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(201);
     expect(res.body.name).to.equal('newchat');
   });
+
+  it('should fail to create a new public chat without a name /api/chat/create-chat', async () => {
+    const res = await request(app)
+      .post('/api/chat/create-chat')
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Chat name is required.');
+  });
 });

@@ -57,7 +57,7 @@ export const createChat = async (req: Request, res: Response) => {
     const { name, topic } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: 'Chat name is required' });
+      return res.status(400).json({ message: 'Chat name is required.' });
     }
 
     const thumbnail = req.file?.filename;
