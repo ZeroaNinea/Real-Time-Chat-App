@@ -11,7 +11,7 @@ import {
   getChatRooms,
   getOrCreatePrivateChat,
   getPrivateChatRooms,
-  // mine,
+  mine,
   privateMessages,
   removeThumbnail,
   updateChannel,
@@ -22,7 +22,7 @@ import { uploadChatThumbnail } from '../middleware/thumbnail-upload';
 const router = express.Router();
 
 router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
-// router.get('/mine', authMiddleware, asyncRoute(mine));
+router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
 router.post(
