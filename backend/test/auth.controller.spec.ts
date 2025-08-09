@@ -430,4 +430,24 @@ describe('Auth Controller', () => {
       'Both current and new password are required'
     );
   });
+
+  it('should fail to update the password when the current password is incorrect /api/auth/update-password', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-password')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ newPassword: '123', currentPassword: 'wrongpassword' });
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newusername');
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal('Current password is incorrect');
+  });
 });
