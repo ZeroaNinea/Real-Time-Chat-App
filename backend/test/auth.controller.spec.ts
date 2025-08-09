@@ -450,4 +450,24 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(401);
     expect(res.body.message).to.equal('Current password is incorrect');
   });
+
+  it('should update pronouns /api/auth/update-pronouns', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-pronouns')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ pronouns: 'they/them' });
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newusername');
+    expect(res.status).to.equal(200);
+    expect(res.body.pronouns).to.equal('they/them');
+  });
 });
