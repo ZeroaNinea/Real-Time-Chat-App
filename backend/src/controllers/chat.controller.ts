@@ -139,7 +139,9 @@ export const createChat = async (req: Request, res: Response) => {
 
     res.status(201).json(chat);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create chat', error: err });
+    res
+      .status(500)
+      .json({ message: 'Server error during chat creation.', error: err });
   }
 };
 

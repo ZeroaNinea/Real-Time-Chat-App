@@ -63,4 +63,18 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Chat name is required.');
   });
+
+  it('should return status 500 during the creation of a new chat /api/chat/create-chat', async () => {
+    const stub = sinon.stub(Chat, 'create').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .post('/api/chat/create-chat')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat' });
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during chat creation.');
+
+    stub.restore();
+  });
 });
