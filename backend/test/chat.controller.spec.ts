@@ -77,4 +77,19 @@ describe('Auth Controller', () => {
 
     stub.restore();
   });
+
+  it('should update the public chat room /api/chat/update-chat/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .patch(`/api/chat/update-chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat' });
+
+    expect(res.status).to.equal(200);
+    expect(res.body.name).to.equal('newchat');
+  });
 });

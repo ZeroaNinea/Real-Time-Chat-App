@@ -149,14 +149,11 @@ export const updateChat = async (req: Request, res: Response) => {
   const { chatId } = req.params;
   const updates = req.body;
 
-  console.log('Updates:', updates);
-
   try {
     const chat = await Chat.findById(chatId);
     if (!chat) return res.status(404).json({ message: 'Chat not found' });
 
-    // Example: ensure user is owner/admin (pseudo-code).
-    const userId = req.user?.id; // assuming auth middleware sets req.user.
+    const userId = req.user?.id;
     const member = chat.members.find(
       (m: Member) => m.user.toString() === userId
     );
@@ -178,7 +175,6 @@ export const updateChat = async (req: Request, res: Response) => {
         .json({ message: 'You are not allowed to update this chat room' });
     }
 
-    // Apply updates.
     Object.assign(chat, updates);
 
     await chat.save();
