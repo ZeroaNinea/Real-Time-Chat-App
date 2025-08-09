@@ -299,4 +299,33 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(200);
     expect(res.body.message).to.equal('Account deleted successfully!');
   });
+
+  it('should update the username and bio /api/auth/update-username-bio', async () => {
+    const resRegister = await request(app).post('/api/auth/register').send({
+      username: 'newuser',
+      email: 'newuser@email.com',
+      password: '123',
+    });
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-username-bio')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ username: 'newusername', bio: 'newbio' });
+
+    expect(resRegister.status).to.equal(201);
+    expect(resRegister.body.message).to.equal('User registered successfully!');
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(200);
+    expect(res.body.username).to.equal('newusername');
+    expect(res.body.bio).to.equal('newbio');
+  });
 });
