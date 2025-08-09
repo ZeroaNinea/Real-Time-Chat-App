@@ -24,13 +24,13 @@ export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
   }
 };
 
-export const mine = async (req: Request, res: Response) => {
-  const chats = await Chat.find({
-    members: req.user._id,
-  }).populate('members', 'username avatar');
+// export const mine = async (req: Request, res: Response) => {
+//   const chats = await Chat.find({
+//     members: req.user._id,
+//   }).populate('members', 'username avatar');
 
-  res.json(chats);
-};
+//   res.json(chats);
+// };
 
 export const privateMessages = async (req: Request, res: Response) => {
   const { userId } = req.body;
