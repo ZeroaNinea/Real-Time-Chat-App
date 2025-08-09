@@ -87,9 +87,10 @@ describe('Auth Controller', () => {
     const res = await request(app)
       .patch(`/api/chat/update-chat/${chat._id}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'newchat' });
+      .send({ name: 'newchat', topic: 'newtopic' });
 
     expect(res.status).to.equal(200);
     expect(res.body.name).to.equal('newchat');
+    expect(res.body.topic).to.equal('newtopic');
   });
 });
