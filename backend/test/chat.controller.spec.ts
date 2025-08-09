@@ -3,6 +3,8 @@ import request from 'supertest';
 import sinon from 'sinon';
 import fs from 'fs';
 
+import { Response } from 'express';
+
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
@@ -92,5 +94,15 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(200);
     expect(res.body.name).to.equal('newchat');
     expect(res.body.topic).to.equal('newtopic');
+  });
+
+  it('should fail to update the public chat room on 404 status /api/chat/update-chat/:chatId', async () => {
+    const res = await request(app)
+      .patch('/api/chat/update-chat/5eb78994dbb89024f04a2508')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat', topic: 'newtopic' });
+
+    expect(res.status).to.equal(404);
+    expect(res.body.message).to.equal('Chat not found.');
   });
 });
