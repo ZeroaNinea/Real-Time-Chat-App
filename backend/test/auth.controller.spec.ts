@@ -402,12 +402,32 @@ describe('Auth Controller', () => {
       .set('Authorization', `Bearer ${resLogin.body.token}`)
       .send({ newPassword: 'newpassword', currentPassword: '123' });
 
-    console.log(res.body, '==================================');
-
     expect(resLogin.status).to.equal(200);
     expect(resLogin.body.message).to.equal('Login successful!');
     expect(token.username).to.equal('newusername');
     expect(res.status).to.equal(200);
     expect(res.body.username).to.equal('newusername');
+  });
+
+  it('should fail to update the password without the password without the current password /api/auth/update-password', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-password')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ newPassword: '123' });
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newusername');
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal(
+      'Both current and new password are required'
+    );
   });
 });
