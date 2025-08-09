@@ -8,6 +8,7 @@ import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { verifyToken } from '../src/auth/jwt.service';
 import { redisClient } from '../src/config/redis';
+import pictureHelper from '../src/helpers/picture-helper';
 
 describe('Auth Controller', () => {
   before(async () => {
@@ -550,5 +551,33 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body.message).to.equal('Avatar removed.');
+  });
+
+  it('should return 500 if deleteAvatarFile throws', async () => {
+    await User.create({
+      username: 'userX',
+      password: 'pass123',
+      email: 'userX@email.com',
+    });
+
+    const loginRes = await request(app).post('/api/auth/login').send({
+      username: 'userX',
+      password: 'pass123',
+    });
+
+    const stub = sinon.stub(pictureHelper, 'deleteAvatarFile').callsFake(() => {
+      throw new Error('FS fail');
+    });
+
+    const res = await request(app)
+      .delete('/api/auth/remove-avatar')
+      .set('Authorization', `Bearer ${loginRes.body.token}`);
+
+    console.log(res.body, '==================================');
+
+    expect(res.status).to.equal(500);
+    expect(res.body.error).to.equal('Server error during avatar removal.');
+
+    stub.restore();
   });
 });

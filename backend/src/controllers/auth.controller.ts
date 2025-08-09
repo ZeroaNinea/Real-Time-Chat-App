@@ -6,18 +6,19 @@ import { signToken } from '../auth/jwt.service';
 import { User } from '../models/user.model';
 import { redisClient } from '../config/redis';
 import { buildAccountResponse } from '../helpers/account-response';
+import pictureHelper from '../helpers/picture-helper';
 
 // The function to delete the avatar file. Called in the removeAvatar and deleteAccount controllers.
-const deleteAvatarFile = async (user: any) => {
-  if (user.avatar) {
-    const fullPath = path.join(__dirname, '../../', user.avatar);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath); // Delete the avatar file.
-    }
-    user.avatar = '';
-    await user.save();
-  }
-};
+// const deleteAvatarFile = async (user: any) => {
+//   if (user.avatar) {
+//     const fullPath = path.join(__dirname, '../../', user.avatar);
+//     if (fs.existsSync(fullPath)) {
+//       fs.unlinkSync(fullPath); // Delete the avatar file.
+//     }
+//     user.avatar = '';
+//     await user.save();
+//   }
+// };
 
 // Register user.
 export const register = async (req: Request, res: Response) => {
@@ -84,7 +85,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid password.' });
 
-    await deleteAvatarFile(user);
+    await pictureHelper.deleteAvatarFile(user);
     await User.deleteOne({ _id: userId });
     await redisClient.del(`auth:${user._id}:${token}`);
 
@@ -216,7 +217,7 @@ export const removeAvatar = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user?._id);
 
-    await deleteAvatarFile(user);
+    await pictureHelper.deleteAvatarFile(user);
     res.status(200).json({ message: 'Avatar removed.' });
   } catch (error) {
     console.error(error);
