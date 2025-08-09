@@ -573,8 +573,6 @@ describe('Auth Controller', () => {
       .delete('/api/auth/remove-avatar')
       .set('Authorization', `Bearer ${loginRes.body.token}`);
 
-    console.log(res.body, '==================================');
-
     expect(res.status).to.equal(500);
     expect(res.body.error).to.equal('Server error during avatar removal.');
 
