@@ -470,4 +470,26 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(200);
     expect(res.body.pronouns).to.equal('they/them');
   });
+
+  it('should update avatar /api/auth/update-avatar', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newusername',
+      password: 'newpassword',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-avatar')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ avatar: 'https://example.com/avatar.jpg' });
+
+    console.log(res.body, '===============================');
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newusername');
+    expect(res.status).to.equal(200);
+    expect(res.body.avatar).to.equal('https://example.com/avatar.jpg');
+  });
 });
