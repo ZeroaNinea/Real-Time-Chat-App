@@ -213,6 +213,54 @@ describe('Auth Controller', () => {
     expect(res.body.email).to.equal('newemail');
   });
 
+  it('should fail to update the email without an email /api/auth/update-email', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-email')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({});
+
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Email is required');
+  });
+
+  it('should fail to use an existing email /api/auth/update-email', async () => {
+    const resRegister = await request(app).post('/api/auth/register').send({
+      username: 'newuser2',
+      email: 'newuser2@email.com',
+      password: '123',
+    });
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const token = verifyToken(resLogin.body.token);
+
+    const res = await request(app)
+      .put('/api/auth/update-email')
+      .set('Authorization', `Bearer ${resLogin.body.token}`)
+      .send({ email: 'newuser2@email.com' });
+
+    expect(resRegister.status).to.equal(201);
+    expect(resRegister.body.message).to.equal('User registered successfully!');
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.message).to.equal('Login successful!');
+    expect(token.username).to.equal('newuser');
+    expect(res.status).to.equal(409);
+    expect(res.body.message).to.equal('Email already in use');
+  });
+
   it('should log out /api/auth/logout', async () => {
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'newuser',
