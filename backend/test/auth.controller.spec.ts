@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import sinon from 'sinon';
+import fs from 'fs';
 
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
@@ -502,5 +503,38 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Avatar is required.');
+  });
+
+  it('should delete old avatar if oldAvatar is provided /api/auth/update-avatar', async () => {
+    const existsStub = sinon.stub(fs, 'existsSync').returns(true);
+    const unlinkStub = sinon.stub(fs, 'unlinkSync');
+
+    const user = await User.create({
+      username: 'user3',
+      password: 'pass123',
+      email: 'user3@email.com',
+      avatar: 'uploads/avatars/old.png',
+    });
+
+    const loginRes = await request(app).post('/api/auth/login').send({
+      username: 'user3',
+      password: 'pass123',
+    });
+
+    const res = await request(app)
+      .post('/api/auth/update-avatar')
+      .set('Authorization', `Bearer ${loginRes.body.token}`)
+      .field('oldAvatar', 'uploads/avatars/old.png')
+      .attach('avatar', Buffer.from('fake image'), {
+        filename: 'avatar.png',
+        contentType: 'image/png',
+      });
+
+    expect(existsStub.called).to.be.true;
+    expect(unlinkStub.called).to.be.true;
+    expect(res.status).to.equal(200);
+
+    existsStub.restore();
+    unlinkStub.restore();
   });
 });
