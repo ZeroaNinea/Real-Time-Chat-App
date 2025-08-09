@@ -167,19 +167,30 @@ describe('Auth Controller', () => {
       password: '123',
     });
 
-    const token = verifyToken(resLogin.body.token);
-
     const res = await request(app)
       .post('/api/auth/logout')
       .set('Authorization', `Bearer ${resLogin.body.token}`);
 
-    // expect(resLogin.status).to.equal(200);
-    // expect(resLogin.body.message).to.equal('Login successful!');
-    // expect(token.username).to.equal('newuser');
     expect(res.status).to.equal(500);
     expect(res.body.error).to.equal('Server error during logout.');
 
     stub.restore();
+  });
+
+  it('should visit the account route /api/auth/account', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser',
+      password: '123',
+    });
+
+    const res = await request(app)
+      .get('/api/auth/account')
+      .set('Authorization', `Bearer ${resLogin.body.token}`);
+
+    const token = verifyToken(resLogin.body.token);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.username).to.equal('newuser');
   });
 
   it('should log out /api/auth/logout', async () => {
