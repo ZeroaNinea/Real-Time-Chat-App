@@ -27,8 +27,8 @@ describe('Avatar Upload Middleware', () => {
     const existsStub = sinon.stub(fs, 'existsSync').returns(false);
     const mkdirStub = sinon.stub(fs, 'mkdirSync');
 
-    delete require.cache[require.resolve('../../src/middleware/avatar-upload')];
-    require('../../src/middleware/avatar-upload');
+    delete require.cache[require.resolve('../src/middleware/avatar-upload')];
+    require('../src/middleware/avatar-upload');
 
     sinon.assert.calledOnce(mkdirStub);
     sinon.assert.calledWithMatch(mkdirStub, sinon.match.string, {
