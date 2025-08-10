@@ -134,26 +134,32 @@ describe('Auth Controller', () => {
   });
 
   it('should return 403 if user lacks required permissions /api/chat/update-chat/:chatId', async () => {
-    const testUserId = User.findOne({ username: 'newuser' })._id;
+    await request(app).post('/api/auth/register').send({
+      username: 'newuser2',
+      email: 'newuser2@email.com',
+      password: '123',
+    });
 
-    const fakeChat = {
-      _id: 'fakeid',
-      members: [{ user: testUserId, roles: ['Member'] }],
-      save: sinon.stub().resolves(),
-    };
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
 
-    sinon.stub(Chat, 'findById').resolves(fakeChat as any);
+    const token = resLogin.body.token;
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
 
     const res = await request(app)
-      .patch(`/api/chat/update-chat/fakeid`)
+      .patch(`/api/chat/update-chat/${chat._id}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'newName' });
+      .send({ name: 'newchat', topic: 'newtopic' });
 
     expect(res.status).to.equal(403);
     expect(res.body.message).to.equal(
       'You are not allowed to update this chat room.'
     );
-
-    (Chat.findById as sinon.SinonStub).restore();
   });
 });
