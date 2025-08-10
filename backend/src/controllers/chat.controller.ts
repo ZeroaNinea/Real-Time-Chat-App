@@ -151,7 +151,9 @@ export const updateChat = async (req: Request, res: Response) => {
 
   try {
     const chat = await Chat.findById(chatId);
-    if (!chat) throw new Error('Chat not found.');
+    if (!chat) {
+      return res.status(404).json({ message: 'Chat not found.' });
+    }
 
     const userId = req.user?.id;
     const member = chat.members.find(
@@ -179,15 +181,9 @@ export const updateChat = async (req: Request, res: Response) => {
 
     return res.status(200).json(chat);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-
-    if (message === 'Chat not found.') {
-      return res.status(404).json({ message });
-    }
-
     return res
       .status(500)
-      .json({ message: 'Server error during chat update.' });
+      .json({ message: 'Server error during chat update.', error: error });
   }
 };
 

@@ -99,10 +99,8 @@ describe('Auth Controller', () => {
     expect(res.body.topic).to.equal('newtopic');
   });
 
-  it('should return 404 if error is "Chat not found."', async () => {
-    const stub = sinon.stub(Chat, 'findById').callsFake(() => {
-      throw 'Chat not found.';
-    });
+  it('should return status 404 if there is no chat /api/chat/update-chat/:chatId', async () => {
+    const stub = sinon.stub(Chat, 'findById').callsFake(() => null);
 
     const res = await request(app)
       .patch(`/api/chat/update-chat/${new mongoose.Types.ObjectId()}`)
