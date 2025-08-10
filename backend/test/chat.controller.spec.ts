@@ -232,7 +232,7 @@ describe('Auth Controller', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).to.equal(200);
-    expect(res.body.message).to.equal('Thumbnail deleted successfully.');
+    expect(res.body.message).to.equal('Thumbnail removed successfully.');
     expect(res.body.thumbnail).to.equal(undefined);
   });
 });
