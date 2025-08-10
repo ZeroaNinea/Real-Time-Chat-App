@@ -239,7 +239,7 @@ export const removeThumbnail = async (req: Request, res: Response) => {
     if (!isOwner) {
       return res
         .status(403)
-        .json({ message: 'Only the owner or admin can remove the thumbnail' });
+        .json({ message: 'You are not allowed to update this chat room.' });
     }
 
     pictureHelper.deleteThumbnailFile(chat);

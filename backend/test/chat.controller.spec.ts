@@ -241,6 +241,35 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should return 403 if user lacks required permissions /api/chat/delete-thumbnail/:chatId', async () => {
+    await request(app).post('/api/auth/register').send({
+      username: 'newuser2',
+      email: 'newuser2@email.com',
+      password: '123',
+    });
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
+
+    const token = resLogin.body.token;
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .delete(`/api/chat/delete-thumbnail/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not allowed to update this chat room.'
+    );
+  });
+
   it('should delete the thumbnail /api/chat/delete-thumbnail/:chatId', async () => {
     const chat = await Chat.findOne({
       name: 'newchat',
