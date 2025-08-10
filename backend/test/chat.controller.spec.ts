@@ -221,6 +221,26 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should return status 500 during the deletion of the thumbnail /api/chat/delete-thumbnail/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .delete(`/api/chat/delete-thumbnail/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal(
+      'Server error during thumbnail deletion.'
+    );
+
+    stub.restore();
+  });
+
   it('should delete the thumbnail /api/chat/delete-thumbnail/:chatId', async () => {
     const chat = await Chat.findOne({
       name: 'newchat',

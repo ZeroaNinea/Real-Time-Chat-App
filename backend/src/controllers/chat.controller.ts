@@ -246,9 +246,11 @@ export const removeThumbnail = async (req: Request, res: Response) => {
     chat.thumbnail = null;
 
     await chat.save();
-    res.status(200).json({ message: 'Thumbnail removed successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to remove thumbnail', error: err });
+    return res.status(200).json({ message: 'Thumbnail removed successfully.' });
+  } catch (err: unknown) {
+    return res
+      .status(500)
+      .json({ message: 'Server error during thumbnail deletion.', error: err });
   }
 };
 
