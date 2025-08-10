@@ -219,7 +219,7 @@ export const deleteChat = async (req: Request, res: Response) => {
 
     await chat.deleteOne();
 
-    return res.status(200).json({ message: 'Chat deleted successfully.' });
+    return res.status(200).json({ message: 'Chat room deleted successfully.' });
   } catch (err) {
     return res
       .status(500)
