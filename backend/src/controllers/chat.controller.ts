@@ -10,19 +10,20 @@ import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
+import pictureHelper from '../helpers/picture-helper';
 
-export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
-  if (!chat.thumbnail) return;
+// export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
+//   if (!chat.thumbnail) return;
 
-  const fullPath = path.join(
-    __dirname,
-    '../../uploads/chat-thumbnails',
-    chat.thumbnail
-  );
-  if (fs.existsSync(fullPath)) {
-    fs.unlinkSync(fullPath);
-  }
-};
+//   const fullPath = path.join(
+//     __dirname,
+//     '../../uploads/chat-thumbnails',
+//     chat.thumbnail
+//   );
+//   if (fs.existsSync(fullPath)) {
+//     fs.unlinkSync(fullPath);
+//   }
+// };
 
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
@@ -162,7 +163,7 @@ export const updateChat = async (req: Request, res: Response) => {
 
     if (req.file) {
       if (chat.thumbnail) {
-        deleteThumbnailFile(chat);
+        pictureHelper.deleteThumbnailFile(chat);
       }
       chat.thumbnail = req.file.filename;
     }
@@ -241,7 +242,7 @@ export const removeThumbnail = async (req: Request, res: Response) => {
         .json({ message: 'Only the owner or admin can remove the thumbnail' });
     }
 
-    deleteThumbnailFile(chat);
+    pictureHelper.deleteThumbnailFile(chat);
     chat.thumbnail = null;
 
     await chat.save();
