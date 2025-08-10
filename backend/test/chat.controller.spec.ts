@@ -180,4 +180,31 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(200);
     expect(res.body.thumbnail).to.match(/.png/g);
   });
+
+  it('should delete the old thumbnail if oldThumbnail is provided /api/chat/update-chat/:chatId', async () => {
+    const existsStub = sinon.stub(fs, 'existsSync').returns(true);
+    const unlinkStub = sinon.stub(fs, 'unlinkSync');
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .patch(`/api/chat/update-chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .field('oldThumbnail', chat.thumbnail)
+      .attach('thumbnail', Buffer.from('fake image'), {
+        filename: 'thumbnail.png',
+        contentType: 'image/png',
+      });
+
+    expect(existsStub.called).to.be.true;
+    expect(unlinkStub.called).to.be.true;
+    expect(res.status).to.equal(200);
+    expect(res.body.thumbnail).to.match(/.png/g);
+
+    existsStub.restore();
+    unlinkStub.restore();
+  });
 });
