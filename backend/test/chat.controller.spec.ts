@@ -6,7 +6,10 @@ import fs from 'fs';
 import { Response } from 'express';
 
 import { app } from '../src/app';
-import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import mongoose, {
+  connectToDatabase,
+  disconnectDatabase,
+} from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { verifyToken } from '../src/auth/jwt.service';
@@ -96,13 +99,19 @@ describe('Auth Controller', () => {
     expect(res.body.topic).to.equal('newtopic');
   });
 
-  it('should fail to update the public chat room on 404 status /api/chat/update-chat/:chatId', async () => {
+  it('should return 404 if error is "Chat not found."', async () => {
+    const stub = sinon.stub(Chat, 'findById').callsFake(() => {
+      throw 'Chat not found.';
+    });
+
     const res = await request(app)
-      .patch('/api/chat/update-chat/5eb78994dbb89024f04a2508')
+      .patch(`/api/chat/update-chat/${new mongoose.Types.ObjectId()}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ name: 'newchat', topic: 'newtopic' });
+      .send({ name: 'whatever' });
 
     expect(res.status).to.equal(404);
     expect(res.body.message).to.equal('Chat not found.');
+
+    stub.restore();
   });
 });
