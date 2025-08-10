@@ -173,7 +173,7 @@ export const updateChat = async (req: Request, res: Response) => {
     ) {
       return res
         .status(403)
-        .json({ message: 'You are not allowed to update this chat room' });
+        .json({ message: 'You are not allowed to update this chat room.' });
     }
 
     Object.assign(chat, updates);

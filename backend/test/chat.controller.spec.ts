@@ -13,6 +13,7 @@ import mongoose, {
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { verifyToken } from '../src/auth/jwt.service';
+import { Member } from '../types/member.alias';
 
 describe('Auth Controller', () => {
   let token: string;
@@ -130,5 +131,29 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Server error during chat update.');
 
     stub.restore();
+  });
+
+  it('should return 403 if user lacks required permissions /api/chat/update-chat/:chatId', async () => {
+    const testUserId = User.findOne({ username: 'newuser' })._id;
+
+    const fakeChat = {
+      _id: 'fakeid',
+      members: [{ user: testUserId, roles: ['Member'] }],
+      save: sinon.stub().resolves(),
+    };
+
+    sinon.stub(Chat, 'findById').resolves(fakeChat as any);
+
+    const res = await request(app)
+      .patch(`/api/chat/update-chat/fakeid`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newName' });
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not allowed to update this chat room.'
+    );
+
+    (Chat.findById as sinon.SinonStub).restore();
   });
 });
