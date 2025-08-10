@@ -112,4 +112,23 @@ describe('Auth Controller', () => {
 
     stub.restore();
   });
+
+  it('should return status 500 during the update of a chat /api/chat/update-chat/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .patch(`/api/chat/update-chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat', topic: 'newtopic' });
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during chat update.');
+
+    stub.restore();
+  });
 });
