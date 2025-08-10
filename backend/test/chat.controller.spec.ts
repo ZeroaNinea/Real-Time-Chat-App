@@ -162,4 +162,22 @@ describe('Auth Controller', () => {
       'You are not allowed to update this chat room.'
     );
   });
+
+  it('should update the thumbnail /api/chat/update-chat/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .patch(`/api/chat/update-chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach('thumbnail', Buffer.from('fake image'), {
+        filename: 'thumbnail.png',
+        contentType: 'image/png',
+      });
+
+    expect(res.status).to.equal(200);
+    expect(res.body.thumbnail).to.match(/.png/g);
+  });
 });
