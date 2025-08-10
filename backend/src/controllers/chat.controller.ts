@@ -181,9 +181,13 @@ export const updateChat = async (req: Request, res: Response) => {
     res.status(200).json(chat);
   } catch (error: unknown) {
     console.error('Error updating chat:', error);
-    res
-      .status(error === 'Chat not found.' ? 404 : 500)
-      .json({ message: error || 'Server error during chat update.' });
+    if (error === 'Chat not found.') {
+      return res.status(404).json({ message: 'Chat not found.' });
+    } else {
+      return res
+        .status(500)
+        .json({ message: 'Server error during chat update.' });
+    }
   }
 };
 
