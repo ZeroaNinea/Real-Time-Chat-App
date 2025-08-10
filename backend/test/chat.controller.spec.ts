@@ -207,4 +207,32 @@ describe('Auth Controller', () => {
     existsStub.restore();
     unlinkStub.restore();
   });
+
+  it('should return status 404 if there is no chat while deleting the thumbnail /api/chat/delete-thumbnail/:chatId', async () => {
+    const stub = sinon.stub(Chat, 'findById').callsFake(() => null);
+
+    const res = await request(app)
+      .delete(`/api/chat/delete-thumbnail/${new mongoose.Types.ObjectId()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(404);
+    expect(res.body.message).to.equal('Chat not found.');
+
+    stub.restore();
+  });
+
+  it('should delete the thumbnail /api/chat/delete-thumbnail/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .delete(`/api/chat/delete-thumbnail/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Thumbnail deleted successfully.');
+    expect(res.body.thumbnail).to.equal(undefined);
+  });
 });

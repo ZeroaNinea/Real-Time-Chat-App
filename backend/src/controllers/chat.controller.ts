@@ -228,7 +228,7 @@ export const deleteChat = async (req: Request, res: Response) => {
 export const removeThumbnail = async (req: Request, res: Response) => {
   try {
     const chat = await Chat.findById(req.params.chatId);
-    if (!chat) return res.status(404).json({ message: 'Chat not found' });
+    if (!chat) return res.status(404).json({ message: 'Chat not found.' });
 
     const member = chat.members.find((m: Member) =>
       m.user.equals(req.user._id)
@@ -246,7 +246,7 @@ export const removeThumbnail = async (req: Request, res: Response) => {
     chat.thumbnail = null;
 
     await chat.save();
-    res.status(200).json({ message: 'Thumbnail removed successfully' });
+    res.status(200).json({ message: 'Thumbnail removed successfully.' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to remove thumbnail', error: err });
   }
