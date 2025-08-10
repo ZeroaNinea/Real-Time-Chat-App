@@ -195,7 +195,7 @@ export const deleteChat = async (req: Request, res: Response) => {
     const messages = await Message.find({ chatId: req.params.chatId });
 
     if (!chat || !channels) {
-      return res.status(404).json({ message: 'Chat not found' });
+      return res.status(404).json({ message: 'Chat not found.' });
     }
 
     const member = chat.members.find((m: Member) =>
@@ -206,7 +206,7 @@ export const deleteChat = async (req: Request, res: Response) => {
     if (!isOwner) {
       return res
         .status(403)
-        .json({ message: 'Only the owner can delete this chat' });
+        .json({ message: 'Only the owner can delete this chat.' });
     }
 
     await Promise.all(
@@ -219,9 +219,11 @@ export const deleteChat = async (req: Request, res: Response) => {
 
     await chat.deleteOne();
 
-    res.status(200).json({ message: 'Chat deleted successfully' });
+    return res.status(200).json({ message: 'Chat deleted successfully.' });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to delete chat', error: err });
+    return res
+      .status(500)
+      .json({ message: 'Server error during chat deletion.', error: err });
   }
 };
 
