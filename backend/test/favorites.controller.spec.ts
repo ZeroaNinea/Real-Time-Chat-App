@@ -53,13 +53,33 @@ describe('Auth Controller', () => {
   });
 
   it('should fetch favorites /api/favorites/get-favorites', async () => {
+    const user = await User.findOne({ username: 'newuser' });
+
+    user.favoriteGifs.push('https://media.tenor.com/7YvM5lH6z1QAAAAC/sad.gif');
+    await user.save();
+
     const res = await request(app)
       .get('/api/favorites/get-favorites')
       .set('Authorization', `Bearer ${token}`);
 
-    console.log(res.body, '=========================================');
-
     expect(res.status).to.equal(200);
-    // expect(res.body.favorites.length).to.equal(0);
+    expect(
+      res.body.includes('https://media.tenor.com/7YvM5lH6z1QAAAAC/sad.gif')
+    ).to.equal(true);
+  });
+
+  it('should return status 500 during the fetching of favorites /api/favorites/get-favorites', async () => {
+    const stub = sinon.stub(User, 'find').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .get('/api/favorites/get-favorites')
+      .set('Authorization', `Bearer ${token}`);
+
+    console.log(res.body, '========================================');
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during favorites fetch.');
+
+    stub.restore();
   });
 });

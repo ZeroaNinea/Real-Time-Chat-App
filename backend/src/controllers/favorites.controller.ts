@@ -1,17 +1,20 @@
 import { Request, Response } from 'express';
 import { User } from '../models/user.model';
+import favorites from '../helpers/favorites';
 
 export const getFavorites = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId).populate('favoriteGifs');
+    const user = await favorites.findFavorites(userId);
 
     const favoriteGifs = user.favoriteGifs;
 
     return res.status(200).json(favoriteGifs);
   } catch (error) {
     // console.error(error);
-    return res.status(500).json({ error: 'Server error' });
+    return res
+      .status(500)
+      .json({ message: 'Server error during favorites fetch.' });
   }
 };
 
