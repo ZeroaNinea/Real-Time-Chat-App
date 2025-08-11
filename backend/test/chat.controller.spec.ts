@@ -296,8 +296,6 @@ describe('Auth Controller', () => {
       .get(`/api/chat/${chat._id}`)
       .set('Authorization', `Bearer ${token}`);
 
-    console.log(res.body);
-
     expect(res.status).to.equal(200);
     expect(res.body.name).to.equal('newchat');
   });
