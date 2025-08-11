@@ -305,13 +305,13 @@ export const getChatMembers = async (req: Request, res: Response) => {
     const chatId = req.params.chatId;
 
     const chat = await Chat.findById(chatId);
-    if (!chat) return res.status(404).json({ message: 'Chat not found' });
+    if (!chat) return res.status(404).json({ message: 'Chat not found.' });
 
     const member = chat.members.find((m: Member) => m.user.equals(userId));
     if (!member)
       return res
         .status(403)
-        .json({ message: 'You are not a member of this chat' });
+        .json({ message: 'You are not a member of this chat.' });
 
     // Get all user IDs from the members array.
     const userIds = chat.members.map((m: Member) => m.user);
@@ -330,10 +330,12 @@ export const getChatMembers = async (req: Request, res: Response) => {
       };
     });
 
-    res.json(members);
+    return res.status(200).json(members);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to get chat members', error: err });
+    // console.error(err);
+    return res
+      .status(500)
+      .json({ message: 'Server error fetching chat members.', error: err });
   }
 };
 
