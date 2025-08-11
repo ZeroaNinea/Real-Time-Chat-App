@@ -287,6 +287,19 @@ describe('Auth Controller', () => {
 
   // Delete Chat Room
 
+  it('should return status 404 if there is no chat during deletion /api/chat/:chatId', async () => {
+    const stub = sinon.stub(Chat, 'find').callsFake(() => null);
+
+    const res = await request(app)
+      .delete(`/api/chat/${new mongoose.Types.ObjectId()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(404);
+    expect(res.body.message).to.equal('Chat not found.');
+
+    stub.restore();
+  });
+
   it('should delete the chat room /api/chat/:chatId', async () => {
     const chat = await Chat.findOne({
       name: 'newchat',

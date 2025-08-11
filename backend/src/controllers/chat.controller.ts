@@ -181,7 +181,7 @@ export const deleteChat = async (req: Request, res: Response) => {
     const channels = await Channel.find({ chatId: req.params.chatId });
     const messages = await Message.find({ chatId: req.params.chatId });
 
-    if (!chat || !channels) {
+    if (!chat) {
       return res.status(404).json({ message: 'Chat not found.' });
     }
 
