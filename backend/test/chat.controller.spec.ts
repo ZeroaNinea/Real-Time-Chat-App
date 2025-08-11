@@ -501,6 +501,15 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should return status 404 during the fetching of chat members with a fake chat ID /api/chat/:chatId/members', async () => {
+    const res = await request(app)
+      .get(`/api/chat/${new mongoose.Types.ObjectId()}/members`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(404);
+    expect(res.body.message).to.equal('Chat not found.');
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
