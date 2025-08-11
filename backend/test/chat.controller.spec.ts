@@ -301,7 +301,7 @@ describe('Auth Controller', () => {
     expect(res.body.name).to.equal('newchat');
   });
 
-  it('should only return channels the newuser has access to /api/chat/:chatId', async () => {
+  it('should only return channels the member (newuser) has access to /api/chat/:chatId', async () => {
     const chat = await Chat.findOne({ name: 'newchat' });
     const user = await User.findOne({ username: 'newuser' });
 
@@ -352,10 +352,65 @@ describe('Auth Controller', () => {
     expect(returnedChannelNames).to.include('ownerChannel');
     expect(returnedChannelNames).to.include('allowedUserChannel');
     expect(returnedChannelNames).to.include('allowedRoleChannel');
+  });
 
-    // Expect the blocked ones NOT to be returned.
-    // expect(returnedChannelNames).to.not.include('adminsOnlyChannel');
-    // expect(returnedChannelNames).to.not.include('blockedUserChannel');
+  it('should return only channels the member (newuser2) has access to /api/chat/:chatId', async () => {
+    const chat = await Chat.findOne({ name: 'newchat' });
+    const memberUser = await User.findOne({ username: 'newuser2' });
+
+    chat.members.push({ user: memberUser._id, roles: ['Member'] });
+    await chat.save();
+
+    await Channel.create({
+      name: 'adminsOnlyChannel',
+      chatId: chat._id,
+      permissions: { adminsOnly: true },
+    });
+
+    await Channel.create({
+      name: 'allowedUserChannel',
+      chatId: chat._id,
+      permissions: { allowedUsers: [memberUser._id] },
+    });
+
+    await Channel.create({
+      name: 'allowedRoleChannel',
+      chatId: chat._id,
+      permissions: { allowedRoles: ['Member'] },
+    });
+
+    await Channel.create({
+      name: 'blockedUserChannel',
+      chatId: chat._id,
+      permissions: { allowedUsers: [new mongoose.Types.ObjectId()] },
+    });
+
+    const loginRes = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
+    const memberToken = loginRes.body.token;
+
+    const res = await request(app)
+      .get(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${memberToken}`);
+
+    expect(res.status).to.equal(200);
+
+    const returnedNames = res.body.channels.map((c: typeof Channel) => c.name);
+
+    // Member should see these:
+    expect(returnedNames).to.include('allowedUserChannel');
+    expect(returnedNames).to.include('allowedRoleChannel');
+
+    // Member should NOT see these:
+    expect(returnedNames).to.not.include('adminsOnlyChannel');
+    expect(returnedNames).to.not.include('blockedUserChannel');
+
+    chat.members = chat.members.filter(
+      (m: Member) => !m.user.equals(memberUser._id)
+    );
+    await chat.save();
   });
 
   it('should fail to fetch the chat room without a chat ID /api/chat/:chatId', async () => {
