@@ -1,24 +1,24 @@
 import { Request, Response } from 'express';
 
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
 
 import { Chat, ChatDocument } from '../models/chat.model';
 import { Channel, ChannelDocument } from '../models/channel.model';
 import { Member } from '../../types/member.alias';
-import { addChannelService } from '../services/chat.service';
+// import { addChannelService } from '../services/chat.service';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
 import pictureHelper from '../helpers/picture-helper';
 
-export const mine = async (req: Request, res: Response) => {
-  const chats = await Chat.find({
-    members: req.user._id,
-  }).populate('members', 'username avatar');
+// export const mine = async (req: Request, res: Response) => {
+//   const chats = await Chat.find({
+//     members: req.user._id,
+//   }).populate('members', 'username avatar');
 
-  res.json(chats);
-};
+//   res.json(chats);
+// };
 
 export const privateMessages = async (req: Request, res: Response) => {
   const { userId } = req.body;

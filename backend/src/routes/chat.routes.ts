@@ -3,7 +3,7 @@ import express from 'express';
 import { authMiddleware } from '../auth/auth.middleware';
 import { asyncRoute } from '../helpers/async-route';
 import {
-  addChannel,
+  // addChannel,
   createChat,
   deleteChat,
   getChat,
@@ -11,10 +11,10 @@ import {
   getChatRooms,
   getOrCreatePrivateChat,
   getPrivateChatRooms,
-  mine,
+  // mine,
   privateMessages,
   removeThumbnail,
-  updateChannel,
+  // updateChannel,
   updateChat,
 } from '../controllers/chat.controller';
 import { uploadChatThumbnail } from '../middleware/thumbnail-upload';
@@ -22,7 +22,7 @@ import { uploadChatThumbnail } from '../middleware/thumbnail-upload';
 const router = express.Router();
 
 router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
-router.get('/mine', authMiddleware, asyncRoute(mine));
+// router.get('/mine', authMiddleware, asyncRoute(mine));
 router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
 router.post(
@@ -40,12 +40,12 @@ router.patch(
 router.delete('/:chatId', authMiddleware, asyncRoute(deleteChat));
 router.get('/:chatId', authMiddleware, asyncRoute(getChat));
 
-router.post('/add-channel/:chatId', authMiddleware, asyncRoute(addChannel));
-router.post(
-  '/update-channel/:chatId',
-  authMiddleware,
-  asyncRoute(updateChannel)
-);
+// router.post('/add-channel/:chatId', authMiddleware, asyncRoute(addChannel));
+// router.post(
+//   '/update-channel/:chatId',
+//   authMiddleware,
+//   asyncRoute(updateChannel)
+// );
 router.delete(
   '/delete-thumbnail/:chatId',
   authMiddleware,
