@@ -122,4 +122,26 @@ describe('Auth Controller', () => {
 
     stub.restore();
   });
+
+  it('should return status 400 if gifUrl is missing /api/favorites/remove-favorite', async () => {
+    const res = await request(app)
+      .delete('/api/favorites/remove-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('GIF URL required.');
+  });
+
+  it('should remove favorite /api/favorites/remove-favorite', async () => {
+    const res = await request(app)
+      .delete('/api/favorites/remove-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ gifUrl: 'https://tenor.com/duZQQsb5UlS.gif' });
+
+    expect(res.status).to.equal(200);
+    expect(res.body.includes('https://tenor.com/duZQQsb5UlS.gif')).to.equal(
+      false
+    );
+  });
 });

@@ -46,6 +46,8 @@ export const removeFavorite = async (req: Request, res: Response) => {
     const userId = req.user._id;
     const { gifUrl } = req.body;
 
+    if (!gifUrl) return res.status(400).json({ message: 'GIF URL required.' });
+
     const user = await favorites.findFavorites(userId);
 
     user.favoriteGifs = user.favoriteGifs.filter(
