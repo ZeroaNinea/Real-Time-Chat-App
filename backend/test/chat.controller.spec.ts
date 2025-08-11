@@ -590,6 +590,23 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal("You can't DM yourself.");
   });
 
+  it('should return status 500 during the creation or fetch of a private chat room /private/:targetUserId', async () => {
+    const stub = sinon.stub(Chat, 'findOne').throws(new Error('DB down'));
+
+    const newUser2 = await User.findOne({ username: 'newuser2' });
+
+    const res = await request(app)
+      .post(`/api/chat/private/${newUser2._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal(
+      'Server error during chat creation or fetch.'
+    );
+
+    stub.restore();
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {

@@ -477,8 +477,10 @@ export const getOrCreatePrivateChat = async (req: Request, res: Response) => {
 
     return res.status(200).json({ _id: chat._id });
   } catch (err) {
-    console.error('Failed to get or create private chat:', err);
-    return res.status(500).json({ message: 'Internal server error' });
+    // console.error('Failed to get or create private chat:', err);
+    return res
+      .status(500)
+      .json({ message: 'Server error during chat creation or fetch.' });
   }
 };
 
