@@ -300,6 +300,33 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should return status 403 if the user is not the owner /api/chat/:chatId', async () => {
+    await request(app).post('/api/auth/register').send({
+      username: 'newuser2',
+      email: 'newuser2@email.com',
+      password: '123',
+    });
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
+
+    const token = resLogin.body.token;
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .delete(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal('Only the owner can delete this chat.');
+  });
+
   it('should delete the chat room /api/chat/:chatId', async () => {
     const chat = await Chat.findOne({
       name: 'newchat',
