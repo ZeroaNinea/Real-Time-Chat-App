@@ -133,6 +133,22 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('GIF URL required.');
   });
 
+  it('should return status 500 during the removing of a favorite /api/favorites/remove-favorite', async () => {
+    const stub = sinon
+      .stub(favorites, 'findFavorites')
+      .throws(new Error('DB down'));
+
+    const res = await request(app)
+      .delete('/api/favorites/remove-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ gifUrl: 'https://tenor.com/duZQQsb5UlS.gif' });
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during favorite removal.');
+
+    stub.restore();
+  });
+
   it('should remove favorite /api/favorites/remove-favorite', async () => {
     const res = await request(app)
       .delete('/api/favorites/remove-favorite')
