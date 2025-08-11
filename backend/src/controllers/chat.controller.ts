@@ -432,7 +432,7 @@ export const getChatRooms = async (req: Request, res: Response) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: 'Failed to get chat rooms', error: err });
+      .json({ message: 'Server error during chat rooms fetch.', error: err });
   }
 };
 
