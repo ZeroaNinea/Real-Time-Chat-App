@@ -12,19 +12,6 @@ import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
 import pictureHelper from '../helpers/picture-helper';
 
-// export const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
-//   if (!chat.thumbnail) return;
-
-//   const fullPath = path.join(
-//     __dirname,
-//     '../../uploads/chat-thumbnails',
-//     chat.thumbnail
-//   );
-//   if (fs.existsSync(fullPath)) {
-//     fs.unlinkSync(fullPath);
-//   }
-// };
-
 export const mine = async (req: Request, res: Response) => {
   const chats = await Chat.find({
     members: req.user._id,
