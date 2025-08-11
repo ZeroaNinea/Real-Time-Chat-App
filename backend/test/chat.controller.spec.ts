@@ -607,6 +607,17 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should fetch private chat rooms /api/chat/private/get-private-chat-rooms', async () => {
+    const res = await request(app)
+      .get('/api/chat/private/get-private-chat-rooms')
+      .set('Authorization', `Bearer ${token}`);
+
+    console.log(res.body);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(1);
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
