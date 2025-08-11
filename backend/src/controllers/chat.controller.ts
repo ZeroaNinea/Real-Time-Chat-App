@@ -340,58 +340,58 @@ export const getChatMembers = async (req: Request, res: Response) => {
 
 // Channels
 
-export const addChannel = async (req: Request, res: Response) => {
-  try {
-    const { chatId } = req.params;
-    const { channelName } = req.body;
-    const userId = req.user._id;
+// export const addChannel = async (req: Request, res: Response) => {
+//   try {
+//     const { chatId } = req.params;
+//     const { channelName } = req.body;
+//     const userId = req.user._id;
 
-    const channel = await addChannelService(chatId, channelName, userId);
-    const io = req.app.get('io');
-    io.to(chatId).emit('channelAdded', { channel });
+//     const channel = await addChannelService(chatId, channelName, userId);
+//     const io = req.app.get('io');
+//     io.to(chatId).emit('channelAdded', { channel });
 
-    res.status(201).json({ message: 'Channel created successfully', channel });
-  } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
-  }
-};
+//     res.status(201).json({ message: 'Channel created successfully', channel });
+//   } catch (err) {
+//     res.status(500).json({ message: (err as Error).message });
+//   }
+// };
 
-export const updateChannel = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const updates = req.body;
+// export const updateChannel = async (req: Request, res: Response) => {
+//   try {
+//     const { id } = req.params;
+//     const updates = req.body;
 
-    const channel = await Channel.findByIdAndUpdate(id, updates, { new: true });
+//     const channel = await Channel.findByIdAndUpdate(id, updates, { new: true });
 
-    if (!channel) {
-      return res.status(404).json({ message: 'Channel not found' });
-    }
+//     if (!channel) {
+//       return res.status(404).json({ message: 'Channel not found' });
+//     }
 
-    // Get chat to check if user is authorized (optional, already done in deleteChannel).
-    const chat = await Chat.findById(channel.chatId);
-    const member = chat?.members.find((m: Member) =>
-      m.user.equals(req.user._id)
-    );
-    const isAdmin =
-      member?.roles.includes('Admin') || member?.roles.includes('Owner');
+//     // Get chat to check if user is authorized (optional, already done in deleteChannel).
+//     const chat = await Chat.findById(channel.chatId);
+//     const member = chat?.members.find((m: Member) =>
+//       m.user.equals(req.user._id)
+//     );
+//     const isAdmin =
+//       member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
-    if (!isAdmin) {
-      return res
-        .status(403)
-        .json({ message: 'Only admins can update channels' });
-    }
+//     if (!isAdmin) {
+//       return res
+//         .status(403)
+//         .json({ message: 'Only admins can update channels' });
+//     }
 
-    // 🔌 Emit event.
-    req.app.get('io')?.to(channel.chatId.toString()).emit('channelUpdated', {
-      channelId: id,
-      updates,
-    });
+//     // 🔌 Emit event.
+//     req.app.get('io')?.to(channel.chatId.toString()).emit('channelUpdated', {
+//       channelId: id,
+//       updates,
+//     });
 
-    res.json(channel);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to update channel', error: err });
-  }
-};
+//     res.json(channel);
+//   } catch (err) {
+//     res.status(500).json({ message: 'Failed to update channel', error: err });
+//   }
+// };
 
 export const getChatRooms = async (req: Request, res: Response) => {
   try {
