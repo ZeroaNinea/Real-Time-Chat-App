@@ -287,8 +287,8 @@ describe('Auth Controller', () => {
 
   // Delete Chat Room
 
-  it('should return status 404 if there is no chat during deletion /api/chat/:chatId', async () => {
-    const stub = sinon.stub(Chat, 'find').callsFake(() => null);
+  it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
+    const stub = sinon.stub(Chat, 'findById').callsFake(() => null);
 
     const res = await request(app)
       .delete(`/api/chat/${new mongoose.Types.ObjectId()}`)
@@ -325,6 +325,24 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(403);
     expect(res.body.message).to.equal('Only the owner can delete this chat.');
+  });
+
+  it('should return status 500 during the deletion of a chat /api/chat/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .delete(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during chat deletion.');
+
+    stub.restore();
   });
 
   it('should delete the chat room /api/chat/:chatId', async () => {
