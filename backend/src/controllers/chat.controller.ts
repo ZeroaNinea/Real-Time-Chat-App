@@ -20,25 +20,25 @@ import pictureHelper from '../helpers/picture-helper';
 //   res.json(chats);
 // };
 
-export const privateMessages = async (req: Request, res: Response) => {
-  const { userId } = req.body;
-  const existingChat = await Chat.findOne({
-    isPrivate: true,
-    members: { $all: [req.user._id, userId], $size: 2 },
-  });
+// export const privateMessages = async (req: Request, res: Response) => {
+//   const { userId } = req.body;
+//   const existingChat = await Chat.findOne({
+//     isPrivate: true,
+//     members: { $all: [req.user._id, userId], $size: 2 },
+//   });
 
-  if (existingChat) {
-    res.status(403).json(existingChat);
+//   if (existingChat) {
+//     res.status(403).json(existingChat);
 
-    return;
-  }
+//     return;
+//   }
 
-  const chat = await Chat.create({
-    isPrivate: true,
-    members: [req.user._id, userId],
-  });
-  res.json(chat);
-};
+//   const chat = await Chat.create({
+//     isPrivate: true,
+//     members: [req.user._id, userId],
+//   });
+//   res.json(chat);
+// };
 
 export const createChat = async (req: Request, res: Response) => {
   try {

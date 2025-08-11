@@ -12,7 +12,7 @@ import {
   getOrCreatePrivateChat,
   getPrivateChatRooms,
   // mine,
-  privateMessages,
+  // privateMessages,
   removeThumbnail,
   // updateChannel,
   updateChat,
@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get('/get-chat-rooms/', authMiddleware, asyncRoute(getChatRooms));
 // router.get('/mine', authMiddleware, asyncRoute(mine));
-router.get('/post', authMiddleware, asyncRoute(privateMessages));
+// router.get('/post', authMiddleware, asyncRoute(privateMessages));
 
 router.post(
   '/create-chat',
