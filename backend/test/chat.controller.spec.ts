@@ -286,7 +286,7 @@ describe('Auth Controller', () => {
     expect(res.body.thumbnail).to.equal(undefined);
   });
 
-  it('should get the chat room /api/chat/:chatId', async () => {
+  it('should fetch the chat room /api/chat/:chatId', async () => {
     const chat = await Chat.findOne({
       name: 'newchat',
       isPrivate: false,
@@ -298,6 +298,15 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body.name).to.equal('newchat');
+  });
+
+  it('should fail to fetch the chat room without a chat ID /api/chat/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/chat/null`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Chat ID is required.');
   });
 
   // Delete Chat Room
