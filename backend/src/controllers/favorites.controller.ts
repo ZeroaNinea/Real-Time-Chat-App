@@ -23,7 +23,7 @@ export const addFavorite = async (req: Request, res: Response) => {
     const userId = req.user._id;
     const { gifUrl } = req.body;
 
-    if (!gifUrl) return res.status(400).json({ error: 'GIF URL required.' });
+    if (!gifUrl) return res.status(400).json({ message: 'GIF URL required.' });
 
     const user = await User.findById(userId);
 

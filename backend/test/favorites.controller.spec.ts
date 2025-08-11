@@ -96,4 +96,14 @@ describe('Auth Controller', () => {
       true
     );
   });
+
+  it('should return status 400 if gifUrl is missing /api/favorites/add-favorite', async () => {
+    const res = await request(app)
+      .post('/api/favorites/add-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('GIF URL required.');
+  });
 });
