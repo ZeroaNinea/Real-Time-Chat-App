@@ -286,6 +286,22 @@ describe('Auth Controller', () => {
     expect(res.body.thumbnail).to.equal(undefined);
   });
 
+  it('should get the chat room /api/chat/:chatId', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .get(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    // expect(res.body.name).to.equal('newchat');
+    // expect(res.body.isPrivate).to.equal(false);
+    // expect(res.body.thumbnail).to.equal(undefined);
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {

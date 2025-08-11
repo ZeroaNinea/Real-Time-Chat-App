@@ -249,7 +249,7 @@ export const getChat = async (req: Request, res: Response) => {
     const chatId = req.params.chatId;
 
     if (!chatId || chatId === 'null') {
-      throw new Error('Invalid chat ID');
+      return res.status(400).json({ message: 'Chat ID is required.' });
     }
 
     const chat = await Chat.findById(chatId).populate('members');
@@ -286,7 +286,7 @@ export const getChat = async (req: Request, res: Response) => {
       return true;
     });
 
-    res.json({
+    return res.json({
       ...chat.toObject(),
       channels: accessibleChannels,
       chatRoles,
@@ -294,7 +294,7 @@ export const getChat = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Failed to get chat', error: err });
+    return res.status(500).json({ message: 'Failed to get chat', error: err });
   }
 };
 
