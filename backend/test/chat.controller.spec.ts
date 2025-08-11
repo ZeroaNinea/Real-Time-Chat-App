@@ -579,6 +579,17 @@ describe('Auth Controller', () => {
     expect(res.body._id).to.equal(privateChat._id.toString());
   });
 
+  it('should return status 400 if both IDs are the same /private/:targetUserId', async () => {
+    const newUser = await User.findOne({ username: 'newuser' });
+
+    const res = await request(app)
+      .post(`/api/chat/private/${newUser._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal("You can't DM yourself.");
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
