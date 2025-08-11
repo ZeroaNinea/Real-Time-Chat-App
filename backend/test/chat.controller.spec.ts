@@ -309,6 +309,15 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Chat ID is required.');
   });
 
+  it('should return status 404 if there is no chat /api/chat/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/chat/${new mongoose.Types.ObjectId()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(404);
+    expect(res.body.message).to.equal('Chat not found.');
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
