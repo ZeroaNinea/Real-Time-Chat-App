@@ -511,7 +511,9 @@ export const getPrivateChatRooms = async (req: Request, res: Response) => {
 
     return res.status(200).json(chatsWithOtherUser);
   } catch (err) {
-    console.error('Failed to get private chat rooms:', err);
-    return res.status(500).json({ message: 'Internal server error' });
+    // console.error('Failed to get private chat rooms:', err);
+    return res
+      .status(500)
+      .json({ message: 'Server error during private chat rooms fetch.' });
   }
 };
