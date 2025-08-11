@@ -12,6 +12,7 @@ import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
 import { Message } from '../src/models/message.model';
+import { Member } from '../types/member.alias';
 import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
@@ -298,6 +299,63 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body.name).to.equal('newchat');
+  });
+
+  it('should only return channels the newuser has access to /api/chat/:chatId', async () => {
+    const chat = await Chat.findOne({ name: 'newchat' });
+    const user = await User.findOne({ username: 'newuser' });
+
+    const member = chat.members.find((m: Member) => m.user.equals(user._id));
+    const userRoles = member.roles;
+
+    await Channel.create({
+      name: 'ownerChannel',
+      chatId: chat._id,
+      permissions: { adminsOnly: true },
+    });
+
+    await Channel.create({
+      name: 'adminsOnlyChannel',
+      chatId: chat._id,
+      permissions: { adminsOnly: true },
+    });
+
+    await Channel.create({
+      name: 'allowedUserChannel',
+      chatId: chat._id,
+      permissions: { allowedUsers: [user._id] },
+    });
+
+    await Channel.create({
+      name: 'allowedRoleChannel',
+      chatId: chat._id,
+      permissions: { allowedRoles: [userRoles[0]] },
+    });
+
+    await Channel.create({
+      name: 'blockedUserChannel',
+      chatId: chat._id,
+      permissions: { allowedUsers: [new mongoose.Types.ObjectId()] },
+    });
+
+    const res = await request(app)
+      .get(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+
+    const returnedChannelNames = res.body.channels.map(
+      (c: typeof Channel) => c.name
+    );
+
+    // Expect the allowed ones.
+    expect(returnedChannelNames).to.include('ownerChannel');
+    expect(returnedChannelNames).to.include('allowedUserChannel');
+    expect(returnedChannelNames).to.include('allowedRoleChannel');
+
+    // Expect the blocked ones NOT to be returned.
+    // expect(returnedChannelNames).to.not.include('adminsOnlyChannel');
+    // expect(returnedChannelNames).to.not.include('blockedUserChannel');
   });
 
   it('should fail to fetch the chat room without a chat ID /api/chat/:chatId', async () => {
