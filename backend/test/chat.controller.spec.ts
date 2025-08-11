@@ -557,6 +557,28 @@ describe('Auth Controller', () => {
     stub.restore();
   });
 
+  it('should create a private chat room /private/:targetUserId', async () => {
+    const newUser2 = await User.findOne({ username: 'newuser2' });
+    const newUser = await User.findOne({ username: 'newuser' });
+
+    const res = await request(app)
+      .post(`/api/chat/private/${newUser2._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    const privateChat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: newUser2._id } },
+          { $elemMatch: { user: newUser._id } },
+        ],
+      },
+    });
+
+    expect(res.status).to.equal(200);
+    expect(res.body._id).to.equal(privateChat._id.toString());
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
