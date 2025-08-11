@@ -318,6 +318,42 @@ describe('Auth Controller', () => {
     expect(res.body.message).to.equal('Chat not found.');
   });
 
+  it('should return status 500 during the fetching of a chat /api/chat/:chatId', async () => {
+    const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .get(`/api/chat/${new mongoose.Types.ObjectId()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during chat fetch.');
+
+    stub.restore();
+  });
+
+  it('should return status 403 if the user is not a member of the chat /api/chat/:chatId', async () => {
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
+
+    const token = resLogin.body.token;
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .get(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not a member of this chat room.'
+    );
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {

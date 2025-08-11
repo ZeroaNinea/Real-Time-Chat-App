@@ -259,7 +259,7 @@ export const getChat = async (req: Request, res: Response) => {
     if (!member)
       return res
         .status(403)
-        .json({ message: 'You are not a member of this chat.' });
+        .json({ message: 'You are not a member of this chat room.' });
 
     const chatRoles = chat.roles;
 
@@ -293,7 +293,6 @@ export const getChat = async (req: Request, res: Response) => {
       isPrivate,
     });
   } catch (err) {
-    console.error(err);
     return res
       .status(500)
       .json({ message: 'Server error during chat fetch.', error: err });
