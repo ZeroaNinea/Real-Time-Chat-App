@@ -25,7 +25,7 @@ export const addFavorite = async (req: Request, res: Response) => {
 
     if (!gifUrl) return res.status(400).json({ message: 'GIF URL required.' });
 
-    const user = await User.findById(userId);
+    const user = await favorites.findFavorites(userId);
 
     if (!user.favoriteGifs.includes(gifUrl)) {
       user.favoriteGifs.push(gifUrl);
@@ -37,7 +37,7 @@ export const addFavorite = async (req: Request, res: Response) => {
     // console.error(error);
     return res
       .status(500)
-      .json({ error: 'Internal server error during favorite adding.' });
+      .json({ message: 'Server error during favorite adding.' });
   }
 };
 
@@ -46,17 +46,18 @@ export const removeFavorite = async (req: Request, res: Response) => {
     const userId = req.user._id;
     const { gifUrl } = req.body;
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    const user = await favorites.findFavorites(userId);
 
     user.favoriteGifs = user.favoriteGifs.filter(
       (url: string) => url !== gifUrl
     );
     await user.save();
 
-    res.json(user.favoriteGifs);
+    return res.json(user.favoriteGifs);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    // console.error(error);
+    return res
+      .status(500)
+      .json({ message: 'Server error during favorite removal.' });
   }
 };

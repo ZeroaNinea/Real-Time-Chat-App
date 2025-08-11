@@ -106,4 +106,20 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('GIF URL required.');
   });
+
+  it('should return status 500 during the adding of a favorite /api/favorites/add-favorite', async () => {
+    const stub = sinon
+      .stub(favorites, 'findFavorites')
+      .throws(new Error('DB down'));
+
+    const res = await request(app)
+      .post('/api/favorites/add-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ gifUrl: 'https://tenor.com/duZQQsb5UlS.gif' });
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during favorite adding.');
+
+    stub.restore();
+  });
 });
