@@ -612,8 +612,6 @@ describe('Auth Controller', () => {
       .get('/api/chat/private/get-private-chat-rooms')
       .set('Authorization', `Bearer ${token}`);
 
-    console.log(res.body);
-
     expect(res.status).to.equal(200);
     expect(res.body.length).to.equal(1);
   });

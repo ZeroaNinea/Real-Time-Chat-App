@@ -51,4 +51,15 @@ describe('Auth Controller', () => {
     // await Message.deleteMany({});
     await disconnectDatabase();
   });
+
+  it('should fetch favorites /api/favorites/get-favorites', async () => {
+    const res = await request(app)
+      .get('/api/favorites/get-favorites')
+      .set('Authorization', `Bearer ${token}`);
+
+    console.log(res.body, '=========================================');
+
+    expect(res.status).to.equal(200);
+    // expect(res.body.favorites.length).to.equal(0);
+  });
 });
