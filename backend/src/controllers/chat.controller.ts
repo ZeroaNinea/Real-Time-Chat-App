@@ -398,12 +398,6 @@ export const getChatRooms = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
 
-    if (!req.user || !req.user._id) {
-      console.warn('Missing user ID in request object');
-    }
-
-    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
-
     const allRooms = await Chat.find({
       isPrivate: false,
     })
