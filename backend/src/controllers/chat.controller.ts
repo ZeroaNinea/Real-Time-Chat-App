@@ -311,7 +311,7 @@ export const getChatMembers = async (req: Request, res: Response) => {
     if (!member)
       return res
         .status(403)
-        .json({ message: 'You are not a member of this chat.' });
+        .json({ message: 'You are not a member of this chat room.' });
 
     // Get all user IDs from the members array.
     const userIds = chat.members.map((m: Member) => m.user);
