@@ -533,6 +533,30 @@ describe('Auth Controller', () => {
     );
   });
 
+  it('should fetch chat rooms /api/chat/get-chat-rooms/', async () => {
+    const res = await request(app)
+      .get('/api/chat/get-chat-rooms')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.allRooms.length).to.equal(1);
+  });
+
+  it('should return status 500 during the fetching of chat rooms /api/chat/get-chat-rooms/', async () => {
+    const stub = sinon
+      .stub(Chat, 'countDocuments')
+      .throws(new Error('DB down'));
+
+    const res = await request(app)
+      .get('/api/chat/get-chat-rooms')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during chat rooms fetch.');
+
+    stub.restore();
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
