@@ -299,9 +299,7 @@ describe('Auth Controller', () => {
     console.log(res.body);
 
     expect(res.status).to.equal(200);
-    // expect(res.body.name).to.equal('newchat');
-    // expect(res.body.isPrivate).to.equal(false);
-    // expect(res.body.thumbnail).to.equal(undefined);
+    expect(res.body.name).to.equal('newchat');
   });
 
   // Delete Chat Room

@@ -253,13 +253,13 @@ export const getChat = async (req: Request, res: Response) => {
     }
 
     const chat = await Chat.findById(chatId).populate('members');
-    if (!chat) return res.status(404).json({ message: 'Chat not found' });
+    if (!chat) return res.status(404).json({ message: 'Chat not found.' });
 
     const member = chat.members.find((m: Member) => m.user.equals(userId));
     if (!member)
       return res
         .status(403)
-        .json({ message: 'You are not a member of this chat' });
+        .json({ message: 'You are not a member of this chat.' });
 
     const chatRoles = chat.roles;
 
@@ -294,7 +294,9 @@ export const getChat = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Failed to get chat', error: err });
+    return res
+      .status(500)
+      .json({ message: 'Server error during chat fetch.', error: err });
   }
 };
 
