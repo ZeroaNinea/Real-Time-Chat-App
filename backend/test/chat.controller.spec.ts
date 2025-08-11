@@ -378,30 +378,30 @@ describe('Auth Controller', () => {
       chatId: chat._id,
     });
 
+    const channelId = new mongoose.Types.ObjectId();
+
+    await Message.create({
+      chatId: chat._id,
+      channelId: channelId,
+      text: 'newmessage',
+      sender: user._id,
+    });
+
+    const res = await request(app)
+      .delete(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
     const channel = await Channel.findOne({
       name: 'newchannel',
       chatId: chat._id,
     });
 
-    await Message.create({
-      chatId: chat._id,
-      channelId: channel._id,
-      text: 'newmessage',
-      sender: user._id,
-    });
-
     const message = await Message.findOne({
       chatId: chat._id,
-      channelId: channel._id,
+      channelId: channelId,
       text: 'newmessage',
       sender: user._id,
     });
-
-    console.log(message, channel, chat, '=================================');
-
-    const res = await request(app)
-      .delete(`/api/chat/${chat._id}`)
-      .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).to.equal(200);
     expect(res.body.message).to.equal('Chat room deleted successfully.');
