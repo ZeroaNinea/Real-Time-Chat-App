@@ -3,8 +3,6 @@ import request from 'supertest';
 import sinon from 'sinon';
 import fs from 'fs';
 
-import { Response } from 'express';
-
 import { app } from '../src/app';
 import mongoose, {
   connectToDatabase,
@@ -12,8 +10,9 @@ import mongoose, {
 } from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
+import { Channel } from '../src/models/channel.model';
+import { Message } from '../src/models/message.model';
 import { verifyToken } from '../src/auth/jwt.service';
-import { Member } from '../types/member.alias';
 
 describe('Auth Controller', () => {
   let token: string;
@@ -47,6 +46,8 @@ describe('Auth Controller', () => {
   after(async () => {
     await User.deleteMany({});
     await Chat.deleteMany({});
+    await Channel.deleteMany({});
+    await Message.deleteMany({});
     await disconnectDatabase();
   });
 
@@ -357,5 +358,54 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body.message).to.equal('Chat room deleted successfully.');
+  });
+
+  it('should delete channels and messages associated to the chat room /api/chat/:chatId', async () => {
+    await request(app)
+      .post('/api/chat/create-chat')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat' });
+
+    const user = await User.findOne({ username: 'newuser' });
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    await Channel.create({
+      name: 'newchannel',
+      chatId: chat._id,
+    });
+
+    const channel = await Channel.findOne({
+      name: 'newchannel',
+      chatId: chat._id,
+    });
+
+    await Message.create({
+      chatId: chat._id,
+      channelId: channel._id,
+      text: 'newmessage',
+      sender: user._id,
+    });
+
+    const message = await Message.findOne({
+      chatId: chat._id,
+      channelId: channel._id,
+      text: 'newmessage',
+      sender: user._id,
+    });
+
+    console.log(message, channel, chat, '=================================');
+
+    const res = await request(app)
+      .delete(`/api/chat/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal('Chat room deleted successfully.');
+    expect(channel).to.be.null;
+    expect(message).to.be.null;
   });
 });
