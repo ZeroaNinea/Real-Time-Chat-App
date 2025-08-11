@@ -15,6 +15,8 @@ import { User } from '../src/models/user.model';
 // import { Member } from '../types/member.alias';
 import { verifyToken } from '../src/auth/jwt.service';
 
+import favorites from '../src/helpers/favorites';
+
 describe('Auth Controller', () => {
   let token: string;
 
@@ -69,13 +71,13 @@ describe('Auth Controller', () => {
   });
 
   it('should return status 500 during the fetching of favorites /api/favorites/get-favorites', async () => {
-    const stub = sinon.stub(User, 'find').throws(new Error('DB down'));
+    const stub = sinon
+      .stub(favorites, 'findFavorites')
+      .throws(new Error('DB down'));
 
     const res = await request(app)
       .get('/api/favorites/get-favorites')
       .set('Authorization', `Bearer ${token}`);
-
-    console.log(res.body, '========================================');
 
     expect(res.status).to.equal(500);
     expect(res.body.message).to.equal('Server error during favorites fetch.');
