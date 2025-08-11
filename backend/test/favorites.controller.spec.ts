@@ -84,4 +84,16 @@ describe('Auth Controller', () => {
 
     stub.restore();
   });
+
+  it('should add a favorite /api/favorites/add-favorite', async () => {
+    const res = await request(app)
+      .post('/api/favorites/add-favorite')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ gifUrl: 'https://tenor.com/duZQQsb5UlS.gif' });
+
+    expect(res.status).to.equal(200);
+    expect(res.body.includes('https://tenor.com/duZQQsb5UlS.gif')).to.equal(
+      true
+    );
+  });
 });
