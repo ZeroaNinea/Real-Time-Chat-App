@@ -332,10 +332,9 @@ export const getChatMembers = async (req: Request, res: Response) => {
 
     return res.status(200).json(members);
   } catch (err) {
-    // console.error(err);
     return res
       .status(500)
-      .json({ message: 'Server error fetching chat members.', error: err });
+      .json({ message: 'Server error during chat members fetch.', error: err });
   }
 };
 
