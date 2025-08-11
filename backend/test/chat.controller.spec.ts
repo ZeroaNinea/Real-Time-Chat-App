@@ -467,6 +467,20 @@ describe('Auth Controller', () => {
     );
   });
 
+  it('should fetch chat members /api/chat/:chatId/members', async () => {
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const res = await request(app)
+      .get(`/api/chat/${chat._id}/members`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(1);
+  });
+
   // Delete Chat Room
 
   it('should return status 404 if there is no chat during the deletion /api/chat/:chatId', async () => {
