@@ -213,4 +213,17 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Invalid before ID.');
   });
+
+  it('should return private messages /api/message/get-private-messages/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/message/get-private-messages/${privateChat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(20);
+
+    for (let i = 20; i < 0; i--) {
+      expect(res.body[i].text).to.equal(`newmessage${i}`);
+    }
+  });
 });
