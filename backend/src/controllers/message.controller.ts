@@ -62,7 +62,7 @@ export const getPrivateMessages = async (req: Request, res: Response) => {
     if (!chat.members.some((m: Member) => m.user.equals(userId))) {
       return res
         .status(403)
-        .json({ messages: 'You are not a member of this chat.' });
+        .json({ message: 'You are not a member of this chat room.' });
     }
 
     const query: any = { chatId, channelId: { $exists: false } };

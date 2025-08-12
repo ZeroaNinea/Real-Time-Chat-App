@@ -16,11 +16,13 @@ import { verifyToken } from '../src/auth/jwt.service';
 describe('Auth Controller', () => {
   let token: string;
   let token2: string;
+  let token3: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
   let channel: typeof Channel;
   let newUser: typeof User;
   let newUser2: typeof User;
+  let newUser3: typeof User;
 
   before(async () => {
     await connectToDatabase();
@@ -71,6 +73,12 @@ describe('Auth Controller', () => {
       password: '123',
     });
 
+    newUser3 = await User.create({
+      username: 'newuser3',
+      email: 'newuser3@email.com',
+      password: '123',
+    });
+
     const resLogin2 = await request(app).post('/api/auth/login').send({
       username: 'newuser2',
       password: '123',
@@ -79,6 +87,13 @@ describe('Auth Controller', () => {
     token2 = resLogin2.body.token;
 
     newUser = await User.findOne({ username: 'newuser' });
+
+    const resLogin3 = await request(app).post('/api/auth/login').send({
+      username: 'newuser3',
+      password: '123',
+    });
+
+    token3 = resLogin3.body.token;
 
     for (let i = 0; i < 40; i++) {
       await Message.create({
@@ -225,5 +240,16 @@ describe('Auth Controller', () => {
     for (let i = 20; i < 0; i--) {
       expect(res.body[i].text).to.equal(`newmessage${i}`);
     }
+  });
+
+  it('should fail to provide access to the private chat room for newUser3 /api/message/get-private-messages/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/message/get-private-messages/${privateChat._id}`)
+      .set('Authorization', `Bearer ${token3}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not a member of this chat room.'
+    );
   });
 });
