@@ -105,6 +105,14 @@ describe('Auth Controller', () => {
 
     expect(resPrivateChat.status).to.equal(200);
     expect(resPrivateChat.body._id).to.equal(privateChat._id.toString());
+
+    for (let i = 0; i < 40; i++) {
+      await Message.create({
+        chatId: privateChat._id,
+        text: `newmessage${i}`,
+        sender: newUser._id,
+      });
+    }
   });
 
   after(async () => {
