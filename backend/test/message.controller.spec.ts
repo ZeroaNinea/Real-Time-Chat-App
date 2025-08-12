@@ -399,4 +399,15 @@ describe('Auth Controller', () => {
       'You are not a member of this chat room.'
     );
   });
+
+  it('should fetch private reply messages /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = privateReplyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(`/api/message/get-private-reply-messages/${privateChat._id}`)
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+  });
 });
