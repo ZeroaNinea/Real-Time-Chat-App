@@ -80,7 +80,7 @@ describe('Auth Controller', () => {
 
     newUser = await User.findOne({ username: 'newuser' });
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 40; i++) {
       await Message.create({
         chatId: chat._id,
         channelId: channel._id,
@@ -123,9 +123,9 @@ describe('Auth Controller', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).to.equal(200);
-    expect(res.body.length).to.equal(10);
+    expect(res.body.length).to.equal(20);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 20; i < 0; i--) {
       expect(res.body[i].text).to.equal(`newmessage${i}`);
     }
   });
