@@ -16,6 +16,6 @@ export const getNotifications = async (req: Request, res: Response) => {
     // console.error(error);
     return res
       .status(500)
-      .json({ error: 'Server error during notification fetch.' });
+      .json({ message: 'Server error during notifications fetch.' });
   }
 };

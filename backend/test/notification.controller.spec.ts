@@ -1,14 +1,11 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import sinon from 'sinon';
-import fs from 'fs';
 
 import { app } from '../src/app';
-import mongoose, {
-  connectToDatabase,
-  disconnectDatabase,
-} from '../src/config/db';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
+import { Notification } from '../src/models/notification.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
@@ -52,5 +49,20 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body.length).to.equal(0);
+  });
+
+  it('should return status 500 if DB is down /api/notification/get-notifications', async () => {
+    const stub = sinon.stub(Notification, 'find').throws(new Error('DB down'));
+
+    const res = await request(app)
+      .get('/api/notification/get-notifications')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal(
+      'Server error during notifications fetch.'
+    );
+
+    stub.restore();
   });
 });
