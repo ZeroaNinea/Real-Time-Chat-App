@@ -5,7 +5,7 @@ export const getFriends = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
 
-    const user = await socialHelpers.getUserWithBanlist(userId.toString());
+    const user = await socialHelpers.getUserWithBanlist(userId);
 
     const filteredFriends = (user.friends as any[]).filter((friend) => {
       const friendBansUser = friend.banlist.includes(userId);
@@ -18,7 +18,7 @@ export const getFriends = async (req: Request, res: Response) => {
     // console.error(error);
     return res
       .status(500)
-      .json({ error: 'Server error during friends fetch.' });
+      .json({ message: 'Server error during friends fetch.' });
   }
 };
 
@@ -26,13 +26,13 @@ export const getBanList = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
 
-    const user = await socialHelpers.getUserWithBanlist(userId.toString());
+    const user = await socialHelpers.getUserWithBanlist(userId);
 
     return res.status(200).json(user.banlist);
   } catch (error) {
     console.error(error);
     return res
       .status(500)
-      .json({ error: 'Server error during banlist fetch.' });
+      .json({ message: 'Server error during banlist fetch.' });
   }
 };
