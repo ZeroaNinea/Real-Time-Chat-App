@@ -11,9 +11,11 @@ export const getNotifications = async (req: Request, res: Response) => {
       .sort({ createdAt: -1 })
       .populate('sender', 'username avatar');
 
-    res.json(notifications);
+    return res.status(200).json(notifications);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    // console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'Server error during notification fetch.' });
   }
 };

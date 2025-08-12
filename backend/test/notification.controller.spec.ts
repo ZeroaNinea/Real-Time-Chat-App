@@ -9,7 +9,6 @@ import mongoose, {
   disconnectDatabase,
 } from '../src/config/db';
 import { User } from '../src/models/user.model';
-import { Chat } from '../src/models/chat.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
@@ -43,7 +42,15 @@ describe('Auth Controller', () => {
 
   after(async () => {
     await User.deleteMany({});
-    await Chat.deleteMany({});
     await disconnectDatabase();
+  });
+
+  it('should fetch notifications /api/notification/get-notifications', async () => {
+    const res = await request(app)
+      .get('/api/notification/get-notifications')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(0);
   });
 });
