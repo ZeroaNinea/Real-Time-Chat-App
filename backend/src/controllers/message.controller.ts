@@ -71,7 +71,7 @@ export const getPrivateMessages = async (req: Request, res: Response) => {
       try {
         query._id = { $lt: new mongoose.Types.ObjectId(before as string) };
       } catch {
-        return res.status(400).json({ error: 'Invalid before ID' });
+        return res.status(400).json({ message: 'Invalid before ID.' });
       }
     }
 
@@ -84,7 +84,7 @@ export const getPrivateMessages = async (req: Request, res: Response) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: 'Failed to get private messages', error: err });
+      .json({ message: 'Server error during getting messages.', error: err });
   }
 };
 
