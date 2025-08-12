@@ -421,4 +421,32 @@ describe('Auth Controller', () => {
       'Server error during getting reply messages.'
     );
   });
+
+  it('should fail to use this route for a public chat room /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = replyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(`/api/message/get-private-reply-messages/${chat._id}`)
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal(
+      'This route cannot be used for public chats.'
+    );
+  });
+
+  it('should fail to provide access to newUser3 /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = replyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(`/api/message/get-private-reply-messages/${chat._id}`)
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token3}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not a member of this chat room.'
+    );
+  });
 });
