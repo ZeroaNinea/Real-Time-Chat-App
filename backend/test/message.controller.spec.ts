@@ -261,4 +261,15 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(500);
     expect(res.body.message).to.equal('Server error during getting messages.');
   });
+
+  it('should fail to access to a public chat room using this route /api/message/get-private-messages/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/message/get-private-messages/${chat._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal(
+      'This route cannot be used for public chats.'
+    );
+  });
 });
