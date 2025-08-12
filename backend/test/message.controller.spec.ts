@@ -15,9 +15,11 @@ import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
   let token: string;
+  let token2: string;
   let chat: typeof Chat;
   let channel: typeof Channel;
   let newUser: typeof User;
+  let newUser2: typeof User;
 
   before(async () => {
     await connectToDatabase();
@@ -62,6 +64,19 @@ describe('Auth Controller', () => {
       chatId: chat._id,
     });
 
+    newUser2 = await User.create({
+      username: 'newuser2',
+      email: 'newuser2@email.com',
+      password: '123',
+    });
+
+    const resLogin2 = await request(app).post('/api/auth/login').send({
+      username: 'newuser2',
+      password: '123',
+    });
+
+    token2 = resLogin2.body.token;
+
     newUser = await User.findOne({ username: 'newuser' });
 
     for (let i = 0; i < 10; i++) {
@@ -104,5 +119,18 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(500);
     expect(res.body.message).to.equal('Server error during getting messages.');
+  });
+
+  it('should return status 403 if user is not a member of the chat /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token2}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not a member of this chat room.'
+    );
   });
 });

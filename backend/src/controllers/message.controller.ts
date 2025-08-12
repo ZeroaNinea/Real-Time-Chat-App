@@ -14,7 +14,7 @@ export const getMessages = async (req: Request, res: Response) => {
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
       return res
         .status(403)
-        .json({ message: 'You are not a member of this chat.' });
+        .json({ message: 'You are not a member of this chat room.' });
     }
 
     if (chat.isPrivate) {
