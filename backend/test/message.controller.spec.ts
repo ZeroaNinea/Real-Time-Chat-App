@@ -252,4 +252,13 @@ describe('Auth Controller', () => {
       'You are not a member of this chat room.'
     );
   });
+
+  it('should return status 500 if chat ID is invalid /api/message/get-private-messages/:chatId', async () => {
+    const res = await request(app)
+      .get(`/api/message/get-private-messages/:chatId`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during getting messages.');
+  });
 });
