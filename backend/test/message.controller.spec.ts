@@ -5,6 +5,8 @@ import sinon from 'sinon';
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
+import { Message } from '../src/models/message.model';
+import { Chat } from '../src/models/chat.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
@@ -34,10 +36,20 @@ describe('Auth Controller', () => {
     expect(resLogin.status).to.equal(200);
     expect(resLogin.body.message).to.equal('Login successful!');
     expect(verifiedToken.username).to.equal('newuser');
+
+    const resChatRoom = await request(app)
+      .post('/api/chat/create-chat')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'newchat' });
+
+    expect(resChatRoom.status).to.equal(201);
+    expect(resChatRoom.body.name).to.equal('newchat');
   });
 
   after(async () => {
     await User.deleteMany({});
+    await Message.deleteMany({});
+    await Chat.deleteMany({});
     await disconnectDatabase();
   });
 });
