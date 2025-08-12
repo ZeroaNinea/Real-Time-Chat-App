@@ -10,18 +10,18 @@ export const getFriends = async (req: Request, res: Response) => {
       'username avatar bio pronouns status friends banlist pendingRequests'
     );
 
-    if (!user) return res.status(404).json({ error: 'User not found' });
-
     const filteredFriends = (user.friends as any[]).filter((friend) => {
       const friendBansUser = friend.banlist.includes(userId);
       const userBansFriend = user.banlist.includes(friend._id.toString());
       return !friendBansUser && !userBansFriend;
     });
 
-    res.json(filteredFriends);
+    return res.status(200).json(filteredFriends);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    // console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'Server error during friends fetch.' });
   }
 };
 
@@ -34,11 +34,11 @@ export const getBanList = async (req: Request, res: Response) => {
       'username avatar bio pronouns status friends banlist pendingRequests'
     );
 
-    if (!user) return res.status(404).json({ error: 'User not found' });
-
-    res.json(user.banlist);
+    return res.status(200).json(user.banlist);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    return res
+      .status(500)
+      .json({ error: 'Server error during banlist fetch.' });
   }
 };
