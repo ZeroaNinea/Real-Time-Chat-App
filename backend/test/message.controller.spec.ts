@@ -3,7 +3,10 @@ import request from 'supertest';
 import sinon from 'sinon';
 
 import { app } from '../src/app';
-import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import mongoose, {
+  connectToDatabase,
+  disconnectDatabase,
+} from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { Message } from '../src/models/message.model';
 import { Chat } from '../src/models/chat.model';
@@ -92,5 +95,14 @@ describe('Auth Controller', () => {
     for (let i = 0; i < 10; i++) {
       expect(res.body[i].text).to.equal(`newmessage${i}`);
     }
+  });
+
+  it('should return status 500 if chat ID or channel ID is invalid /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(`/api/message/get-messages/chat-room/${chat._id}/channel/:channelId`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during getting messages.');
   });
 });
