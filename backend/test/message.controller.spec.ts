@@ -383,4 +383,20 @@ describe('Auth Controller', () => {
       'This route cannot be used for private chats.'
     );
   });
+
+  it('should fail to provide access to newUser3 /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = replyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(
+        `/api/message/get-reply-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token3}`);
+
+    expect(res.status).to.equal(403);
+    expect(res.body.message).to.equal(
+      'You are not a member of this chat room.'
+    );
+  });
 });
