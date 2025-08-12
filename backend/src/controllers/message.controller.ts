@@ -104,7 +104,7 @@ export const getReplyMessages = async (req: Request, res: Response) => {
     if (chat.isPrivate) {
       return res
         .status(400)
-        .json({ error: 'This route cannot be used for private chats.' });
+        .json({ message: 'This route cannot be used for private chats.' });
     }
 
     const messages = await Message.find({

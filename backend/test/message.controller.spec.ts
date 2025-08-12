@@ -353,10 +353,34 @@ describe('Auth Controller', () => {
     console.log(res.body);
 
     expect(res.status).to.equal(200);
-    // expect(res.body.length).to.equal(20);
+  });
 
-    // for (let i = 20; i < 0; i--) {
-    //   expect(res.body[i].text).to.equal(`newmessage${i}`);
-    // }
+  it('should retun status 500 if chat ID or channel ID is invalid /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const res = await request(app)
+      .post(
+        `/api/message/get-reply-messages/chat-room/:chatId/channel/:channelId`
+      )
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal(
+      'Server error during getting reply messages.'
+    );
+  });
+
+  it('should fail to access to a private chat room using this route /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = privateReplyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(
+        `/api/message/get-reply-messages/chat-room/${privateChat._id}/channel/${channel._id}`
+      )
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal(
+      'This route cannot be used for private chats.'
+    );
   });
 });
