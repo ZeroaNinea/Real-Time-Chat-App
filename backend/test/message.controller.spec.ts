@@ -7,6 +7,7 @@ import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { Message } from '../src/models/message.model';
 import { Chat } from '../src/models/chat.model';
+import { Channel } from '../src/models/channel.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
@@ -44,12 +45,32 @@ describe('Auth Controller', () => {
 
     expect(resChatRoom.status).to.equal(201);
     expect(resChatRoom.body.name).to.equal('newchat');
+
+    const chat = await Chat.findOne({
+      name: 'newchat',
+      isPrivate: false,
+    });
+
+    const channel = await Channel.create({
+      name: 'newchannel',
+      chatId: chat._id,
+    });
+
+    for (let i = 0; i < 10; i++) {
+      await Message.create({
+        chatId: chat._id,
+        channelId: channel._id,
+        text: `newmessage${i}`,
+        sender: `newuser${i}`,
+      });
+    }
   });
 
   after(async () => {
     await User.deleteMany({});
     await Message.deleteMany({});
     await Chat.deleteMany({});
+    await Channel.deleteMany({});
     await disconnectDatabase();
   });
 });
