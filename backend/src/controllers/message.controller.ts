@@ -11,16 +11,22 @@ export const getMessages = async (req: Request, res: Response) => {
     const { limit = 20, before } = req.query;
 
     if (!chatId || !channelId) {
-      return res.status(400).json({ error: 'Missing chatId or channelId' });
+      return res
+        .status(400)
+        .json({ message: 'Both chatId and channelId are required.' });
     }
 
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
-      return res.status(403).json({ error: 'Not authorized' });
+      return res
+        .status(403)
+        .json({ message: 'You are not a member of this chat.' });
     }
 
     if (chat.isPrivate) {
-      return res.status(400).json({ error: 'Invalid private chat' });
+      return res
+        .status(400)
+        .json({ message: 'You cannot access this private chat.' });
     }
 
     const query: any = { chatId, channelId };
@@ -29,7 +35,7 @@ export const getMessages = async (req: Request, res: Response) => {
       try {
         query._id = { $lt: new mongoose.Types.ObjectId(before as string) };
       } catch (e) {
-        return res.status(400).json({ error: 'Invalid before ID' });
+        return res.status(400).json({ message: 'Invalid before ID.' });
       }
     }
 
@@ -42,7 +48,7 @@ export const getMessages = async (req: Request, res: Response) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: 'Failed to get messages', error: err });
+      .json({ message: 'Server error during getting messages.', error: err });
   }
 };
 
