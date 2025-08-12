@@ -38,9 +38,11 @@ export const getMessages = async (req: Request, res: Response) => {
       .limit(Number(limit))
       .lean();
 
-    res.json(messages.reverse());
+    return res.status(200).json(messages.reverse());
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get messages', error: err });
+    return res
+      .status(500)
+      .json({ message: 'Failed to get messages', error: err });
   }
 };
 

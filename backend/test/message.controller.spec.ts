@@ -12,6 +12,9 @@ import { verifyToken } from '../src/auth/jwt.service';
 
 describe('Auth Controller', () => {
   let token: string;
+  let chat: typeof Chat;
+  let channel: typeof Channel;
+  let newUser: typeof User;
 
   before(async () => {
     await connectToDatabase();
@@ -46,22 +49,24 @@ describe('Auth Controller', () => {
     expect(resChatRoom.status).to.equal(201);
     expect(resChatRoom.body.name).to.equal('newchat');
 
-    const chat = await Chat.findOne({
+    chat = await Chat.findOne({
       name: 'newchat',
       isPrivate: false,
     });
 
-    const channel = await Channel.create({
+    channel = await Channel.create({
       name: 'newchannel',
       chatId: chat._id,
     });
+
+    newUser = await User.findOne({ username: 'newuser' });
 
     for (let i = 0; i < 10; i++) {
       await Message.create({
         chatId: chat._id,
         channelId: channel._id,
         text: `newmessage${i}`,
-        sender: `newuser${i}`,
+        sender: newUser._id,
       });
     }
   });
@@ -72,5 +77,20 @@ describe('Auth Controller', () => {
     await Chat.deleteMany({});
     await Channel.deleteMany({});
     await disconnectDatabase();
+  });
+
+  it('should fetch messages /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(10);
+
+    for (let i = 0; i < 10; i++) {
+      expect(res.body[i].text).to.equal(`newmessage${i}`);
+    }
   });
 });
