@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
+
+import { User } from '../models/user.model';
 import socialHelpers from '../helpers/social-helpers';
 
 export const getFriends = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id;
 
-    const user = await socialHelpers.getUserWithBanlist(userId);
+    const user = await socialHelpers.getUserWithFriends(userId);
 
     const filteredFriends = (user.friends as any[]).filter((friend) => {
       const friendBansUser = friend.banlist.includes(userId);

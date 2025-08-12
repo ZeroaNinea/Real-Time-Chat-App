@@ -90,46 +90,46 @@ describe('Social Controller', () => {
     expect(friendUsernames).to.not.include('banned');
   });
 
-  // it('should return status 500 during the fetching of friends /api/social/get-friends', async () => {
-  //   const stub = sinon
-  //     .stub(socialHelpers, 'getUserWithFriends')
-  //     .throws(new Error('DB down'));
+  it('should return status 500 during the fetching of friends /api/social/get-friends', async () => {
+    const stub = sinon
+      .stub(socialHelpers, 'getUserWithFriends')
+      .throws(new Error('DB down'));
 
-  //   const res = await request(app)
-  //     .get('/api/social/get-friends')
-  //     .set('Authorization', `Bearer ${token}`);
+    const res = await request(app)
+      .get('/api/social/get-friends')
+      .set('Authorization', `Bearer ${token}`);
 
-  //   expect(res.status).to.equal(500);
-  //   expect(res.body.message).to.equal('Server error during friends fetch.');
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during friends fetch.');
 
-  //   stub.restore();
-  // });
+    stub.restore();
+  });
 
-  // it('should return the correct banlist /api/social/get-ban-list', async () => {
-  //   const res = await request(app)
-  //     .get('/api/social/get-ban-list')
-  //     .set('Authorization', `Bearer ${token}`);
+  it('should return the correct banlist /api/social/get-ban-list', async () => {
+    const res = await request(app)
+      .get('/api/social/get-ban-list')
+      .set('Authorization', `Bearer ${token}`);
 
-  //   expect(res.status).to.equal(200);
-  //   expect(res.body).to.be.an('array');
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an('array');
 
-  //   const banUsernames = res.body.map((u: typeof User) => u.username);
-  //   expect(banUsernames).to.include('banned');
-  //   expect(banUsernames).to.not.include('friend');
-  // });
+    const banUsernames = res.body.map((u: typeof User) => u.username);
+    expect(banUsernames).to.include('banned');
+    expect(banUsernames).to.not.include('friend');
+  });
 
-  // it('should return status 500 during the fetching of banlist /api/social/get-ban-list', async () => {
-  //   const stub = sinon
-  //     .stub(socialHelpers, 'getUserWithBanlist')
-  //     .throws(new Error('DB down'));
+  it('should return status 500 during the fetching of banlist /api/social/get-ban-list', async () => {
+    const stub = sinon
+      .stub(socialHelpers, 'getUserWithBanlist')
+      .throws(new Error('DB down'));
 
-  //   const res = await request(app)
-  //     .get('/api/social/get-ban-list')
-  //     .set('Authorization', `Bearer ${token}`);
+    const res = await request(app)
+      .get('/api/social/get-ban-list')
+      .set('Authorization', `Bearer ${token}`);
 
-  //   expect(res.status).to.equal(500);
-  //   expect(res.body.message).to.equal('Server error during banlist fetch.');
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during banlist fetch.');
 
-  //   stub.restore();
-  // });
+    stub.restore();
+  });
 });
