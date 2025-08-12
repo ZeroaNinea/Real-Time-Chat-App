@@ -17,6 +17,7 @@ describe('Auth Controller', () => {
   let token: string;
   let token2: string;
   let chat: typeof Chat;
+  let privateChat: typeof Chat;
   let channel: typeof Channel;
   let newUser: typeof User;
   let newUser2: typeof User;
@@ -53,6 +54,23 @@ describe('Auth Controller', () => {
 
     expect(resChatRoom.status).to.equal(201);
     expect(resChatRoom.body.name).to.equal('newchat');
+
+    const res = await request(app)
+      .post(`/api/chat/private/${newUser2._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    privateChat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: newUser2._id } },
+          { $elemMatch: { user: newUser._id } },
+        ],
+      },
+    });
+
+    expect(res.status).to.equal(200);
+    expect(res.body._id).to.equal(privateChat._id.toString());
 
     chat = await Chat.findOne({
       name: 'newchat',
