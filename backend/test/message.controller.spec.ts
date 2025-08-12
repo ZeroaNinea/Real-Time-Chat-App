@@ -164,4 +164,45 @@ describe('Auth Controller', () => {
       'This route cannot be used for private chats.'
     );
   });
+
+  it('should return the next page of messages /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(200);
+    expect(res.body.length).to.equal(20);
+
+    for (let i = 20; i < 0; i--) {
+      expect(res.body[i].text).to.equal(`newmessage${i}`);
+    }
+
+    const res2 = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token}`)
+      .query({ before: res.body[res.body.length - 1]._id });
+
+    expect(res2.status).to.equal(200);
+    expect(res2.body.length).to.equal(20);
+
+    for (let i = 40; i < 0; i--) {
+      expect(res2.body[i - 20].text).to.equal(`newmessage${i}`);
+    }
+  });
+
+  it('should return status 400 if before is invalid /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token}`)
+      .query({ before: 'invalid' });
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('Invalid before ID.');
+  });
 });
