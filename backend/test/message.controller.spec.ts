@@ -96,12 +96,22 @@ describe('Auth Controller', () => {
     token3 = resLogin3.body.token;
 
     for (let i = 0; i < 40; i++) {
-      await Message.create({
+      let message = await Message.create({
         chatId: chat._id,
         channelId: channel._id,
         text: `newmessage${i}`,
         sender: newUser._id,
       });
+
+      if (i % 5 === 0) {
+        message = await Message.create({
+          chatId: chat._id,
+          channelId: channel._id,
+          replyTo: message._id,
+          text: `newmessage${i}`,
+          sender: newUser2._id,
+        });
+      }
     }
 
     const resPrivateChat = await request(app)
@@ -122,11 +132,20 @@ describe('Auth Controller', () => {
     expect(resPrivateChat.body._id).to.equal(privateChat._id.toString());
 
     for (let i = 0; i < 40; i++) {
-      await Message.create({
+      let message = await Message.create({
         chatId: privateChat._id,
         text: `newmessage${i}`,
         sender: newUser._id,
       });
+
+      if (i % 5 === 0) {
+        message = await Message.create({
+          chatId: privateChat._id,
+          replyTo: message._id,
+          text: `newmessage${i}`,
+          sender: newUser2._id,
+        });
+      }
     }
   });
 
