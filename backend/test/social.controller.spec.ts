@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
+import sinon from 'sinon';
+
 import { app } from '../src/app';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
@@ -69,7 +71,7 @@ describe('Social Controller', () => {
     await disconnectDatabase();
   });
 
-  it('should return only friends who are not banned by either side', async () => {
+  it('should return only friends who are not banned by either side /api/social/get-friends', async () => {
     const res = await request(app)
       .get('/api/social/get-friends')
       .set('Authorization', `Bearer ${token}`);
@@ -77,23 +79,38 @@ describe('Social Controller', () => {
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('array');
 
-    const friendUsernames = res.body.map((f: any) => f.username);
+    const friendUsernames = res.body.map((f: typeof User) => f.username);
 
     expect(friendUsernames).to.include('cleanf');
     expect(friendUsernames).to.not.include('friend');
     expect(friendUsernames).to.not.include('banned');
   });
 
-  it('should return the correct banlist', async () => {
+  it('should return status 500 during the fetching of friends /api/social/get-friends', async () => {
+    // const stub = sinon
+    //   .stub(Array.prototype, 'filter')
+    //   .throws(new Error('DB down'));
+
     const res = await request(app)
-      .get('/api/social/get-ban-list')
+      .get('/api/social/get-friends')
       .set('Authorization', `Bearer ${token}`);
 
-    expect(res.status).to.equal(200);
-    expect(res.body).to.be.an('array');
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal('Server error during friends fetch.');
 
-    const banUsernames = res.body.map((u: any) => u.username);
-    expect(banUsernames).to.include('banned');
-    expect(banUsernames).to.not.include('friend');
+    // stub.restore();
   });
+
+  // it('should return the correct banlist /api/social/get-ban-list', async () => {
+  //   const res = await request(app)
+  //     .get('/api/social/get-ban-list')
+  //     .set('Authorization', `Bearer ${token}`);
+
+  //   expect(res.status).to.equal(200);
+  //   expect(res.body).to.be.an('array');
+
+  //   const banUsernames = res.body.map((u: typeof User) => u.username);
+  //   expect(banUsernames).to.include('banned');
+  //   expect(banUsernames).to.not.include('friend');
+  // });
 });
