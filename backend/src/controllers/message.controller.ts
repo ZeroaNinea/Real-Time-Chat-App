@@ -128,17 +128,17 @@ export const getPrivateReplyMessages = async (req: Request, res: Response) => {
     const { replyToIds } = req.body;
     const userId = req.user._id;
 
-    if (!chatId) {
-      return res.status(400).json({ error: 'Missing chatId' });
-    }
-
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.isPrivate) {
-      return res.status(400).json({ error: 'Invalid private chat' });
+      return res
+        .status(400)
+        .json({ message: 'This route cannot be used for public chats.' });
     }
 
     if (!chat.members.some((m: Member) => m.user.equals(userId))) {
-      return res.status(403).json({ error: 'Not authorized' });
+      return res
+        .status(403)
+        .json({ message: 'You are not a member of this chat room.' });
     }
 
     const messages = await Message.find({
@@ -147,10 +147,13 @@ export const getPrivateReplyMessages = async (req: Request, res: Response) => {
       _id: { $in: replyToIds },
     }).select('_id text sender createdAt');
 
-    res.json(messages);
+    return res.status(200).json(messages);
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ message: 'Failed to get private reply messages', error: err });
+      .json({
+        message: 'Server error during getting reply messages.',
+        error: err,
+      });
   }
 };
