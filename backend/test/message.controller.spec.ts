@@ -1,12 +1,8 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import sinon from 'sinon';
 
 import { app } from '../src/app';
-import mongoose, {
-  connectToDatabase,
-  disconnectDatabase,
-} from '../src/config/db';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
 import { Message } from '../src/models/message.model';
 import { Chat } from '../src/models/chat.model';
