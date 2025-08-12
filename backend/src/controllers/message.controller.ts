@@ -20,7 +20,7 @@ export const getMessages = async (req: Request, res: Response) => {
     if (chat.isPrivate) {
       return res
         .status(400)
-        .json({ message: 'You cannot access this private chat.' });
+        .json({ message: 'This route cannot be used for private chats.' });
     }
 
     const query: any = { chatId, channelId };

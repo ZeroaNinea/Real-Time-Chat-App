@@ -55,23 +55,6 @@ describe('Auth Controller', () => {
     expect(resChatRoom.status).to.equal(201);
     expect(resChatRoom.body.name).to.equal('newchat');
 
-    const res = await request(app)
-      .post(`/api/chat/private/${newUser2._id}`)
-      .set('Authorization', `Bearer ${token}`);
-
-    privateChat = await Chat.findOne({
-      isPrivate: true,
-      members: {
-        $all: [
-          { $elemMatch: { user: newUser2._id } },
-          { $elemMatch: { user: newUser._id } },
-        ],
-      },
-    });
-
-    expect(res.status).to.equal(200);
-    expect(res.body._id).to.equal(privateChat._id.toString());
-
     chat = await Chat.findOne({
       name: 'newchat',
       isPrivate: false,
@@ -105,6 +88,23 @@ describe('Auth Controller', () => {
         sender: newUser._id,
       });
     }
+
+    const resPrivateChat = await request(app)
+      .post(`/api/chat/private/${newUser2._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    privateChat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: newUser2._id } },
+          { $elemMatch: { user: newUser._id } },
+        ],
+      },
+    });
+
+    expect(resPrivateChat.status).to.equal(200);
+    expect(resPrivateChat.body._id).to.equal(privateChat._id.toString());
   });
 
   after(async () => {
@@ -149,6 +149,19 @@ describe('Auth Controller', () => {
     expect(res.status).to.equal(403);
     expect(res.body.message).to.equal(
       'You are not a member of this chat room.'
+    );
+  });
+
+  it('should return status 400 if the chat room is private /api/message/get-messages/chatId/:chatId/channelId/:channelId', async () => {
+    const res = await request(app)
+      .get(
+        `/api/message/get-messages/chat-room/${privateChat._id}/channel/${channel._id}`
+      )
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal(
+      'This route cannot be used for private chats.'
     );
   });
 });
