@@ -1,18 +1,10 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import sinon from 'sinon';
-import fs from 'fs';
 
 import { app } from '../src/app';
-import mongoose, {
-  connectToDatabase,
-  disconnectDatabase,
-} from '../src/config/db';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { User } from '../src/models/user.model';
-// import { Chat } from '../src/models/chat.model';
-// import { Channel } from '../src/models/channel.model';
-// import { Message } from '../src/models/message.model';
-// import { Member } from '../types/member.alias';
 import { verifyToken } from '../src/auth/jwt.service';
 
 import favorites from '../src/helpers/favorites';
@@ -48,9 +40,6 @@ describe('Auth Controller', () => {
 
   after(async () => {
     await User.deleteMany({});
-    // await Chat.deleteMany({});
-    // await Channel.deleteMany({});
-    // await Message.deleteMany({});
     await disconnectDatabase();
   });
 
