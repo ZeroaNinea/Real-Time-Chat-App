@@ -23,6 +23,8 @@ describe('Auth Controller', () => {
   let newUser: typeof User;
   let newUser2: typeof User;
   let newUser3: typeof User;
+  let replyMessages = [];
+  let privateReplyMessages = [];
 
   before(async () => {
     await connectToDatabase();
@@ -147,6 +149,17 @@ describe('Auth Controller', () => {
         });
       }
     }
+
+    replyMessages = await Message.find({
+      chatId: privateChat._id,
+      channelId: channel._id,
+      replyTo: { $exists: true, $ne: null },
+    });
+
+    privateReplyMessages = await Message.find({
+      chatId: privateChat._id,
+      replyTo: { $exists: true, $ne: null },
+    });
   });
 
   after(async () => {
