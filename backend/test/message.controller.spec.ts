@@ -410,4 +410,15 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(200);
   });
+
+  it('should return status 500 if chat ID is invalid /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const res = await request(app)
+      .post(`/api/message/get-private-reply-messages/:chatId`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).to.equal(500);
+    expect(res.body.message).to.equal(
+      'Server error during getting reply messages.'
+    );
+  });
 });
