@@ -437,10 +437,10 @@ describe('Auth Controller', () => {
   });
 
   it('should fail to provide access to newUser3 /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
-    const replyToIds = replyMessages.map((m) => m._id);
+    const replyToIds = privateReplyMessages.map((m) => m._id);
 
     const res = await request(app)
-      .post(`/api/message/get-private-reply-messages/${chat._id}`)
+      .post(`/api/message/get-private-reply-messages/${privateChat._id}`)
       .query({ replyToIds: replyToIds })
       .set('Authorization', `Bearer ${token3}`);
 
