@@ -23,8 +23,8 @@ describe('Auth Controller', () => {
   let newUser: typeof User;
   let newUser2: typeof User;
   let newUser3: typeof User;
-  let replyMessages = [];
-  let privateReplyMessages = [];
+  let replyMessages: (typeof Message)[] = [];
+  let privateReplyMessages: (typeof Message)[] = [];
 
   before(async () => {
     await connectToDatabase();
@@ -151,7 +151,7 @@ describe('Auth Controller', () => {
     }
 
     replyMessages = await Message.find({
-      chatId: privateChat._id,
+      chatId: chat._id,
       channelId: channel._id,
       replyTo: { $exists: true, $ne: null },
     });
@@ -338,5 +338,25 @@ describe('Auth Controller', () => {
 
     expect(res.status).to.equal(400);
     expect(res.body.message).to.equal('Invalid before ID.');
+  });
+
+  it('should fetch reply messages /api/message/get-reply-messages/chat-room/:chatId/channel/:channelId', async () => {
+    const replyToIds = replyMessages.map((m) => m._id);
+
+    const res = await request(app)
+      .post(
+        `/api/message/get-reply-messages/chat-room/${chat._id}/channel/${channel._id}`
+      )
+      .query({ replyToIds: replyToIds })
+      .set('Authorization', `Bearer ${token}`);
+
+    console.log(res.body);
+
+    expect(res.status).to.equal(200);
+    // expect(res.body.length).to.equal(20);
+
+    // for (let i = 20; i < 0; i--) {
+    //   expect(res.body[i].text).to.equal(`newmessage${i}`);
+    // }
   });
 });

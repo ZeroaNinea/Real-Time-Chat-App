@@ -94,12 +94,6 @@ export const getReplyMessages = async (req: Request, res: Response) => {
     const { replyToIds } = req.body;
     const userId = req.user._id;
 
-    if (!chatId || !channelId) {
-      return res
-        .status(400)
-        .json({ error: 'Both chatId and channelId required.' });
-    }
-
     const chat = await Chat.findById(chatId);
     if (!chat || !chat.members.some((m: Member) => m.user.equals(userId))) {
       return res
