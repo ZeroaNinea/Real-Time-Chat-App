@@ -82,7 +82,7 @@ describe('Auth Socket Handlers', () => {
   it('should handle server error during status update', (done) => {
     const stub = sinon
       .stub(userService, 'findUserById')
-      .throws(new Error('DB down'));
+      .rejects(new Error('DB down'));
 
     const clientSocket = Client(address, {
       auth: { token },
