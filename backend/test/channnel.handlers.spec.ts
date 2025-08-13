@@ -106,6 +106,15 @@ describe('Auth Socket Handlers', () => {
         resolve();
       });
     });
+
+    chat.roles.push({
+      name: 'Channel-Creator',
+      description: 'Can create channels',
+      permissions: ['canCreateChannels'],
+    });
+
+    chat.members.push({ user: user3._id, roles: ['Channel-Creator'] });
+    await chat.save();
   });
 
   after(async () => {
@@ -223,5 +232,33 @@ describe('Auth Socket Handlers', () => {
         });
       });
     });
+  });
+
+  it('should allow user3 to create a channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token3 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: chat._id,
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('channelAdded', (newChannel) => {
+          expect(newChannel.name).to.equal('newchannel');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
   });
 });
