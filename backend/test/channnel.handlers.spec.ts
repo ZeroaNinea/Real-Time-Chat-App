@@ -8,7 +8,10 @@ import { app } from '../src/app';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
-import { connectToDatabase, disconnectDatabase } from '../src/config/db';
+import mongoose, {
+  connectToDatabase,
+  disconnectDatabase,
+} from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
@@ -84,6 +87,34 @@ describe('Auth Socket Handlers', () => {
 
         clientSocket.on('channelAdded', (newChannel) => {
           expect(newChannel.name).to.equal('newchannel');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should emit error when the chat is not found', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: new mongoose.Types.ObjectId(),
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Chat not found.');
           clientSocket.disconnect();
           done();
         });

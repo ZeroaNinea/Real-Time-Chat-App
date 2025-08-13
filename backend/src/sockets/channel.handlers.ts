@@ -34,7 +34,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       io.to(chatId).emit('channelAdded', newChannel);
     } catch (err) {
       console.error('Channel addition failed:', err);
-      socket.emit('error', (err as Error).message);
+      socket.emit('error', err);
     }
   });
 
