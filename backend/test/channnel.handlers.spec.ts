@@ -39,10 +39,12 @@ describe('Auth Socket Handlers', () => {
 
     token = resLogin.body.token;
 
-    chat = await request(app)
+    await request(app)
       .post('/api/chat/create-chat')
       .set('Authorization', `Bearer ${token}`)
       .send({ name: 'newchat' });
+
+    chat = await Chat.findOne({ name: 'newchat' });
 
     server = createServer(app);
     io = setupSocket(server, app);
@@ -61,5 +63,27 @@ describe('Auth Socket Handlers', () => {
     await disconnectDatabase();
     io.close();
     server.close();
+  });
+
+  it('should add a new channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('addChannel', {
+        chatId: chat._id,
+        channelName: 'newchannel',
+      });
+
+      clientSocket.on('channelAdded', (newChannel) => {
+        expect(newChannel.name).to.equal('newchannel');
+        clientSocket.disconnect();
+        done();
+      });
+    });
+
+    clientSocket.on('connect_error', done);
   });
 });

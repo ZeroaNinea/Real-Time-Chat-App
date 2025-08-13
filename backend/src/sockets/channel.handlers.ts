@@ -16,17 +16,17 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const chat = await Chat.findById(chatId);
       if (!chat) {
-        throw new Error('Chat not found');
+        throw new Error('Chat not found.');
       }
 
       const isMember = chat.members.some((m: Member) => m.user.equals(userId));
 
       if (!isMember) {
-        throw new Error('You are not a member of this chat');
+        throw new Error('You are not a member of this chat.');
       }
 
       if (chat.isPrivate) {
-        throw new Error('Private chat rooms cannot have channels');
+        throw new Error('Private chat rooms cannot have channels.');
       }
 
       const newChannel = await addChannelService(chatId, channelName, userId);
