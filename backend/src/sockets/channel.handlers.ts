@@ -32,9 +32,9 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const newChannel = await addChannelService(chatId, channelName, userId);
 
       io.to(chatId).emit('channelAdded', newChannel);
-    } catch (err) {
-      console.error('Channel addition failed:', err);
-      socket.emit('error', err);
+    } catch (err: any) {
+      console.error('Channel addition failed:', err.message);
+      socket.emit('error', err.message);
     }
   });
 
