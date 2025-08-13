@@ -11,7 +11,6 @@ import { Server } from 'socket.io';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
-import userHelper from '../src/helpers/user-helper';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
