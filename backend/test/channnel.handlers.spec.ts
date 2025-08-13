@@ -11,6 +11,7 @@ import { Server } from 'socket.io';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
+import { Chat } from '../src/models/chat.model';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -19,6 +20,7 @@ describe('Auth Socket Handlers', () => {
   let io: Server;
   let user: typeof User;
   let token: string;
+  let chat: typeof Chat;
 
   before(async () => {
     await connectToDatabase();
@@ -37,7 +39,7 @@ describe('Auth Socket Handlers', () => {
 
     token = resLogin.body.token;
 
-    const resCreateChat = await request(app)
+    chat = await request(app)
       .post('/api/chat/create-chat')
       .set('Authorization', `Bearer ${token}`)
       .send({ name: 'newchat' });
