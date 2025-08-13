@@ -25,6 +25,17 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         throw new Error('You are not a member of this chat.');
       }
 
+      const currentUserPermissions = await checkPermission(chat, member);
+
+      const isPrivilaged =
+        member?.roles.includes('Admin') ||
+        member?.roles.includes('Owner') ||
+        currentUserPermissions.includes('canCreateChannels');
+
+      if (!isPrivilaged) {
+        throw new Error('You are not allowed to add channels.');
+      }
+
       if (chat.isPrivate) {
         throw new Error('Private chat rooms cannot have channels.');
       }
