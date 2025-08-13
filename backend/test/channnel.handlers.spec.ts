@@ -15,6 +15,7 @@ import mongoose, {
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
+import { Channel } from '../src/models/channel.model';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -119,6 +120,8 @@ describe('Auth Socket Handlers', () => {
 
   after(async () => {
     await User.deleteMany({});
+    await Chat.deleteMany({});
+    await Channel.deleteMany({});
     await disconnectDatabase();
     io.close();
     server.close();
