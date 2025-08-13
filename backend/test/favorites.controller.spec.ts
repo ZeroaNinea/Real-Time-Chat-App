@@ -9,7 +9,7 @@ import { verifyToken } from '../src/auth/jwt.service';
 
 import favorites from '../src/helpers/favorites';
 
-describe('Auth Controller', () => {
+describe('Favorites Controller', () => {
   let token: string;
 
   before(async () => {

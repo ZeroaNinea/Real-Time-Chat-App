@@ -9,7 +9,7 @@ import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
-describe('Auth Controller', () => {
+describe('Message Controller', () => {
   let token: string;
   let token2: string;
   let token3: string;

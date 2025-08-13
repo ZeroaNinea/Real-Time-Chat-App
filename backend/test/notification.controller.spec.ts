@@ -8,7 +8,7 @@ import { User } from '../src/models/user.model';
 import { Notification } from '../src/models/notification.model';
 import { verifyToken } from '../src/auth/jwt.service';
 
-describe('Auth Controller', () => {
+describe('Notification Controller', () => {
   let token: string;
 
   before(async () => {

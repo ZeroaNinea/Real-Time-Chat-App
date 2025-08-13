@@ -15,7 +15,7 @@ import { Message } from '../src/models/message.model';
 import { Member } from '../types/member.alias';
 import { verifyToken } from '../src/auth/jwt.service';
 
-describe('Auth Controller', () => {
+describe('Chat Controller', () => {
   let token: string;
 
   before(async () => {

@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import path from 'path';
 import { rotateKeys } from '../src/cryptography/rsa-keys-rotation';
 
-describe('rotateKeys()', () => {
+describe('Key Rotation', () => {
   let existsSyncStub: sinon.SinonStub;
   let mkdirSyncStub: sinon.SinonStub;
   let readFileSyncStub: sinon.SinonStub;
