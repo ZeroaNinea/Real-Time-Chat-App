@@ -284,4 +284,32 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow user4 to create a channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: chat._id,
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('You are not allowed to add channels.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
