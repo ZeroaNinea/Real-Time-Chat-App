@@ -2,77 +2,70 @@ import { expect } from 'chai';
 import { createServer } from 'http';
 import express from 'express';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
-import sinon from 'sinon';
 import { Server } from 'socket.io';
-import jwt from 'jsonwebtoken';
-import fs from 'fs';
 
-import authMiddleware from '../src/middleware/socket-auth.middleware';
-import onlineUsersModule from '../src/sockets/helpers/online-users';
-import socketHandlers from '../src/sockets';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
-import userService from '../src/services/user.service';
+import { User } from '../src/models/user.model';
 
-describe('setupSocket', () => {
+describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
   let app: ReturnType<typeof express>;
   let address: string;
   let clientSocket: ClientSocket;
   let io: Server;
+  let user: typeof User;
 
-  beforeEach((done) => {
+  before(async () => {
+    await connectToDatabase();
+
+    user = await User.create({
+      username: 'socketuser',
+      email: 'socket@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
     app = express();
     server = createServer(app);
     io = setupSocket(server, app);
 
-    server.listen(() => {
-      const port = (server.address() as any).port;
-      address = `http://localhost:${port}`;
-      done();
-    });
+    await new Promise<void>((resolve) => {
+      server.listen(() => {
+        const port = (server.address() as any).port;
+        address = `http://localhost:${port}`;
 
-    sinon
-      .stub(authMiddleware, 'socketAuthMiddleware')
-      .callsFake(async (socket, next) => {
-        socket.data.user = { _id: '123' };
-        next();
+        resolve();
       });
-
-    sinon.stub(onlineUsersModule, 'addUserSocket').callThrough();
-    sinon.stub(onlineUsersModule, 'removeUserSocket').returns(true);
-    sinon.stub(socketHandlers, 'registerSocketHandlers');
-    sinon.stub(jwt, 'decode').returns({ header: { kid: 'abc' } });
-    sinon
-      .stub(fs, 'readFileSync')
-      .returns(JSON.stringify({ abc: 'publicKey' }));
-    sinon.stub(jwt, 'verify').callsFake(() => ({ id: '123' }));
-    sinon
-      .stub(userService, 'findUserById')
-      .resolves({ _id: '123', username: 'testuser' });
+    });
   });
 
-  // afterEach((done) => {
-  //   if (clientSocket?.connected) {
-  //     clientSocket.disconnect();
-  //   }
+  after(async () => {
+    await User.deleteMany({});
+    await disconnectDatabase();
+    io.close();
+    server.close();
+  });
 
-  //   sinon.restore();
-  //   server.close(done);
-  // });
+  it('should edit status', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: 'dummy' },
+      transports: ['websocket'],
+    });
 
-  // it('should edit status', async () => {
-  //   clientSocket = Client(address);
+    clientSocket.on('connect', () => {
+      clientSocket.emit(
+        'editStatus',
+        { status: 'Online from test' },
+        (response: any) => {
+          expect(response.success).to.be.true;
+          expect(response.user.status).to.equal('Online from test');
+          clientSocket.disconnect();
+          done();
+        }
+      );
+    });
 
-  //   clientSocket.on('connect', async () => {
-  //     clientSocket.emit('editStatus', { status: 'Sniffs a cat...' });
-
-  //     clientSocket.on('userUpdated', (user, done) => {
-  //       expect(user._id).to.equal('123');
-  //       expect(user.username).to.equal('testuser');
-  //       expect(user.status).to.equal('Sniffs a cat...');
-
-  //       done();
-  //     });
-  //   });
-  // });
+    clientSocket.on('connect_error', done);
+  });
 });
