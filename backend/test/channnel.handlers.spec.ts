@@ -25,9 +25,11 @@ describe('Auth Socket Handlers', () => {
   let user: typeof User;
   let user2: typeof User;
   let user3: typeof User;
+  let user4: typeof User;
   let token: string;
   let token2: string;
   let token3: string;
+  let token4: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
 
@@ -55,6 +57,13 @@ describe('Auth Socket Handlers', () => {
       status: 'offline',
     });
 
+    user4 = await User.create({
+      username: 'socketuser4',
+      email: 'socket4@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'socketuser',
       password: '123',
@@ -75,6 +84,13 @@ describe('Auth Socket Handlers', () => {
     });
 
     token3 = resLogin3.body.token;
+
+    const resLogin4 = await request(app).post('/api/auth/login').send({
+      username: 'socketuser4',
+      password: '123',
+    });
+
+    token4 = resLogin4.body.token;
 
     await request(app)
       .post('/api/chat/create-chat')
@@ -114,7 +130,11 @@ describe('Auth Socket Handlers', () => {
       permissions: ['canCreateChannels'],
     });
 
-    chat.members.push({ user: user3._id, roles: ['Channel-Creator'] });
+    chat.members.push({
+      user: user3._id,
+      roles: ['Member', 'Channel-Creator'],
+    });
+    chat.members.push({ user: user4._id, roles: ['Member'] });
     await chat.save();
   });
 
