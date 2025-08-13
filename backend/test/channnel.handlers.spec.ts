@@ -182,4 +182,30 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return private chat rooms cannot have channels', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: privateChat._id,
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Private chat rooms cannot have channels.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+  });
 });
