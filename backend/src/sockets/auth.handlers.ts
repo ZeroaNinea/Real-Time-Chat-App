@@ -4,10 +4,8 @@ import userHelper from '../helpers/user-helper';
 
 export function registerAuthHandlers(io: Server, socket: Socket) {
   socket.on('editStatus', async ({ status }, callback) => {
-    console.log('Handler started...');
     try {
       const user = await userHelper.findUserById(socket.data.user._id);
-      // const user = await User.findById(socket.data.user._id);
 
       user.status = status;
       await user.save();
