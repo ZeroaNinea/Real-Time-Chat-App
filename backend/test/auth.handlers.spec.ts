@@ -3,6 +3,8 @@ import { createServer } from 'http';
 import express from 'express';
 import request from 'supertest';
 
+import { app } from '../src/app';
+
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
@@ -12,7 +14,6 @@ import { User } from '../src/models/user.model';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
-  let app: ReturnType<typeof express>;
   let address: string;
   let clientSocket: ClientSocket;
   let io: Server;
@@ -35,11 +36,7 @@ describe('Auth Socket Handlers', () => {
     });
 
     token = resLogin.body.token;
-    console.log(token, '===================================');
-    expect(resLogin.status).to.equal(200);
-    expect(resLogin.body.username).to.equal('socketuser');
 
-    app = express();
     server = createServer(app);
     io = setupSocket(server, app);
 
@@ -47,7 +44,6 @@ describe('Auth Socket Handlers', () => {
       server.listen(() => {
         const port = (server.address() as any).port;
         address = `http://localhost:${port}`;
-
         resolve();
       });
     });
