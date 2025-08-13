@@ -51,11 +51,28 @@ describe('setupSocket', () => {
       .resolves({ _id: '123', username: 'testuser' });
   });
 
-  afterEach((done) => {
-    if (clientSocket?.connected) {
-      clientSocket.disconnect();
-    }
-    sinon.restore();
-    server.close(done);
-  });
+  // afterEach((done) => {
+  //   if (clientSocket?.connected) {
+  //     clientSocket.disconnect();
+  //   }
+
+  //   sinon.restore();
+  //   server.close(done);
+  // });
+
+  // it('should edit status', async () => {
+  //   clientSocket = Client(address);
+
+  //   clientSocket.on('connect', async () => {
+  //     clientSocket.emit('editStatus', { status: 'Sniffs a cat...' });
+
+  //     clientSocket.on('userUpdated', (user, done) => {
+  //       expect(user._id).to.equal('123');
+  //       expect(user.username).to.equal('testuser');
+  //       expect(user.status).to.equal('Sniffs a cat...');
+
+  //       done();
+  //     });
+  //   });
+  // });
 });

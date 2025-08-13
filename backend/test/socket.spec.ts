@@ -55,6 +55,7 @@ describe('setupSocket', () => {
     if (clientSocket?.connected) {
       clientSocket.disconnect();
     }
+
     sinon.restore();
     server.close(done);
   });
