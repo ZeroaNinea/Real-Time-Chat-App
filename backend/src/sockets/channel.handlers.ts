@@ -19,9 +19,9 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         throw new Error('Chat not found.');
       }
 
-      const isMember = chat.members.some((m: Member) => m.user.equals(userId));
+      const member = chat.members.find((m: Member) => m.user.equals(userId));
 
-      if (!isMember) {
+      if (!member) {
         throw new Error('You are not a member of this chat.');
       }
 
