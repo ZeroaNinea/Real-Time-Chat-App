@@ -346,8 +346,6 @@ describe('Auth Controller', () => {
       .query({ replyToIds: replyToIds })
       .set('Authorization', `Bearer ${token}`);
 
-    console.log(res.body);
-
     expect(res.status).to.equal(200);
   });
 

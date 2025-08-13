@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { createServer } from 'http';
 import express from 'express';
+import request from 'supertest';
+
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
@@ -15,6 +17,7 @@ describe('Auth Socket Handlers', () => {
   let clientSocket: ClientSocket;
   let io: Server;
   let user: typeof User;
+  let token: string;
 
   before(async () => {
     await connectToDatabase();
@@ -25,6 +28,16 @@ describe('Auth Socket Handlers', () => {
       password: '123',
       status: 'offline',
     });
+
+    const resLogin = await request(app).post('/api/auth/login').send({
+      username: 'socketuser',
+      password: '123',
+    });
+
+    token = resLogin.body.token;
+    console.log(token, '===================================');
+    expect(resLogin.status).to.equal(200);
+    expect(resLogin.body.username).to.equal('socketuser');
 
     app = express();
     server = createServer(app);
@@ -49,7 +62,7 @@ describe('Auth Socket Handlers', () => {
 
   it('should edit status', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: 'dummy' },
+      auth: { token: token },
       transports: ['websocket'],
     });
 

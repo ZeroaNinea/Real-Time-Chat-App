@@ -78,8 +78,6 @@ describe('Social Controller', () => {
       .get('/api/social/get-friends')
       .set('Authorization', `Bearer ${token}`);
 
-    console.log(res.body, '=============================');
-
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('array');
 
