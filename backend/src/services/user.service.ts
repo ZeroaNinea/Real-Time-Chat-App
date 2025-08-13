@@ -1,7 +1,7 @@
 import { User } from '../models/user.model';
 
-export async function findUserById(id: string) {
-  return User.findById(id).lean();
+async function findUserById(id: string) {
+  return await User.findById(id);
 }
 
 export default {

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createServer } from 'http';
-import express from 'express';
+import sinon from 'sinon';
 import request from 'supertest';
 
 import { app } from '../src/app';
@@ -11,6 +11,7 @@ import { Server } from 'socket.io';
 import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
+import userService from '../src/services/user.service';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -69,6 +70,35 @@ describe('Auth Socket Handlers', () => {
         (response: any) => {
           expect(response.success).to.be.true;
           expect(response.user.status).to.equal('Online from test');
+          clientSocket.disconnect();
+          done();
+        }
+      );
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should handle server error during status update', (done) => {
+    const stub = sinon
+      .stub(userService, 'findUserById')
+      .throws(new Error('DB down'));
+
+    const clientSocket = Client(address, {
+      auth: { token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit(
+        'editStatus',
+        { status: 'Broken test' },
+        (response: any) => {
+          expect(response).to.have.property(
+            'error',
+            'Server error during status update.'
+          );
+          stub.restore();
           clientSocket.disconnect();
           done();
         }
