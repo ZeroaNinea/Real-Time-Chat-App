@@ -1,5 +1,4 @@
 import { Server, Socket } from 'socket.io';
-import { User } from '../models/user.model';
 import userHelper from '../helpers/user-helper';
 
 export function registerAuthHandlers(io: Server, socket: Socket) {
