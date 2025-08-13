@@ -26,6 +26,7 @@ describe('Auth Socket Handlers', () => {
   let token: string;
   let token2: string;
   let chat: typeof Chat;
+  let privateChat: typeof Chat;
 
   before(async () => {
     await connectToDatabase();
@@ -64,6 +65,20 @@ describe('Auth Socket Handlers', () => {
       .send({ name: 'newchat' });
 
     chat = await Chat.findOne({ name: 'newchat' });
+
+    await request(app)
+      .post(`/api/chat/private/${user2._id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    privateChat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: user2._id } },
+          { $elemMatch: { user: user._id } },
+        ],
+      },
+    });
 
     server = createServer(app);
     io = setupSocket(server, app);
