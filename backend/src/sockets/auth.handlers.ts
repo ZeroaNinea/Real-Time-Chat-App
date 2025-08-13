@@ -5,7 +5,6 @@ export function registerAuthHandlers(io: Server, socket: Socket) {
   socket.on('editStatus', async ({ status }, callback) => {
     try {
       const user = await User.findById(socket.data.user._id);
-      if (!user) return callback?.({ error: 'User not found' });
 
       user.status = status;
       await user.save();
@@ -22,8 +21,7 @@ export function registerAuthHandlers(io: Server, socket: Socket) {
       io.emit('userUpdated', filteredUser);
       callback?.({ success: true, user });
     } catch (err) {
-      console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during status update.' });
     }
   });
 }
