@@ -4,6 +4,4 @@ async function findUserById(id: string) {
   return await User.findById(id).lean();
 }
 
-export default {
-  findUserById,
-};
+export default { findUserById };

@@ -36,6 +36,7 @@ export const socketAuthMiddleware = async (
     if (!userId) throw new Error('Token missing subject/user ID');
 
     const user = await userService.findUserById(userId);
+    // const user = await User.findById(userId);
     if (!user) throw new Error('User not found');
 
     socket.data.user = user;

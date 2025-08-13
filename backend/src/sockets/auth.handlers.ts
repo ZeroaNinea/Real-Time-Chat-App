@@ -1,10 +1,13 @@
 import { Server, Socket } from 'socket.io';
-import userService from '../services/user.service';
+import { User } from '../models/user.model';
+import userHelper from '../helpers/user-helper';
 
 export function registerAuthHandlers(io: Server, socket: Socket) {
   socket.on('editStatus', async ({ status }, callback) => {
+    console.log('Handler started...');
     try {
-      const user = await userService.findUserById(socket.data.user._id);
+      const user = await userHelper.findUserById(socket.data.user._id);
+      // const user = await User.findById(socket.data.user._id);
 
       user.status = status;
       await user.save();
@@ -21,6 +24,7 @@ export function registerAuthHandlers(io: Server, socket: Socket) {
       io.emit('userUpdated', filteredUser);
       callback?.({ success: true, user });
     } catch (err) {
+      console.error('Error from the handler:', err);
       callback?.({ error: 'Server error during status update.' });
     }
   });
