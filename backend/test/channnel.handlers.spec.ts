@@ -22,7 +22,9 @@ describe('Auth Socket Handlers', () => {
   let clientSocket: ClientSocket;
   let io: Server;
   let user: typeof User;
+  let user2: typeof User;
   let token: string;
+  let token2: string;
   let chat: typeof Chat;
 
   before(async () => {
@@ -35,12 +37,26 @@ describe('Auth Socket Handlers', () => {
       status: 'offline',
     });
 
+    user2 = await User.create({
+      username: 'socketuser2',
+      email: 'socket2@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'socketuser',
       password: '123',
     });
 
     token = resLogin.body.token;
+
+    const resLogin2 = await request(app).post('/api/auth/login').send({
+      username: 'socketuser2',
+      password: '123',
+    });
+
+    token2 = resLogin2.body.token;
 
     await request(app)
       .post('/api/chat/create-chat')
