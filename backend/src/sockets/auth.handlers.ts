@@ -1,10 +1,10 @@
 import { Server, Socket } from 'socket.io';
-import { User } from '../models/user.model';
+import userService from '../services/user.service';
 
 export function registerAuthHandlers(io: Server, socket: Socket) {
   socket.on('editStatus', async ({ status }, callback) => {
     try {
-      const user = await User.findById(socket.data.user._id);
+      const user = await userService.findUserById(socket.data.user._id);
 
       user.status = status;
       await user.save();
