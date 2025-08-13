@@ -72,15 +72,21 @@ describe('Auth Socket Handlers', () => {
     });
 
     clientSocket.on('connect', () => {
-      clientSocket.emit('addChannel', {
-        chatId: chat._id,
-        channelName: 'newchannel',
-      });
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('channelAdded', (newChannel) => {
-        expect(newChannel.name).to.equal('newchannel');
-        clientSocket.disconnect();
-        done();
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: chat._id,
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('channelAdded', (newChannel) => {
+          expect(newChannel.name).to.equal('newchannel');
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
