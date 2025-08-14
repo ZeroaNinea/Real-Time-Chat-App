@@ -225,13 +225,16 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
   socket.on('changeChannelOrder', async ({ channelIds, chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat is not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
+
       if (!member)
-        return callback?.({ error: 'You are not a member of this chat' });
+        return callback?.({ error: 'You are not a member of this chat.' });
 
       const memberRoles = member.roles.map((role: string) => {
         return chat.roles.find((r: Role) => r.name === role);
@@ -254,7 +257,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       if (!hasChannelEditPermissions) {
         return callback?.({
-          error: 'You are not authorized to change the channel order',
+          error: 'You are not allowed to change the channel order.',
         });
       }
 
@@ -270,7 +273,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         [...uniqueIds].every((id) => existingIds.includes(id));
 
       if (!isValid) {
-        return callback?.({ error: 'Invalid channel order' });
+        callback?.({ error: 'Invalid channel order' });
       }
 
       const bulkOps = channelIds.map((id: string, index: number) => ({
