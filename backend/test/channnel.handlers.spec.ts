@@ -383,6 +383,42 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return chat is not found when editing channel topic', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', {
+        chatId: chat._id.toString(),
+      });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+        const stub = sinon.stub(Chat, 'findById').resolves(null);
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editChannelTopic',
+          {
+            channelId: channel._id,
+            topic: 'new topic',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
