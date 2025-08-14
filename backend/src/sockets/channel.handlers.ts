@@ -288,8 +288,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const updatedChannels = await Channel.find({ chatId }).sort('order');
 
       io.to(chatId).emit('channelsUpdated', updatedChannels);
-
-      callback?.({ success: true });
+      callback?.({ success: true, channels: updatedChannels });
     } catch (err) {
       console.error(err);
       callback?.({ error: 'Server error during channel order change.' });

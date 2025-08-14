@@ -839,22 +839,37 @@ describe('Auth Socket Handlers', () => {
         clientSocket.on('channelAdded', async (newChannel) => {
           expect(newChannel.name).to.equal('newchannel2');
 
-          const channel = await Channel.findOne({ name: 'newchannel' });
-          const channel2 = await Channel.findOne({ name: 'newchannel2' });
+          // const channel = await Channel.findOne({ name: 'newchannel' });
+          // const channel2 = await Channel.findOne({ name: 'newchannel2' });
+
+          // find all channels with the same chatId
+          const channels = await Channel.find({ chatId: chat._id });
+          const channel = channels[0];
+          const channel2 = channels[1];
+          const channel3 = channels[2];
 
           expect(chatId).to.equal(chat._id.toString());
 
           clientSocket.emit(
             'changeChannelOrder',
             {
-              channelIds: [channel2._id, channel._id],
+              channelIds: [channel2._id, channel._id, channel3._id],
               chatId: chat._id,
+            },
+            (response: { success: boolean; channels: (typeof Channel)[] }) => {
+              expect(response.success).to.be.true;
+              expect(response.channels[0]._id.toString()).to.equal(
+                channel2._id.toString()
+              );
+              expect(response.channels[1]._id.toString()).to.equal(
+                channel._id.toString()
+              );
+              expect(response.channels[2]._id.toString()).to.equal(
+                channel3._id.toString()
+              );
+              clientSocket.disconnect();
+              done();
             }
-            // (response: { success: boolean }) => {
-            //   expect(response.success).to.be.true;
-            //   clientSocket.disconnect();
-            //   done();
-            // }
           );
 
           clientSocket.on('channelsUpdated', (response) => {
@@ -863,6 +878,9 @@ describe('Auth Socket Handlers', () => {
             );
             expect(response[1]._id.toString()).to.equal(channel._id.toString());
             clientSocket.disconnect();
+            expect(response[2]._id.toString()).to.equal(
+              channel3._id.toString()
+            );
             done();
           });
         });
