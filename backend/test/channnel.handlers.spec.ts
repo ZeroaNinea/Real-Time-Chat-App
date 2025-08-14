@@ -828,6 +828,49 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should change channel order', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        await Channel.create({
+          name: 'channel2',
+          chat: chat._id,
+        });
+
+        const channel = await Channel.findOne({ name: 'newchannel' });
+        const channel2 = await Channel.findOne({ name: 'channel2' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'changeChannelOrder',
+          {
+            channelIds: [channel2._id, channel._id],
+            chatId: chat._id,
+          }
+          // (response: { success: boolean }) => {
+          //   expect(response.success).to.be.true;
+          //   clientSocket.disconnect();
+          //   done();
+          // }
+        );
+
+        // clientSocket.on('channelsUpdated', (response) => {
+        //   expect(response[0]._id.toString()).to.equal(channel2._id.toString());
+        //   expect(response[1]._id.toString()).to.equal(channel._id.toString());
+        // });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
