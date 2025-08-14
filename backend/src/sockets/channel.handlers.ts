@@ -95,12 +95,12 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        return callback?.({ error: 'Channel not found' });
+        callback?.({ error: 'Channel not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
       if (!chat) {
-        return callback?.({ error: 'Chat not found' });
+        callback?.({ error: 'Chat not found.' });
       }
 
       const member = chat.members.find((m: Member) => m.user.equals(userId));
@@ -110,7 +110,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canEditChannels')) {
-        return callback?.({ error: 'You are not allowed to edit channels' });
+        return callback?.({ error: 'You are not allowed to edit channels.' });
       }
 
       channel.topic = topic;
