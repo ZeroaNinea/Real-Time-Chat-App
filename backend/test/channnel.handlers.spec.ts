@@ -436,4 +436,39 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return a server error during channel deletion', (done) => {
+    const stub = sinon.stub(Channel, 'findById').throws(new Error('DB down'));
+
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('deleteChannel', {
+          channelId: channel._id,
+        });
+
+        clientSocket.on('channelDeleted', (response) => {
+          expect(response.channelId.toString()).to.equal(
+            channel._id.toString()
+          );
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+
+    stub.restore();
+  });
 });
