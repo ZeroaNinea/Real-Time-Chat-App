@@ -95,15 +95,20 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        callback?.({ error: 'Channel not found.' });
+        callback?.({ error: 'Channel is not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
       if (!chat) {
-        callback?.({ error: 'Chat not found.' });
+        callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) => m.user.equals(userId));
+
+      if (!member) {
+        callback?.({ error: 'You are not a member of this chat.' });
+      }
+
       const isAdmin =
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
