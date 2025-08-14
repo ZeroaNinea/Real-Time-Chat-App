@@ -54,7 +54,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const userId = socket.data.user._id;
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        return callback?.({ error: 'Channel not found' });
+        return callback?.({ error: 'Channel is not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
