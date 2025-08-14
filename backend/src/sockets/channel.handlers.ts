@@ -273,7 +273,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         [...uniqueIds].every((id) => existingIds.includes(id));
 
       if (!isValid) {
-        callback?.({ error: 'Invalid channel order' });
+        callback?.({ error: 'Invalid channel order.' });
       }
 
       const bulkOps = channelIds.map((id: string, index: number) => ({
@@ -292,7 +292,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during channel order change.' });
     }
   });
 }
