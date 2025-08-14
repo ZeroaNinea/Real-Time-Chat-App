@@ -652,6 +652,54 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  // permissions: {
+  //   adminsOnly?: boolean;
+  //   readOnly?: boolean;
+  //   allowedUsers?: mongoose.Types.ObjectId[];
+  //   allowedRoles?: string[];
+  // };
+
+  it('should update channel permissinos', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'updateChannelPermissions',
+          {
+            channelId: channel._id,
+            permissions: { adminsOnly: true },
+          },
+          (response: { success: boolean; channel: typeof Channel }) => {
+            expect(response.success).to.equal(true);
+            expect(response.channel._id.toString()).to.equal(
+              channel._id.toString()
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('channelUpdated', (response) => {
+          expect(response._id.toString()).to.equal(channel._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
