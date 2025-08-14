@@ -700,7 +700,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should return channel is not found', (done) => {
+  it('should return channel is not found during updating channel permissions', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -721,6 +721,40 @@ describe('Auth Socket Handlers', () => {
           (err: { error: string }) => {
             expect(err.error).to.equal('Channel is not found.');
             clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should rutern chat is not found during updating channel permissions', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').resolves(null);
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'updateChannelPermissions',
+          {
+            channelId: channel._id,
+            permissions: { adminsOnly: true },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
