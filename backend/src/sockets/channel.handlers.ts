@@ -79,11 +79,13 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       io.to(chat._id.toString()).emit('channelMessagesDeleted', {
         channelId,
       });
+
       io.to(chat._id.toString()).emit('channelDeleted', { channelId });
-      callback?.({ success: true });
+
+      return callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error during channel deletion.' });
+      return callback?.({ error: 'Server error during channel deletion.' });
     }
   });
 
