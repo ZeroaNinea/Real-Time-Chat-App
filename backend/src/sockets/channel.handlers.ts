@@ -176,15 +176,20 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
         const channel = await Channel.findById(channelId);
         if (!channel) {
-          return callback?.({ error: 'Channel not found' });
+          callback?.({ error: 'Channel is not found.' });
         }
 
         const chat = await Chat.findById(channel.chatId);
         if (!chat) {
-          return callback?.({ error: 'Chat not found' });
+          callback?.({ error: 'Chat is not found.' });
         }
 
         const member = chat.members.find((m: Member) => m.user.equals(userId));
+
+        if (!member) {
+          callback?.({ error: 'You are not a member of this chat.' });
+        }
+
         const isAdmin =
           member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
@@ -196,7 +201,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
           !currentUserPermissions.includes('canDeleteChannels') &&
           !currentUserPermissions.includes('canCreateChannels')
         ) {
-          return callback?.({ error: 'Only admins can edit permissions' });
+          callback?.({ error: 'You are not allowed to edit channels.' });
         }
 
         // Merge with existing permissions (partial update).
@@ -212,7 +217,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         callback?.({ success: true, channel });
       } catch (err) {
         console.error(err);
-        callback?.({ error: 'Server error' });
+        callback?.({ error: 'Server error during channel editing.' });
       }
     }
   );
