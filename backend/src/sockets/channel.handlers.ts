@@ -59,13 +59,18 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const chat = await Chat.findById(channel.chatId);
       const member = chat?.members.find((m: Member) => m.user.equals(userId));
+
+      if (!member) {
+        return callback?.({ error: 'You are not a member of this chat.' });
+      }
+
       const isAdmin =
         member?.roles.includes('Admin') || member?.roles.includes('Owner');
 
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canDeleteChannels')) {
-        return callback?.({ error: 'You are not allowed to delete channels' });
+        return callback?.({ error: 'You are not allowed to delete channels.' });
       }
 
       await Message.deleteMany({ channelId });
@@ -78,7 +83,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during channel deletion.' });
     }
   });
 
