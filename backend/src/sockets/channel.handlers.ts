@@ -120,7 +120,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, channel });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during channel topic update.' });
     }
   });
 
