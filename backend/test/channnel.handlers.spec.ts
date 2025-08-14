@@ -314,14 +314,6 @@ describe('Auth Socket Handlers', () => {
   });
 
   it('should delete the channel', (done) => {
-    let channel: typeof Channel;
-
-    Channel.findOne({ name: 'newchannel' }).then((channel: typeof Channel) => {
-      channel = channel;
-    });
-
-    console.log(channel, '===============================', channel._id);
-
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -330,7 +322,9 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('roomJoined', ({ chatId }) => {
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit('deleteChannel', {
