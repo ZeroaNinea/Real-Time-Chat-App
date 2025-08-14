@@ -372,4 +372,37 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow user4 to delete a channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'deleteChannel',
+          {
+            channelId: channel._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are not allowed to delete channels.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
