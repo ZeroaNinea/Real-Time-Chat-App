@@ -110,7 +110,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canEditChannels')) {
-        return callback?.({ error: 'You are not allowed to edit channels.' });
+        callback?.({ error: 'You are not allowed to edit channels.' });
       }
 
       channel.topic = topic;

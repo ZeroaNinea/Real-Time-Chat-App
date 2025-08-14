@@ -313,6 +313,46 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should edit channel topic', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editChannelTopic',
+          {
+            channelId: channel._id,
+            topic: 'new topic',
+          },
+          (response: any) => {
+            expect(response.success).to.be.true;
+            expect(response.channel.topic).to.equal('new topic');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('channelEdited', (response) => {
+          expect(response._id.toString()).to.equal(channel._id.toString());
+          expect(response.topic).to.equal('new topic');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
