@@ -652,13 +652,6 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  // permissions: {
-  //   adminsOnly?: boolean;
-  //   readOnly?: boolean;
-  //   allowedUsers?: mongoose.Types.ObjectId[];
-  //   allowedRoles?: string[];
-  // };
-
   it('should update channel permissinos', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -837,34 +830,42 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
-        await Channel.create({
-          name: 'channel2',
-          chat: chat._id,
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        clientSocket.emit('addChannel', {
+          chatId: chat._id,
+          channelName: 'newchannel2',
         });
 
-        const channel = await Channel.findOne({ name: 'newchannel' });
-        const channel2 = await Channel.findOne({ name: 'channel2' });
+        clientSocket.on('channelAdded', async (newChannel) => {
+          expect(newChannel.name).to.equal('newchannel2');
 
-        expect(chatId).to.equal(chat._id.toString());
+          const channel = await Channel.findOne({ name: 'newchannel' });
+          const channel2 = await Channel.findOne({ name: 'newchannel2' });
 
-        clientSocket.emit(
-          'changeChannelOrder',
-          {
-            channelIds: [channel2._id, channel._id],
-            chatId: chat._id,
-          }
-          // (response: { success: boolean }) => {
-          //   expect(response.success).to.be.true;
-          //   clientSocket.disconnect();
-          //   done();
-          // }
-        );
+          expect(chatId).to.equal(chat._id.toString());
 
-        // clientSocket.on('channelsUpdated', (response) => {
-        //   expect(response[0]._id.toString()).to.equal(channel2._id.toString());
-        //   expect(response[1]._id.toString()).to.equal(channel._id.toString());
-        // });
+          clientSocket.emit(
+            'changeChannelOrder',
+            {
+              channelIds: [channel2._id, channel._id],
+              chatId: chat._id,
+            }
+            // (response: { success: boolean }) => {
+            //   expect(response.success).to.be.true;
+            //   clientSocket.disconnect();
+            //   done();
+            // }
+          );
+
+          clientSocket.on('channelsUpdated', (response) => {
+            expect(response[0]._id.toString()).to.equal(
+              channel2._id.toString()
+            );
+            expect(response[1]._id.toString()).to.equal(channel._id.toString());
+            clientSocket.disconnect();
+            done();
+          });
+        });
       });
     });
 
