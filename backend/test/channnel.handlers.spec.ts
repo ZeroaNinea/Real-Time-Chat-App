@@ -313,6 +313,8 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  // Delete Channel
+
   it('should return a server error during channel deletion', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -349,135 +351,135 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  // it('should delete the channel', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token },
-  //     transports: ['websocket'],
-  //   });
+  it('should not allow user2 to delete a channel because they are not a member of the chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: chat._id });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-  //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       const channel = await Channel.findOne({ name: 'newchannel' });
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
 
-  //       expect(chatId).to.equal(chat._id.toString());
+        expect(chatId).to.equal(chat._id.toString());
 
-  //       clientSocket.emit(
-  //         'deleteChannel',
-  //         {
-  //           channelId: channel._id,
-  //         },
-  //         (response: { success: boolean }) => {
-  //           expect(response.success).to.equal(true);
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
+        clientSocket.emit(
+          'deleteChannel',
+          {
+            channelId: channel._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not a member of this chat.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
 
-  //       clientSocket.on('channelDeleted', (response) => {
-  //         expect(response.channelId.toString()).to.equal(
-  //           channel._id.toString()
-  //         );
-  //         clientSocket.disconnect();
-  //         done();
-  //       });
-  //     });
-  //   });
+    clientSocket.on('connect_error', done);
+  });
 
-  //   clientSocket.on('connect_error', done);
-  // });
+  it('should return channel is not found', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
 
-  // it('should return channel is not found', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token },
-  //     transports: ['websocket'],
-  //   });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: chat._id });
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
 
-  //     clientSocket.on('roomJoined', ({ chatId }) => {
-  //       expect(chatId).to.equal(chat._id.toString());
+        clientSocket.emit(
+          'deleteChannel',
+          {
+            channelId: new mongoose.Types.ObjectId(),
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Channel is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
 
-  //       clientSocket.emit(
-  //         'deleteChannel',
-  //         {
-  //           channelId: new mongoose.Types.ObjectId(),
-  //         },
-  //         (err: { error: string }) => {
-  //           expect(err.error).to.equal('Channel is not found.');
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
-  //     });
-  //   });
+    clientSocket.on('connect_error', done);
+  });
 
-  //   clientSocket.on('connect_error', done);
-  // });
+  it('should not allow user4 to delete a channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
 
-  // it('should not allow user4 to delete a channel', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token4 },
-  //     transports: ['websocket'],
-  //   });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: chat._id });
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
 
-  //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       const channel = await Channel.findOne({ name: 'newchannel' });
+        expect(chatId).to.equal(chat._id.toString());
 
-  //       expect(chatId).to.equal(chat._id.toString());
+        clientSocket.emit(
+          'deleteChannel',
+          {
+            channelId: channel._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are not allowed to delete channels.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
 
-  //       clientSocket.emit(
-  //         'deleteChannel',
-  //         {
-  //           channelId: channel._id,
-  //         },
-  //         (err: { error: string }) => {
-  //           expect(err.error).to.equal(
-  //             'You are not allowed to delete channels.'
-  //           );
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
-  //     });
-  //   });
+    clientSocket.on('connect_error', done);
+  });
 
-  //   clientSocket.on('connect_error', done);
-  // });
+  it('should delete the channel', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
 
-  // it('should not allow user2 to delete a channel because they are not a member of the chat', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token2 },
-  //     transports: ['websocket'],
-  //   });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: chat._id });
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
 
-  //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       const channel = await Channel.findOne({ name: 'newchannel' });
+        expect(chatId).to.equal(chat._id.toString());
 
-  //       expect(chatId).to.equal(chat._id.toString());
+        clientSocket.emit(
+          'deleteChannel',
+          {
+            channelId: channel._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
 
-  //       clientSocket.emit(
-  //         'deleteChannel',
-  //         {
-  //           channelId: channel._id,
-  //         },
-  //         (err: { error: string }) => {
-  //           expect(err.error).to.equal('You are not a member of this chat.');
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
-  //     });
-  //   });
+        clientSocket.on('channelDeleted', (response) => {
+          expect(response.channelId.toString()).to.equal(
+            channel._id.toString()
+          );
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
 
-  //   clientSocket.on('connect_error', done);
-  // });
+    clientSocket.on('connect_error', done);
+  });
 });
