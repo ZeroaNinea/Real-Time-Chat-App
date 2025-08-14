@@ -312,4 +312,41 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should delete the channel', (done) => {
+    let channel: typeof Channel;
+
+    Channel.findOne({ name: 'newchannel' }).then((channel: typeof Channel) => {
+      channel = channel;
+    });
+
+    console.log(channel, '===============================', channel._id);
+
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('deleteChannel', {
+          channelId: channel._id,
+        });
+
+        clientSocket.on('channelDeleted', (response) => {
+          expect(response.channelId.toString()).to.equal(
+            channel._id.toString()
+          );
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
