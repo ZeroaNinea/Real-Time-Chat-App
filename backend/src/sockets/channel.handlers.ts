@@ -54,14 +54,14 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const userId = socket.data.user._id;
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        return callback?.({ error: 'Channel is not found.' });
+        callback?.({ error: 'Channel is not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
       const member = chat?.members.find((m: Member) => m.user.equals(userId));
 
       if (!member) {
-        return callback?.({ error: 'You are not a member of this chat.' });
+        callback?.({ error: 'You are not a member of this chat.' });
       }
 
       const isAdmin =
@@ -70,7 +70,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canDeleteChannels')) {
-        return callback?.({ error: 'You are not allowed to delete channels.' });
+        callback?.({ error: 'You are not allowed to delete channels.' });
       }
 
       await Message.deleteMany({ channelId });
@@ -82,10 +82,10 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       io.to(chat._id.toString()).emit('channelDeleted', { channelId });
 
-      return callback?.({ success: true });
+      callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      return callback?.({ error: 'Server error during channel deletion.' });
+      callback?.({ error: 'Server error during channel deletion.' });
     }
   });
 
