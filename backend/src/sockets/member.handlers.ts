@@ -305,6 +305,17 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (
+        (!canEditRole(member?.roles || [], role) &&
+          member?.roles.includes('Admin')) ||
+        member?.roles.includes('Owner') ||
+        member?.roles.includes('Moderator')
+      ) {
+        return callback?.({
+          error: 'You cannot edit assign higher or equal to your own.',
+        });
+      }
+
+      if (
         role.name === 'Moderator' &&
         !currentUserPermissions.includes('canAssignModerators')
       ) {
@@ -318,17 +329,6 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         !currentUserPermissions.includes('canAssignAdmins.')
       ) {
         return callback?.({ error: 'You are not allowed to assign admins.' });
-      }
-
-      if (
-        (!canEditRole(member?.roles || [], role) &&
-          member?.roles.includes('Admin')) ||
-        member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator')
-      ) {
-        return callback?.({
-          error: 'You cannot edit assign higher or equal to your own.',
-        });
       }
 
       const updatedMember = chat.members.find((m: Member) =>
