@@ -329,7 +329,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       ) {
         if (!canEditRole(member?.roles || [], role.name)) {
           return callback?.({
-            error: 'You cannot edit assign higher or equal to your own.',
+            error: 'You cannot edit roles higher or equal to your own.',
           });
         }
       }
@@ -511,7 +511,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       ) {
         if (!canEditRole(actingMember?.roles || [], role)) {
           return callback?.({
-            error: 'You cannot edit assign higher or equal to your own.',
+            error: 'You cannot remove roles higher or equal to your own.',
           });
         }
       }

@@ -1622,7 +1622,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should romove the Removing-Role', (done) => {
+  it('should fail to remove the Owner role', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -1634,9 +1634,38 @@ describe('Auth Socket Handlers', () => {
       clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(chat._id.toString());
 
-        const member = chat.members.find(
-          (member: Member) => member.user.toString() === user._id.toString()
+        clientSocket.emit(
+          'removeRole',
+          {
+            userId: user._id,
+            chatId: chat._id,
+            role: 'Owner',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You cannot remove roles higher or equal to your own.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
         );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should romove the Removing-Role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
           'removeRole',
