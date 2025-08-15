@@ -58,4 +58,21 @@ describe('Auth Socket Handlers', () => {
     io.close();
     server.close();
   });
+
+  it('should return user is idlee', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('userIdle');
+
+      clientSocket.on('userIdle', (res) => {
+        expect(res).to.equal(user._id.toString());
+        clientSocket.disconnect();
+        done();
+      });
+    });
+  });
 });
