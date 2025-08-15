@@ -421,4 +421,35 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow to edit the Admin role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'Admin',
+              description: 'Admin',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You cannot edit default roles.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
 });
