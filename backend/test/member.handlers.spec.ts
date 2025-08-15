@@ -924,4 +924,38 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should fail to assign the Cute-Role to user3 again', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: chat._id,
+            userId: user3._id,
+            role: {
+              name: 'Cute-Role',
+              description: 'Cute-Role',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('User already has this role.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
