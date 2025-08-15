@@ -202,13 +202,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not allowed to edit roles.' });
       }
 
-      if (!canEditRole(member?.roles || [], role)) {
-        if (currentUserPermissions.length === 0) {
-          return callback?.({
-            error: 'You cannot edit roles higher than your own.',
-          });
-        }
-      }
+      // if (!canEditRole(member?.roles || [], role)) {
+      //   if (currentUserPermissions.length === 0) {
+      //     return callback?.({
+      //       error: 'You cannot edit roles higher than your own.',
+      //     });
+      //   }
+      // }
 
       if (
         role.name === 'Owner' ||
