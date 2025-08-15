@@ -1472,12 +1472,16 @@ describe('Auth Socket Handlers', () => {
             roleName: 'Toggle-Role',
             selected: false,
           },
-          (err: { error: string }) => {
-            expect(err).to.equal(undefined);
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
             clientSocket.disconnect();
             done();
           }
         );
+
+        clientSocket.on('memberUpdated', (response) => {
+          expect(response.roles.includes('Toggle-Role')).to.equal(false);
+        });
       });
     });
 
