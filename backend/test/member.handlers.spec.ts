@@ -1308,4 +1308,37 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow to toggle the ID-Restricted-Role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleRole',
+          {
+            chatId: chat._id,
+            roleName: 'ID-Restricted-Role',
+            selected: true,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are not allowed to assign yourself this role.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
