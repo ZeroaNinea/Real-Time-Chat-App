@@ -131,6 +131,11 @@ describe('Auth Socket Handlers', () => {
       description: 'Can create channels',
       permissions: ['canCreateChannels'],
     });
+    chat.roles.push({
+      name: 'Junior-Role-Manager',
+      description: 'Can manage roles on a junior level.',
+      permissions: ['canAssignRoles'],
+    });
 
     chat.members.push({
       user: user._id,
@@ -142,7 +147,7 @@ describe('Auth Socket Handlers', () => {
     });
     chat.members.push({
       user: user3._id,
-      roles: ['Member', 'Channel-Creator'],
+      roles: ['Member', 'Channel-Creator', 'Junior-Role-Manager'],
     });
     chat.members.push({ user: user4._id, roles: ['Member'] });
     await chat.save();
