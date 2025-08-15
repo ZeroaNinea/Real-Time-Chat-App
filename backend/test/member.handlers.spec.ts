@@ -685,4 +685,38 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return chat is not found during role assignment', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: new mongoose.Types.ObjectId(),
+            userId: user3._id,
+            role: {
+              name: 'Cute-Role',
+              description: 'Cute-Role',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
