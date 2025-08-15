@@ -16,7 +16,9 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('createRole', async ({ role, chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        callback?.({ error: 'Chat is not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
@@ -29,8 +31,8 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Owner' ||
         role.name === 'Moderator'
       ) {
-        return callback?.({
-          error: 'You cannot create roles called Owner, Admin or Moderator',
+        callback?.({
+          error: 'You cannot create roles called Owner, Admin or Moderator.',
         });
       }
 
@@ -41,13 +43,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to create roles' });
+        return callback?.({ error: 'You are not allowed to create roles.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
           return callback?.({
-            error: 'You cannot create roles higher than your own',
+            error: 'You cannot create roles higher than your own.',
           });
         }
       }
@@ -72,8 +74,8 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             role.permissions
           )
         ) {
-          return callback?.({
-            error: 'You cannot create roles equal to or greater than your own',
+          callback?.({
+            error: 'You cannot create roles equal to or greater than your own.',
           });
         }
       }
@@ -88,7 +90,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, updatedRole: updatedRole });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role creation.' });
     }
   });
 
