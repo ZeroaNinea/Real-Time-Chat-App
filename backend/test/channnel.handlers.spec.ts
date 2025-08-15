@@ -839,10 +839,6 @@ describe('Auth Socket Handlers', () => {
         clientSocket.on('channelAdded', async (newChannel) => {
           expect(newChannel.name).to.equal('newchannel2');
 
-          // const channel = await Channel.findOne({ name: 'newchannel' });
-          // const channel2 = await Channel.findOne({ name: 'newchannel2' });
-
-          // find all channels with the same chatId
           const channels = await Channel.find({ chatId: chat._id });
           const channel = channels[0];
           const channel2 = channels[1];
