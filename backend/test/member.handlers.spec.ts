@@ -983,7 +983,7 @@ describe('Auth Socket Handlers', () => {
             },
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('Server error.');
+            expect(err.error).to.equal('Server error during role assignment.');
             clientSocket.disconnect();
             stub.restore();
             done();
