@@ -1525,4 +1525,62 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should assign and romove the Removing-Role itself', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleRole',
+          {
+            chatId: chat._id,
+            roleName: 'Removing-Role',
+            selected: true,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('memberUpdated', (response) => {
+          expect(response.roles.includes('Removing-Role')).to.equal(true);
+
+          clientSocket.emit(
+            'removeRole',
+            {
+              userId: user._id,
+              chatId: chat._id,
+              role: {
+                name: 'Removing-Role',
+                description: 'Removing-Role',
+                canBeSelfAssigned: true,
+              },
+            },
+            (response: { success: boolean; targetMember: Member }) => {
+              expect(response.success).to.equal(true);
+              expect(
+                response.targetMember.roles.includes('Removing-Role')
+              ).to.equal(false);
+              clientSocket.disconnect();
+              done();
+            }
+          );
+          // clientSocket.disconnect();
+          // done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
