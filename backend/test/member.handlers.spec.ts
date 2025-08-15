@@ -1127,6 +1127,12 @@ describe('Auth Socket Handlers', () => {
             done();
           }
         );
+
+        clientSocket.on('memberUpdated', (response) => {
+          expect(response.roles.includes('Toggle-Role')).to.equal(true);
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
