@@ -1419,4 +1419,37 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should fail to toggle the Broken-Role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleRole',
+          {
+            chatId: chat._id,
+            roleName: 'Broken-Role',
+            selected: true,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You cannot toggle permissions equal to or greater than your own.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
