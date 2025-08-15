@@ -46,13 +46,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not allowed to create roles.' });
       }
 
-      if (!canEditRole(member?.roles || [], role)) {
-        if (currentUserPermissions.length === 0) {
-          return callback?.({
-            error: 'You cannot create roles higher than your own.',
-          });
-        }
-      }
+      // if (!canEditRole(member?.roles || [], role)) {
+      //   if (currentUserPermissions.length === 0) {
+      //     return callback?.({
+      //       error: 'You cannot create roles higher than your own.',
+      //     });
+      //   }
+      // }
 
       const memberRoles = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
