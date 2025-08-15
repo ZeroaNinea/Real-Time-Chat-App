@@ -187,7 +187,7 @@ describe('Auth Socket Handlers', () => {
         );
 
         clientSocket.on('chatUpdated', (response) => {
-          expect(response.chat._id.toString()).to.equal(chat._id.toString());
+          expect(response._id.toString()).to.equal(chat._id.toString());
           clientSocket.disconnect();
           done();
         });
