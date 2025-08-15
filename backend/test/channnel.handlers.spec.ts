@@ -993,6 +993,40 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return channel order is invalid during channel order change', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        const channels = await Channel.find({ chatId: chat._id });
+        const channel = channels[0];
+        const channel2 = channels[1];
+
+        clientSocket.emit(
+          'changeChannelOrder',
+          {
+            channelIds: [channel._id, channel2._id],
+            chatId: chat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Invalid channel order.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
