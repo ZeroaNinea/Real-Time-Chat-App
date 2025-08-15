@@ -17,7 +17,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) {
-        callback?.({ error: 'Chat is not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) =>
@@ -31,7 +31,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Owner' ||
         role.name === 'Moderator'
       ) {
-        callback?.({
+        return callback?.({
           error: 'You cannot create roles called Owner, Admin or Moderator.',
         });
       }
@@ -43,12 +43,12 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        callback?.({ error: 'You are not allowed to create roles.' });
+        return callback?.({ error: 'You are not allowed to create roles.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
-          callback?.({
+          return callback?.({
             error: 'You cannot create roles higher than your own.',
           });
         }
@@ -74,7 +74,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             role.permissions
           )
         ) {
-          callback?.({
+          return callback?.({
             error: 'You cannot create roles equal to or greater than your own.',
           });
         }
@@ -183,7 +183,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) {
-        callback?.({ error: 'Chat is not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) =>
@@ -199,12 +199,12 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        callback?.({ error: 'You are not allowed to edit roles.' });
+        return callback?.({ error: 'You are not allowed to edit roles.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
-          callback?.({
+          return callback?.({
             error: 'You cannot edit roles higher than your own.',
           });
         }
@@ -218,7 +218,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Muted' ||
         role.name === 'Banned'
       ) {
-        callback?.({
+        return callback?.({
           error: 'You cannot edit default roles.',
         });
       }
@@ -241,7 +241,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             role.permissions
           )
         ) {
-          callback?.({
+          return callback?.({
             error:
               'You cannot edit permissions equal to or greater than your own.',
           });
@@ -279,10 +279,14 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('assignRole', async ({ userId, chatId, role }, callback) => {
     try {
       const user = await User.findById(userId);
-      if (!user) return callback?.({ error: 'User not found' });
+      if (!user) {
+        return callback?.({ error: 'User is not found.' });
+      }
 
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat is not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
@@ -297,7 +301,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to assign roles' });
+        return callback?.({ error: 'You are not allowed to assign roles.' });
       }
 
       if (
@@ -305,21 +309,21 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         !currentUserPermissions.includes('canAssignModerators')
       ) {
         return callback?.({
-          error: 'You are not allowed to assign moderators',
+          error: 'You are not allowed to assign moderators.',
         });
       }
 
       if (
         role.name === 'Admin' &&
-        !currentUserPermissions.includes('canAssignAdmins')
+        !currentUserPermissions.includes('canAssignAdmins.')
       ) {
-        return callback?.({ error: 'You are not allowed to assign admins' });
+        return callback?.({ error: 'You are not allowed to assign admins.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
           return callback?.({
-            error: 'You cannot edit assign higher than your own',
+            error: 'You cannot edit assign higher than your own.',
           });
         }
       }
@@ -329,11 +333,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       );
 
       if (!updatedMember) {
-        return callback?.({ error: 'Member not found' });
+        return callback?.({ error: 'Member not found.' });
       }
 
       if (updatedMember?.roles.includes(role.name)) {
-        return callback?.({ error: 'User already has this role' });
+        return callback?.({ error: 'User already has this role.' });
       }
 
       updatedMember.roles.push(role.name);
@@ -343,7 +347,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, member: updatedMember });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role assignment.' });
     }
   });
 
