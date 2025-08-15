@@ -101,7 +101,9 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('deleteRole', async ({ role, chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat is not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
@@ -119,10 +121,17 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not allowed to delete roles' });
       }
 
-      if (!canEditRole(member?.roles || [], role)) {
-        if (currentUserPermissions.length === 0) {
+      if (
+        (member?.roles.includes('Owner') ||
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Moderator')) &&
+        (role.name === 'Owner' ||
+          role.name === 'Admin' ||
+          role.name === 'Moderator')
+      ) {
+        if (!canEditRole(member?.roles || [], role.name)) {
           return callback?.({
-            error: 'You cannot delete roles higher than your own',
+            error: 'You cannot delete roles higher or equal to your own.',
           });
         }
       }
@@ -136,7 +145,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Banned'
       ) {
         return callback?.({
-          error: 'You cannot delete default roles',
+          error: 'You cannot delete default roles.',
         });
       }
 
@@ -162,7 +171,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         ) {
           return callback?.({
             error:
-              'You cannot delete permissions equal to or greater than your own',
+              'You cannot delete permissions equal to or greater than your own.',
           });
         }
       }
@@ -179,7 +188,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role deletion.' });
     }
   });
 
