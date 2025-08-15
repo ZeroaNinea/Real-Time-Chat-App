@@ -189,6 +189,12 @@ describe('Auth Socket Handlers', () => {
       canBeSelfAssigned: true,
       allowedRoles: ['Cute-Role'],
     });
+    chat.roles.push({
+      name: 'Broken-Role',
+      description: 'Broken-Role',
+      permissions: ['canDeleteChatroom'],
+      canBeSelfAssigned: true,
+    });
 
     chat.members.push({
       user: user._id,
