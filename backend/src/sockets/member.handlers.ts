@@ -329,7 +329,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       ) {
         if (!canEditRole(member?.roles || [], role.name)) {
           return callback?.({
-            error: 'You cannot edit roles higher or equal to your own.',
+            error: 'You cannot assign roles higher or equal to your own.',
           });
         }
       }
