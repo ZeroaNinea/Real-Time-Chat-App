@@ -182,7 +182,9 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('editRole', async ({ role, chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        callback?.({ error: 'Chat is not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
@@ -197,13 +199,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to edit roles' });
+        callback?.({ error: 'You are not allowed to edit roles.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
-          return callback?.({
-            error: 'You cannot edit roles higher than your own',
+          callback?.({
+            error: 'You cannot edit roles higher than your own.',
           });
         }
       }
@@ -216,7 +218,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Muted' ||
         role.name === 'Banned'
       ) {
-        return callback?.({
+        callback?.({
           error: 'You cannot edit default roles',
         });
       }
@@ -241,7 +243,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         ) {
           return callback?.({
             error:
-              'You cannot edit permissions equal to or greater than your own',
+              'You cannot edit permissions equal to or greater than your own.',
           });
         }
       }
@@ -267,10 +269,10 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       await chat.save();
 
       io.to(chat._id.toString()).emit('chatUpdated', chat);
-      callback?.({ success: true });
+      callback?.({ success: true, updatedRole: role });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role update.' });
     }
   });
 

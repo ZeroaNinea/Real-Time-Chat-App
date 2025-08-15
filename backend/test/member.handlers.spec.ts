@@ -325,4 +325,36 @@ describe('Auth Socket Handlers', () => {
       });
     });
   });
+
+  it('should edit the role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'newrole',
+              description: 'newrole',
+            },
+          },
+          (response: { success: boolean; updatedRole: Role }) => {
+            expect(response.success).to.equal(true);
+            expect(response.updatedRole.name).to.equal('newrole');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
 });
