@@ -288,6 +288,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'Chat is not found.' });
       }
 
+      const isRoleExists = chat.roles.find(
+        (r: ChatRoomRole) => r.name === role.name
+      );
+      if (!isRoleExists) {
+        return callback?.({ error: 'Role is not found.' });
+      }
+
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
@@ -361,22 +368,27 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('toggleRole', async ({ roleName, selected, chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat not found.' });
+      }
 
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
-      if (!member)
-        return callback?.({ error: 'You are not a member of this chat' });
+      if (!member) {
+        return callback?.({ error: 'You are not a member of this chat room.' });
+      }
 
       if (!member.user.equals(socket.data.user._id)) {
         return callback?.({
-          error: "You cannot modify another user's roles",
+          error: 'You cannot modify another the roles of other users.',
         });
       }
 
       const role = chat.roles.find((r: ChatRoomRole) => r.name === roleName);
-      if (!role) return callback?.({ error: 'Role not found' });
+      if (!role) {
+        return callback?.({ error: 'Role is not found.' });
+      }
 
       const defaultRoles = [
         'Owner',
@@ -388,7 +400,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       ];
       if (defaultRoles.includes(role.name)) {
         return callback?.({
-          error: 'You cannot toggle default roles',
+          error: 'You cannot toggle default roles.',
         });
       }
 

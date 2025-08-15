@@ -152,6 +152,10 @@ describe('Auth Socket Handlers', () => {
       description: 'Can manage roles on a junior level.',
       permissions: ['canAssignRoles'],
     });
+    chat.roles.push({
+      name: 'Cute-Role',
+      description: 'Cute-Role',
+    });
 
     chat.members.push({
       user: user._id,
