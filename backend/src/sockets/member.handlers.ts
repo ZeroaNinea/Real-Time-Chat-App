@@ -320,12 +320,15 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not allowed to assign admins.' });
       }
 
-      if (!canEditRole(member?.roles || [], role)) {
-        if (currentUserPermissions.length === 0) {
-          return callback?.({
-            error: 'You cannot edit assign higher than your own.',
-          });
-        }
+      if (
+        (!canEditRole(member?.roles || [], role) &&
+          member?.roles.includes('Admin')) ||
+        member?.roles.includes('Owner') ||
+        member?.roles.includes('Moderator')
+      ) {
+        return callback?.({
+          error: 'You cannot edit assign higher or equal to your own.',
+        });
       }
 
       const updatedMember = chat.members.find((m: Member) =>
