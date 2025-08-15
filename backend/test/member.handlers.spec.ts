@@ -1874,9 +1874,7 @@ describe('Auth Socket Handlers', () => {
             role: chat.roles.find((role: Role) => role.name === 'Admin'),
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal(
-              'You cannot delete roles higher or equal to your own.'
-            );
+            expect(err.error).to.equal('You cannot delete default roles.');
             clientSocket.disconnect();
             done();
           }
