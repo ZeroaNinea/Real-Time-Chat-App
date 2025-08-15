@@ -1547,8 +1547,6 @@ describe('Auth Socket Handlers', () => {
           },
           (response: { success: boolean }) => {
             expect(response.success).to.equal(true);
-            clientSocket.disconnect();
-            done();
           }
         );
 
