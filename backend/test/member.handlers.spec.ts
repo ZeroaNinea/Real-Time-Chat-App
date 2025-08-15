@@ -400,6 +400,37 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to create a role in the private chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'createRole',
+          {
+            chatId: privateChat._id,
+            role: {
+              name: 'newrole',
+              description: 'newrole',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Private chat rooms cannot have roles.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
+
   it('should edit the role', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
