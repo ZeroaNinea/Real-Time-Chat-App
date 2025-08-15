@@ -54,14 +54,14 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const userId = socket.data.user._id;
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        callback?.({ error: 'Channel is not found.' });
+        return callback?.({ error: 'Channel is not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
       const member = chat?.members.find((m: Member) => m.user.equals(userId));
 
       if (!member) {
-        callback?.({ error: 'You are not a member of this chat.' });
+        return callback?.({ error: 'You are not a member of this chat.' });
       }
 
       const isAdmin =
@@ -70,7 +70,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canDeleteChannels')) {
-        callback?.({ error: 'You are not allowed to delete channels.' });
+        return callback?.({ error: 'You are not allowed to delete channels.' });
       }
 
       await Message.deleteMany({ channelId });
@@ -95,18 +95,18 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const channel = await Channel.findById(channelId);
       if (!channel) {
-        callback?.({ error: 'Channel is not found.' });
+        return callback?.({ error: 'Channel is not found.' });
       }
 
       const chat = await Chat.findById(channel.chatId);
       if (!chat) {
-        callback?.({ error: 'Chat is not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) => m.user.equals(userId));
 
       if (!member) {
-        callback?.({ error: 'You are not a member of this chat.' });
+        return callback?.({ error: 'You are not a member of this chat.' });
       }
 
       const isAdmin =
@@ -115,7 +115,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canEditChannels')) {
-        callback?.({ error: 'You are not allowed to edit channels.' });
+        return callback?.({ error: 'You are not allowed to edit channels.' });
       }
 
       channel.topic = topic;
@@ -140,12 +140,12 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
       const chat = await Chat.findById(channel.chatId);
       if (!chat) {
-        callback?.({ error: 'Chat is not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat?.members.find((m: Member) => m.user.equals(userId));
       if (!member) {
-        callback?.({ error: 'You are not a member of this chat.' });
+        return callback?.({ error: 'You are not a member of this chat.' });
       }
 
       const isAdmin =
@@ -154,7 +154,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, member);
 
       if (!isAdmin && !currentUserPermissions.includes('canEditChannels')) {
-        callback?.({ error: 'You are not allowed to edit channels.' });
+        return callback?.({ error: 'You are not allowed to edit channels.' });
       }
 
       channel.name = name;
@@ -176,18 +176,18 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
 
         const channel = await Channel.findById(channelId);
         if (!channel) {
-          callback?.({ error: 'Channel is not found.' });
+          return callback?.({ error: 'Channel is not found.' });
         }
 
         const chat = await Chat.findById(channel.chatId);
         if (!chat) {
-          callback?.({ error: 'Chat is not found.' });
+          return callback?.({ error: 'Chat is not found.' });
         }
 
         const member = chat.members.find((m: Member) => m.user.equals(userId));
 
         if (!member) {
-          callback?.({ error: 'You are not a member of this chat.' });
+          return callback?.({ error: 'You are not a member of this chat.' });
         }
 
         const isAdmin =
@@ -201,7 +201,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
           !currentUserPermissions.includes('canDeleteChannels') &&
           !currentUserPermissions.includes('canCreateChannels')
         ) {
-          callback?.({ error: 'You are not allowed to edit channels.' });
+          return callback?.({ error: 'You are not allowed to edit channels.' });
         }
 
         // Merge with existing permissions (partial update).
@@ -226,7 +226,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) {
-        callback?.({ error: 'Chat is not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) =>
@@ -234,7 +234,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       );
 
       if (!member) {
-        callback?.({ error: 'You are not a member of this chat.' });
+        return callback?.({ error: 'You are not a member of this chat.' });
       }
 
       const memberRoles = member.roles.map((role: string) => {
@@ -253,7 +253,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
       );
 
       if (!hasChannelEditPermissions) {
-        callback?.({
+        return callback?.({
           error: 'You are not allowed to change the channel order.',
         });
       }
@@ -270,7 +270,7 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         [...uniqueIds].every((id) => existingIds.includes(id));
 
       if (!isValid) {
-        callback?.({ error: 'Invalid channel order.' });
+        return callback?.({ error: 'Invalid channel order.' });
       }
 
       const bulkOps = channelIds.map((id: string, index: number) => ({
