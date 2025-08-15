@@ -958,4 +958,40 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should throw a server error during role assignment', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').rejects(new Error('DB down'));
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: chat._id,
+            userId: user3._id,
+            role: {
+              name: 'Cute-Role',
+              description: 'Cute-Role',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Server error.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
