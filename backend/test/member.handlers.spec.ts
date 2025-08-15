@@ -195,6 +195,11 @@ describe('Auth Socket Handlers', () => {
       permissions: ['canDeleteChatroom'],
       canBeSelfAssigned: true,
     });
+    chat.roles.push({
+      name: 'Removing-Role',
+      description: 'Removing-Role',
+      canBeSelfAssigned: true,
+    });
 
     chat.members.push({
       user: user._id,
