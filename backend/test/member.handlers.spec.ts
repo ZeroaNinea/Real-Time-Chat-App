@@ -203,7 +203,7 @@ describe('Auth Socket Handlers', () => {
 
     chat.members.push({
       user: user._id,
-      roles: ['Member', 'Channel-Creator'],
+      roles: ['Member', 'Channel-Creator', 'Removing-Role'],
     });
     chat.members.push({
       user: user2._id,
@@ -1539,46 +1539,30 @@ describe('Auth Socket Handlers', () => {
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
-          'toggleRole',
+          'removeRole',
           {
+            userId: user._id,
             chatId: chat._id,
-            roleName: 'Removing-Role',
-            selected: true,
+            role: {
+              name: 'Removing-Role',
+              description: 'Removing-Role',
+              canBeSelfAssigned: true,
+            },
           },
-          (response: { success: boolean }) => {
+          (response: { success: boolean; targetMember: Member }) => {
             expect(response.success).to.equal(true);
+            expect(
+              response.targetMember.roles.includes('Removing-Role')
+            ).to.equal(false);
+            clientSocket.disconnect();
+            done();
           }
         );
 
         clientSocket.on('memberUpdated', (response) => {
-          expect(response.roles.includes('Removing-Role')).to.equal(true);
-
-          clientSocket.emit(
-            'removeRole',
-            {
-              userId: user._id,
-              chatId: chat._id,
-              role: {
-                name: 'Removing-Role',
-                description: 'Removing-Role',
-                canBeSelfAssigned: true,
-              },
-            },
-            (response: { success: boolean; targetMember: Member }) => {
-              expect(response.success).to.equal(true);
-              expect(
-                response.targetMember.roles.includes('Removing-Role')
-              ).to.equal(false);
-              clientSocket.disconnect();
-              done();
-            }
-          );
-
-          clientSocket.on('memberUpdated', (response) => {
-            expect(response.roles.includes('Removing-Role')).to.equal(false);
-            clientSocket.disconnect();
-            done();
-          });
+          expect(response.roles.includes('Removing-Role')).to.equal(false);
+          clientSocket.disconnect();
+          done();
         });
       });
     });
