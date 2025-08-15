@@ -380,6 +380,10 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'Chat not found.' });
       }
 
+      if (chat.isPrivate) {
+        return callback?.({ error: 'Private chat rooms cannot have roles.' });
+      }
+
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
@@ -389,7 +393,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
 
       if (!member.user.equals(socket.data.user._id)) {
         return callback?.({
-          error: 'You cannot modify another the roles of other users.',
+          error: 'You cannot modify the roles of other users.',
         });
       }
 
@@ -425,7 +429,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         !role.allowedUserIds.includes(socket.data.user._id.toString())
       ) {
         return callback?.({
-          error: 'You are not allowed to assign yourself this role',
+          error: 'You are not allowed to assign yourself this role.',
         });
       }
 
@@ -434,13 +438,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         !role.allowedRoles.some((r: string) => memberRoles.includes(r))
       ) {
         return callback?.({
-          error: 'You do not meet the requirements to assign this role',
+          error: 'You do not meet the requirements to assign this role.',
         });
       }
 
       if (!role.canBeSelfAssigned) {
         return callback?.({
-          error: 'You cannot toggle this role',
+          error: 'This role cannot be assigned to yourself.',
         });
       }
 
@@ -450,7 +454,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       ) {
         return callback?.({
           error:
-            'You cannot toggle permissions equal to or greater than your own',
+            'You cannot toggle permissions equal to or greater than your own.',
         });
       }
 
@@ -465,7 +469,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role toggle.' });
     }
   });
 
