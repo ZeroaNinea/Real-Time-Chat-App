@@ -452,4 +452,38 @@ describe('Auth Socket Handlers', () => {
       });
     });
   });
+
+  it('should not allow to add the canDeleteChatroom permisson to the newrole', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'newrole',
+              description: 'newrole',
+              permissions: ['canDeleteChatroom'],
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You cannot edit permissions equal to or greater than your own.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
 });
