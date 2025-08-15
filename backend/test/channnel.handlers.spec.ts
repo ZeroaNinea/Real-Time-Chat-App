@@ -1137,6 +1137,45 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return a server error during channel order change', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+
+        const channels = await Channel.find({ chatId: chat._id });
+        const channel = channels[0];
+        const channel2 = channels[1];
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'changeChannelOrder',
+          {
+            channelIds: [channel._id, channel2._id],
+            chatId: chat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'Server error during channel order change.'
+            );
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should return a server error during channel deletion', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
