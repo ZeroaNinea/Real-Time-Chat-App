@@ -225,4 +225,37 @@ describe('Auth Socket Handlers', () => {
       });
     });
   });
+
+  it('should not allow to create a role called Admin', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'createRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'Admin',
+              description: 'Admin',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You cannot create roles called Owner, Admin or Moderator.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
 });
