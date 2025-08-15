@@ -305,14 +305,18 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       if (
-        (!canEditRole(member?.roles || [], role) &&
-          member?.roles.includes('Admin')) ||
-        member?.roles.includes('Owner') ||
-        member?.roles.includes('Moderator')
+        (member?.roles.includes('Owner') ||
+          member?.roles.includes('Admin') ||
+          member?.roles.includes('Moderator')) &&
+        (role.name === 'Owner' ||
+          role.name === 'Admin' ||
+          role.name === 'Moderator')
       ) {
-        return callback?.({
-          error: 'You cannot edit assign higher or equal to your own.',
-        });
+        if (!canEditRole(member?.roles || [], role.name)) {
+          return callback?.({
+            error: 'You cannot edit assign higher or equal to your own.',
+          });
+        }
       }
 
       if (
