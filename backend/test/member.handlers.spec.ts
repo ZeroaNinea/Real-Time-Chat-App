@@ -1546,12 +1546,72 @@ describe('Auth Socket Handlers', () => {
           {
             userId: user._id,
             chatId: new mongoose.Types.ObjectId(),
-            role: chat.roles.find(
-              (role: Role) => role.name === 'Removing-Role'
-            ),
+            role: 'Removing-Role',
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return member is not found with an incorrect userId', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'removeRole',
+          {
+            userId: new mongoose.Types.ObjectId(),
+            chatId: chat._id,
+            role: 'Removing-Role',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Member is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should not allow user4 to remove the Removing-Role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'removeRole',
+          {
+            userId: user._id,
+            chatId: chat._id,
+            role: 'Removing-Role',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not allowed to remove roles.');
             clientSocket.disconnect();
             done();
           }
