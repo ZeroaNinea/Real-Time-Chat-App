@@ -794,4 +794,38 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow user3 to assign an Admin role to user4', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token3 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: chat._id,
+            userId: user4._id,
+            role: {
+              name: 'Admin',
+              description: 'Admin',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not allowed to assign admins.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
