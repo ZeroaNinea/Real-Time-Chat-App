@@ -503,10 +503,15 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not allowed to remove roles.' });
       }
 
-      if (!canEditRole(actingMember.roles, role)) {
-        if (currentUserPermissions.length === 0) {
+      if (
+        (actingMember?.roles.includes('Owner') ||
+          actingMember?.roles.includes('Admin') ||
+          actingMember?.roles.includes('Moderator')) &&
+        (role === 'Owner' || role === 'Admin' || role === 'Moderator')
+      ) {
+        if (!canEditRole(actingMember?.roles || [], role)) {
           return callback?.({
-            error: 'You cannot remove roles higher or equal to your own.',
+            error: 'You cannot edit assign higher or equal to your own.',
           });
         }
       }
