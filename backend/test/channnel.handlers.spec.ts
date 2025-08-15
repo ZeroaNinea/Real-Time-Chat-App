@@ -483,6 +483,44 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('stould return a server error during channel topic editing', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon
+          .stub(Channel, 'findById')
+          .throws(new Error('DB down'));
+        const channel = await Channel.findOne({ name: 'newchannel' });
+
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editChannelTopic',
+          {
+            channelId: channel._id,
+            topic: 'new topic',
+          },
+          (err: any) => {
+            expect(err.error).to.equal(
+              'Server error during channel topic update.'
+            );
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should rename the channel', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
