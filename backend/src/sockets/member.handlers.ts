@@ -118,7 +118,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to delete roles' });
+        return callback?.({ error: 'You are not allowed to delete roles.' });
       }
 
       if (
