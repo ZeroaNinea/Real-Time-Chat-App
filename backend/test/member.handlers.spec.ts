@@ -357,4 +357,35 @@ describe('Auth Socket Handlers', () => {
       });
     });
   });
+
+  it('should return chat is not found during editing role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editRole',
+          {
+            chatId: new mongoose.Types.ObjectId(),
+            role: {
+              name: 'newrole',
+              description: 'newrole',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+  });
 });
