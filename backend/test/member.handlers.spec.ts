@@ -1775,7 +1775,9 @@ describe('Auth Socket Handlers', () => {
           'deleteRole',
           {
             chatId: new mongoose.Types.ObjectId(),
-            role: 'Removing-Role',
+            role: chat.roles.find(
+              (role: Role) => role.name === 'Removing-Role'
+            ),
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Chat is not found.');
@@ -1805,7 +1807,9 @@ describe('Auth Socket Handlers', () => {
           'deleteRole',
           {
             chatId: chat._id,
-            role: 'Removing-Role',
+            role: chat.roles.find(
+              (role: Role) => role.name === 'Removing-Role'
+            ),
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('You are not allowed to delete roles.');
@@ -1835,7 +1839,7 @@ describe('Auth Socket Handlers', () => {
           'deleteRole',
           {
             chatId: chat._id,
-            role: 'Owner',
+            role: chat.roles.find((role: Role) => role.name === 'Owner'),
           },
           (err: { error: string }) => {
             expect(err.error).to.equal(
@@ -1867,7 +1871,9 @@ describe('Auth Socket Handlers', () => {
           'deleteRole',
           {
             chatId: chat._id,
-            role: 'Removing-Role',
+            role: chat.roles.find(
+              (role: Role) => role.name === 'Removing-Role'
+            ),
           },
           (response: { success: boolean }) => {
             expect(response.success).to.equal(true);
