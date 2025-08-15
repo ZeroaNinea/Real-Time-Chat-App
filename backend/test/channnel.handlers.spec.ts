@@ -921,6 +921,41 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should not allow user2 to change the channel order because they are not a member of the chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        const channels = await Channel.find({ chatId: chat._id });
+        const channel = channels[0];
+        const channel2 = channels[1];
+        const channel3 = channels[2];
+
+        clientSocket.emit(
+          'changeChannelOrder',
+          {
+            channelIds: [channel2._id, channel._id, channel3._id],
+            chatId: chat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not a member of this chat.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Channel
 
   it('should return a server error during channel deletion', (done) => {
