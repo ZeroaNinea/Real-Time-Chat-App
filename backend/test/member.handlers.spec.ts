@@ -1207,4 +1207,37 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow user5 to toggle the role because they are not a member', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token5 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleRole',
+          {
+            chatId: chat._id,
+            roleName: 'Toggle-Role',
+            selected: true,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are not a member of this chat room.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
