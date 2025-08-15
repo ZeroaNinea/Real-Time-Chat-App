@@ -190,6 +190,10 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'Chat is not found.' });
       }
 
+      if (chat.isPrivate) {
+        return callback?.({ error: 'Private chat rooms cannot have roles.' });
+      }
+
       const member = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
       );
