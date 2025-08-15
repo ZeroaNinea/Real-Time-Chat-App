@@ -177,6 +177,12 @@ describe('Auth Socket Handlers', () => {
       description: 'Toggle-Role',
       canBeSelfAssigned: true,
     });
+    chat.roles.push({
+      name: 'ID-Restricted-Role',
+      description: 'ID-Restricted-Role',
+      canBeSelfAssigned: true,
+      allowedUserIds: [user4._id],
+    });
 
     chat.members.push({
       user: user._id,
