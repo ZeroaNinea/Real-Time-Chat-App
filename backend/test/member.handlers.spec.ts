@@ -1675,8 +1675,41 @@ describe('Auth Socket Handlers', () => {
             role: 'Non-Existing-Role',
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('Role is not found.');
+            expect(err.error).to.equal('User does not have this role.');
             clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return a server error during role removal', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'removeRole',
+          {
+            userId: user._id,
+            chatId: chat._id,
+            role: 'Removing-Role',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Server error during role removal.');
+            clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
