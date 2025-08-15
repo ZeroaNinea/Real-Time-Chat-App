@@ -476,7 +476,9 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('removeRole', async ({ userId, chatId, role }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat not found.' });
+      }
 
       const actingMember = chat.members.find((m: Member) =>
         m.user.equals(socket.data.user._id)
@@ -488,7 +490,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, actingMember);
 
       if (!actingMember || !targetMember) {
-        return callback?.({ error: 'Member not found' });
+        return callback?.({ error: 'Member not found.' });
       }
 
       const isPrivileged =
@@ -498,19 +500,19 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to remove roles' });
+        return callback?.({ error: 'You are not allowed to remove roles.' });
       }
 
       if (!canEditRole(actingMember.roles, role)) {
         if (currentUserPermissions.length === 0) {
           return callback?.({
-            error: 'You cannot remove roles higher than your own',
+            error: 'You cannot remove roles higher or equal to your own.',
           });
         }
       }
 
       if (!targetMember.roles.includes(role)) {
-        return callback?.({ error: 'User does not have this role' });
+        return callback?.({ error: 'User does not have this role.' });
       }
 
       targetMember.roles = targetMember.roles.filter((r: string) => r !== role);
@@ -520,7 +522,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, member: targetMember });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during role removal.' });
     }
   });
 
