@@ -241,14 +241,16 @@ export function registerChannelHandlers(io: Server, socket: Socket) {
         return chat.roles.find((r: Role) => r.name === role);
       });
 
-      const hasChannelEditPermissions = memberRoles.some((role: Role) => {
-        return (
-          (role.permissions?.includes('canEditChannels') &&
-            role.permissions?.includes('canCreateChannels')) ||
-          role.name === 'Admin' ||
-          role.name === 'Owner'
-        );
-      });
+      const hasChannelEditPermissions = memberRoles.some(
+        (role: Role): boolean => {
+          return (
+            (role.permissions?.includes('canEditChannels') &&
+              role.permissions?.includes('canCreateChannels')) ||
+            role.name === 'Admin' ||
+            role.name === 'Owner'
+          );
+        }
+      );
 
       if (!hasChannelEditPermissions) {
         callback?.({
