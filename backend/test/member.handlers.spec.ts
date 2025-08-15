@@ -885,4 +885,43 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not find the member of the chat when user triet to assign the Cute-Role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token3 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(User, 'findById').resolves({
+          _id: new mongoose.Types.ObjectId(),
+          username: 'fakeUser',
+        });
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: chat._id,
+            userId: new mongoose.Types.ObjectId(),
+            role: {
+              name: 'Cute-Role',
+              description: 'Cute-Role',
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Member is not found.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });

@@ -340,7 +340,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       );
 
       if (!updatedMember) {
-        return callback?.({ error: 'Member not found.' });
+        return callback?.({ error: 'Member is not found.' });
       }
 
       if (updatedMember?.roles.includes(role.name)) {
