@@ -1904,7 +1904,9 @@ describe('Auth Socket Handlers', () => {
             role: chat.roles.find((role: Role) => role.name === 'Broken-Role'),
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('Role is broken.');
+            expect(err.error).to.equal(
+              'You cannot delete permissions equal to or greater than your own.'
+            );
             clientSocket.disconnect();
             done();
           }
