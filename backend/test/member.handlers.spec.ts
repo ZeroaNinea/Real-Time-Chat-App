@@ -132,6 +132,14 @@ describe('Auth Socket Handlers', () => {
     });
 
     chat.members.push({
+      user: user._id,
+      roles: ['Member', 'Channel-Creator'],
+    });
+    chat.members.push({
+      user: user2._id,
+      roles: ['Member', 'Channel-Creator'],
+    });
+    chat.members.push({
       user: user3._id,
       roles: ['Member', 'Channel-Creator'],
     });
@@ -483,6 +491,44 @@ describe('Auth Socket Handlers', () => {
             done();
           }
         );
+      });
+    });
+  });
+
+  it('should edit the Channel-Creator role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'editRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'Channel-Creator',
+              description: 'Channel-Creator',
+            },
+          },
+          (response: { success: boolean; updatedRole: Role }) => {
+            expect(response.success).to.equal(true);
+            expect(response.updatedRole.name).to.equal('Channel-Creator');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('roleEdited', (response) => {
+          expect(response._id).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
   });
