@@ -1575,8 +1575,12 @@ describe('Auth Socket Handlers', () => {
               done();
             }
           );
-          // clientSocket.disconnect();
-          // done();
+
+          clientSocket.on('memberUpdated', (response) => {
+            expect(response.roles.includes('Removing-Role')).to.equal(false);
+            clientSocket.disconnect();
+            done();
+          });
         });
       });
     });
