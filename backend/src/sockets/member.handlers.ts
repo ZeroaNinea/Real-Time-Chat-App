@@ -477,7 +477,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
     try {
       const chat = await Chat.findById(chatId);
       if (!chat) {
-        return callback?.({ error: 'Chat not found.' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const actingMember = chat.members.find((m: Member) =>
