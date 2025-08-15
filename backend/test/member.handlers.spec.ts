@@ -185,6 +185,12 @@ describe('Auth Socket Handlers', () => {
             done();
           }
         );
+
+        clientSocket.on('chatUpdated', (response) => {
+          expect(response.chat._id.toString()).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
   });
