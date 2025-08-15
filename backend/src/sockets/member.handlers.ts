@@ -241,7 +241,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             role.permissions
           )
         ) {
-          return callback?.({
+          callback?.({
             error:
               'You cannot edit permissions equal to or greater than your own.',
           });
