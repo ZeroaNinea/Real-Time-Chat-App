@@ -219,7 +219,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         role.name === 'Banned'
       ) {
         callback?.({
-          error: 'You cannot edit default roles',
+          error: 'You cannot edit default roles.',
         });
       }
 
