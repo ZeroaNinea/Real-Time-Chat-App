@@ -490,7 +490,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const currentUserPermissions = await checkPermission(chat, actingMember);
 
       if (!actingMember || !targetMember) {
-        return callback?.({ error: 'Member not found.' });
+        return callback?.({ error: 'Member is not found.' });
       }
 
       const isPrivileged =

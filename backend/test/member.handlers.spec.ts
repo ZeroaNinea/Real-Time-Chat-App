@@ -1526,7 +1526,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should assign and romove the Removing-Role itself', (done) => {
+  it('should romove the Removing-Role', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -1564,6 +1564,41 @@ describe('Auth Socket Handlers', () => {
           clientSocket.disconnect();
           done();
         });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return chat is not found during removing role', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'removeRole',
+          {
+            userId: user._id,
+            chatId: new mongoose.Types.ObjectId(),
+            role: {
+              name: 'Removing-Role',
+              description: 'Removing-Role',
+              canBeSelfAssigned: true,
+            },
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
       });
     });
 
