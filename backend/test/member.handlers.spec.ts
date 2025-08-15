@@ -1777,25 +1777,18 @@ describe('Auth Socket Handlers', () => {
             chatId: chat._id,
             role: 'Removing-Role',
           },
-          (response: any) => {
-            console.log(
-              response,
-              '============================================'
-            );
-            // expect(response.success).to.equal(true);
-            // expect(response.member.roles.includes('Removing-Role')).to.equal(
-            //   false
-            // );
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
             clientSocket.disconnect();
             done();
           }
         );
 
-        // clientSocket.on('memberUpdated', (response) => {
-        //   expect(response.roles.includes('Removing-Role')).to.equal(false);
-        //   clientSocket.disconnect();
-        //   done();
-        // });
+        clientSocket.on('chatUpdated', (response) => {
+          expect(response._id.toString()).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
