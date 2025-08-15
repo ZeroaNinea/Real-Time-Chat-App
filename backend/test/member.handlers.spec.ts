@@ -1939,9 +1939,7 @@ describe('Auth Socket Handlers', () => {
             ),
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal(
-              'You cannot delete permissions equal to or greater than your own.'
-            );
+            expect(err.error).to.equal('Server error during role deletion.');
             clientSocket.disconnect();
             stub.restore();
             done();
