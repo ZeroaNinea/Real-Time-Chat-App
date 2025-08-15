@@ -28,11 +28,13 @@ describe('Auth Socket Handlers', () => {
   let user2: typeof User;
   let user3: typeof User;
   let user4: typeof User;
+  let user5: typeof User;
   let userModerator: typeof User;
   let token: string;
   let token2: string;
   let token3: string;
   let token4: string;
+  let token5: string;
   let tokenModerator: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
@@ -64,6 +66,13 @@ describe('Auth Socket Handlers', () => {
     user4 = await User.create({
       username: 'socketuser4',
       email: 'socket4@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
+    user5 = await User.create({
+      username: 'socketuser5',
+      email: 'socket5@email.com',
       password: '123',
       status: 'offline',
     });
@@ -102,6 +111,13 @@ describe('Auth Socket Handlers', () => {
     });
 
     token4 = resLogin4.body.token;
+
+    const resLogin5 = await request(app).post('/api/auth/login').send({
+      username: 'socketuser5',
+      password: '123',
+    });
+
+    token5 = resLogin5.body.token;
 
     const resLoginModerator = await request(app).post('/api/auth/login').send({
       username: 'moderator',
@@ -191,15 +207,6 @@ describe('Auth Socket Handlers', () => {
     io.close();
     server.close();
   });
-
-  // export type Role = {
-  //   name: string;
-  //   description?: string;
-  //   permissions?: string[];
-  //   allowedUserIds?: string[];
-  //   allowedRoles?: string[];
-  //   canBeSelfAssigned?: boolean;
-  // };
 
   it('should create a new role', (done) => {
     clientSocket = Client(address, {
