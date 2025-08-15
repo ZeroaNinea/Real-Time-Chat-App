@@ -43,12 +43,12 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canAssignRoles');
 
       if (!isPrivileged) {
-        return callback?.({ error: 'You are not allowed to create roles.' });
+        callback?.({ error: 'You are not allowed to create roles.' });
       }
 
       if (!canEditRole(member?.roles || [], role)) {
         if (currentUserPermissions.length === 0) {
-          return callback?.({
+          callback?.({
             error: 'You cannot create roles higher than your own.',
           });
         }
