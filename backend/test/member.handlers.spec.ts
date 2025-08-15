@@ -17,6 +17,7 @@ import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
 import { Role } from '../types/role.alias';
+import { Member } from '../types/member.alias';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -599,6 +600,52 @@ describe('Auth Socket Handlers', () => {
             done();
           }
         );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should assign role Cute-Role to user3', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'assignRole',
+          {
+            chatId: chat._id,
+            userId: user3._id,
+            role: {
+              name: 'Cute-Role',
+              description: 'Cute-Role',
+            },
+          },
+          (response: { success: boolean; member: Member }) => {
+            console.log(response);
+            expect(response.success).to.equal(true);
+            expect(response.member.user.toString()).to.equal(
+              user3._id.toString()
+            );
+            expect(response.member.roles.includes('Cute-Role')).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('memberUpdated', (response) => {
+          expect(response.user.toString()).to.equal(user3._id.toString());
+          expect(response.roles.includes('Cute-Role')).to.equal(true);
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
