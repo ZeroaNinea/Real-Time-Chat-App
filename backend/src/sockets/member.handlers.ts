@@ -391,11 +391,11 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not a member of this chat room.' });
       }
 
-      if (!member.user.equals(socket.data.user._id)) {
-        return callback?.({
-          error: 'You cannot modify the roles of other users.',
-        });
-      }
+      // if (!member.user.equals(socket.data.user._id)) {
+      //   return callback?.({
+      //     error: 'You cannot modify the roles of other users.',
+      //   });
+      // }
 
       const role = chat.roles.find((r: ChatRoomRole) => r.name === roleName);
       if (!role) {
