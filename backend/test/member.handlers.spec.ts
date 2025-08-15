@@ -16,6 +16,7 @@ import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
+import { Role } from '../types/role.alias';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -145,5 +146,46 @@ describe('Auth Socket Handlers', () => {
     await disconnectDatabase();
     io.close();
     server.close();
+  });
+
+  // export type Role = {
+  //   name: string;
+  //   description?: string;
+  //   permissions?: string[];
+  //   allowedUserIds?: string[];
+  //   allowedRoles?: string[];
+  //   canBeSelfAssigned?: boolean;
+  // };
+
+  it('should create a new role', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'createRole',
+          {
+            chatId: chat._id,
+            role: {
+              name: 'newrole',
+              description: 'newrole',
+            },
+          },
+          (response: { success: boolean; updatedRole: Role }) => {
+            expect(response.success).to.equal(true);
+            expect(response.updatedRole.name).to.equal('newrole');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
   });
 });
