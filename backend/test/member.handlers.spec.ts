@@ -873,7 +873,9 @@ describe('Auth Socket Handlers', () => {
             },
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('You are not allowed to assign admins.');
+            expect(err.error).to.equal(
+              'You cannot edit assign higher than your own.'
+            );
             clientSocket.disconnect();
             done();
           }
