@@ -874,7 +874,7 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal(
-              'You cannot edit assign higher than your own.'
+              'You cannot edit assign higher or equal to your own.'
             );
             clientSocket.disconnect();
             done();
