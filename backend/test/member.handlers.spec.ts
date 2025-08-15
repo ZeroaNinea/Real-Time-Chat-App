@@ -1483,4 +1483,37 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return a server error during role toggle', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleRole',
+          {
+            chatId: chat._id,
+            roleName: 'Toggle-Role',
+            selected: false,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Server error during role toggle.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
