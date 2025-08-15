@@ -156,6 +156,11 @@ describe('Auth Socket Handlers', () => {
       name: 'Cute-Role',
       description: 'Cute-Role',
     });
+    chat.roles.push({
+      name: 'Toggle-Role',
+      description: 'Toggle-Role',
+      canBeSelfAssigned: true,
+    });
 
     chat.members.push({
       user: user._id,
