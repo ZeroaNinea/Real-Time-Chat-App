@@ -1588,11 +1588,9 @@ describe('Auth Socket Handlers', () => {
           {
             userId: user._id,
             chatId: new mongoose.Types.ObjectId(),
-            role: {
-              name: 'Removing-Role',
-              description: 'Removing-Role',
-              canBeSelfAssigned: true,
-            },
+            role: chat.roles.find(
+              (role: Role) => role.name === 'Removing-Role'
+            ),
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Chat is not found.');
