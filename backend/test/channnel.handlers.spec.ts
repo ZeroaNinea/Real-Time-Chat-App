@@ -1027,8 +1027,6 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  // Delete Channel
-
   it('should return a server error during channel deletion', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
