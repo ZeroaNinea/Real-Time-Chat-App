@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { createServer } from 'http';
-import sinon from 'sinon';
 import request from 'supertest';
 
 import { app } from '../src/app';
@@ -8,10 +7,7 @@ import { app } from '../src/app';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
-import mongoose, {
-  connectToDatabase,
-  disconnectDatabase,
-} from '../src/config/db';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 
@@ -69,6 +65,23 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('userIdle');
 
       clientSocket.on('userIdle', (res) => {
+        expect(res).to.equal(user._id.toString());
+        clientSocket.disconnect();
+        done();
+      });
+    });
+  });
+
+  it('should return user is active', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('userActive');
+
+      clientSocket.on('userActive', (res) => {
         expect(res).to.equal(user._id.toString());
         clientSocket.disconnect();
         done();
