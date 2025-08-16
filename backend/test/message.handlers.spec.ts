@@ -398,6 +398,35 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to use the "message" route with a wrong channel ID', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('message', {
+          chatId: chat._id,
+          channelId: new mongoose.Types.ObjectId(),
+          message: 'new message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Channel is not found.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should send a private message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
