@@ -18,14 +18,6 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         return socket.emit('error', 'You are not a member of this chat.');
       }
 
-      if (member.roles.includes('Muted')) {
-        return socket.emit('error', 'You are muted.');
-      }
-
-      if (member.roles.includes('Banned')) {
-        return socket.emit('error', 'You are banned.');
-      }
-
       const message = await new Message({
         chatId,
         channelId,

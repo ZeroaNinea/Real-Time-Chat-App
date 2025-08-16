@@ -254,15 +254,19 @@ describe('Auth Socket Handlers', () => {
         clientSocket.on('channelAdded', (newChannel) => {
           expect(newChannel.name).to.equal('newchannel');
 
-          clientSocket.emit('message', {
-            chatId: chat._id,
-            channelId: newChannel._id,
-            message: 'new message',
-          });
+          clientSocket.emit(
+            'message',
+            {
+              chatId: chat._id,
+              channelId: newChannel._id,
+              message: 'new message',
+            },
+            done
+          );
 
           clientSocket.on('message', (response) => {
             console.log(response, '=============================');
-            // expect(response.message).to.equal('new message');
+            expect(response.text).to.equal('new message');
             clientSocket.disconnect();
             done();
           });
