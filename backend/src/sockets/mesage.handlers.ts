@@ -37,7 +37,11 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       const senderId = socket.data.user._id;
 
       const chat = await Chat.findById(chatId);
-      if (!chat || !chat.isPrivate) {
+      if (!chat) {
+        return socket.emit('error', 'Chat is not found.');
+      }
+
+      if (!chat.isPrivate) {
         return socket.emit('error', 'This chat is not private.');
       }
 
