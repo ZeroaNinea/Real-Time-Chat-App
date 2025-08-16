@@ -2190,7 +2190,7 @@ describe('Auth Socket Handlers', () => {
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
-          'joinChatRoom',
+          'becomeMember',
           {
             chatId: chat._id,
           },
