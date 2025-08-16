@@ -2333,4 +2333,42 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should transfer the ownership to user4', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'transferOwnership',
+          {
+            chatId: chat._id,
+            userId: user4._id,
+          },
+          (response: { success: boolean; member: Member }) => {
+            expect(response.success).to.equal(true);
+            expect(response.member.roles.includes('Owner')).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('memberUpdated', (response) => {
+          console.log(response, '=========================');
+          // expect(response._id.toString()).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
