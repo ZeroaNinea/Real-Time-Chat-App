@@ -651,7 +651,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error during chat leave.' });
+      callback?.({ error: 'Server error during leaving chat room.' });
     }
   });
 }
