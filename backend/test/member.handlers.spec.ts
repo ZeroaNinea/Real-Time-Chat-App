@@ -2001,7 +2001,7 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', ({ chatId }) => {
-        expect(chatId).to.equal(chat._id.toString());
+        expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
           'leaveChatRoom',
