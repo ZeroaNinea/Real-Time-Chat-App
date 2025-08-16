@@ -366,6 +366,36 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to use the "message" route with a wrong chat ID', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit('message', {
+          chatId: new mongoose.Types.ObjectId(),
+          channelId: channel._id,
+          message: 'new message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('This is a private chat.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should send a private message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -376,10 +406,12 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
           chatId: privateChat._id,
+          channelId: channel._id,
           message: 'new private message',
         });
 
