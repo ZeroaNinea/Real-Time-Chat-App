@@ -2311,6 +2311,7 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
       clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
@@ -2323,6 +2324,7 @@ describe('Auth Socket Handlers', () => {
               'Server error during becoming a member.'
             );
             clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
