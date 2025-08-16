@@ -338,6 +338,34 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to use the "message" route for the private chat room', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit('message', {
+          chatId: privateChat._id,
+          message: 'new message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('This is a private chat.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should send a private message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
