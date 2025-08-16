@@ -621,11 +621,12 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
   socket.on('leaveChatRoom', async ({ chatId }, callback) => {
     try {
       const chat = await Chat.findById(chatId);
-      if (!chat) return callback?.({ error: 'Chat not found' });
+      if (!chat) {
+        return callback?.({ error: 'Chat is not found.' });
+      }
 
       if (chat.isPrivate) {
-        callback?.({ error: "You can't leave a private chat" });
-        return;
+        return callback?.({ error: 'You cannot leave a private chat.' });
       }
 
       const member = chat.members.find((m: Member) =>
@@ -633,13 +634,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       );
 
       if (member?.roles.includes('Owner')) {
-        callback?.({ error: 'You are the owner of this chat' });
-
-        return;
+        return callback?.({
+          error: 'The owner cannot leave their own chat room.',
+        });
       }
 
       if (!member) {
-        callback?.({ error: 'You are not a member of this chat' });
+        return callback?.({ error: 'You are not a member of this chat.' });
       } else {
         chat.members = chat.members.filter(
           (m: Member) => !m.user.equals(socket.data.user._id)
@@ -650,7 +651,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during chat leave.' });
     }
   });
 }
