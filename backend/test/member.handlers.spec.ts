@@ -2269,4 +2269,35 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should not allow user4 to become a member of the chat room again', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'becomeMember',
+          {
+            chatId: chat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are already a member of this chat.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
