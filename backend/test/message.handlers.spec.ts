@@ -235,7 +235,7 @@ describe('Auth Socket Handlers', () => {
   });
 
   it('should send a message', (done) => {
-    clientSocket = Client(address, {
+    const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
     });
@@ -243,21 +243,29 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
-        const channel = await Channel.findOne({ name: 'newchannel' });
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(chat._id.toString());
 
-        clientSocket.emit('message', {
+        clientSocket.emit('addChannel', {
           chatId: chat._id,
-          channelId: channel._id,
-          message: 'new message',
+          channelName: 'newchannel',
         });
 
-        clientSocket.on('message', (response) => {
-          console.log(response, '=============================');
-          // expect(response.message).to.equal('new message');
-          clientSocket.disconnect();
-          done();
+        clientSocket.on('channelAdded', (newChannel) => {
+          expect(newChannel.name).to.equal('newchannel');
+
+          clientSocket.emit('message', {
+            chatId: chat._id,
+            channelId: newChannel._id,
+            message: 'new message',
+          });
+
+          clientSocket.on('message', (response) => {
+            console.log(response, '=============================');
+            // expect(response.message).to.equal('new message');
+            clientSocket.disconnect();
+            done();
+          });
         });
       });
     });
