@@ -38,7 +38,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
 
       const chat = await Chat.findById(chatId);
       if (!chat || !chat.isPrivate) {
-        return socket.emit('error', 'Invalid private chat');
+        return socket.emit('error', 'This chat is not private.');
       }
 
       const member1 = chat.members.find((m: Member) => m.user.equals(senderId));
@@ -47,14 +47,14 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       );
 
       if (!member1 || !member2) {
-        return socket.emit('error', 'Invalid private chat');
+        return socket.emit('error', 'Members are not found.');
       }
 
       const senderUser = await User.findById(senderId);
       const otherUser = await User.findById(member2.user);
 
       if (!senderUser || !otherUser) {
-        return socket.emit('error', 'Users not found');
+        return socket.emit('error', 'Users are not found.');
       }
 
       if (
@@ -63,7 +63,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       ) {
         return socket.emit(
           'error',
-          'You cannot message this user (ban restriction)'
+          'You cannot message this user (ban restriction).'
         );
       }
 
@@ -76,7 +76,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       io.to(chatId).emit('message', message);
     } catch (err) {
       console.error(err);
-      socket.emit('error', 'Failed to send private message');
+      socket.emit('error', 'Server error during sending a message.');
     }
   });
 

@@ -348,7 +348,7 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        expect(chatId).to.equal(chat._id.toString());
+        expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
           chatId: privateChat._id,
@@ -356,7 +356,7 @@ describe('Auth Socket Handlers', () => {
         });
 
         clientSocket.on('message', (response) => {
-          expect(response.text).to.equal('new message');
+          expect(response.text).to.equal('new private message');
           clientSocket.disconnect();
           done();
         });
