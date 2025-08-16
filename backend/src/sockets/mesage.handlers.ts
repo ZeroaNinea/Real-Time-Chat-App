@@ -13,9 +13,17 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       const sender = socket.data.user._id;
 
       const chat = await Chat.findById(chatId);
-      const isMember = chat?.members.some((m: Member) => m.user.equals(sender));
-      if (!isMember) {
+      const member = chat?.members.some((m: Member) => m.user.equals(sender));
+      if (!member) {
         return socket.emit('error', 'You are not a member of this chat.');
+      }
+
+      if (member.roles.includes('Muted')) {
+        return socket.emit('error', 'You are muted.');
+      }
+
+      if (member.roles.includes('Banned')) {
+        return socket.emit('error', 'You are banned.');
       }
 
       const message = await new Message({
@@ -28,7 +36,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       io.to(chatId).emit('message', message);
     } catch (err) {
       console.error(err);
-      socket.emit('error', 'Message failed to send');
+      socket.emit('error', 'Server error during sending a message.');
     }
   });
 
