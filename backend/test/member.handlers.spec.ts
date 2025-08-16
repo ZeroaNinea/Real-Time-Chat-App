@@ -2396,6 +2396,36 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to transfer the ownership to user5', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'transferOwnership',
+          {
+            chatId: chat._id,
+            userId: user5._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('User is not a member of this chat.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should transfer the ownership to user4', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
