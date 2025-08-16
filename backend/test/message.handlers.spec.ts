@@ -337,4 +337,32 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should send a private message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: privateChat._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('message', (response) => {
+          expect(response.text).to.equal('new message');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
