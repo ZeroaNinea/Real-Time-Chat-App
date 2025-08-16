@@ -407,7 +407,7 @@ describe('Auth Socket Handlers', () => {
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit('privateMessage', {
-          chatId: privateChat._id,
+          chatId: chat._id,
           message: 'new private message',
         });
 
