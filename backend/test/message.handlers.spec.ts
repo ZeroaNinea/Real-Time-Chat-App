@@ -347,11 +347,13 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
-      clientSocket.on('roomJoined', ({ chatId }) => {
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('message', {
           chatId: privateChat._id,
+          channelId: channel._id,
           message: 'new message',
         });
 
@@ -386,7 +388,7 @@ describe('Auth Socket Handlers', () => {
         });
 
         clientSocket.on('error', (err) => {
-          expect(err).to.equal('This is a private chat.');
+          expect(err).to.equal('Chat is not found.');
           clientSocket.disconnect();
           done();
         });
@@ -406,12 +408,10 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        const channel = await Channel.findOne({ name: 'newchannel' });
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
           chatId: privateChat._id,
-          channelId: channel._id,
           message: 'new private message',
         });
 
