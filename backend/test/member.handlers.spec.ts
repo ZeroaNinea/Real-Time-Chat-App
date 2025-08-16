@@ -2361,8 +2361,7 @@ describe('Auth Socket Handlers', () => {
         );
 
         clientSocket.on('memberUpdated', (response) => {
-          console.log(response, '=========================');
-          // expect(response._id.toString()).to.equal(chat._id.toString());
+          expect(response.roles.includes('Owner')).to.equal(false);
           clientSocket.disconnect();
           done();
         });
