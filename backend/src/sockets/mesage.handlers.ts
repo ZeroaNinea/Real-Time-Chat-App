@@ -13,8 +13,8 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       const sender = socket.data.user._id;
 
       const chat = await Chat.findById(chatId);
-      const member = chat?.members.some((m: Member) => m.user.equals(sender));
-      if (!member) {
+      const isMember = chat?.members.some((m: Member) => m.user.equals(sender));
+      if (!isMember) {
         return socket.emit('error', 'You are not a member of this chat.');
       }
 

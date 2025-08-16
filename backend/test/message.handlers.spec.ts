@@ -265,7 +265,6 @@ describe('Auth Socket Handlers', () => {
           );
 
           clientSocket.on('message', (response) => {
-            console.log(response, '=============================');
             expect(response.text).to.equal('new message');
             clientSocket.disconnect();
             done();
