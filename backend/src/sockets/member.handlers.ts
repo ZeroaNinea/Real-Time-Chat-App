@@ -584,7 +584,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, member: newOwner });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during ownership transfer.' });
     }
   });
 
