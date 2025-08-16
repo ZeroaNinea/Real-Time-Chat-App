@@ -233,4 +233,35 @@ describe('Auth Socket Handlers', () => {
     io.close();
     server.close();
   });
+
+  it('should send a message', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const channel = await Channel.findOne({ name: 'newchannel' });
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('message', {
+          chatId: chat._id,
+          channelId: channel._id,
+          message: 'new message',
+        });
+
+        clientSocket.on('message', (response) => {
+          console.log(response, '=============================');
+          // expect(response.message).to.equal('new message');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
