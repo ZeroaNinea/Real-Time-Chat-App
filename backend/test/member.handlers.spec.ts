@@ -2176,4 +2176,39 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should allow user4 to become a member of the chat room', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'joinChatRoom',
+          {
+            chatId: chat._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('chatUpdated', (response) => {
+          expect(response._id.toString()).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
