@@ -1988,4 +1988,39 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should leave the chat room', (done) => {
+    clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user4._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(user4._id.toString());
+
+        clientSocket.emit(
+          'leaveChatRoom',
+          {
+            chatId: chat._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('chatLeft', (response: typeof Chat) => {
+          expect(response._id.toString()).to.equal(chat._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
