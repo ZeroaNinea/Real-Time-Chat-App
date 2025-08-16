@@ -289,19 +289,17 @@ describe('Auth Socket Handlers', () => {
         const channel = await Channel.findOne({ name: 'newchannel' });
         expect(chatId).to.equal(chat._id.toString());
 
-        clientSocket.emit(
-          'message',
-          {
-            chatId: chat._id,
-            channelId: channel._id,
-            message: 'new message',
-          },
-          (err: { error: string }) => {
-            expect(err.error).to.equal('You are not a member of this chat.');
-            clientSocket.disconnect();
-            done();
-          }
-        );
+        clientSocket.emit('message', {
+          chatId: chat._id,
+          channelId: channel._id,
+          message: 'new message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('You are not a member of this chat.');
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
