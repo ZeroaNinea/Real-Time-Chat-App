@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 
 import { Chat } from '../models/chat.model';
+import { Channel } from '../models/channel.model';
 import { Message } from '../models/message.model';
 import { Member } from '../../types/member.alias';
 import { User } from '../models/user.model';
@@ -13,13 +14,22 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       const sender = socket.data.user._id;
 
       const chat = await Chat.findById(chatId);
+      if (!chat) {
+        return socket.emit('error', 'Chat is not found.');
+      }
+
+      const channel = await Channel.findById(channelId);
+      if (!channel) {
+        return socket.emit('error', 'Channel is not found.');
+      }
+
       const isMember = chat?.members.some((m: Member) => m.user.equals(sender));
       if (!isMember) {
         return socket.emit('error', 'You are not a member of this chat.');
       }
 
       if (chat.isPrivate) {
-        return socket.emit('error', 'Private chat rooms cannot have channels.');
+        return socket.emit('error', 'This is a private chat.');
       }
 
       const message = await new Message({
