@@ -327,7 +327,7 @@ describe('Auth Socket Handlers', () => {
         });
 
         clientSocket.on('error', (err) => {
-          expect(err).to.equal('You are not a member of this chat.');
+          expect(err).to.equal('Server error during sending a message.');
           clientSocket.disconnect();
           stub.restore();
           done();
