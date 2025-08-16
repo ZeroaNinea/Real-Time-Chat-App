@@ -2049,6 +2049,37 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should not allow the Owner to leave their own chat room', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'leaveChatRoom',
+          {
+            chatId: chat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'The owner cannot leave their own chat room.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should leave the chat room', (done) => {
     clientSocket = Client(address, {
       auth: { token: token4 },
