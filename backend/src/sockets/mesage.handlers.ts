@@ -18,6 +18,10 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         return socket.emit('error', 'You are not a member of this chat.');
       }
 
+      if (chat.isPrivate) {
+        return socket.emit('error', 'Private chat rooms cannot have channels.');
+      }
+
       const message = await new Message({
         chatId,
         channelId,
