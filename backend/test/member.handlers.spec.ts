@@ -2336,7 +2336,7 @@ describe('Auth Socket Handlers', () => {
 
   it('should transfer the ownership to user4', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: token4 },
+      auth: { token: token },
       transports: ['websocket'],
     });
 
@@ -2352,10 +2352,9 @@ describe('Auth Socket Handlers', () => {
             chatId: chat._id,
             userId: user4._id,
           },
-          (response: any) => {
-            console.log(response, '======================');
-            // expect(response.success).to.equal(true);
-            // expect(response.member.roles.includes('Owner')).to.equal(true);
+          (response: { success: boolean; member: Member }) => {
+            expect(response.success).to.equal(true);
+            expect(response.member.roles.includes('Owner')).to.equal(true);
             clientSocket.disconnect();
             done();
           }
