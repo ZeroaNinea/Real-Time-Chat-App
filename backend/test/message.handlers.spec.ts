@@ -384,7 +384,35 @@ describe('Auth Socket Handlers', () => {
         });
 
         clientSocket.on('error', (err) => {
-          expect(err).to.equal('Wrong private chat ID.');
+          expect(err).to.equal('Chat is not found.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should not allow to use the handres for private messages for public chats', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: privateChat._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('This chat is not private.');
           clientSocket.disconnect();
           done();
         });
