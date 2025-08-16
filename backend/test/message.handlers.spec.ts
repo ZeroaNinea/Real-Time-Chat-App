@@ -305,4 +305,36 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return a server error during sending a message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+        const channel = await Channel.findOne({ name: 'newchannel' });
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('message', {
+          chatId: chat._id,
+          channelId: channel._id,
+          message: 'new message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('You are not a member of this chat.');
+          clientSocket.disconnect();
+          stub.restore();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
