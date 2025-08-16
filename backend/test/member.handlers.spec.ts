@@ -2206,6 +2206,35 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to become a member of the private chat room', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token4 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'becomeMember',
+          {
+            chatId: privateChat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You cannot join a private chat.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should allow user4 to become a member of the chat room', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token4 },
