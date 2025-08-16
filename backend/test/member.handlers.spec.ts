@@ -2426,6 +2426,36 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should not allow user to transfer the ownership to themselves', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'transferOwnership',
+          {
+            chatId: chat._id,
+            userId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('User is already the owner.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should transfer the ownership to user4', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
