@@ -43,7 +43,6 @@ describe('Auth Socket Handlers', () => {
   let fakePrivateChat2: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
   let fakeMessage: typeof Message;
-  let fakeMessage2: typeof Message;
 
   before(async () => {
     await connectToDatabase();
@@ -187,12 +186,6 @@ describe('Auth Socket Handlers', () => {
       text: 'Fake-Message',
       sender: fakeUserId,
       chatId: new mongoose.Types.ObjectId(),
-    });
-
-    fakeMessage2 = await Message.create({
-      text: 'Fake-Message-2',
-      sender: user._id,
-      chatId: fakePrivateChat._id,
     });
 
     chat.roles.push({
@@ -768,9 +761,9 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should return you are not a member of the chat when tries to edit the fake message 2', (done) => {
+  it('should not allow user 5 to edit the message because they are not a member', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: token },
+      auth: { token: token5 },
       transports: ['websocket'],
     });
 
@@ -778,12 +771,13 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({ text: 'new message' });
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit(
           'editMessage',
           {
-            messageId: fakeMessage2._id,
+            messageId: message._id,
             text: 'new message',
           },
           (err: { error: string }) => {
