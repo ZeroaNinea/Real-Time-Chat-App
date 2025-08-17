@@ -792,6 +792,39 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should not allow user 2 to edit the message because they are not the sender', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({ text: 'new message' });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'editMessage',
+          {
+            messageId: message._id,
+            text: 'new message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'Only the sender of the message can edit it.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
