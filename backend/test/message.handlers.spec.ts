@@ -526,7 +526,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('sould return members not found when uses the fake private chat room', (done) => {
+  it('sould return users are not found when uses the fake private chat room to send a private message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -544,7 +544,7 @@ describe('Auth Socket Handlers', () => {
         });
 
         clientSocket.on('error', (err) => {
-          expect(err).to.equal('Members not found.');
+          expect(err).to.equal('Users are not found.');
           clientSocket.disconnect();
           done();
         });
