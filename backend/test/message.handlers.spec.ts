@@ -667,7 +667,7 @@ describe('Auth Socket Handlers', () => {
 
   it('should not allow user2 to delete the message', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: token },
+      auth: { token: token2 },
       transports: ['websocket'],
     });
 
@@ -678,15 +678,19 @@ describe('Auth Socket Handlers', () => {
         const message = await Message.findOne({ text: 'new message' });
         expect(chatId).to.equal(privateChat._id.toString());
 
-        clientSocket.emit('deleteMessage', {
-          messageId: message._id,
-        });
-
-        clientSocket.on('error', (err) => {
-          expect(err).to.equal('You are not allowed to delete messages.');
-          clientSocket.disconnect();
-          done();
-        });
+        clientSocket.emit(
+          'deleteMessage',
+          {
+            messageId: message._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'You are not allowed to delete messages.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
       });
     });
 
