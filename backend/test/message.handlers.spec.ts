@@ -609,13 +609,11 @@ describe('Auth Socket Handlers', () => {
           message: 'new private message',
         });
 
-        clientSocket.on('error', async (err) => {
+        clientSocket.on('error', (err) => {
           expect(err).to.equal(
             'You cannot message this user (ban restriction).'
           );
           clientSocket.disconnect();
-          user2.banlist = [];
-          await user2.save();
           done();
         });
       });
@@ -633,7 +631,9 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
-      clientSocket.on('roomJoined', ({ chatId }) => {
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        user2.banlist = [];
+        await user2.save();
         const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
         expect(chatId).to.equal(privateChat._id.toString());
 
