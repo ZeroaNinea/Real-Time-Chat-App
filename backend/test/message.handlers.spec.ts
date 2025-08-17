@@ -42,6 +42,7 @@ describe('Auth Socket Handlers', () => {
   let fakePrivateChat: typeof Chat;
   let fakePrivateChat2: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
+  let fakeMessage: typeof Message;
 
   before(async () => {
     await connectToDatabase();
@@ -173,6 +174,12 @@ describe('Auth Socket Handlers', () => {
           user: user._id,
         },
       ],
+    });
+
+    fakeMessage = await Message.create({
+      text: 'Fake-Message',
+      sender: fakeUserId,
+      chatId: new mongoose.Types.ObjectId(),
     });
 
     fakePrivateChat2 = await Chat.create({
@@ -656,6 +663,8 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  // Delete Message
+
   it('should delete a message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -731,17 +740,12 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        const message = await Message.create({
-          chatId: new mongoose.Types.ObjectId(),
-          senderId: user._id,
-          text: 'new message',
-        });
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit(
           'deleteMessage',
           {
-            messageId: message._id,
+            messageId: fakeMessage._id,
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Chat is not found.');
