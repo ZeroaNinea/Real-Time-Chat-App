@@ -38,6 +38,7 @@ describe('Auth Socket Handlers', () => {
   let tokenModerator: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
+  let fakePrivateChat: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
 
   before(async () => {
@@ -159,7 +160,7 @@ describe('Auth Socket Handlers', () => {
       });
     });
 
-    await Chat.create({
+    fakePrivateChat = await Chat.create({
       name: 'Fake-Private-Chat',
       isPrivate: true,
       members: [
@@ -516,6 +517,34 @@ describe('Auth Socket Handlers', () => {
 
         clientSocket.on('error', (err) => {
           expect(err).to.equal('This chat is not private.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('sould return members not found when uses the fake private chat room', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(fakePrivateChat._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: fakePrivateChat._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Members not found.');
           clientSocket.disconnect();
           done();
         });
