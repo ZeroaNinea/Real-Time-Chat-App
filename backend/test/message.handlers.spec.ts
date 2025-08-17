@@ -599,6 +599,9 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        user2.banlist.push(user._id);
+        await user2.save();
+
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
