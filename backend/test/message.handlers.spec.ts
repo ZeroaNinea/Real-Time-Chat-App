@@ -862,19 +862,19 @@ describe('Auth Socket Handlers', () => {
 
   it('should reply the messasge', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: token },
+      auth: { token: token3 },
       transports: ['websocket'],
     });
 
     clientSocket.on('connect', () => {
-      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
         const message = await Message.findOne({
           text: 'new message',
           chatId: chat._id,
         });
-        expect(chatId).to.equal(privateChat._id.toString());
+        expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
           'reply',
