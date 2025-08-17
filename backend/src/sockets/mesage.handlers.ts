@@ -102,12 +102,12 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
     try {
       const message = await Message.findById(messageId);
       if (!message) {
-        return callback?.({ error: 'Message not found' });
+        return callback?.({ error: 'Message is not found.' });
       }
 
       const chat = await Chat.findById(message.chatId);
       if (!chat) {
-        return callback?.({ error: 'Chat not found' });
+        return callback?.({ error: 'Chat is not found.' });
       }
 
       const member = chat.members.find((m: Member) =>
@@ -124,7 +124,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         currentUserPermissions.includes('canDeleteMessages');
 
       if (!isSender && !isPrivileged) {
-        return callback?.({ error: 'You are not allowed to delete messages' });
+        return callback?.({ error: 'You are not allowed to delete messages.' });
       }
 
       await Message.findByIdAndDelete(messageId);
@@ -133,7 +133,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during message deletion.' });
     }
   });
 
