@@ -680,11 +680,11 @@ describe('Auth Socket Handlers', () => {
           'editMessage',
           {
             messageId: message._id,
-            text: 'edited message',
+            text: 'new message',
           },
           (response: { success: boolean; message: typeof Message }) => {
             expect(response.success).to.be.equal(true);
-            expect(response.message.text).to.equal('edited message');
+            expect(response.message.text).to.equal('new message');
             clientSocket.disconnect();
             done();
           }
