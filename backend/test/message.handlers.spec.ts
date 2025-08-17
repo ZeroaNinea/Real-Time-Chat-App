@@ -609,11 +609,13 @@ describe('Auth Socket Handlers', () => {
           message: 'new private message',
         });
 
-        clientSocket.on('error', (err) => {
+        clientSocket.on('error', async (err) => {
           expect(err).to.equal(
             'You cannot message this user (ban restriction).'
           );
           clientSocket.disconnect();
+          user2.banlist = [];
+          await user2.save();
           done();
         });
       });
