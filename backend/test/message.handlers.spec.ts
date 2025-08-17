@@ -768,11 +768,11 @@ describe('Auth Socket Handlers', () => {
     });
 
     clientSocket.on('connect', () => {
-      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
         const message = await Message.findOne({ text: 'new message' });
-        expect(chatId).to.equal(privateChat._id.toString());
+        expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
           'editMessage',
