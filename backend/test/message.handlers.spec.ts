@@ -429,7 +429,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit('message', {
@@ -458,7 +458,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
@@ -486,7 +486,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(privateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
@@ -514,7 +514,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit('privateMessage', {
@@ -542,7 +542,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(fakePrivateChat._id.toString());
 
         clientSocket.emit('privateMessage', {
@@ -570,7 +570,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat2._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(fakePrivateChat2._id.toString());
 
         clientSocket.emit('privateMessage', {
@@ -580,6 +580,36 @@ describe('Auth Socket Handlers', () => {
 
         clientSocket.on('error', (err) => {
           expect(err).to.equal('Members are not found.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should not allow user to send a private message to user2 because they are banned', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: privateChat._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal(
+            'You cannot message this user (ban restriction).'
+          );
           clientSocket.disconnect();
           done();
         });
