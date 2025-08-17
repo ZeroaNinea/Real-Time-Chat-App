@@ -880,14 +880,27 @@ describe('Auth Socket Handlers', () => {
           'reply',
           {
             messageId: message._id,
-            text: 'new message',
+            text: 'new reply message',
           },
-          (err: { error: string }) => {
-            expect(err).to.equal(undefined);
+          (response: { success: boolean; message: typeof Message }) => {
+            expect(response.success).to.be.equal(true);
+            expect(response.message.text).to.equal('new reply message');
             clientSocket.disconnect();
             done();
           }
         );
+
+        clientSocket.on('messageReplied', (response) => {
+          expect(response.text).to.equal('new reply message');
+          clientSocket.disconnect();
+          done();
+        });
+
+        clientSocket.on('messageAddedToReplies', (response) => {
+          expect(response.text).to.equal('new reply message');
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
