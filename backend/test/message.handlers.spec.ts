@@ -692,7 +692,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should return message is not found if the message ID is incorrect', (done) => {
+  it('should return message is not found if the message ID is incorrect when deleting a message', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -711,6 +711,40 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Message is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return chat is not found if the message contains a wrong chat ID when deleting a message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.create({
+          chatId: new mongoose.Types.ObjectId(),
+          senderId: user._id,
+          text: 'new message',
+        });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'deleteMessage',
+          {
+            messageId: message._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
             clientSocket.disconnect();
             done();
           }
