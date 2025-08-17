@@ -731,6 +731,36 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return chat is not found if the message contains a wrong chat ID when editing a message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'editMessage',
+          {
+            messageId: fakeMessage._id,
+            text: 'new message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
