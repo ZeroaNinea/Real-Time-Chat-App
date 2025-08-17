@@ -43,6 +43,7 @@ describe('Auth Socket Handlers', () => {
   let fakePrivateChat2: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
   let fakeMessage: typeof Message;
+  let fakeMessage2: typeof Message;
 
   before(async () => {
     await connectToDatabase();
@@ -176,16 +177,22 @@ describe('Auth Socket Handlers', () => {
       ],
     });
 
+    fakePrivateChat2 = await Chat.create({
+      name: 'Fake-Private-Chat-2',
+      isPrivate: true,
+      members: [],
+    });
+
     fakeMessage = await Message.create({
       text: 'Fake-Message',
       sender: fakeUserId,
       chatId: new mongoose.Types.ObjectId(),
     });
 
-    fakePrivateChat2 = await Chat.create({
-      name: 'Fake-Private-Chat-2',
-      isPrivate: true,
-      members: [],
+    fakeMessage2 = await Message.create({
+      text: 'Fake-Message-2',
+      sender: user._id,
+      chatId: fakePrivateChat._id,
     });
 
     chat.roles.push({
@@ -751,6 +758,36 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return you are not a member of the chat when tries to edit the fake message 2', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'editMessage',
+          {
+            messageId: fakeMessage2._id,
+            text: 'new message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not a member of this chat.');
             clientSocket.disconnect();
             done();
           }
