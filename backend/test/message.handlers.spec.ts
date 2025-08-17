@@ -623,4 +623,34 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return a server error during sending a private message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').throws(new Error('DB down'));
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: privateChat._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Server error during sending a message.');
+          clientSocket.disconnect();
+          stub.restore();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
