@@ -16,8 +16,9 @@ import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
-import { Role } from '../types/role.alias';
 import { Member } from '../types/member.alias';
+import { Message } from '../src/models/message.model';
+import { Role } from '../types/role.alias';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -251,6 +252,7 @@ describe('Auth Socket Handlers', () => {
     await User.deleteMany({});
     await Chat.deleteMany({});
     await Channel.deleteMany({});
+    await Message.deleteMany({});
     await disconnectDatabase();
     io.close();
     server.close();
@@ -646,6 +648,42 @@ describe('Auth Socket Handlers', () => {
           expect(err).to.equal('Server error during sending a message.');
           clientSocket.disconnect();
           stub.restore();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should delete a message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({ text: 'new message' });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'deleteMessage',
+          {
+            messageId: message._id,
+          },
+          (response: { success: true }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('messageDeleted', ({ messageId }) => {
+          expect(messageId).to.equal(message._id.toString());
+          clientSocket.disconnect();
           done();
         });
       });
