@@ -560,4 +560,32 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return members are not found when uses the fake private chat 2 room to send a private message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(fakePrivateChat2._id.toString());
+
+        clientSocket.emit('privateMessage', {
+          chatId: fakePrivateChat2._id,
+          message: 'new private message',
+        });
+
+        clientSocket.on('error', (err) => {
+          expect(err).to.equal('Members are not found.');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
