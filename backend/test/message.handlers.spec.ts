@@ -39,6 +39,7 @@ describe('Auth Socket Handlers', () => {
   let chat: typeof Chat;
   let privateChat: typeof Chat;
   let fakePrivateChat: typeof Chat;
+  let fakePrivateChat2: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
 
   before(async () => {
@@ -171,6 +172,12 @@ describe('Auth Socket Handlers', () => {
           user: user._id,
         },
       ],
+    });
+
+    fakePrivateChat2 = await Chat.create({
+      name: 'Fake-Private-Chat-2',
+      isPrivate: true,
+      members: [],
     });
 
     chat.roles.push({
