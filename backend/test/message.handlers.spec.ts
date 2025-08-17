@@ -38,6 +38,7 @@ describe('Auth Socket Handlers', () => {
   let tokenModerator: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
+  let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
 
   before(async () => {
     await connectToDatabase();
@@ -156,6 +157,19 @@ describe('Auth Socket Handlers', () => {
         address = `http://localhost:${port}`;
         resolve();
       });
+    });
+
+    await Chat.create({
+      name: 'Fake-Private-Chat',
+      isPrivate: true,
+      members: [
+        {
+          user: fakeUserId,
+        },
+        {
+          user: user._id,
+        },
+      ],
     });
 
     chat.roles.push({
