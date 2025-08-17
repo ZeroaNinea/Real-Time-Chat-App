@@ -825,6 +825,41 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return a server error during message editing', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({ text: 'new message' });
+        const stub = sinon
+          .stub(Message, 'findById')
+          .throws(new Error('DB down'));
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'editMessage',
+          {
+            messageId: message._id,
+            text: 'new message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Server error during message editing.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
