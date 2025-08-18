@@ -43,6 +43,7 @@ describe('Auth Socket Handlers', () => {
   let fakePrivateChat2: typeof Chat;
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
   let fakeMessage: typeof Message;
+  let fakeMessage2: typeof Message;
 
   before(async () => {
     await connectToDatabase();
@@ -186,6 +187,12 @@ describe('Auth Socket Handlers', () => {
       text: 'Fake-Message',
       sender: fakeUserId,
       chatId: new mongoose.Types.ObjectId(),
+    });
+
+    fakeMessage2 = await Message.create({
+      text: 'Fake-Message-2',
+      sender: fakeUserId,
+      chatId: fakePrivateChat2._id,
     });
 
     chat.roles.push({
@@ -1196,16 +1203,12 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat2._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        const message = await Message.findOne({
-          text: 'new private message',
-          chatId: fakePrivateChat2._id,
-        });
         expect(chatId).to.equal(fakePrivateChat2._id.toString());
 
         clientSocket.emit(
           'privateReply',
           {
-            messageId: message._id,
+            messageId: fakeMessage2._id,
             text: 'new reply message',
           },
           (err: { error: string }) => {
