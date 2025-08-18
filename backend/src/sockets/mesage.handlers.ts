@@ -226,12 +226,12 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
 
       const message = await Message.findById(messageId);
       if (!message) {
-        return callback?.({ error: 'Message not found' });
+        return callback?.({ error: 'Message is not found.' });
       }
 
       const chat = await Chat.findById(message.chatId);
       if (!chat || !chat.isPrivate) {
-        return callback?.({ error: 'Private chat not found' });
+        return callback?.({ error: 'Private chat is not found.' });
       }
 
       const member1 = chat.members.find((m: Member) => m.user.equals(senderId));
@@ -240,14 +240,14 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       );
 
       if (!member1 || !member2) {
-        return callback?.({ error: 'Invalid private chat' });
+        return callback?.({ error: 'Members are not found.' });
       }
 
       const senderUser = await User.findById(senderId);
       const otherUser = await User.findById(member2.user);
 
       if (!senderUser || !otherUser) {
-        return callback?.({ error: 'Users not found' });
+        return callback?.({ error: 'Users are not found.' });
       }
 
       if (
@@ -255,12 +255,12 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
         otherUser.banlist.includes(senderUser._id)
       ) {
         return callback?.({
-          error: 'You cannot reply in this chat (ban restriction)',
+          error: 'You cannot reply in this chat (ban restriction).',
         });
       }
 
       if (message.sender.equals(senderId)) {
-        return callback?.({ error: 'You cannot reply to your own message' });
+        return callback?.({ error: 'You cannot reply to your own message.' });
       }
 
       const reply = await Message.create({
@@ -275,7 +275,7 @@ export function registerMessageHandlers(io: Server, socket: Socket) {
       callback?.({ success: true, message: reply });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during message reply.' });
     }
   });
 }
