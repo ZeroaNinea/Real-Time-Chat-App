@@ -1324,8 +1324,7 @@ describe('Auth Socket Handlers', () => {
             messageId: message._id,
             text: 'new reply message',
           },
-          (err: any) => {
-            console.log(err, '============================================');
+          (err: { error: string }) => {
             expect(err.error).to.equal('You cannot reply to your own message.');
             clientSocket.disconnect();
             done();
