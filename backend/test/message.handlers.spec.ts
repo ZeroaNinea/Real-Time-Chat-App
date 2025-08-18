@@ -44,6 +44,7 @@ describe('Auth Socket Handlers', () => {
   let fakeUserId: mongoose.Types.ObjectId = new mongoose.Types.ObjectId();
   let fakeMessage: typeof Message;
   let fakeMessage2: typeof Message;
+  let fakeMessage3: typeof Message;
 
   before(async () => {
     await connectToDatabase();
@@ -193,6 +194,12 @@ describe('Auth Socket Handlers', () => {
       text: 'Fake-Message-2',
       sender: fakeUserId,
       chatId: fakePrivateChat2._id,
+    });
+
+    fakeMessage3 = await Message.create({
+      text: 'Fake-Message-3',
+      sender: fakeUserId,
+      chatId: fakePrivateChat._id,
     });
 
     chat.roles.push({
