@@ -1139,8 +1139,44 @@ describe('Auth Socket Handlers', () => {
             text: 'new reply message',
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('Message not found.');
+            expect(err.error).to.equal('Message is not found.');
             clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return private chat is not found during replying in the private chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(Chat, 'findById').relosves(null);
+        const message = await Message.findOne({
+          text: 'new private message',
+          chatId: privateChat._id,
+        });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'privateReply',
+          {
+            messageId: message._id,
+            text: 'new reply message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Private chat is not found.');
+            clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
