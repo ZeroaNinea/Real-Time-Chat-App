@@ -1230,6 +1230,37 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return users are not found when user tries to reply the fake message 3 in private chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: fakePrivateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(fakePrivateChat._id.toString());
+
+        clientSocket.emit(
+          'privateReply',
+          {
+            messageId: fakeMessage3._id,
+            text: 'new reply message',
+          },
+          (err: any) => {
+            console.log(err, '=====================================');
+            expect(err.error).to.equal('Users are not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
