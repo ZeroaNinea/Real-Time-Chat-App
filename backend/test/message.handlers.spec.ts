@@ -1299,6 +1299,44 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return you cannot reply your own message when user tries to reply the private message', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        user.banlist = [];
+        await user.save();
+
+        const message = await Message.findOne({
+          text: 'new private message',
+          chatId: privateChat._id,
+        });
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'privateReply',
+          {
+            messageId: message._id,
+            text: 'new reply message',
+          },
+          (err: any) => {
+            console.log(err, '============================================');
+            expect(err.error).to.equal('You cannot reply to your own message.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
