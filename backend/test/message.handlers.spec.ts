@@ -1248,8 +1248,7 @@ describe('Auth Socket Handlers', () => {
             messageId: fakeMessage3._id,
             text: 'new reply message',
           },
-          (err: any) => {
-            console.log(err, '=====================================');
+          (err: { error: string }) => {
             expect(err.error).to.equal('Users are not found.');
             clientSocket.disconnect();
             done();
