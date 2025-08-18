@@ -1270,6 +1270,9 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        user.banlist.push(user2._id);
+        await user.save();
+
         const message = await Message.findOne({
           text: 'new private message',
           chatId: privateChat._id,
