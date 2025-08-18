@@ -1346,6 +1346,9 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon
+          .stub(Message, 'findById')
+          .throws(new Error('DB down'));
         const message = await Message.findOne({
           text: 'new private message',
           chatId: privateChat._id,
@@ -1361,6 +1364,7 @@ describe('Auth Socket Handlers', () => {
           (err: { error: string }) => {
             expect(err.error).to.equal('Server error during message reply.');
             clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
