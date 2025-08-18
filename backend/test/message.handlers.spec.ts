@@ -967,6 +967,40 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should not allow user 5 to reply the message because they are not a member', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token5 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({
+          text: 'new message',
+          chatId: chat._id,
+        });
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'reply',
+          {
+            messageId: message._id,
+            text: 'new reply message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are not a member of this chat.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
