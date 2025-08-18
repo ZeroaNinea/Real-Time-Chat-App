@@ -1120,6 +1120,36 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return message is not found if message ID is incorrect during replying in the private chat', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: privateChat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(privateChat._id.toString());
+
+        clientSocket.emit(
+          'privateReply',
+          {
+            messageId: new mongoose.Types.ObjectId(),
+            text: 'new reply message',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Message not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // Delete Message
 
   it('should not allow user2 to delete the message', (done) => {
