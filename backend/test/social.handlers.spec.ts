@@ -148,4 +148,27 @@ describe('Auth Socket Handlers', () => {
     io.close();
     server.close();
   });
+
+  it('should send a friend request', async () => {
+    clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit(
+        'sendFriendRequest',
+        { userId: user2._id },
+        (response: { success: boolean }) => {
+          expect(response.success).to.equal(true);
+          clientSocket.disconnect();
+        }
+      );
+
+      clientSocket.on('notification', (data) => {
+        expect(data.type).to.equal('friendRequest');
+        clientSocket.disconnect();
+      });
+    });
+  });
 });
