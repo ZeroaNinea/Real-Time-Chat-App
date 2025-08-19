@@ -678,8 +678,6 @@ describe('Auth Socket Handlers', () => {
           text: 'Reacted-Message',
           chatId: chat._id,
         });
-
-        console.log(message, '==================================');
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
