@@ -272,4 +272,38 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return already friends', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        user.friends.push(user2._id);
+        user2.friends.push(user._id);
+        await user.save();
+        await user2.save();
+
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'sendFriendRequest',
+          {
+            receiverId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Already friends.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
