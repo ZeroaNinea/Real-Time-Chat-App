@@ -551,4 +551,35 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return chat is not found if the message contains an incorrect chat ID during toggle reaction', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleReaction',
+          {
+            chatId: new mongoose.Types.ObjectId(),
+            messageId: fakeMessage._id,
+            reaction: '👍',
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Chat is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
