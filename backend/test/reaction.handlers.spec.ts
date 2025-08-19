@@ -372,8 +372,8 @@ describe('Auth Socket Handlers', () => {
                 chatId: chat._id,
                 reaction: '👍',
               },
-              (err: { message: string }) => {
-                expect(err.message).to.be.equal(
+              (err: { error: string }) => {
+                expect(err.error).to.be.equal(
                   'Missing message ID or reaction.'
                 );
                 clientSocket.disconnect();
