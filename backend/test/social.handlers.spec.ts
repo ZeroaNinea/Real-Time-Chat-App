@@ -212,4 +212,33 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should try to send a friend request again and get friend request already sent', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'sendFriendRequest',
+          {
+            receiverId: user2._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Friend request already sent.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
