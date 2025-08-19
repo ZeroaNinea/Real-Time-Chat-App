@@ -149,7 +149,7 @@ describe('Auth Socket Handlers', () => {
     server.close();
   });
 
-  it('should send a friend request', async () => {
+  it('should send a friend request', (done) => {
     clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
@@ -165,16 +165,22 @@ describe('Auth Socket Handlers', () => {
           'sendFriendRequest',
           { userId: user2._id },
           (response: { success: boolean }) => {
+            console.log(response, '================================');
             expect(response.success).to.equal(true);
             clientSocket.disconnect();
+            done();
           }
         );
 
         clientSocket.on('notification', (data) => {
+          console.log(data, '===============================');
           expect(data.type).to.equal('friendRequest');
           clientSocket.disconnect();
+          done();
         });
       });
     });
+
+    clientSocket.on('connect_error', done);
   });
 });
