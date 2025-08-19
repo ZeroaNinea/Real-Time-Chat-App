@@ -317,6 +317,41 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should allow user2 to decline friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          senderId: user._id,
+          receiverId: user2._id,
+          type: 'friend-request',
+        });
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'declineFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   // it('should return user is banned', (done) => {
   //   const clientSocket = Client(address, {
   //     auth: { token: token },
