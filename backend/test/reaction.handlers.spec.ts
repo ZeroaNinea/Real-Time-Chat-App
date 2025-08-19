@@ -765,8 +765,20 @@ describe('Auth Socket Handlers', () => {
           },
           (response: { success: boolean }) => {
             expect(response.success).to.be.equal(true);
-            clientSocket.disconnect();
-            done();
+
+            clientSocket.emit(
+              'toggleReaction',
+              {
+                chatId: chat._id,
+                messageId: message._id,
+                reaction: '👍',
+              },
+              (response: { success: boolean }) => {
+                expect(response.success).to.be.equal(true);
+                clientSocket.disconnect();
+                done();
+              }
+            );
           }
         );
       });
