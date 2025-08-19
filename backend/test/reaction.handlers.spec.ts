@@ -607,7 +607,9 @@ describe('Auth Socket Handlers', () => {
             reaction: '👍',
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('You are not a member of this chat.');
+            expect(err.error).to.equal(
+              'You are not a member of this chat room.'
+            );
             clientSocket.disconnect();
             done();
           }
