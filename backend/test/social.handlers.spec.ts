@@ -150,7 +150,7 @@ describe('Auth Socket Handlers', () => {
   });
 
   it('should send a friend request', (done) => {
-    clientSocket = Client(address, {
+    const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
     });
@@ -163,18 +163,18 @@ describe('Auth Socket Handlers', () => {
 
         clientSocket.emit(
           'sendFriendRequest',
-          { userId: user2._id },
+          {
+            receiverId: user2._id,
+          },
           (response: { success: boolean }) => {
-            console.log(response, '================================');
             expect(response.success).to.equal(true);
             clientSocket.disconnect();
             done();
           }
         );
 
-        clientSocket.on('notification', (data) => {
-          console.log(data, '===============================');
-          expect(data.type).to.equal('friendRequest');
+        clientSocket.on('notification', (notification) => {
+          expect(notification.type).to.be.equal('friend-request');
           clientSocket.disconnect();
           done();
         });
