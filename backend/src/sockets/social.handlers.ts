@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
-
 import mongoose, { ObjectId } from 'mongoose';
+
+import userHelper from '../helpers/user-helper';
 
 import { User } from '../models/user.model';
 import { Notification } from '../models/notification.model';
@@ -13,8 +14,8 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
   socket.on('sendFriendRequest', async ({ receiverId }, callback) => {
     try {
       const senderId = socket.data.user._id.toString();
-      const sender = await User.findById(senderId);
-      const receiver = await User.findById(receiverId);
+      const sender = await userHelper.findUserById(senderId);
+      const receiver = await userHelper.findUserById(receiverId);
 
       if (!sender || !receiver)
         return callback?.({ error: 'User is not found.' });

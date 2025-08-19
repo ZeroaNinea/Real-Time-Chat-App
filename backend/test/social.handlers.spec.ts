@@ -18,6 +18,8 @@ import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
 import { Notification } from '../src/models/notification.model';
 
+import userHelper from '../src/helpers/user-helper';
+
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
   let address: string;
@@ -376,67 +378,38 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  // it('should allow user2 to decline friend request', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token },
-  //     transports: ['websocket'],
-  //   });
+  it('should return a server error during sending a friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
 
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: user2._id });
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
 
-  //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       const notification = await Notification.findOne({
-  //         type: 'friend-request',
-  //       });
-  //       expect(chatId).to.equal(user2._id.toString());
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon
+          .stub(userHelper, 'findUserById')
+          .throws(new Error('DB down'));
+        expect(chatId).to.equal(user2._id.toString());
 
-  //       clientSocket.emit(
-  //         'declineFriendRequest',
-  //         {
-  //           notificationId: notification._id,
-  //           senderId: user._id,
-  //         },
-  //         (response: any) => {
-  //           console.log(response, '=================================');
-  //           expect(response.success).to.equal(true);
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
-  //     });
+        clientSocket.emit(
+          'sendFriendRequest',
+          {
+            receiverId: user2._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'Server error during sending a friend request.'
+            );
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
 
-  //     clientSocket.on('connect_error', done);
-  //   });
-  // });
-
-  // it('should return user is banned', (done) => {
-  //   const clientSocket = Client(address, {
-  //     auth: { token: token },
-  //     transports: ['websocket'],
-  //   });
-
-  //   clientSocket.on('connect', () => {
-  //     clientSocket.emit('joinChatRoom', { chatId: user._id });
-
-  //     clientSocket.on('roomJoined', ({ chatId }) => {
-  //       expect(chatId).to.equal(user._id.toString());
-
-  //       clientSocket.emit(
-  //         'sendFriendRequest',
-  //         {
-  //           receiverId: user2._id,
-  //         },
-  //         (err: any) => {
-  //           console.log(err, '===============================');
-  //           expect(err.error).to.equal('User is banned.');
-  //           clientSocket.disconnect();
-  //           done();
-  //         }
-  //       );
-  //     });
-  //   });
-
-  //   clientSocket.on('connect_error', done);
-  // });
+    clientSocket.on('connect_error', done);
+  });
 });
