@@ -203,13 +203,39 @@ describe('Auth Socket Handlers', () => {
       chatId: fakePrivateChat._id,
     });
 
-    const reactedUsers: { user: mongoose.Types.ObjectId; reaction: string }[] =
-      [];
+    const emojis = [
+      '🚶‍♀️‍➡️',
+      '👎',
+      '🤷',
+      '😂',
+      '😡',
+      '👀',
+      '👏',
+      '🙌',
+      '👋',
+      '👌',
+      '👈',
+      '👉',
+      '👆',
+      '👇',
+      '👊',
+      '💪',
+      '👶',
+      '👦',
+      '👧',
+      '👨',
+      '👩',
+      '👪',
+      '👫',
+      '👬',
+      '👭',
+    ];
+    const reactions: { emoji: string; users: mongoose.Types.ObjectId[] }[] = [];
 
     for (let i = 0; i < 20; i++) {
-      reactedUsers.push({
-        user: new mongoose.Types.ObjectId(),
-        reaction: '👍',
+      reactions.push({
+        emoji: emojis[i],
+        users: [new mongoose.Types.ObjectId()],
       });
     }
 
@@ -217,12 +243,7 @@ describe('Auth Socket Handlers', () => {
       text: 'Reacted-Message',
       sender: user._id,
       chatId: chat._id,
-      reactions: [
-        {
-          user: [...reactedUsers],
-          reaction: '👍',
-        },
-      ],
+      reactions: [...reactions],
     });
 
     chat.roles.push({
@@ -738,6 +759,8 @@ describe('Auth Socket Handlers', () => {
           text: 'Reacted-Message',
           chatId: chat._id,
         });
+
+        console.log(message, '==================================');
         expect(chatId).to.equal(chat._id.toString());
 
         clientSocket.emit(
@@ -747,7 +770,9 @@ describe('Auth Socket Handlers', () => {
             messageId: message._id,
             reaction: '👍',
           },
-          (err: { error: string }) => {
+          (err: any) => {
+            console.log(err, '===================================');
+            // expect(err.success).to.equal(true);
             expect(err.error).to.equal('Too many reactions.');
             clientSocket.disconnect();
             done();
