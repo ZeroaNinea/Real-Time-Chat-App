@@ -725,8 +725,8 @@ describe('Auth Socket Handlers', () => {
             messageId: message._id,
             reaction: '👍',
           },
-          (err: { error: string }) => {
-            expect(err.error).to.equal(
+          (err: { message: string }) => {
+            expect(err.message).to.equal(
               'Server error during toggling reaction.'
             );
             clientSocket.disconnect();
