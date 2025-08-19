@@ -619,4 +619,78 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return too many reactions if user toggles different reactions more than 20 times', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({
+          text: 'new message',
+          chatId: chat._id,
+        });
+        expect(chatId).to.equal(chat._id.toString());
+
+        const reactions = [
+          '👍',
+          '👎',
+          '👌',
+          '👊',
+          '👏',
+          '👋',
+          '😑',
+          '😻',
+          '🫨',
+          '😎',
+          '👶',
+          '👼',
+          '👸',
+          '👸🏻',
+          '👸🏼',
+          '👸🏽',
+          '👸🏾',
+          '👸🏿',
+          '👸🏼‍♀️',
+          '👸🏾‍♀️',
+          '👸🏾‍♂️',
+          '👸🏿‍♂️',
+        ];
+
+        for (let i = 0; i < 21; i++) {
+          if (i === 20) {
+            clientSocket.emit(
+              'toggleReaction',
+              {
+                chatId: chat._id,
+                messageId: message._id,
+                reaction: reactions[i],
+              },
+              (err: { error: string }) => {
+                expect(err.error).to.equal('Too many reactions.');
+                clientSocket.disconnect();
+                done();
+              }
+            );
+          } else {
+            clientSocket.emit(
+              'toggleReaction',
+              {
+                chatId: chat._id,
+                messageId: message._id,
+                reaction: reactions[i],
+              },
+              done
+            );
+          }
+        }
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
