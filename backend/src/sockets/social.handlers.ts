@@ -63,7 +63,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error during friend request.' });
+      callback?.({ error: 'Server error during sending a friend request.' });
     }
   });
 
