@@ -16,24 +16,25 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       const sender = await User.findById(senderId);
       const receiver = await User.findById(receiverId);
 
-      if (!sender || !receiver) return callback?.({ error: 'User not found' });
+      if (!sender || !receiver)
+        return callback?.({ error: 'User is not found.' });
 
       if (receiver.friends?.includes(senderId))
-        return callback?.({ error: 'Already friends' });
+        return callback?.({ error: 'Already friends.' });
 
       if (sender.pendingRequests?.includes(receiverId))
-        return callback?.({ error: 'Friend request already sent' });
+        return callback?.({ error: 'Friend request already sent.' });
 
       if (senderId === receiverId)
         return callback?.({
-          error: 'Cannot send friend request to yourself',
+          error: 'Cannot send friend request to yourself.',
         });
 
       if (receiver.banlist?.includes(senderId))
-        return callback?.({ error: 'User is banned' });
+        return callback?.({ error: 'User is banned.' });
 
       if (sender.banlist?.includes(receiverId))
-        return callback?.({ error: 'You are banned by the user' });
+        return callback?.({ error: 'You are banned by the user.' });
 
       sender.pendingRequests?.push(receiverId);
       await sender.save();
@@ -42,7 +43,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         sender: senderId,
         recipient: receiverId,
         type: 'friend-request',
-        message: `${sender.username} sent you a friend request`,
+        message: `${sender.username} sent you a friend request.`,
         link: '/friends',
       });
 
@@ -61,7 +62,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during friend request.' });
     }
   });
 
