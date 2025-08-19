@@ -332,4 +332,59 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return missing messageId or reaction during toggle reaction', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('addChannel', {
+          chatId: chat._id,
+          channelName: 'newchannel',
+        });
+
+        clientSocket.on('channelAdded', (newChannel) => {
+          expect(newChannel.name).to.equal('newchannel');
+
+          clientSocket.emit(
+            'message',
+            {
+              chatId: chat._id,
+              channelId: newChannel._id,
+              message: 'new message',
+            },
+            done
+          );
+
+          clientSocket.on('message', (message) => {
+            expect(message.text).to.equal('new message');
+
+            clientSocket.emit(
+              'toggleReaction',
+              {
+                chatId: chat._id,
+                reaction: '👍',
+              },
+              (err: { message: string }) => {
+                expect(err.message).to.be.equal(
+                  'Missing message ID or reaction.'
+                );
+                clientSocket.disconnect();
+                done();
+              }
+            );
+          });
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
