@@ -149,6 +149,38 @@ describe('Auth Socket Handlers', () => {
     server.close();
   });
 
+  it('should return user is banned', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        user2.banlist.push(user._id);
+        await user2.save();
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'sendFriendRequest',
+          {
+            receiverId: user2._id,
+          },
+          (err: any) => {
+            console.log(err, '===============================');
+            expect(err.error).to.equal('User is banned.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should send a friend request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -158,7 +190,10 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: user2._id });
 
-      clientSocket.on('roomJoined', ({ chatId }) => {
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        user2.banlist = [];
+        await user2.save();
+
         expect(chatId).to.equal(user2._id.toString());
 
         clientSocket.emit(
