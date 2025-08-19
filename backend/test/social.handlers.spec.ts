@@ -241,4 +241,35 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return cannot send friend request to yourself', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'sendFriendRequest',
+          {
+            receiverId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'Cannot send friend request to yourself.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
