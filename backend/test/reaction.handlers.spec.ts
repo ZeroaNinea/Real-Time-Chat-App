@@ -498,7 +498,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should return only one emoji is allowed during toggle reaction', (done) => {
+  it('should return only one emoji is allowed if user sends more than one emoji during toggle reaction', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
       transports: ['websocket'],
