@@ -298,6 +298,15 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Already friends.');
+
+            // user2.friends = [];
+            // user2.banlist.push(user._id);
+            // user2.save();
+
+            // user.friends = [];
+            // user.banlist.push(user2._id);
+            // user.save();
+
             clientSocket.disconnect();
             done();
           }
@@ -317,11 +326,7 @@ describe('Auth Socket Handlers', () => {
   //   clientSocket.on('connect', () => {
   //     clientSocket.emit('joinChatRoom', { chatId: user._id });
 
-  //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       user2.friends = [];
-  //       user2.banlist = [user._id];
-  //       await user2.save();
-
+  //     clientSocket.on('roomJoined', ({ chatId }) => {
   //       expect(chatId).to.equal(user._id.toString());
 
   //       clientSocket.emit(
