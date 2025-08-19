@@ -739,4 +739,39 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should toggle an existing reaction again', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const message = await Message.findOne({
+          text: 'new message',
+          chatId: chat._id,
+        });
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit(
+          'toggleReaction',
+          {
+            chatId: chat._id,
+            messageId: message._id,
+            reaction: '👍',
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.be.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
