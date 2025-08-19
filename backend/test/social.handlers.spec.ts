@@ -156,18 +156,24 @@ describe('Auth Socket Handlers', () => {
     });
 
     clientSocket.on('connect', () => {
-      clientSocket.emit(
-        'sendFriendRequest',
-        { userId: user2._id },
-        (response: { success: boolean }) => {
-          expect(response.success).to.equal(true);
-          clientSocket.disconnect();
-        }
-      );
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
 
-      clientSocket.on('notification', (data) => {
-        expect(data.type).to.equal('friendRequest');
-        clientSocket.disconnect();
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'sendFriendRequest',
+          { userId: user2._id },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+          }
+        );
+
+        clientSocket.on('notification', (data) => {
+          expect(data.type).to.equal('friendRequest');
+          clientSocket.disconnect();
+        });
       });
     });
   });
