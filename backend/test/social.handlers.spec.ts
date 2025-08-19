@@ -293,7 +293,7 @@ describe('Auth Socket Handlers', () => {
         clientSocket.emit(
           'sendFriendRequest',
           {
-            receiverId: user._id,
+            receiverId: user2._id,
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Already friends.');
