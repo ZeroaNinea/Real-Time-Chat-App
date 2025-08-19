@@ -168,8 +168,7 @@ describe('Auth Socket Handlers', () => {
           {
             receiverId: user2._id,
           },
-          (err: any) => {
-            console.log(err, '===============================');
+          (err: { error: string }) => {
             expect(err.error).to.equal('User is banned.');
             clientSocket.disconnect();
             done();
