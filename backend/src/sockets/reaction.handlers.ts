@@ -16,18 +16,18 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
         const currentUserId = socket.data.user._id;
 
         if (!messageId || !reaction) {
-          return callback?.({ error: 'Missing messageId or reaction' });
+          return callback?.({ error: 'Missing messageId or reaction.' });
         }
 
         const regex = emojiRegex();
 
         if (!regex.test(reaction.trim())) {
-          return callback?.({ error: 'Reaction must be a valid emoji' });
+          return callback?.({ error: 'Reaction must be a valid emoji.' });
         }
 
         const message = await Message.findById(messageId);
         if (!message) {
-          return callback?.({ error: 'Message not found' });
+          return callback?.({ error: 'Message is not found.' });
         }
 
         const matched = reaction.trim().match(regex);
@@ -36,12 +36,12 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
           matched.length !== 1 ||
           matched[0] !== reaction.trim()
         ) {
-          return callback?.({ error: 'Only one emoji is allowed' });
+          return callback?.({ error: 'Only one emoji is allowed.' });
         }
 
         const currentChatRoom = await Chat.findById(chatId);
         if (!currentChatRoom) {
-          return callback?.({ error: 'Chat room not found' });
+          return callback?.({ error: 'Chat is not found.' });
         }
 
         if (
@@ -50,7 +50,7 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
           )
         ) {
           return callback?.({
-            error: 'You are not a member of this chat room',
+            error: 'You are not a member of this chat room.',
           });
         }
 
@@ -58,7 +58,7 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
           message.reactions.length >= 20 &&
           !message.reactions.find((r: Reaction) => r.emoji === reaction)
         ) {
-          return callback?.({ error: 'Too many reactions' });
+          return callback?.({ error: 'Too many reactions.' });
         }
 
         const reactionEntry = message.reactions.find(
@@ -95,7 +95,10 @@ export function registerReactionHandlers(io: Server, socket: Socket) {
 
         return callback?.({ success: true });
       } catch (err) {
-        return callback?.({ error: err });
+        return callback?.({
+          message: 'Server error during toggling reaction.',
+          error: err,
+        });
       }
     }
   );
