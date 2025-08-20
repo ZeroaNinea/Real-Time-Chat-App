@@ -19,6 +19,7 @@ import { Channel } from '../src/models/channel.model';
 import { Notification } from '../src/models/notification.model';
 
 import userHelper from '../src/helpers/user-helper';
+import { response } from 'express';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -407,6 +408,45 @@ describe('Auth Socket Handlers', () => {
             done();
           }
         );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should allow user2 to decline the friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          sender: user._id,
+          recipient: user2._id,
+        });
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'declineFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        // clientSocket.on('friendRequestDeclined', () => {
+        //   clientSocket.disconnect();
+        //   done();
+        // });
       });
     });
 
