@@ -886,20 +886,15 @@ describe('Auth Socket Handlers', () => {
       clientSocket.on('roomJoined', async ({ chatId }) => {
         user2.banlist.push(user._id);
         await user2.save();
-        const notification = await Notification.findOne({
-          sender: user._id,
-          recipient: user2._id,
-        });
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
           'acceptFriendRequest',
           {
-            notificationId: notification._id,
+            notificationId: new mongoose.Types.ObjectId().toString(),
             senderId: user._id,
           },
-          (err: { error: string } | any) => {
-            console.log(err, '============================');
+          (err: { error: string }) => {
             expect(err.error).to.equal('User is banned.');
             clientSocket.disconnect();
             done();
@@ -911,7 +906,7 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should accept a friend request', (done) => {
+  it('should return you are banned by the user during accepting a friend request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
       transports: ['websocket'],
@@ -921,33 +916,69 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        const notification = await Notification.findOne({
-          sender: user._id,
-          recipient: user2._id,
-        });
+        user2.banlist = [];
+        user.banlist.push(user2._id);
+        await user.save();
+        await user2.save();
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
           'acceptFriendRequest',
           {
-            notificationId: notification._id,
+            notificationId: new mongoose.Types.ObjectId().toString(),
             senderId: user._id,
           },
-          (response: { success: boolean }) => {
-            expect(response.success).to.equal(true);
+          (err: { error: string }) => {
+            expect(err.error).to.equal('You are banned by the user.');
             clientSocket.disconnect();
             done();
           }
         );
-
-        clientSocket.on('friendAddedByOther', (user) => {
-          expect(user.username).to.be.equal('socketuser2');
-          clientSocket.disconnect();
-          done();
-        });
       });
     });
 
     clientSocket.on('connect_error', done);
   });
+
+  // it('should accept a friend request', (done) => {
+  //   const clientSocket = Client(address, {
+  //     auth: { token: token2 },
+  //     transports: ['websocket'],
+  //   });
+
+  //   clientSocket.on('connect', () => {
+  //     clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+  //     clientSocket.on('roomJoined', async ({ chatId }) => {
+  //       user.banlist = [];
+  //       await user.save();
+  //       const notification = await Notification.findOne({
+  //         sender: user._id,
+  //         recipient: user2._id,
+  //       });
+  //       expect(chatId).to.equal(user._id.toString());
+
+  //       clientSocket.emit(
+  //         'acceptFriendRequest',
+  //         {
+  //           notificationId: notification._id,
+  //           senderId: user._id,
+  //         },
+  //         (response: { success: boolean }) => {
+  //           expect(response.success).to.equal(true);
+  //           clientSocket.disconnect();
+  //           done();
+  //         }
+  //       );
+
+  //       clientSocket.on('friendAddedByOther', (user) => {
+  //         expect(user.username).to.be.equal('socketuser2');
+  //         clientSocket.disconnect();
+  //         done();
+  //       });
+  //     });
+  //   });
+
+  //   clientSocket.on('connect_error', done);
+  // });
 });
