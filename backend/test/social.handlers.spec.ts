@@ -567,6 +567,33 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return invalid friend ID if friend ID is not valid during removing friend', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'removeFriend',
+          { friendId: new mongoose.Types.ObjectId().toString() },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Invalid friend ID.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should remove friend', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
@@ -590,7 +617,6 @@ describe('Auth Socket Handlers', () => {
         );
 
         clientSocket.on('friendRemovedByOther', (data: { userId: string }) => {
-          console.log(data.userId, '==============================');
           expect(data.userId).to.equal(user._id.toString());
           clientSocket.disconnect();
           done();
