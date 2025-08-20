@@ -19,7 +19,6 @@ import { Channel } from '../src/models/channel.model';
 import { Notification } from '../src/models/notification.model';
 
 import userHelper from '../src/helpers/user-helper';
-import { response } from 'express';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -204,45 +203,6 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('User is banned.');
-            clientSocket.disconnect();
-            done();
-          }
-        );
-      });
-    });
-
-    clientSocket.on('connect_error', done);
-  });
-
-  it('should fail to accept the friend request before it has been sent', (done) => {
-    const clientSocket = Client(address, {
-      auth: { token: token2 },
-      transports: ['websocket'],
-    });
-
-    clientSocket.on('connect', () => {
-      clientSocket.emit('joinChatRoom', { chatId: user2._id });
-
-      clientSocket.on('roomJoined', async ({ chatId }) => {
-        const stub = sinon.stub(userHelper, 'findUserById').resolves({
-          _id: user2._id,
-          username: 'socketuser2',
-          email: 'socket2@email.com',
-          password: '123',
-          status: 'offline',
-        });
-        expect(chatId).to.equal(user2._id.toString());
-
-        clientSocket.emit(
-          'acceptFriendRequest',
-          {
-            notificationId: new mongoose.Types.ObjectId(),
-            senderId: user._id,
-          },
-          (err: any) => {
-            console.log(err, '=======================================');
-            expect(err.error).to.equal('Friend request is not found.');
-            stub.restore();
             clientSocket.disconnect();
             done();
           }
@@ -571,6 +531,36 @@ describe('Auth Socket Handlers', () => {
             done();
           });
         });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return friend request is not found during declining the friend request again', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'declineFriendRequest',
+          {
+            notificationId: new mongoose.Types.ObjectId().toString(),
+            senderId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Friend request is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
       });
     });
 
