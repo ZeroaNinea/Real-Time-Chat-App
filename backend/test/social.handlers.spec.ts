@@ -589,9 +589,9 @@ describe('Auth Socket Handlers', () => {
           }
         );
 
-        clientSocket.on('friendRemovedByOther', (userId) => {
-          console.log(userId, '==============================');
-          expect(userId).to.equal(user._id.toString());
+        clientSocket.on('friendRemovedByOther', (data: { userId: string }) => {
+          console.log(data.userId, '==============================');
+          expect(data.userId).to.equal(user._id.toString());
           clientSocket.disconnect();
           done();
         });
