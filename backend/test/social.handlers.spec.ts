@@ -884,8 +884,16 @@ describe('Auth Socket Handlers', () => {
   //     clientSocket.emit('joinChatRoom', { chatId: user._id });
 
   //     clientSocket.on('roomJoined', async ({ chatId }) => {
-  //       user2.banlist.push(user._id);
-  //       await user2.save();
+  //       // user2.banlist.push(user._id);
+  //       // await user2.save();
+
+  //       const fakeUser2 = user2;
+  //       fakeUser2.pendingRequests
+  //         .push(user._id.toString())
+  //         .push(user2._id.toString());
+  //       fakeUser2.banlist.push(user._id.toString());
+  //       const stub = sinon.stub(userHelper, 'findUserById').resolves(fakeUser2);
+
   //       expect(chatId).to.equal(user._id.toString());
 
   //       clientSocket.emit(
@@ -897,6 +905,7 @@ describe('Auth Socket Handlers', () => {
   //         (err: { error: string }) => {
   //           expect(err.error).to.equal('User is banned.');
   //           clientSocket.disconnect();
+  //           stub.restore();
   //           done();
   //         }
   //       );
