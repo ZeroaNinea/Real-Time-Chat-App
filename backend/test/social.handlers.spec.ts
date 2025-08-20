@@ -224,6 +224,13 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user2._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(userHelper, 'findUserById').resolves({
+          _id: user2._id,
+          username: 'socketuser2',
+          email: 'socket2@email.com',
+          password: '123',
+          status: 'offline',
+        });
         expect(chatId).to.equal(user2._id.toString());
 
         clientSocket.emit(
@@ -235,6 +242,7 @@ describe('Auth Socket Handlers', () => {
           (err: any) => {
             console.log(err, '=======================================');
             expect(err.error).to.equal('Friend request is not found.');
+            stub.restore();
             clientSocket.disconnect();
             done();
           }
