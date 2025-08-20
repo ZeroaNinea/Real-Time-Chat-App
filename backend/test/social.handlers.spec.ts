@@ -844,7 +844,9 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        const stub = sinon.stub(userHelper, 'findUserById').resolves(user);
+        const mockUser = user;
+        mockUser.pendingRequests.push(user._id.toString());
+        const stub = sinon.stub(userHelper, 'findUserById').resolves(mockUser);
         const notification = await Notification.findOne({
           sender: user._id,
           recipient: user2._id,
