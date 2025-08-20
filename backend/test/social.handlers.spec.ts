@@ -749,8 +749,8 @@ describe('Auth Socket Handlers', () => {
           }
         );
 
-        clientSocket.on('friendAddedByOther', (notification) => {
-          expect(notification.type).to.be.equal('friend-request');
+        clientSocket.on('friendAddedByOther', (user) => {
+          expect(user.username).to.be.equal('socketuser2');
           clientSocket.disconnect();
           done();
         });
