@@ -206,7 +206,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       const currentUserId = socket.data.user._id.toString();
 
       if (!mongoose.Types.ObjectId.isValid(friendId)) {
-        return callback?.({ error: 'Invalid friend ID' });
+        return callback?.({ error: 'Invalid friend ID.' });
       }
 
       const [userExists, friendExists] = await Promise.all([
@@ -214,7 +214,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         User.exists({ _id: friendId }),
       ]);
       if (!userExists || !friendExists) {
-        return callback?.({ error: 'User not found' });
+        return callback?.({ error: 'User is not found.' });
       }
 
       await Promise.all([
@@ -234,7 +234,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during removing a friend.' });
     }
   });
 
