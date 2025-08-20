@@ -44,7 +44,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         sender: senderId,
         recipient: receiverId,
         type: 'friend-request',
-        message: `${sender.username} sent you a friend request.`,
+        message: `${sender.username} sent you a friend request`,
         link: '/friends',
       });
 

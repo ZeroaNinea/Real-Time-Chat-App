@@ -443,28 +443,24 @@ describe('Auth Socket Handlers', () => {
           }
         );
 
-        // clientSocket.on('friendRequestDeclined', () => {
-        //   clientSocket.disconnect();
-        //   done();
-        // });
+        clientSocket.on('notificationDeleted', (notification) => {
+          console.log(notification, '=======================deleted');
+          clientSocket.disconnect();
+          done();
+        });
+
         clientSocket.emit('joinChatRoom', { chatId: user._id });
 
         clientSocket.on('roomJoined', async ({ chatId }) => {
           expect(chatId).to.equal(user._id.toString());
 
           clientSocket.on('notification', (notification) => {
-            console.log(notification, '=======================');
-
-            // expect(notification.sender.toString()).to.equal(user._id.toString());
+            expect(notification.message).to.equal(
+              'socketuser2 declined your friend request'
+            );
             clientSocket.disconnect();
             done();
           });
-        });
-
-        clientSocket.on('notificationDeleted', (notification) => {
-          console.log(notification, '=======================deleted');
-          clientSocket.disconnect();
-          done();
         });
       });
     });
