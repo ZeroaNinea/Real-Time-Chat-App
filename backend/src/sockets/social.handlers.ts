@@ -76,14 +76,14 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         const receiver = await User.findById(receiverId);
 
         if (!sender || !receiver)
-          return callback?.({ error: 'User not found' });
+          return callback?.({ error: 'User is not found.' });
 
         if (
           !sender.pendingRequests?.some(
             (id: ObjectId) => id.toString() === receiverId
           )
         )
-          return callback?.({ error: 'Friend request not found' });
+          return callback?.({ error: 'Friend request is not found.' });
 
         if (senderId === receiverId)
           return callback?.({
@@ -91,10 +91,10 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
           });
 
         if (receiver.banlist?.includes(senderId))
-          return callback?.({ error: 'User is banned' });
+          return callback?.({ error: 'User is banned.' });
 
         if (sender.banlist?.includes(receiverId))
-          return callback?.({ error: 'You are banned by the user' });
+          return callback?.({ error: 'You are banned by the user.' });
 
         sender.friends?.push(receiverId);
         receiver.friends?.push(senderId);
@@ -153,18 +153,18 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
     async ({ notificationId, senderId }, callback) => {
       try {
         const receiverId = socket.data.user._id.toString();
-        const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+        const sender = await userHelper.findUserById(senderId);
+        const receiver = await userHelper.findUserById(receiverId);
 
         if (!sender || !receiver)
-          return callback?.({ error: 'User not found' });
+          return callback?.({ error: 'User is not found.' });
 
         if (
           !sender.pendingRequests?.some(
             (id: ObjectId) => id.toString() === receiverId
           )
         )
-          return callback?.({ error: 'Friend request not found' });
+          return callback?.({ error: 'Friend request is not found.' });
 
         await Notification.findByIdAndDelete(notificationId);
 
@@ -193,7 +193,9 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
-        callback?.({ error: 'Server error' });
+        callback?.({
+          error: 'Server error during declining a friend request.',
+        });
       }
     }
   );
