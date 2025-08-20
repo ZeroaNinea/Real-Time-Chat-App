@@ -447,6 +447,25 @@ describe('Auth Socket Handlers', () => {
         //   clientSocket.disconnect();
         //   done();
         // });
+        clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+        clientSocket.on('roomJoined', async ({ chatId }) => {
+          expect(chatId).to.equal(user._id.toString());
+
+          clientSocket.on('notification', (notification) => {
+            console.log(notification, '=======================');
+
+            // expect(notification.sender.toString()).to.equal(user._id.toString());
+            clientSocket.disconnect();
+            done();
+          });
+        });
+
+        clientSocket.on('notificationDeleted', (notification) => {
+          console.log(notification, '=======================deleted');
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
