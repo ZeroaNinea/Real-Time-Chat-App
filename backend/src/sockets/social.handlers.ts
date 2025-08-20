@@ -163,8 +163,9 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
           !sender.pendingRequests?.some(
             (id: ObjectId) => id.toString() === receiverId
           )
-        )
+        ) {
           return callback?.({ error: 'Friend request is not found.' });
+        }
 
         await Notification.findByIdAndDelete(notificationId);
 
