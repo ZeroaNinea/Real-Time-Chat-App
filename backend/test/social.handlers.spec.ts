@@ -450,6 +450,40 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should fail to accept the friend request before it has been sent', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          sender: user._id,
+          recipient: user2._id,
+        });
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'acceptFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Friend request is not found.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should allow user2 to decline the friend request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
