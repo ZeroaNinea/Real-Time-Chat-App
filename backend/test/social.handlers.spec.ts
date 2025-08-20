@@ -414,6 +414,43 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return user is not found during declining a friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user2._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(userHelper, 'findUserById').resolves(null);
+        const notification = await Notification.findOne({
+          sender: user._id,
+          recipient: user2._id,
+        });
+        expect(chatId).to.equal(user2._id.toString());
+
+        clientSocket.emit(
+          'declineFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (err: any) => {
+            console.log(err, '==================================');
+            expect(err.error).to.equal('User is not found.');
+            stub.restore();
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should allow user2 to decline the friend request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
