@@ -796,6 +796,44 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return friend request is not found during accepting the friend request again', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon.stub(userHelper, 'findUserById').resolves({
+          _id: user._id,
+        });
+        const notification = await Notification.findOne({
+          sender: user._id,
+          recipient: user2._id,
+        });
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'acceptFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Friend request is not found.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should accept a friend request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
