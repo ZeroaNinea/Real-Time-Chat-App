@@ -72,8 +72,8 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
     async ({ notificationId, senderId }, callback) => {
       try {
         const receiverId = socket.data.user._id.toString();
-        const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+        const sender = await userHelper.findUserById(senderId);
+        const receiver = await userHelper.findUserById(receiverId);
 
         if (!sender || !receiver)
           return callback?.({ error: 'User is not found.' });
