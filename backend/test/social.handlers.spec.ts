@@ -719,4 +719,44 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should accept a friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          sender: user._id,
+          recipient: user2._id,
+        });
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'acceptFriendRequest',
+          {
+            notificationId: notification._id,
+            senderId: user._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+
+        clientSocket.on('friendAddedByOther', (notification) => {
+          expect(notification.type).to.be.equal('friend-request');
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
