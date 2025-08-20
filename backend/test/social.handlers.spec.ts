@@ -437,8 +437,7 @@ describe('Auth Socket Handlers', () => {
             notificationId: notification._id,
             senderId: user._id,
           },
-          (err: any) => {
-            console.log(err, '==================================');
+          (err: { error: string }) => {
             expect(err.error).to.equal('User is not found.');
             stub.restore();
             clientSocket.disconnect();
