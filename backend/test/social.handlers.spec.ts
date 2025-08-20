@@ -900,7 +900,7 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string } | any) => {
             console.log(err, '============================');
-            expect(err.error).to.equal('You are banned by the user.');
+            expect(err.error).to.equal('User is banned.');
             clientSocket.disconnect();
             done();
           }
