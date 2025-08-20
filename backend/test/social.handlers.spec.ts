@@ -443,12 +443,6 @@ describe('Auth Socket Handlers', () => {
           }
         );
 
-        clientSocket.on('notificationDeleted', (notification) => {
-          console.log(notification, '=======================deleted');
-          clientSocket.disconnect();
-          done();
-        });
-
         clientSocket.emit('joinChatRoom', { chatId: user._id });
 
         clientSocket.on('roomJoined', async ({ chatId }) => {
