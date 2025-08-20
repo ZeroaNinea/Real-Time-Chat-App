@@ -87,7 +87,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
 
         if (senderId === receiverId)
           return callback?.({
-            error: 'Cannot accept friend request from yourself',
+            error: 'You cannot accept friend request from yourself.',
           });
 
         if (receiver.banlist?.includes(senderId))
