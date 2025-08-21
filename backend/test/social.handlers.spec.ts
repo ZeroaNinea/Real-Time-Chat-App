@@ -1504,4 +1504,34 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should decline a private chat deletion request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'declinePrivateChatRequest',
+          {
+            receiverId: user._id,
+            chatId: privateChat._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
