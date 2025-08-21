@@ -144,7 +144,7 @@ describe('Auth Socket Handlers', () => {
     await Channel.create({
       name: 'newChannel',
       order: 1,
-      chat: chat._id,
+      chatId: chat._id,
     });
 
     channel = await Channel.findOne({ name: 'newChannel' });
@@ -167,13 +167,15 @@ describe('Auth Socket Handlers', () => {
     });
 
     clientSocket.on('connect', () => {
-      clientSocket.emit('joinChannel', {
-        chatId: chat._id,
-        channelId: channel._id,
-      });
+      clientSocket.emit('joinChatRoom', { chatId: chat._id });
 
       clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('joinChannel', {
+          chatId: chat._id,
+          channelId: channel._id,
+        });
 
         clientSocket.emit('startTyping', { chatId: chat._id });
 
