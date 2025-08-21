@@ -418,23 +418,23 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         const chat = await Chat.findById(chatId);
 
         if (!chat || !chat.isPrivate) {
-          return callback?.({ error: 'Chat not found or not private' });
+          return callback?.({ error: 'Chat is not found or not private.' });
         }
 
         const isMember = chat.members.some((m: Member) =>
           m.user.equals(confirmerId)
         );
         if (!isMember) {
-          return callback?.({ error: 'You are not a member of this chat' });
+          return callback?.({ error: 'You are not a member of this chat.' });
         }
 
-        const recipient = await User.findById(recipientId);
+        const recipient = await userHelper.findUserById(recipientId);
         if (!recipient) {
-          return callback?.({ error: 'Recipient not found' });
+          return callback?.({ error: 'Recipient is not found.' });
         }
 
         if (!recipient.deletionRequests.includes(confirmerId)) {
-          return callback?.({ error: 'Deletion request not found' });
+          return callback?.({ error: 'Deletion request is not found.' });
         }
 
         recipient.deletionRequests = recipient.deletionRequests.filter(
@@ -477,7 +477,9 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
-        callback?.({ error: 'Server error' });
+        callback?.({
+          error: 'Server error during private chat deletion confirmation.',
+        });
       }
     }
   );
