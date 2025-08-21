@@ -1301,6 +1301,35 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return invalid data provided during a private chat deletion request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'deletePrivateChatRequest',
+          {
+            receiverId: user2._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Invalid data provided.');
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should send a delete private chat request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
