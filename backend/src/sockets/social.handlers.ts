@@ -553,7 +553,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         socket.data.user._id.toString() !==
         currentNotification.recipient.toString()
       )
-        return callback?.({ error: 'Unauthorized' });
+        return callback?.({ error: 'This is not your notification.' });
 
       await Notification.findByIdAndDelete(notificationId);
 
@@ -563,7 +563,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during notification deletion.' });
     }
   });
 }
