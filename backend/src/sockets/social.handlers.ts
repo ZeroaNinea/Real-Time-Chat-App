@@ -353,11 +353,11 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         const chat = await Chat.findById(chatId);
 
         if (!sender || !receiver || !chat) {
-          return callback?.({ error: 'Invalid data provided' });
+          return callback?.({ error: 'Invalid data provided.' });
         }
 
         if (sender.deletionRequests.includes(receiverId)) {
-          return callback?.({ error: 'Deletion request already sent' });
+          return callback?.({ error: 'Deletion request is already sent.' });
         }
 
         sender.deletionRequests.push(receiverId);
@@ -368,7 +368,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
           !chat.members.some((m: Member) => m.user.equals(senderId))
         ) {
           return callback?.({
-            error: 'You are not authorized to delete this chat',
+            error: 'You are not authorized to delete this chat.',
           });
         }
 
@@ -380,14 +380,14 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         });
 
         if (existing) {
-          return callback?.({ error: 'Deletion request already sent' });
+          return callback?.({ error: 'Deletion request is already sent.' });
         }
 
         const notification = new Notification({
           sender: senderId,
           recipient: receiverId,
           type: 'private-chat-deletion-request',
-          message: `${sender.username} wants to delete your private chat.`,
+          message: `${sender.username} wants to delete your private chat`,
           link: chatId,
         });
 
@@ -405,7 +405,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
-        callback?.({ error: 'Server error' });
+        callback?.({ error: 'Server error during deletion request.' });
       }
     }
   );
