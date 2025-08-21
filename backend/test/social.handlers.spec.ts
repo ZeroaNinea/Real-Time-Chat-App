@@ -1942,6 +1942,38 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return a server error during deleting a notification', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          recipient: user._id,
+        });
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'deleteNotification',
+          { notificationId: notification._id.toString() },
+          (err: { error: string }) => {
+            expect(err.error).to.equal(
+              'Server error during notification deletion.'
+            );
+            clientSocket.disconnect();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should delete the notification', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token },
