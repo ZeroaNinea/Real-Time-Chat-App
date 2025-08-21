@@ -1575,6 +1575,47 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return deleting request is not found from the recipient data checking branch', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const fakeUser = user;
+        fakeUser.deletionRequests = [];
+
+        const stubUserHelper = sinon
+          .stub(userHelper, 'findUserById')
+          .resolves(fakeUser);
+        const stubNotification = sinon
+          .stub(Notification, 'findOneAndDelete')
+          .resolves(true);
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'declinePrivateChatDeletion',
+          {
+            recipientId: user._id,
+            chatId: privateChat._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Deletion request is not found.');
+            clientSocket.disconnect();
+            stubUserHelper.restore();
+            stubNotification.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should decline a private chat deletion request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
