@@ -890,8 +890,6 @@ describe('Auth Socket Handlers', () => {
         });
         expect(chatId).to.equal(user._id.toString());
 
-        console.log(user, user2);
-
         clientSocket.emit(
           'acceptFriendRequest',
           {
@@ -1549,19 +1547,25 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', ({ chatId }) => {
-        const stub = sinon.stub(userHelper, 'findUserById').resolves(null);
+        const stubUserHelper = sinon
+          .stub(userHelper, 'findUserById')
+          .resolves(null);
+        const stubNotification = sinon
+          .stub(Notification, 'findOneAndDelete')
+          .resolves(true);
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
           'declinePrivateChatDeletion',
           {
-            recipientId: new mongoose.Types.ObjectId(),
+            recipientId: user._id,
             chatId: privateChat._id,
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('Recipient is not found.');
             clientSocket.disconnect();
-            stub.restore();
+            stubUserHelper.restore();
+            stubNotification.restore();
             done();
           }
         );
