@@ -1505,6 +1505,40 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
+  it('should return deletion request is not found during declining a private chat deletion request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        const stub = sinon
+          .stub(Notification, 'findOneAndDelete')
+          .resolves(null);
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'declinePrivateChatDeletion',
+          {
+            recipientId: user._id,
+            chatId: new mongoose.Types.ObjectId(),
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('Deletion request is not found.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
   it('should decline a private chat deletion request', (done) => {
     const clientSocket = Client(address, {
       auth: { token: token2 },
