@@ -1326,12 +1326,12 @@ describe('Auth Socket Handlers', () => {
           }
         );
 
-        clientSocket.on('notification', (response) => {
-          const notification = Notification.findOne({
+        clientSocket.on('notification', async (response) => {
+          const notification = await Notification.findOne({
             message: 'socketuser wants to delete you private chat',
           });
-          console.log(response, '=====================================');
-          expect(response.type).to.equal('private-chat-deletion-request');
+          expect(response.message).to.equal(notification.message);
+          expect(response.type).to.equal(notification.type);
           clientSocket.disconnect();
           done();
         });
