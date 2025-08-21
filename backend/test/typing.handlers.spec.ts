@@ -35,6 +35,7 @@ describe('Auth Socket Handlers', () => {
   let token4: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
+  let channel: typeof Channel;
 
   before(async () => {
     await connectToDatabase();
@@ -139,6 +140,14 @@ describe('Auth Socket Handlers', () => {
     });
     chat.members.push({ user: user4._id, roles: ['Member'] });
     await chat.save();
+
+    await Channel.create({
+      name: 'newChannel',
+      order: 1,
+      chat: chat._id,
+    });
+
+    channel = await Channel.findOne({ name: 'newChannel' });
   });
 
   after(async () => {
@@ -149,5 +158,35 @@ describe('Auth Socket Handlers', () => {
     await disconnectDatabase();
     io.close();
     server.close();
+  });
+
+  it('should start typing', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChannel', {
+        chatId: chat._id,
+        channelId: channel._id,
+      });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(chat._id.toString());
+
+        clientSocket.emit('startTyping', { chatId: chat._id });
+
+        clientSocket.on('userTypingStart', ({ chatId, channelId, userId }) => {
+          expect(chatId).to.equal(chat._id.toString());
+          expect(channelId).to.equal(channel._id.toString());
+          expect(userId).to.equal(user._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
   });
 });
