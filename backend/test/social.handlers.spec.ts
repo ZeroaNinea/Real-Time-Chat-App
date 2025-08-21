@@ -1735,7 +1735,7 @@ describe('Auth Socket Handlers', () => {
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
-          'confirmPrivateChatDeletion',
+          'confirmDeletePrivateChat',
           {
             recipientId: user._id,
             chatId: privateChat._id,
