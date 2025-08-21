@@ -1123,4 +1123,31 @@ describe('Auth Socket Handlers', () => {
 
     clientSocket.on('connect_error', done);
   });
+
+  it('should return a server error during banning a user', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const stub = sinon
+          .stub(userHelper, 'findUserById')
+          .throws(new Error('DB down'));
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit('banUser', user2._id, (err: { error: string }) => {
+          expect(err.error).to.equal('Server error during banning a user.');
+          clientSocket.disconnect();
+          stub.restore();
+          done();
+        });
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
 });
