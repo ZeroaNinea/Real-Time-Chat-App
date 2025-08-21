@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { createServer } from 'http';
-import sinon from 'sinon';
 import request from 'supertest';
 
 import { app } from '../src/app';
@@ -8,17 +7,11 @@ import { app } from '../src/app';
 import { io as Client, Socket as ClientSocket } from 'socket.io-client';
 import { Server } from 'socket.io';
 
-import mongoose, {
-  connectToDatabase,
-  disconnectDatabase,
-} from '../src/config/db';
+import { connectToDatabase, disconnectDatabase } from '../src/config/db';
 import { setupSocket } from '../src/socket';
 import { User } from '../src/models/user.model';
 import { Chat } from '../src/models/chat.model';
 import { Channel } from '../src/models/channel.model';
-import { Notification } from '../src/models/notification.model';
-
-import userHelper from '../src/helpers/user-helper';
 
 describe('Auth Socket Handlers', () => {
   let server: ReturnType<typeof createServer>;
@@ -30,9 +23,7 @@ describe('Auth Socket Handlers', () => {
   let user3: typeof User;
   let user4: typeof User;
   let token: string;
-  let token2: string;
   let chat: typeof Chat;
-  let privateChat: typeof Chat;
   let channel: typeof Channel;
 
   before(async () => {
@@ -45,40 +36,12 @@ describe('Auth Socket Handlers', () => {
       status: 'offline',
     });
 
-    user2 = await User.create({
-      username: 'socketuser2',
-      email: 'socket2@email.com',
-      password: '123',
-      status: 'offline',
-    });
-
-    user3 = await User.create({
-      username: 'socketuser3',
-      email: 'socket3@email.com',
-      password: '123',
-      status: 'offline',
-    });
-
-    user4 = await User.create({
-      username: 'socketuser4',
-      email: 'socket4@email.com',
-      password: '123',
-      status: 'offline',
-    });
-
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'socketuser',
       password: '123',
     });
 
     token = resLogin.body.token;
-
-    const resLogin2 = await request(app).post('/api/auth/login').send({
-      username: 'socketuser2',
-      password: '123',
-    });
-
-    token2 = resLogin2.body.token;
 
     await request(app)
       .post('/api/chat/create-chat')
@@ -90,16 +53,6 @@ describe('Auth Socket Handlers', () => {
     await request(app)
       .post(`/api/chat/private/${user2._id}`)
       .set('Authorization', `Bearer ${token}`);
-
-    privateChat = await Chat.findOne({
-      isPrivate: true,
-      members: {
-        $all: [
-          { $elemMatch: { user: user2._id } },
-          { $elemMatch: { user: user._id } },
-        ],
-      },
-    });
 
     server = createServer(app);
     io = setupSocket(server, app);
@@ -157,10 +110,18 @@ describe('Auth Socket Handlers', () => {
       clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(`${user._id}:${channel._id}`);
 
-        clientSocket.emit('typingStart', {
-          chatId: chat._id,
-          channelId: channel._id,
-        });
+        clientSocket.emit(
+          'typingStart',
+          {
+            chatId: chat._id,
+            channelId: channel._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
 
         clientSocket.on('userTypingStart', (data) => {
           expect(data.chatId).to.equal(chat._id.toString());
@@ -189,10 +150,18 @@ describe('Auth Socket Handlers', () => {
       clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(`${user._id}:${channel._id}`);
 
-        clientSocket.emit('typingStop', {
-          chatId: chat._id,
-          channelId: channel._id,
-        });
+        clientSocket.emit(
+          'typingStop',
+          {
+            chatId: chat._id,
+            channelId: channel._id,
+          },
+          (response: { success: boolean }) => {
+            expect(response.success).to.equal(true);
+            clientSocket.disconnect();
+            done();
+          }
+        );
 
         clientSocket.on('userTypingStop', (data) => {
           expect(data.chatId).to.equal(chat._id.toString());
