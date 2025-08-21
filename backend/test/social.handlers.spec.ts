@@ -999,9 +999,16 @@ describe('Auth Socket Handlers', () => {
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
         const fakeUser2 = user2;
-        fakeUser2.pendingRequests.push(user2._id.toString());
-        fakeUser2.banlist.push(user2._id.toString());
-        const stub = sinon.stub(userHelper, 'findUserById').resolves(fakeUser2);
+        // fakeUser2.pendingRequests.push(user._id.toString());
+        // fakeUser2.banlist.push(user._id.toString());
+
+        const fakeUser = user;
+        fakeUser.pendingRequests.push(user2._id.toString());
+        fakeUser.banlist.push(user2._id.toString());
+
+        const stub = sinon.stub(userHelper, 'findUserById');
+        stub.onCall(0).resolves(fakeUser);
+        stub.onCall(1).resolves(fakeUser2);
 
         expect(chatId).to.equal(user._id.toString());
 
@@ -1013,6 +1020,49 @@ describe('Auth Socket Handlers', () => {
           },
           (err: { error: string }) => {
             expect(err.error).to.equal('You are banned by the user.');
+            clientSocket.disconnect();
+            stub.restore();
+            done();
+          }
+        );
+      });
+    });
+
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should return user is banned during accepting a friend request', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token2 },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+      clientSocket.on('roomJoined', async ({ chatId }) => {
+        const fakeUser2 = user2;
+        // fakeUser2.pendingRequests.push(user._id.toString());
+        fakeUser2.banlist.push(user._id.toString());
+
+        const fakeUser = user;
+        fakeUser.pendingRequests.push(user2._id.toString());
+        // fakeUser.banlist.push(user2._id.toString());
+
+        const stub = sinon.stub(userHelper, 'findUserById');
+        stub.onCall(0).resolves(fakeUser);
+        stub.onCall(1).resolves(fakeUser2);
+
+        expect(chatId).to.equal(user._id.toString());
+
+        clientSocket.emit(
+          'acceptFriendRequest',
+          {
+            notificationId: new mongoose.Types.ObjectId().toString(),
+            senderId: user._id,
+          },
+          (err: { error: string }) => {
+            expect(err.error).to.equal('User is banned.');
             clientSocket.disconnect();
             stub.restore();
             done();
