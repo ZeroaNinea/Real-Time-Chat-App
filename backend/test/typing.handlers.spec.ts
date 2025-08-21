@@ -23,7 +23,9 @@ describe('Auth Socket Handlers', () => {
   let user3: typeof User;
   let user4: typeof User;
   let token: string;
+  let token2: string;
   let chat: typeof Chat;
+  let privateChat: typeof Chat;
   let channel: typeof Channel;
 
   before(async () => {
@@ -36,12 +38,40 @@ describe('Auth Socket Handlers', () => {
       status: 'offline',
     });
 
+    user2 = await User.create({
+      username: 'socketuser2',
+      email: 'socket2@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
+    user3 = await User.create({
+      username: 'socketuser3',
+      email: 'socket3@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
+    user4 = await User.create({
+      username: 'socketuser4',
+      email: 'socket4@email.com',
+      password: '123',
+      status: 'offline',
+    });
+
     const resLogin = await request(app).post('/api/auth/login').send({
       username: 'socketuser',
       password: '123',
     });
 
     token = resLogin.body.token;
+
+    const resLogin2 = await request(app).post('/api/auth/login').send({
+      username: 'socketuser2',
+      password: '123',
+    });
+
+    token2 = resLogin2.body.token;
 
     await request(app)
       .post('/api/chat/create-chat')
@@ -53,6 +83,16 @@ describe('Auth Socket Handlers', () => {
     await request(app)
       .post(`/api/chat/private/${user2._id}`)
       .set('Authorization', `Bearer ${token}`);
+
+    privateChat = await Chat.findOne({
+      isPrivate: true,
+      members: {
+        $all: [
+          { $elemMatch: { user: user2._id } },
+          { $elemMatch: { user: user._id } },
+        ],
+      },
+    });
 
     server = createServer(app);
     io = setupSocket(server, app);
