@@ -35,6 +35,7 @@ describe('Auth Socket Handlers', () => {
   let token4: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
+  let deletingNotification: typeof Notification;
 
   before(async () => {
     await connectToDatabase();
@@ -139,6 +140,13 @@ describe('Auth Socket Handlers', () => {
     });
     chat.members.push({ user: user4._id, roles: ['Member'] });
     await chat.save();
+
+    deletingNotification = await Notification.create({
+      sender: new mongoose.Types.ObjectId(),
+      recipient: user._id,
+      type: 'mention',
+      message: 'Hello, delete me. :3',
+    });
   });
 
   after(async () => {
