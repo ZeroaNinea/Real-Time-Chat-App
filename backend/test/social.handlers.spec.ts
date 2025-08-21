@@ -1461,6 +1461,7 @@ describe('Auth Socket Handlers', () => {
           (err: { error: string }) => {
             expect(err.error).to.equal('Deletion request is already sent.');
             clientSocket.disconnect();
+            stub.restore();
             done();
           }
         );
