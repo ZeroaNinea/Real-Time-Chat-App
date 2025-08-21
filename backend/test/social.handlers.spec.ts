@@ -1389,7 +1389,7 @@ describe('Auth Socket Handlers', () => {
             chatId: privateChat._id,
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('Deleting request is already sent.');
+            expect(err.error).to.equal('Deletion request is already sent.');
             clientSocket.disconnect();
             done();
           }
