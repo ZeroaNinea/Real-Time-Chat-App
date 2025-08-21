@@ -35,7 +35,6 @@ describe('Auth Socket Handlers', () => {
   let token4: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
-  let deletingNotification: typeof Notification;
 
   before(async () => {
     await connectToDatabase();
@@ -140,13 +139,6 @@ describe('Auth Socket Handlers', () => {
     });
     chat.members.push({ user: user4._id, roles: ['Member'] });
     await chat.save();
-
-    deletingNotification = await Notification.create({
-      sender: new mongoose.Types.ObjectId(),
-      recipient: user._id,
-      type: 'mention',
-      message: 'Hello, delete me. :3',
-    });
   });
 
   after(async () => {
@@ -1930,13 +1922,14 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
+        const notification = await Notification.findOne({
+          recipient: user._id,
+        });
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
           'deleteNotification',
-          {
-            notificationId: deletingNotification._id,
-          },
+          notification._id.toString(),
           (response: { success: boolean }) => {
             expect(response.success).to.equal(true);
             clientSocket.disconnect();
