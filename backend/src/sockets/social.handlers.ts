@@ -348,8 +348,8 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
     async ({ receiverId, chatId }, callback) => {
       try {
         const senderId = socket.data.user._id.toString();
-        const sender = await User.findById(senderId);
-        const receiver = await User.findById(receiverId);
+        const sender = await userHelper.findUserById(senderId);
+        const receiver = await userHelper.findUserById(receiverId);
         const chat = await Chat.findById(chatId);
 
         if (!sender || !receiver || !chat) {
