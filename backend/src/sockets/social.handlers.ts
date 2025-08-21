@@ -496,7 +496,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         });
 
         if (!notification) {
-          return callback?.({ error: 'Deletion request not found' });
+          return callback?.({ error: 'Deletion request is not found.' });
         }
 
         const declineNotification = new Notification({
@@ -506,14 +506,14 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
           message: `Private chat deletion request was declined by ${socket.data.user.username}`,
         });
 
-        const recipient = await User.findById(recipientId);
+        const recipient = await userHelper.findUserById(recipientId);
 
         if (!recipient) {
-          return callback?.({ error: 'Recipient not found' });
+          return callback?.({ error: 'Recipient is not found.' });
         }
 
         if (!recipient.deletionRequests.includes(declinerId)) {
-          return callback?.({ error: 'Deletion request not found' });
+          return callback?.({ error: 'Deletion request is not found.' });
         }
 
         recipient.deletionRequests = recipient.deletionRequests.filter(
@@ -536,7 +536,9 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
         callback?.({ success: true });
       } catch (err) {
         console.error(err);
-        callback?.({ error: 'Server error' });
+        callback?.({
+          error: 'Server error during declining deletion request.',
+        });
       }
     }
   );
