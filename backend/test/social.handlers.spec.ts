@@ -998,9 +998,6 @@ describe('Auth Socket Handlers', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
       clientSocket.on('roomJoined', async ({ chatId }) => {
-        // user2.banlist.push(user._id);
-        // await user2.save();
-
         const fakeUser2 = user2;
         fakeUser2.pendingRequests.push(user2._id.toString());
         fakeUser2.banlist.push(user2._id.toString());
