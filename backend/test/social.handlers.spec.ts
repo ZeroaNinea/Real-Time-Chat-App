@@ -1514,13 +1514,13 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect', () => {
       clientSocket.emit('joinChatRoom', { chatId: user._id });
 
-      clientSocket.on('roomJoined', async ({ chatId }) => {
+      clientSocket.on('roomJoined', ({ chatId }) => {
         expect(chatId).to.equal(user._id.toString());
 
         clientSocket.emit(
-          'declinePrivateChatRequest',
+          'declinePrivateChatDeletion',
           {
-            receiverId: user._id,
+            recipientId: user._id,
             chatId: privateChat._id,
           },
           (response: { success: boolean }) => {
