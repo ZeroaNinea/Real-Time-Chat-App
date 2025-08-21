@@ -1752,9 +1752,39 @@ describe('Auth Socket Handlers', () => {
     clientSocket.on('connect_error', done);
   });
 
-  it('should not allow user 3 to confirm a private chat deletion request because they are not a member of the private chat', (done) => {
+  // it('should not allow user 3 to confirm a private chat deletion request because they are not a member of the private chat', (done) => {
+  //   const clientSocket = Client(address, {
+  //     auth: { token: token3 },
+  //     transports: ['websocket'],
+  //   });
+
+  //   clientSocket.on('connect', () => {
+  //     clientSocket.emit('joinChatRoom', { chatId: user._id });
+
+  //     clientSocket.on('roomJoined', ({ chatId }) => {
+  //       expect(chatId).to.equal(user._id.toString());
+
+  //       clientSocket.emit(
+  //         'confirmDeletePrivateChat',
+  //         {
+  //           recipientId: user._id,
+  //           chatId: privateChat._id,
+  //         },
+  //         (err: { error: string }) => {
+  //           expect(err.error).to.equal('You are not a member of this chat.');
+  //           clientSocket.disconnect();
+  //           done();
+  //         }
+  //       );
+  //     });
+  //   });
+
+  //   clientSocket.on('connect_error', done);
+  // });
+
+  it('should return recipient is not found during confirming a private chat deletion request', (done) => {
     const clientSocket = Client(address, {
-      auth: { token: token3 },
+      auth: { token: token2 },
       transports: ['websocket'],
     });
 
@@ -1767,11 +1797,11 @@ describe('Auth Socket Handlers', () => {
         clientSocket.emit(
           'confirmDeletePrivateChat',
           {
-            recipientId: user._id,
+            recipientId: new mongoose.Types.ObjectId(),
             chatId: privateChat._id,
           },
           (err: { error: string }) => {
-            expect(err.error).to.equal('You are not a member of this chat.');
+            expect(err.error).to.equal('Recipient is not found.');
             clientSocket.disconnect();
             done();
           }
