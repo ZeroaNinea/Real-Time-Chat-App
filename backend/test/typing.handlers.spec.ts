@@ -31,8 +31,6 @@ describe('Auth Socket Handlers', () => {
   let user4: typeof User;
   let token: string;
   let token2: string;
-  let token3: string;
-  let token4: string;
   let chat: typeof Chat;
   let privateChat: typeof Chat;
   let channel: typeof Channel;
@@ -81,20 +79,6 @@ describe('Auth Socket Handlers', () => {
     });
 
     token2 = resLogin2.body.token;
-
-    const resLogin3 = await request(app).post('/api/auth/login').send({
-      username: 'socketuser3',
-      password: '123',
-    });
-
-    token3 = resLogin3.body.token;
-
-    const resLogin4 = await request(app).post('/api/auth/login').send({
-      username: 'socketuser4',
-      password: '123',
-    });
-
-    token4 = resLogin4.body.token;
 
     await request(app)
       .post('/api/chat/create-chat')
@@ -154,7 +138,6 @@ describe('Auth Socket Handlers', () => {
     await User.deleteMany({});
     await Chat.deleteMany({});
     await Channel.deleteMany({});
-    await Notification.deleteMany({});
     await disconnectDatabase();
     io.close();
     server.close();
@@ -186,9 +169,38 @@ describe('Auth Socket Handlers', () => {
           clientSocket.disconnect();
           done();
         });
+      });
+    });
 
-        // clientSocket.disconnect();
-        // done();
+    clientSocket.on('connect_error', done);
+  });
+
+  it('should stop typing', (done) => {
+    const clientSocket = Client(address, {
+      auth: { token: token },
+      transports: ['websocket'],
+    });
+
+    clientSocket.on('connect', () => {
+      clientSocket.emit('joinChatRoom', {
+        chatId: `${user._id}:${channel._id}`,
+      });
+
+      clientSocket.on('roomJoined', ({ chatId }) => {
+        expect(chatId).to.equal(`${user._id}:${channel._id}`);
+
+        clientSocket.emit('typingStop', {
+          chatId: chat._id,
+          channelId: channel._id,
+        });
+
+        clientSocket.on('userTypingStop', (data) => {
+          expect(data.chatId).to.equal(chat._id.toString());
+          expect(data.channelId).to.equal(channel._id.toString());
+          expect(data.userId).to.equal(user._id.toString());
+          clientSocket.disconnect();
+          done();
+        });
       });
     });
 
