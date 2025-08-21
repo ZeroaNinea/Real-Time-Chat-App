@@ -306,11 +306,11 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       const currentUserId = socket.data.user._id.toString();
 
       if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return callback?.({ error: 'Invalid user ID' });
+        return callback?.({ error: 'Invalid user ID.' });
       }
 
       if (userId === currentUserId) {
-        return callback?.({ error: 'Cannot unban yourself' });
+        return callback?.({ error: 'You cannot unban yourself.' });
       }
 
       const [user, currentUser] = await Promise.all([
@@ -319,11 +319,11 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       ]);
 
       if (!user || !currentUser) {
-        return callback?.({ error: 'User not found' });
+        return callback?.({ error: 'User is not found.' });
       }
 
       if (!currentUser.banlist.includes(user._id)) {
-        return callback?.({ error: 'User not banned' });
+        return callback?.({ error: 'User is not banned.' });
       }
 
       await User.updateOne(
@@ -339,7 +339,7 @@ export function registerSocialHandlers(io: Server, socket: Socket) {
       callback?.({ success: true });
     } catch (err) {
       console.error(err);
-      callback?.({ error: 'Server error' });
+      callback?.({ error: 'Server error during unbanning a user.' });
     }
   });
 
