@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as ioredis from 'ioredis';
 
-import { redis, redisClient } from '../src/config/redis';
+// import * as redisModule from './redis';
 
 describe('redis.ts', () => {
   let onStub: sinon.SinonStub;
