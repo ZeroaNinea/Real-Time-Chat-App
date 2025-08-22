@@ -1,4 +1,3 @@
-// import * as ioredis from 'ioredis';
 import redisHelper from '../helpers/redis-helper';
 import config from './env';
 

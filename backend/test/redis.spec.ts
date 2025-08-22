@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import * as ioredis from 'ioredis';
 import redisHelper from '../src/helpers/redis-helper';
 
-// import * as redisModule from './redis';
 describe('redis.ts', () => {
   let onStub: sinon.SinonStub;
   let duplicateStub: sinon.SinonStub;
