@@ -75,7 +75,10 @@ describe('authMiddleware', () => {
       .returns({ id: 'user123' });
 
     const redisStub = sinon.stub(redisClient, 'exists').resolves(1);
-    const userStub = sinon.stub(User, 'findById').resolves(null);
+
+    const userStub = sinon.stub(User, 'findById').returns({
+      select: sinon.stub().resolves(null),
+    } as any);
 
     await authMiddleware(req, res, next);
 
