@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from './jwt.service';
+import { verifyToken, jwtService } from './jwt.service';
 import { redisClient } from '../config/redis';
 import { User } from '../models/user.model';
 
@@ -24,7 +24,7 @@ export const authMiddleware = async (
   }
 
   try {
-    const decoded = verifyToken(token);
+    const decoded = jwtService.verifyToken(token);
     req.auth = decoded;
 
     const redisKey = `auth:${decoded.id}:${token}`;
