@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { authMiddleware } from '../src/auth/auth.middleware';
 import { jwtService } from '../src/auth/jwt.service';
+import { redisClient } from '../src/config/redis';
 
 describe('authMiddleware', () => {
   let req: any, res: any, next: sinon.SinonSpy;
@@ -50,15 +51,35 @@ describe('authMiddleware', () => {
   // it('should attach user and call next on valid token', () => {
   //   req.header = () => 'Bearer valid-token';
   //   const fakeUser = { userId: 'test' };
-  //   sinon.stub(jwtService, 'verifyToken').returns(fakeUser);
+  //   const stub = sinon.stub(jwtService, 'verifyToken').returns(fakeUser);
 
   //   authMiddleware(req, res, next);
 
   //   expect(req.user).to.deep.equal(fakeUser);
   //   expect(next.calledOnce).to.be.true;
 
-  //   (jwtService.verifyToken as sinon.SinonStub).restore();
+  //   // (jwtService.verifyToken as sinon.SinonStub).restore();
+  //   stub.restore();
   // });
+
+  it('should deny access if token is expired/revoked in redis', async () => {
+    req.header = () => 'Bearer valid-token';
+    const jwtStub = sinon
+      .stub(jwtService, 'verifyToken')
+      .returns({ id: 'user123' });
+
+    const redisStub = sinon.stub(redisClient, 'exists').resolves(0);
+
+    await authMiddleware(req, res, next);
+
+    expect(res.status.calledWith(401)).to.be.true;
+    expect(res.json.calledWith({ message: 'Token expired or revoked.' })).to.be
+      .true;
+    expect(next.notCalled).to.be.true;
+
+    redisStub.restore();
+    jwtStub.restore();
+  });
 });
 
 // import { expect } from 'chai';
