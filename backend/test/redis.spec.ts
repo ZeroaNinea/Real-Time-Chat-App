@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as ioredis from 'ioredis';
+// import * as ioredis from 'ioredis';
+import redisHelper from '../src/helpers/redis-helper';
 
 // import * as redisModule from './redis';
-
 describe('redis.ts', () => {
   let onStub: sinon.SinonStub;
   let duplicateStub: sinon.SinonStub;
@@ -12,7 +12,7 @@ describe('redis.ts', () => {
   beforeEach(() => {
     onStub = sinon.stub();
     duplicateStub = sinon.stub().returns({ on: onStub });
-    sinon.stub(ioredis, 'Redis').callsFake((): any => ({
+    sinon.stub(redisHelper, 'Redis').callsFake((): any => ({
       duplicate: duplicateStub,
     }));
 
@@ -24,8 +24,8 @@ describe('redis.ts', () => {
   });
 
   it('should attach an error listener to redisClient', () => {
-    delete require.cache[require.resolve('./redis')];
-    require('./redis');
+    delete require.cache[require.resolve('../src/config/redis')];
+    require('../src/config/redis');
 
     expect(duplicateStub.calledOnce).to.be.true;
     expect(onStub.calledOnce).to.be.true;
@@ -34,8 +34,8 @@ describe('redis.ts', () => {
   });
 
   it('should log error when error event is triggered', () => {
-    delete require.cache[require.resolve('./redis')];
-    const { redisClient } = require('./redis');
+    delete require.cache[require.resolve('../src/config/redis')];
+    const { redisClient } = require('../src/config/redis');
 
     const handler = onStub.firstCall.args[1];
     handler(new Error('boom'));
