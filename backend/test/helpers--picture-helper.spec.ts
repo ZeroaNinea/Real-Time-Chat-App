@@ -22,7 +22,7 @@ describe('picture-helper', () => {
 
       const result = pictureHelper.deleteThumbnailFile(chat);
 
-      expect(result).to.be.undefined; // function just exits
+      expect(result).to.be.undefined;
       expect(existsStub.notCalled).to.be.true;
       expect(unlinkStub.notCalled).to.be.true;
     });
