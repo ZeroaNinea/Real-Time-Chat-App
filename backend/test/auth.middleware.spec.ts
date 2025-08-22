@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { authMiddleware } from '../src/auth/auth.middleware';
 import { jwtService } from '../src/auth/jwt.service';
 import { redisClient } from '../src/config/redis';
+import { User } from '../src/models/user.model';
 
 describe('authMiddleware', () => {
   let req: any, res: any, next: sinon.SinonSpy;
@@ -79,6 +80,26 @@ describe('authMiddleware', () => {
 
     redisStub.restore();
     jwtStub.restore();
+  });
+
+  it('should deny access if user is not found in db', async () => {
+    req.header = () => 'Bearer valid-token';
+    const jwtStub = sinon
+      .stub(jwtService, 'verifyToken')
+      .returns({ id: 'user123' });
+
+    const redisStub = sinon.stub(redisClient, 'exists').resolves(1);
+    const userStub = sinon.stub(User, 'findById').resolves(null);
+
+    await authMiddleware(req, res, next);
+
+    expect(res.status.calledWith(404)).to.be.true;
+    expect(res.json.calledWith({ message: 'User not found' })).to.be.true;
+    expect(next.notCalled).to.be.true;
+
+    redisStub.restore();
+    jwtStub.restore();
+    userStub.restore();
   });
 });
 
