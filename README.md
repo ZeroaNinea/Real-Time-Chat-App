@@ -60,7 +60,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 
 ### 💬 Public Chat Room
 
-![Public Chat](./screenshots/chat-room-public.png)
+![Public Chat](./screenshots/chat-room-public-general.png)
 
 ### 🔒 Private Chat Room
 
