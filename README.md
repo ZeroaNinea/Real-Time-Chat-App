@@ -61,6 +61,7 @@ It supports private and public chat rooms, direct messages, friend requests, pro
 ### 💬 Public Chat Room
 
 ![Public Chat](./screenshots/chat-room-public-general.png)
+![Public Chat](./screenshots/chat-room-public-staff-contact.png)
 
 ### 🔒 Private Chat Room
 
