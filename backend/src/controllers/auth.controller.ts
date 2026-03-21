@@ -211,6 +211,10 @@ export const updateAvatar = async (req: Request, res: Response) => {
     // Upload to Cloudinary.
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: 'avatars',
+      transformation: [
+        { width: 256, height: 256, crop: 'fill' },
+        { quality: 'auto' },
+      ],
     });
 
     // Delete temp file.
