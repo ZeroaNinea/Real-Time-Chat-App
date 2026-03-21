@@ -1,7 +1,13 @@
 import streamifier from 'streamifier';
 import cloudinary from '../config/cloudinary';
+import { UploadApiResponse } from 'cloudinary';
 
-const uploadFromBuffer = (fileBuffer: Buffer) => {
+export const uploadFromBuffer = (
+  fileBuffer: Buffer,
+): Promise<{
+  secure_url: string;
+  public_id: string;
+}> => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
@@ -11,9 +17,9 @@ const uploadFromBuffer = (fileBuffer: Buffer) => {
           { quality: 'auto' },
         ],
       },
-      (error: unknown, result: unknown) => {
+      (error, result) => {
         if (error) reject(error);
-        else resolve(result);
+        else resolve(result as UploadApiResponse);
       },
     );
 

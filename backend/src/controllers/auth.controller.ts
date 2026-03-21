@@ -10,6 +10,7 @@ import cloudinary from '../config/cloudinary';
 
 import { buildAccountResponse } from '../helpers/account-response';
 import pictureHelper from '../helpers/picture-helper';
+import { uploadFromBuffer } from '../helpers/upload-from-buffer-helper';
 
 // Register user.
 export const register = async (req: Request, res: Response) => {
@@ -209,13 +210,14 @@ export const updateAvatar = async (req: Request, res: Response) => {
     }
 
     // Upload to Cloudinary.
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'avatars',
-      transformation: [
-        { width: 256, height: 256, crop: 'fill' },
-        { quality: 'auto' },
-      ],
-    });
+    // const result = await cloudinary.uploader.upload(req.file.path, {
+    //   folder: 'avatars',
+    //   transformation: [
+    //     { width: 256, height: 256, crop: 'fill' },
+    //     { quality: 'auto' },
+    //   ],
+    // });
+    const result = await uploadFromBuffer(req.file.buffer);
 
     // Delete temp file.
     fs.unlinkSync(req.file.path);
