@@ -16,6 +16,9 @@ export interface EnvConfig {
   REDIS_PORT: number;
   REDIS_PASSWORD: string;
   UPSTASH_REDIS_URL: string;
+  CLOUDINARY_CLOUD_NAME: string;
+  CLOUDINARY_API_KEY: string;
+  CLOUDINARY_API_SECRET: string;
 }
 
 const config: EnvConfig = {
@@ -31,6 +34,9 @@ const config: EnvConfig = {
   REDIS_PORT: Number(process.env.REDIS_PORT || 6379),
   REDIS_PASSWORD: process.env.REDIS_PASSWORD || '',
   UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL || '',
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || '',
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || '',
 };
 
 export default config;
