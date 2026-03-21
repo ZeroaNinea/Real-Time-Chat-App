@@ -217,12 +217,15 @@ export const updateAvatar = async (req: Request, res: Response) => {
     //     { quality: 'auto' },
     //   ],
     // });
+
+    const existingUser = await User.findById(req.user?._id);
+
     const result = await uploadFromBuffer(req.file.buffer);
 
     // Delete temp file.
     fs.unlinkSync(req.file.path);
 
-    const user = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       req.user?._id,
       {
         avatar: result.secure_url,
@@ -232,11 +235,11 @@ export const updateAvatar = async (req: Request, res: Response) => {
     );
 
     // Delete the old avatar from Cloudinary.
-    if (user?.avatarPublicId) {
-      await cloudinary.uploader.destroy(user.avatarPublicId);
+    if (existingUser?.avatarPublicId) {
+      await cloudinary.uploader.destroy(existingUser.avatarPublicId);
     }
 
-    res.status(200).json({ avatar: user?.avatar });
+    res.status(200).json({ avatar: updatedUser?.avatar });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Avatar upload failed.' });
