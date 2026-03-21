@@ -7,6 +7,7 @@ export interface IUser {
   email?: string;
   password: string;
   avatar?: string;
+  avatarPublicId?: string;
   bio?: string;
   pronouns?: string;
   status?: string;
@@ -39,6 +40,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       required: true,
     },
     avatar: {
+      type: String,
+      default: '',
+    },
+    avatarPublicId: {
       type: String,
       default: '',
     },
@@ -77,7 +82,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Hash password before saving.

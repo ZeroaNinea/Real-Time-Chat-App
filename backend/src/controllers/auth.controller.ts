@@ -229,6 +229,11 @@ export const updateAvatar = async (req: Request, res: Response) => {
       { new: true },
     );
 
+    // Delete the old avatar from Cloudinary.
+    if (user?.avatarPublicId) {
+      await cloudinary.uploader.destroy(user.avatarPublicId);
+    }
+
     res.status(200).json({ avatar: user?.avatar });
   } catch (error) {
     console.error(error);
