@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+
 import { signToken } from '../auth/jwt.service';
 
 import { User } from '../models/user.model';
 import { redisClient } from '../config/redis';
+import cloudinary from '../config/cloudinary';
+
 import { buildAccountResponse } from '../helpers/account-response';
 import pictureHelper from '../helpers/picture-helper';
 
@@ -147,7 +150,7 @@ export const updateUsernameBio = async (req: Request, res: Response) => {
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     { username, bio },
-    { new: true }
+    { new: true },
   );
 
   res.status(200).json(buildAccountResponse(updatedUser));
@@ -176,36 +179,83 @@ export const updatePassword = async (req: Request, res: Response) => {
 };
 
 // Update avatar.
+// export const updateAvatar = async (req: Request, res: Response) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'Avatar is required.' });
+//   }
+
+//   const oldAvatarPath = req.body.oldAvatar;
+
+//   // Delete old avatar if present.
+//   if (oldAvatarPath) {
+//     const fullPath = path.join(__dirname, '../../', oldAvatarPath);
+//     if (fs.existsSync(fullPath)) {
+//       fs.unlinkSync(fullPath); // Remove the file.
+//     }
+//   }
+
+//   const user = await User.findByIdAndUpdate(
+//     req.user?._id,
+//     { avatar: `uploads/avatars/${req.file.filename}` },
+//     { new: true },
+//   );
+
+//   res.status(200).json({ avatar: user.avatar });
+// };
 export const updateAvatar = async (req: Request, res: Response) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'Avatar is required.' });
-  }
-
-  const oldAvatarPath = req.body.oldAvatar;
-
-  // Delete old avatar if present.
-  if (oldAvatarPath) {
-    const fullPath = path.join(__dirname, '../../', oldAvatarPath);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath); // Remove the file.
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'Avatar is required.' });
     }
+
+    // Upload to Cloudinary.
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'avatars',
+    });
+
+    // Delete temp file.
+    fs.unlinkSync(req.file.path);
+
+    const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      {
+        avatar: result.secure_url,
+        avatarPublicId: result.public_id,
+      },
+      { new: true },
+    );
+
+    res.status(200).json({ avatar: user?.avatar });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Avatar upload failed.' });
   }
-
-  const user = await User.findByIdAndUpdate(
-    req.user?._id,
-    { avatar: `uploads/avatars/${req.file.filename}` },
-    { new: true }
-  );
-
-  res.status(200).json({ avatar: user.avatar });
 };
 
 // Remove avatar.
+// export const removeAvatar = async (req: Request, res: Response) => {
+//   try {
+//     const user = await User.findById(req.user?._id);
+
+//     await pictureHelper.deleteAvatarFile(user);
+//     res.status(200).json({ message: 'Avatar removed.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error during avatar removal.' });
+//   }
+// };
 export const removeAvatar = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user?._id);
 
-    await pictureHelper.deleteAvatarFile(user);
+    if (user?.avatarPublicId) {
+      await cloudinary.uploader.destroy(user.avatarPublicId);
+    }
+
+    user.avatar = null;
+    user.avatarPublicId = null;
+    await user.save();
+
     res.status(200).json({ message: 'Avatar removed.' });
   } catch (error) {
     console.error(error);
@@ -221,7 +271,7 @@ export const updatePronouns = async (req: Request, res: Response) => {
   const user = await User.findByIdAndUpdate(
     userId,
     { pronouns },
-    { new: true }
+    { new: true },
   );
 
   res.status(200).json(buildAccountResponse(user));
