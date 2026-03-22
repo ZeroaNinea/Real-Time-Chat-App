@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 // import path from 'path';
-import fs from 'fs';
+// import fs from 'fs';
 
 import { signToken } from '../auth/jwt.service';
 
@@ -223,7 +223,11 @@ export const updateAvatar = async (req: Request, res: Response) => {
 
     const existingUser = await User.findById(req.user?._id);
 
-    const result = await uploadFromBuffer(req.file.buffer);
+    const result = await uploadFromBuffer(req.file.buffer, {
+      folder: 'avatars',
+      width: 256,
+      height: 256,
+    });
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user?._id,

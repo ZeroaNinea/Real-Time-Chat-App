@@ -5,6 +5,7 @@ export interface IChat {
   name: string;
   topic: string;
   thumbnail: string;
+  thumbnailPublicId: string;
   isPrivate: boolean;
   members: {
     user: mongoose.Schema.Types.ObjectId;
@@ -29,6 +30,7 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
     name: { type: String, required: true },
     topic: { type: String, default: '' },
     thumbnail: { type: String, required: false },
+    thumbnailPublicId: { type: String, required: false },
     isPrivate: { type: Boolean, default: true },
 
     members: [
@@ -53,7 +55,7 @@ const ChatSchema = new mongoose.Schema<ChatDocument>(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Chat = mongoose.model<ChatDocument>('Chat', ChatSchema);

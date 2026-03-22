@@ -11,6 +11,7 @@ import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
 import pictureHelper from '../helpers/picture-helper';
+import { uploadFromBuffer } from '../helpers/upload-from-buffer-helper';
 
 // export const mine = async (req: Request, res: Response) => {
 //   const chats = await Chat.find({
@@ -48,12 +49,27 @@ export const createChat = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Chat name is required.' });
     }
 
-    const thumbnail = req.file?.filename;
+    // const thumbnail = req.file?.filename;
+
+    let thumbnailUrl = null;
+    let thumbnailPublicId = null;
+    if (req.file) {
+      const result = await uploadFromBuffer(req.file.buffer, {
+        folder: 'chat-thumbnails',
+        width: 512,
+        height: 512,
+      });
+
+      thumbnailUrl = result.secure_url;
+      thumbnailPublicId = result.public_id;
+    }
+
     const chat = await Chat.create({
       name,
       isPrivate: false,
       topic: topic,
-      thumbnail: thumbnail,
+      thumbnail: thumbnailUrl,
+      thumbnailPublicId: thumbnailPublicId,
       roles: [
         {
           name: 'Owner',
@@ -145,7 +161,7 @@ export const updateChat = async (req: Request, res: Response) => {
 
     const userId = req.user?.id;
     const member = chat.members.find(
-      (m: Member) => m.user.toString() === userId
+      (m: Member) => m.user.toString() === userId,
     );
 
     if (req.file) {
@@ -186,7 +202,7 @@ export const deleteChat = async (req: Request, res: Response) => {
     }
 
     const member = chat.members.find((m: Member) =>
-      m.user.equals(req.user._id)
+      m.user.equals(req.user._id),
     );
     const isOwner = member?.roles.includes('Owner');
 
@@ -197,11 +213,11 @@ export const deleteChat = async (req: Request, res: Response) => {
     }
 
     await Promise.all(
-      channels.map((channel: ChannelDocument) => channel.deleteOne())
+      channels.map((channel: ChannelDocument) => channel.deleteOne()),
     );
 
     await Promise.all(
-      messages.map((message: MessageDocument) => message.deleteOne())
+      messages.map((message: MessageDocument) => message.deleteOne()),
     );
 
     await chat.deleteOne();
@@ -220,7 +236,7 @@ export const removeThumbnail = async (req: Request, res: Response) => {
     if (!chat) return res.status(404).json({ message: 'Chat not found.' });
 
     const member = chat.members.find((m: Member) =>
-      m.user.equals(req.user._id)
+      m.user.equals(req.user._id),
     );
     const isOwner =
       member?.roles.includes('Owner') || member?.roles.includes('Admin');
@@ -318,7 +334,7 @@ export const getChatMembers = async (req: Request, res: Response) => {
 
     // Fetch all users from the User collection.
     const users = await User.find({ _id: { $in: userIds } }).select(
-      '_id username avatar bio pronouns status friends banlist pendingRequests deletionRequests roles'
+      '_id username avatar bio pronouns status friends banlist pendingRequests deletionRequests roles',
     );
 
     // Merge roles with user data.
