@@ -465,6 +465,15 @@ The deployments are placed in the [`docker-kubernetes-deployments`](./docker-kub
 - **[MongoDB Express](./docker-kubernetes-deployments/mongodb-deployments/mongodb-express/)**
 - **[This preject:](./docker-kubernetes-deployments/real-time-chat-app-deployment/)** Images are deployed with Docker. Uses `docker compose` and K8s ingress.
 
+## An Issue with Connecting MongoDB Atlas
+
+If you're using Linux try to use Google's DNS:
+
+```bash
+sudo resolvectl dns enp3s0 8.8.8.8
+sudo resolvectl flush-caches
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
