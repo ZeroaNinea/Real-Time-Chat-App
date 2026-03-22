@@ -209,21 +209,9 @@ export const updateAvatar = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Avatar is required.' });
     }
 
-    // Upload to Cloudinary.
-    // const result = await cloudinary.uploader.upload(req.file.path, {
-    //   folder: 'avatars',
-    //   transformation: [
-    //     { width: 256, height: 256, crop: 'fill' },
-    //     { quality: 'auto' },
-    //   ],
-    // });
-
     const existingUser = await User.findById(req.user?._id);
 
     const result = await uploadFromBuffer(req.file.buffer);
-
-    // Delete temp file.
-    fs.unlinkSync(req.file.path);
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user?._id,
@@ -234,7 +222,6 @@ export const updateAvatar = async (req: Request, res: Response) => {
       { new: true },
     );
 
-    // Delete the old avatar from Cloudinary.
     if (existingUser?.avatarPublicId) {
       await cloudinary.uploader.destroy(existingUser.avatarPublicId);
     }

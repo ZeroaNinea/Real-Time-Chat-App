@@ -1,13 +1,13 @@
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
 
 // const uploadPath = path.join(__dirname, '../../uploads/avatars');
-const uploadPath = path.join(__dirname, '../../tmp/avatars');
+// const uploadPath = path.join(__dirname, '../../tmp/avatars');
 
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
+// if (!fs.existsSync(uploadPath)) {
+//   fs.mkdirSync(uploadPath, { recursive: true });
+// }
 
 // const storage = multer.diskStorage({
 //   destination: (_req, _file, cb) => {
@@ -26,6 +26,6 @@ export const uploadAvatar = multer({
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit.
   fileFilter: (_req, file, cb) => {
     if (file.mimetype.startsWith('image/')) cb(null, true);
-    else cb(new Error('Only image files are allowed'));
+    else cb(new Error('Only image files are allowed.'));
   },
 }).single('avatar');
