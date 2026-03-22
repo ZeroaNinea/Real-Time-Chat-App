@@ -6,7 +6,7 @@ import { User } from '../models/user.model';
 export const authMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   const authHeader = req.header('Authorization');
 
@@ -38,7 +38,7 @@ export const authMiddleware = async (
 
     const user = await User.findById(decoded.id).select('-password');
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found.' });
 
       return;
     }

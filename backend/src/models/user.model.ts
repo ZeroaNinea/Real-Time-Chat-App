@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       sparse: true,
     },

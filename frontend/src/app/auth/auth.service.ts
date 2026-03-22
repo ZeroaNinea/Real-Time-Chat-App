@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  // private route = inject(ActivatedRoute);
 
   currentUser = signal<User | null>(null);
 
@@ -65,27 +65,27 @@ export class AuthService {
   updateUsernameBio(data: { username: string; bio: string }) {
     return this.http.put<User>(
       `${environment.backendUrl}/auth/update-username-bio`,
-      data
+      data,
     );
   }
 
   updatePassword(data: { currentPassword: string; newPassword: string }) {
     return this.http.put<User>(
       `${environment.backendUrl}/auth/update-password`,
-      data
+      data,
     );
   }
 
   uploadAvatar(data: FormData) {
     return this.http.post<{ avatar: string }>(
       `${environment.backendUrl}/auth/update-avatar`,
-      data
+      data,
     );
   }
 
   removeAvatar(): Observable<void> {
     return this.http.delete<void>(
-      `${environment.backendUrl}/auth/remove-avatar`
+      `${environment.backendUrl}/auth/remove-avatar`,
     );
   }
 
@@ -100,7 +100,7 @@ export class AuthService {
       `${environment.backendUrl}/auth/update-pronouns`,
       {
         pronouns,
-      }
+      },
     );
   }
 
