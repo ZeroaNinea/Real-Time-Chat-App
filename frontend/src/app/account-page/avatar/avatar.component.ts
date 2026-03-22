@@ -34,7 +34,7 @@ export class AvatarComponent implements OnInit {
 
   ngOnInit() {
     if (this.user.avatar) {
-      this.currentAvatar = `${environment.backendUrl}/${this.user.avatar}`;
+      this.currentAvatar = this.user.avatar;
     }
   }
 
@@ -59,7 +59,7 @@ export class AvatarComponent implements OnInit {
     this.authService.uploadAvatar(formData).subscribe({
       next: (res) => {
         this.user.avatar = res.avatar;
-        this.currentAvatar = `${environment.backendUrl}/${this.user.avatar}`;
+        this.currentAvatar = this.user.avatar;
         this.userChange.emit(this.user);
         this.snackBar.open('Avatar uploaded!', 'Close', { duration: 3000 });
       },
@@ -67,7 +67,7 @@ export class AvatarComponent implements OnInit {
         this.snackBar.open(
           err.error?.message || 'Failed to upload avatar',
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       },
     });
@@ -85,7 +85,7 @@ export class AvatarComponent implements OnInit {
         this.snackBar.open(
           err.error?.message || 'Failed to remove avatar',
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       },
     });
