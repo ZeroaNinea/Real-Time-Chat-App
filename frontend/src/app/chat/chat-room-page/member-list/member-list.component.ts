@@ -1,7 +1,7 @@
 import {
   afterNextRender,
   Component,
-  computed,
+  // computed,
   inject,
   Input,
 } from '@angular/core';
@@ -76,9 +76,7 @@ export class MemberListComponent {
 
   getAvatarUrl(userId: string): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
-    return avatar
-      ? `${this.environment.backendUrl}/${avatar}`
-      : 'assets/camera.svg';
+    return avatar ? `${avatar}` : 'assets/camera.svg';
   }
 
   openUserDialog(member: PopulatedUser) {
