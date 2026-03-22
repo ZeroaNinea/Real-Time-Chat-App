@@ -34,9 +34,7 @@ export class FriendListComponent {
   environment = environment;
 
   getAvatarUrl(user: AbbreviatedPopulatedUser) {
-    return user.avatar
-      ? `${this.environment.backendUrl}/${user.avatar}`
-      : 'assets/camera.svg';
+    return user.avatar ? `${user.avatar}` : 'assets/camera.svg';
   }
 
   isNotEmpty(arr: AbbreviatedPopulatedUser[]) {

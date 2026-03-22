@@ -47,13 +47,13 @@ export class ChatRoomListComponent implements OnChanges {
 
   filteredChatRooms(): Chat[] {
     return this.allRooms.filter((room) =>
-      room.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      room.name.toLowerCase().includes(this.searchTerm.toLowerCase()),
     );
   }
 
   isJoinDisabled(room: Chat): boolean {
     const user = room.members.find(
-      (m) => m.user.toString() === this.currentUserId
+      (m) => m.user.toString() === this.currentUserId,
     );
 
     if (this.userRooms.some((r) => r._id === room._id)) {
@@ -73,7 +73,7 @@ export class ChatRoomListComponent implements OnChanges {
 
   isLeaveDisabled(room: Chat): boolean {
     const user = room.members.find(
-      (m) => m.user.toString() === this.currentUserId
+      (m) => m.user.toString() === this.currentUserId,
     );
 
     if (user?.roles.includes('Owner')) {
@@ -85,7 +85,7 @@ export class ChatRoomListComponent implements OnChanges {
 
   getChatThumbnailUrl(room: Chat) {
     if (room.thumbnail) {
-      return `${this.environment.backendUrl}/uploads/chat-thumbnails/${room.thumbnail}`;
+      return `${room.thumbnail}`;
     } else {
       return 'assets/camera.svg';
     }

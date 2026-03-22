@@ -16,7 +16,7 @@ app.use(
 );
 app.use(express.json());
 
-app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads'))); // Delete this line after getting the avatar from the frontend using Claudinary.
+// app.use('/api/uploads', express.static(path.join(__dirname, '..', 'uploads'))); // Delete this line after getting the avatar from the frontend using Claudinary.
 app.use('/api', router);
 
 export { app };
