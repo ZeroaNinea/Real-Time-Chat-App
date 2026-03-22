@@ -10,6 +10,9 @@ import { Member } from '../../types/member.alias';
 import { Message, MessageDocument } from '../models/message.model';
 import { User } from '../models/user.model';
 import { PopulatedUser } from '../../types/populated-user.interface';
+
+import cloudinary from '../config/cloudinary';
+
 import pictureHelper from '../helpers/picture-helper';
 import { uploadFromBuffer } from '../helpers/upload-from-buffer-helper';
 
@@ -164,11 +167,29 @@ export const updateChat = async (req: Request, res: Response) => {
       (m: Member) => m.user.toString() === userId,
     );
 
+    // if (req.file) {
+    //   if (chat.thumbnail) {
+    //     pictureHelper.deleteThumbnailFile(chat);
+    //   }
+    //   chat.thumbnail = req.file.filename;
+    // }
+
     if (req.file) {
-      if (chat.thumbnail) {
-        pictureHelper.deleteThumbnailFile(chat);
+      const oldPublicId = chat.thumbnailPublicId;
+
+      const result = await uploadFromBuffer(req.file.buffer, {
+        folder: 'chat-thumbnails',
+        width: 512,
+        height: 512,
+      });
+
+      chat.thumbnail = result.secure_url;
+      chat.thumbnailPublicId = result.public_id;
+
+      // Delete old thumbnail.
+      if (oldPublicId) {
+        await cloudinary.uploader.destroy(oldPublicId);
       }
-      chat.thumbnail = req.file.filename;
     }
 
     if (
@@ -219,6 +240,10 @@ export const deleteChat = async (req: Request, res: Response) => {
     await Promise.all(
       messages.map((message: MessageDocument) => message.deleteOne()),
     );
+
+    if (chat.thumbnailPublicId) {
+      await cloudinary.uploader.destroy(chat.thumbnailPublicId);
+    }
 
     await chat.deleteOne();
 
