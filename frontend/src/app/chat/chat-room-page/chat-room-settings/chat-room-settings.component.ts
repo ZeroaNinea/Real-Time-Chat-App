@@ -11,7 +11,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ChatService } from '../../shared/services/chat-service/chat.service';
+// import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatRoomSettingsDialogComponent } from '../../dialogs/chat-room-settings-dialog/chat-room-settings-dialog.component';
 import { environment } from '../../../../environments/environment';
 
@@ -123,7 +123,7 @@ export class ChatRoomSettingsComponent {
 
   isDeletionRequested() {
     return this.currentUserDeletionRequests.includes(
-      this.currentInterlocutorId!
+      this.currentInterlocutorId!,
     );
   }
 }

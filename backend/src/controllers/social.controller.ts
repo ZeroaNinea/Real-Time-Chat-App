@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { User } from '../models/user.model';
+// import { User } from '../models/user.model';
 import socialHelpers from '../helpers/social-helpers';
 
 export const getFriends = async (req: Request, res: Response) => {
