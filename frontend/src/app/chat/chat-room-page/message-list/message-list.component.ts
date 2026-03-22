@@ -247,7 +247,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
                 if (!iframe) {
                   console.warn(
-                    'TikTok iframe NOT injected. embed.js might be blocked or failed.'
+                    'TikTok iframe NOT injected. embed.js might be blocked or failed.',
                   );
                 }
               }, 2000);
@@ -267,7 +267,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
               if (!iframe) {
                 console.warn(
-                  'TikTok iframe NOT injected. embed.js might be blocked or failed.'
+                  'TikTok iframe NOT injected. embed.js might be blocked or failed.',
                 );
               }
             }, 2000);
@@ -302,9 +302,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   getAvatarUrl(userId: string): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
-    return avatar
-      ? `${this.environment.backendUrl}/${avatar}`
-      : 'assets/camera.svg';
+    return avatar ? `${avatar}` : 'assets/camera.svg';
   }
 
   getQuotedText(messageId: string): string {
@@ -386,7 +384,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
     if (attempt >= maxAttempts) {
       console.warn(
-        `Message ${messageId} not found after ${maxAttempts} attempts`
+        `Message ${messageId} not found after ${maxAttempts} attempts`,
       );
       return;
     }
@@ -456,10 +454,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to toggle reaction',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
-      }
+      },
     );
     this.activeReactionMessageId = null;
   }

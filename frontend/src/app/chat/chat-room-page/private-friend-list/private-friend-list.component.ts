@@ -40,8 +40,6 @@ export class PrivateFriendListComponent {
   }
 
   getAvatarUrl(userAvatar: string) {
-    return userAvatar
-      ? `${this.environment.backendUrl}/${userAvatar}`
-      : 'assets/camera.svg';
+    return userAvatar ? `${userAvatar}` : 'assets/camera.svg';
   }
 }

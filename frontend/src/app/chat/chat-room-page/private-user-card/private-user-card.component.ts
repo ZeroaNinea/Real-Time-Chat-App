@@ -56,9 +56,7 @@ export class PrivateUserCardComponent {
 
   getAvatarUrl(userId: string | undefined): string {
     const avatar = this.members.find((m) => m.user._id === userId)?.user.avatar;
-    return avatar
-      ? `${this.environment.backendUrl}/${avatar}`
-      : 'assets/camera.svg';
+    return avatar ? `${avatar}` : 'assets/camera.svg';
   }
 
   isFriend() {
@@ -95,10 +93,10 @@ export class PrivateUserCardComponent {
             'Close',
             {
               duration: 2000,
-            }
+            },
           );
         }
-      }
+      },
     );
   }
 
@@ -111,7 +109,7 @@ export class PrivateUserCardComponent {
       } else {
         this.currentUserBanList.push(user.user._id);
         this.currentUserFriends = this.currentUserFriends.filter(
-          (friend) => friend !== user.user._id
+          (friend) => friend !== user.user._id,
         );
 
         this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
@@ -127,7 +125,7 @@ export class PrivateUserCardComponent {
         });
       } else {
         this.currentUserBanList = this.currentUserBanList.filter(
-          (id) => id !== user.user._id
+          (id) => id !== user.user._id,
         );
 
         this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });

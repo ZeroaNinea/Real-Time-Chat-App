@@ -97,7 +97,7 @@ export class UserCardDialogComponent {
     const targetRank = this.roleRanks[targetRole] ?? 0;
 
     const highestAssignerRank = Math.max(
-      ...assignerRoles.map((r) => this.roleRanks[r] ?? 0)
+      ...assignerRoles.map((r) => this.roleRanks[r] ?? 0),
     );
 
     if (
@@ -116,7 +116,7 @@ export class UserCardDialogComponent {
 
   canAssignPermissionsBelowOwnLevel(
     assignerPermissions: string[],
-    targetPermissions: string[]
+    targetPermissions: string[],
   ): boolean {
     const assignerMax = this.getMaxPermissionRank(assignerPermissions);
     const targetMax = this.getMaxPermissionRank(targetPermissions);
@@ -139,7 +139,7 @@ export class UserCardDialogComponent {
       currentUserFriends: string[];
       currentUserBanList: string[];
       currentUserPendingRequests: string[];
-    }
+    },
   ) {
     this.updatedStatus = this.data.selectedUser.user.status;
     this.isAdmin = this.data.isAdmin;
@@ -155,7 +155,7 @@ export class UserCardDialogComponent {
       // ) {
       return this.canAssignPermissionsBelowOwnLevel(
         this.currentUserPermissions,
-        role.permissions
+        role.permissions,
       );
       // } else {
       //   return this.canEditRole(this.data.currentUserRoles, role.name);
@@ -201,9 +201,7 @@ export class UserCardDialogComponent {
 
   getAvatarUrl(): string {
     const avatar = this.data.selectedUser.user.avatar;
-    return avatar
-      ? `${this.environment.backendUrl}/${avatar}`
-      : 'assets/camera.svg';
+    return avatar ? `${avatar}` : 'assets/camera.svg';
   }
 
   addRole() {
@@ -223,7 +221,7 @@ export class UserCardDialogComponent {
           this._snackbar.open('Role added!', 'Close', { duration: 2000 });
           this.selectedRoleToAdd = null;
         }
-      }
+      },
     );
   }
 
@@ -242,7 +240,7 @@ export class UserCardDialogComponent {
         } else {
           this._snackbar.open('Role removed!', 'Close', { duration: 2000 });
         }
-      }
+      },
     );
   }
 
@@ -262,10 +260,10 @@ export class UserCardDialogComponent {
             'Close',
             {
               duration: 2000,
-            }
+            },
           );
         }
-      }
+      },
     );
   }
 
@@ -280,7 +278,7 @@ export class UserCardDialogComponent {
           this._snackbar.open(res.error, 'Close', { duration: 3000 });
         } else {
           this.data.currentUserPendingRequests.push(
-            this.data.selectedUser.user._id
+            this.data.selectedUser.user._id,
           );
 
           this._snackbar.open(
@@ -288,28 +286,28 @@ export class UserCardDialogComponent {
             'Close',
             {
               duration: 2000,
-            }
+            },
           );
         }
-      }
+      },
     );
   }
 
   isFriend() {
     return this.data.selectedUser.user.friends.includes(
-      this.data.currentUserId
+      this.data.currentUserId,
     );
   }
 
   isBanned() {
     return this.data.currentUserBanList.includes(
-      this.data.selectedUser.user._id
+      this.data.selectedUser.user._id,
     );
   }
 
   isRequestPending() {
     return this.data.currentUserPendingRequests.includes(
-      this.data.selectedUser.user._id
+      this.data.selectedUser.user._id,
     );
   }
 
@@ -340,12 +338,12 @@ export class UserCardDialogComponent {
         this._snackbar.open(
           res.error.message || 'Failed to ban user',
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       } else {
         this.data.currentUserBanList.push(user.user._id);
         this.data.currentUserFriends = this.data.currentUserFriends.filter(
-          (friend) => friend !== user.user._id
+          (friend) => friend !== user.user._id,
         );
 
         this._snackbar.open('Banned user!', 'Close', { duration: 2000 });
@@ -359,11 +357,11 @@ export class UserCardDialogComponent {
         this._snackbar.open(
           res.error.message || 'Failed to unban user',
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       } else {
         this.data.currentUserBanList = this.data.currentUserBanList.filter(
-          (id) => id !== user.user._id
+          (id) => id !== user.user._id,
         );
 
         this._snackbar.open('Unbanned user!', 'Close', { duration: 2000 });
