@@ -1,30 +1,55 @@
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
+// import { Chat } from '../models/chat.model';
+// import { User } from '../models/user.model';
+
+// const deleteAvatarFile = async (user: typeof User.prototype) => {
+//   if (user.avatar) {
+//     const fullPath = path.join(__dirname, '../../', user.avatar);
+//     if (fs.existsSync(fullPath)) {
+//       fs.unlinkSync(fullPath); // Delete the avatar file.
+//     }
+//     user.avatar = '';
+//     await user.save();
+//   }
+// };
+
+// const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
+//   if (!chat.thumbnail) return;
+
+//   const fullPath = path.join(
+//     __dirname,
+//     '../../uploads/chat-thumbnails',
+//     chat.thumbnail,
+//   );
+//   if (fs.existsSync(fullPath)) {
+//     fs.unlinkSync(fullPath);
+//   }
+// };
+
+// export default { deleteAvatarFile, deleteThumbnailFile };
+
+import cloudinary from '../config/cloudinary';
 import { Chat } from '../models/chat.model';
 import { User } from '../models/user.model';
 
 const deleteAvatarFile = async (user: typeof User.prototype) => {
-  if (user.avatar) {
-    const fullPath = path.join(__dirname, '../../', user.avatar);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath); // Delete the avatar file.
-    }
-    user.avatar = '';
-    await user.save();
+  if (user.avatarPublicId) {
+    await cloudinary.uploader.destroy(user.avatarPublicId);
   }
+
+  user.avatar = null;
+  user.avatarPublicId = null;
+  await user.save();
 };
 
-const deleteThumbnailFile = (chat: typeof Chat.prototype) => {
-  if (!chat.thumbnail) return;
-
-  const fullPath = path.join(
-    __dirname,
-    '../../uploads/chat-thumbnails',
-    chat.thumbnail,
-  );
-  if (fs.existsSync(fullPath)) {
-    fs.unlinkSync(fullPath);
+const deleteThumbnailFile = async (chat: typeof Chat.prototype) => {
+  if (chat.thumbnailPublicId) {
+    await cloudinary.uploader.destroy(chat.thumbnailPublicId);
   }
+
+  chat.thumbnail = null;
+  chat.thumbnailPublicId = null;
 };
 
 export default { deleteAvatarFile, deleteThumbnailFile };
