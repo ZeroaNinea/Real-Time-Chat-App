@@ -18,10 +18,14 @@ export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     // Check if user exists.
-    // const existingUser = await User.findOne({ username });
-    const existingUser = await User.findOne({
-      $or: [{ username }, { email }],
-    });
+    const query: any = [{ username }];
+
+    if (email) {
+      query.push({ email });
+    }
+
+    const existingUser = await User.findOne({ $or: query });
+
     if (existingUser)
       return res
         .status(409)
