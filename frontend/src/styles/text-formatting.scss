@@ -92,7 +92,27 @@
   }
 }
 
-// .message-link {
-//   color: var(--mat-sys-primary);
-//   transition: color 0.2s ease;
-// }
+.message-link {
+  color: var(--mat-sys-primary);
+  transition: color 0.2s ease;
+}
+
+.message-link:hover {
+  @include mat.theme(
+    (
+      color: mat.$magenta-palette,
+    )
+  );
+}
+
+.message-link:active {
+  @include mat.theme(
+    (
+      color: mat.$orange-palette,
+    )
+  );
+}
+
+.message-link:visited {
+  text-decoration-color: var(--mat-sys-on-surface);
+}
