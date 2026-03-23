@@ -139,6 +139,9 @@ export class ChatRoomComponent implements OnDestroy {
   oldestMessageId: string | null = null;
   favoriteGifs: string[] = [];
 
+  private lastLoadedChannelId: string | null = null;
+  private lastIsPrivate: boolean | null = null;
+
   currentPermissions(): ChannelPermissions {
     return this.selectedChannel()?.permissions || {};
   }
@@ -224,14 +227,35 @@ export class ChatRoomComponent implements OnDestroy {
       });
     });
 
+    // effect(() => {
+    //   const channelId = this.channelId();
+    //   if (channelId || this.isPrivate()) {
+    //     this.messages.set([]);
+    //     this.oldestMessageId = null;
+    //     this.hasMoreMessages = true;
+    //     this.loadInitialMessages();
+    //   }
+    // });
+
     effect(() => {
       const channelId = this.channelId();
-      if (channelId || this.isPrivate()) {
-        this.messages.set([]);
-        this.oldestMessageId = null;
-        this.hasMoreMessages = true;
-        this.loadInitialMessages();
-      }
+      const isPrivate = this.isPrivate();
+
+      if (!channelId && !isPrivate) return;
+
+      const sameChannel = channelId === this.lastLoadedChannelId;
+      const sameType = isPrivate === this.lastIsPrivate;
+
+      if (sameChannel && sameType) return;
+
+      this.lastLoadedChannelId = channelId;
+      this.lastIsPrivate = isPrivate;
+
+      this.messages.set([]);
+      this.oldestMessageId = null;
+      this.hasMoreMessages = true;
+
+      this.loadInitialMessages();
     });
 
     afterNextRender(() => {
