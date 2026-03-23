@@ -187,7 +187,7 @@ export class TextFormatPipe implements PipeTransform {
         }
       }
 
-      return `<a href="${href}" title="${title || ''}">${text}</a>`;
+      return `<a href="${href}" title="${title || ''}" class="message-link">${text}</a>`;
     };
 
     const escapeFormatting = (text: string) =>
