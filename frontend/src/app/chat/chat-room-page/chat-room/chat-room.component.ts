@@ -284,9 +284,9 @@ export class ChatRoomComponent implements OnDestroy {
 
       const member = chat.members.find((m) => m.user === currentUserId);
 
-      if (this.channelId()) {
-        this.loadInitialMessages();
-      }
+      // if (this.channelId()) {
+      //   this.loadInitialMessages();
+      // }
 
       if (this.chatId()) {
         this.chatService
@@ -298,7 +298,7 @@ export class ChatRoomComponent implements OnDestroy {
         // Found in members.
         this.isOwner.set(member.roles.includes('Owner'));
         this.isAdmin.set(
-          member.roles.includes('Admin') || member.roles.includes('Owner')
+          member.roles.includes('Admin') || member.roles.includes('Owner'),
         );
         this.isModerator.set(member.roles.includes('Moderator'));
       } else {
@@ -345,7 +345,7 @@ export class ChatRoomComponent implements OnDestroy {
 
     this.wsService.listenChannelEditions().subscribe((channel) => {
       this.channels.update((chs) =>
-        chs.map((c) => (c._id === channel._id ? channel : c))
+        chs.map((c) => (c._id === channel._id ? channel : c)),
       );
     });
 
@@ -361,13 +361,13 @@ export class ChatRoomComponent implements OnDestroy {
       .listenChannelMessageDeletions()
       .subscribe(({ channelId }) => {
         this.messages.update((msgs) =>
-          msgs.filter((m) => m.channelId !== channelId)
+          msgs.filter((m) => m.channelId !== channelId),
         );
       });
 
     this.wsService.listenMessageEdits().subscribe((msg) => {
       this.messages.update((msgs) =>
-        msgs.map((m) => (m._id === msg._id ? msg : m))
+        msgs.map((m) => (m._id === msg._id ? msg : m)),
       );
     });
 
@@ -387,7 +387,7 @@ export class ChatRoomComponent implements OnDestroy {
           }
 
           return u;
-        })
+        }),
       );
     });
 
@@ -580,7 +580,7 @@ export class ChatRoomComponent implements OnDestroy {
             if (msg._id !== messageId) return msg;
 
             const existingReaction = msg.reactions.find(
-              (r) => r.emoji === reaction
+              (r) => r.emoji === reaction,
             );
 
             if (existingReaction) {
@@ -604,10 +604,10 @@ export class ChatRoomComponent implements OnDestroy {
                           return {
                             ...m,
                             reactions: m.reactions.filter(
-                              (r) => r.emoji !== reaction
+                              (r) => r.emoji !== reaction,
                             ),
                           };
-                        })
+                        }),
                       );
                     }, 300);
                   }, 100);
@@ -620,7 +620,7 @@ export class ChatRoomComponent implements OnDestroy {
             }
 
             return { ...msg };
-          })
+          }),
         );
       });
   }
@@ -667,7 +667,7 @@ export class ChatRoomComponent implements OnDestroy {
           this.chatId()!,
           this.channelId()!,
           20,
-          this.oldestMessageId as string
+          this.oldestMessageId as string,
         )
         .subscribe((messages) => {
           this.messages.set(messages);
@@ -760,7 +760,7 @@ export class ChatRoomComponent implements OnDestroy {
           this.chatId()!,
           this.channelId()!,
           20,
-          this.oldestMessageId
+          this.oldestMessageId,
         )
         .subscribe((olderMessages) => {
           if (olderMessages.length > 0) {
@@ -806,7 +806,7 @@ export class ChatRoomComponent implements OnDestroy {
 
   applyFilledClassesToFavorites() {
     const buttons = document.querySelectorAll<HTMLButtonElement>(
-      '.marked-star-button'
+      '.marked-star-button',
     );
 
     buttons.forEach((button) => {
@@ -889,7 +889,7 @@ export class ChatRoomComponent implements OnDestroy {
           const chatId = createdRoom._id;
 
           const channelCreations = this.channels().map((channelName) =>
-            this.chatService.addChannel(chatId, channelName.name)
+            this.chatService.addChannel(chatId, channelName.name),
           );
 
           // Execute all channel creations.
@@ -976,7 +976,7 @@ export class ChatRoomComponent implements OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to rename channel',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
       });
@@ -1022,10 +1022,10 @@ export class ChatRoomComponent implements OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to delete message',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
-      }
+      },
     );
   }
 
@@ -1041,10 +1041,10 @@ export class ChatRoomComponent implements OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to edit message',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
-      }
+      },
     );
   }
 
@@ -1072,10 +1072,10 @@ export class ChatRoomComponent implements OnDestroy {
             this._snackbar.open(
               res.error.message || 'Failed to reply message',
               'Close',
-              { duration: 3000 }
+              { duration: 3000 },
             );
           }
-        }
+        },
       );
     }
 
@@ -1096,10 +1096,10 @@ export class ChatRoomComponent implements OnDestroy {
             this._snackbar.open(
               res.error.message || 'Failed to reply message',
               'Close',
-              { duration: 3000 }
+              { duration: 3000 },
             );
           }
-        }
+        },
       );
     }
 
@@ -1118,16 +1118,16 @@ export class ChatRoomComponent implements OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to change channel order',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
-      }
+      },
     );
   }
 
   deletePrivateChatRequest() {
     const receiverId = this.populatedUsers().find(
-      (u) => u.user._id !== this.currentUser()?.id
+      (u) => u.user._id !== this.currentUser()?.id,
     )?.user._id;
 
     this.wsService.emit(
@@ -1141,10 +1141,10 @@ export class ChatRoomComponent implements OnDestroy {
           this._snackbar.open(
             res.error.message || 'Failed to send a delete request',
             'Close',
-            { duration: 3000 }
+            { duration: 3000 },
           );
         }
-      }
+      },
     );
   }
 }
