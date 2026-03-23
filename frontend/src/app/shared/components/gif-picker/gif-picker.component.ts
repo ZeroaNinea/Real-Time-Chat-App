@@ -93,6 +93,9 @@ export class GifPickerComponent {
 
   toggleFavorite(gifUrl: string, event: MouseEvent) {
     const button = (event.currentTarget as HTMLElement).parentElement!;
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      '.marked-star-button',
+    );
     const container = button.querySelector('.particle-container');
 
     if (!container) return;
@@ -107,6 +110,30 @@ export class GifPickerComponent {
       this.chatService.addFavorite(gifUrl).subscribe(() => {
         console.log('Favorite added:', gifUrl);
       });
+    }
+
+    // Toggle the filled class for all GIFs on the page.
+    buttons.forEach((button) => {
+      if (button.dataset['gifUrl'] === gifUrl) {
+        this.toggleFilledClass(gifUrl, button);
+      }
+    });
+  }
+
+  toggleFilledClass(gifUrl: string, button: HTMLElement) {
+    const icon = button.querySelector('span.material-symbols-outlined');
+
+    if (!icon) {
+      console.error('Icon not found inside the button.');
+      return;
+    }
+
+    const isFavorited = this.favoriteGifs.includes(gifUrl);
+
+    if (isFavorited) {
+      icon.classList.remove('filled');
+    } else {
+      icon.classList.add('filled');
     }
   }
 
