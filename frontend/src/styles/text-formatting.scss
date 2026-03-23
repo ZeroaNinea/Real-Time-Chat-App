@@ -33,7 +33,7 @@
   background-color: var(--mat-sys-surface-container);
   border: 1px solid var(--mat-sys-outline);
   border-radius: 5px;
-  padding: 2px 8px 2px 8px;
+  padding: 0.1px 0.3rem 0.1rem 0.3rem;
 }
 
 .code-block-wrapper {
@@ -71,7 +71,9 @@
     color: var(--mat-sys-on-secondary-container);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-    transition: background-color 0.2s ease, color 0.2s ease,
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
       transform 0.1s ease-in-out;
 
     &:hover {
