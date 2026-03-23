@@ -259,6 +259,10 @@ export class ChatRoomComponent implements OnDestroy {
       this.hasMoreMessages = true;
 
       this.loadInitialMessages();
+      setTimeout(() => {
+        this.wsService.emitTypingStop(this.chatId(), this.channelId());
+      }, 100);
+      this.connect();
     });
 
     afterNextRender(() => {
