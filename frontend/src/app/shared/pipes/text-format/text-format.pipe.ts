@@ -1,4 +1,4 @@
-import { afterNextRender, inject, Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked, Renderer } from 'marked';
 import * as DOMPurify from 'dompurify';
@@ -28,7 +28,7 @@ export class TextFormatPipe implements PipeTransform {
             }
 
             return content;
-          }
+          },
         )
         .replace(/--(.*?)--/g, '<u>$1</u>')
         .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>');
@@ -44,7 +44,7 @@ export class TextFormatPipe implements PipeTransform {
         highlighted = hljs.highlightAuto(text).value;
       }
       return `
-       <pre class="code-block-wrapper">
+        <pre class="code-block-wrapper">
           <code class="hljs ${lang}">${highlighted}</code>
           <button class="copy-button" data-code="${text}">copy</button>
         </pre>
@@ -166,8 +166,8 @@ export class TextFormatPipe implements PipeTransform {
             <iframe
               class="message-twitch"
               src="https://clips.twitch.tv/embed?clip=${clipId}&parent=${
-            location.hostname
-          }"
+                location.hostname
+              }"
               title="${title || 'Twitch clip'}"
               frameborder="0"
               allowfullscreen
