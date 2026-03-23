@@ -1,7 +1,6 @@
 import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import {
   afterEveryRender,
-  afterNextRender,
   Component,
   EventEmitter,
   inject,
@@ -133,12 +132,15 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   handleGifClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const button = target.closest('.marked-star-button') as HTMLElement;
+    const targetButton = target.closest('.marked-star-button') as HTMLElement;
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      '.marked-star-button',
+    );
 
-    if (!button) return;
+    if (!targetButton) return;
 
-    const gifUrl = button.dataset['gifUrl']!;
-    const particleContainer = button
+    const gifUrl = targetButton.dataset['gifUrl']!;
+    const particleContainer = targetButton
       .closest('.marked-star-wrapper')
       ?.querySelector('.marked-particle-container');
 
@@ -146,9 +148,16 @@ export class MessageListComponent implements OnInit, OnDestroy {
       this.animateParticles(particleContainer);
     }
 
-    this.addRippleEffect(button, event);
+    this.addRippleEffect(targetButton, event);
     this.toggleFavorite(gifUrl);
-    this.toggleFilledClass(gifUrl, button);
+    this.toggleFilledClass(gifUrl, targetButton);
+
+    buttons.forEach((button) => {
+      if (button.dataset['gifUrl'] === targetButton?.dataset['gifUrl']) {
+        this.addRippleEffect(button, event);
+        this.toggleFilledClass(gifUrl, button);
+      }
+    });
   }
 
   addRippleEffect(button: HTMLElement, event: MouseEvent) {
