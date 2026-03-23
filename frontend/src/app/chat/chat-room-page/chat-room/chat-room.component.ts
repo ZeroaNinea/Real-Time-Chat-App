@@ -190,6 +190,10 @@ export class ChatRoomComponent implements OnDestroy {
 
       const newMessageCount = msgs.length;
 
+      queueMicrotask(() => {
+        container.scrollTop = container.scrollHeight;
+      });
+
       if (newMessageCount > this.lastMessageCount && this.isAtBottom()) {
         queueMicrotask(() => {
           container.scrollTop = container.scrollHeight;

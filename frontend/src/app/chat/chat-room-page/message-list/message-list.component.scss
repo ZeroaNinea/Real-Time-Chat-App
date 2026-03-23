@@ -289,6 +289,7 @@
     z-index: 1;
 
     .timestamp {
+      font-size: 0.75rem;
       color: gray;
     }
 
@@ -322,7 +323,9 @@
 
       .reaction-count {
         display: inline-block;
-        transition: opacity 100ms ease-out, transform 100ms ease-out;
+        transition:
+          opacity 100ms ease-out,
+          transform 100ms ease-out;
 
         &--animating {
           opacity: 0;

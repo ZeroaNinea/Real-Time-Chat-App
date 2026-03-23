@@ -1,146 +1,198 @@
-@if (isNotEmpty(filteredMessages)) { @for (msg of filteredMessages; track
-[msg._id, $index]) { @if (msg.replyTo && isGrouped($index)) {
-<div class="reply-link" [class.own]="msg.sender === currentUserId">
-  <div class="avatar-wrapper">
-    <img
-      [src]="getRecipientAvatarUrl(msg.replyTo)"
-      alt="Avatar"
-      class="recipient-avatar"
-    />
-  </div>
-  <p class="reply-text" (click)="scrollToMessage(msg.replyTo)">
-    Replying to&nbsp; <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
-    >: "{{ getQuotedText(msg.replyTo) }}"
-  </p>
-</div>
-}
-<div
-  class="message"
-  [class.own]="msg.sender === currentUserId"
-  [class.first]="getMessagePosition($index).isFirstInGroup"
-  [class.last]="getMessagePosition($index).isLastInGroup"
-  [class.middle]="
-    !getMessagePosition($index).isFirstInGroup &&
-    !getMessagePosition($index).isLastInGroup
-  "
-  [class.reply]="msg.replyTo"
-  [attr.id]="'message-' + msg._id"
-  (mouseenter)="hoveredMessageId = msg._id"
-  (mouseleave)="hoveredMessageId = null"
->
-  @if (isGrouped($index)) {
-  <div class="avatar-wrapper">
-    <img [src]="getAvatarUrl(msg.sender)" alt="Avatar" class="user-avatar" />
-  </div>
-  }
-
-  <div class="message-content">
-    @if (isGrouped($index)) {
-    <div class="message-header">
-      @if (getUser(msg.sender)) {
-      <span class="username" (click)="openUserDialog(getUser(msg.sender))">{{
-        getUsername(msg.sender)
-      }}</span>
-      } @else {
-      <span class="username">{{ getUsername(msg.sender) }}</span>
-      }
-      <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
-    </div>
+@if (isNotEmpty(filteredMessages)) {
+  @for (msg of filteredMessages; track [msg._id, $index]) {
+    @if (msg.replyTo && isGrouped($index)) {
+      <div class="reply-link" [class.own]="msg.sender === currentUserId">
+        <div class="avatar-wrapper">
+          <img
+            [src]="getRecipientAvatarUrl(msg.replyTo)"
+            alt="Avatar"
+            class="recipient-avatar"
+          />
+        </div>
+        <p class="reply-text" (click)="scrollToMessage(msg.replyTo)">
+          Replying to&nbsp;
+          <strong>{{ getRecipientUsername(msg.replyTo) }}</strong
+          >: "{{ getQuotedText(msg.replyTo) }}"
+        </p>
+      </div>
     }
+    <div
+      class="message"
+      [class.own]="msg.sender === currentUserId"
+      [class.first]="getMessagePosition($index).isFirstInGroup"
+      [class.last]="getMessagePosition($index).isLastInGroup"
+      [class.middle]="
+        !getMessagePosition($index).isFirstInGroup &&
+        !getMessagePosition($index).isLastInGroup
+      "
+      [class.reply]="msg.replyTo"
+      [attr.id]="'message-' + msg._id"
+      (mouseenter)="hoveredMessageId = msg._id"
+      (mouseleave)="hoveredMessageId = null"
+    >
+      @if (isGrouped($index)) {
+        <div class="avatar-wrapper">
+          <img
+            [src]="getAvatarUrl(msg.sender)"
+            alt="Avatar"
+            class="user-avatar"
+          />
+        </div>
+      }
 
-    <div class="text">
-      @if (editingMessageId === msg._id) {
-      <mat-form-field class="edit-input" appearance="fill">
-        <textarea
-          matInput
-          [(ngModel)]="editedText"
-          (keydown.enter)="submitEdit(msg)"
-          (keydown.escape)="cancelEditing()"
-        ></textarea>
-      </mat-form-field>
-      <div class="edit-actions">
-        <button mat-icon-button matTooltip="Save" (click)="submitEdit(msg)">
-          <mat-icon>check</mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Cancel" (click)="cancelEditing()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      } @else {
-      <div class="rendered-message" #messageContainer>
-        <span [innerHTML]="msg.text | textFormat | async"></span>
-      </div>
-      <div class="message-attachment">
-        @if (msg.isEdited) {
-        <span class="edited">(Edited)</span>
-        } @if (!isGrouped($index) && hoveredMessageId === msg._id) {
-        <span class="timestamp">{{ msg.createdAt | date : "shortTime" }}</span>
+      <div class="message-content">
+        @if (isGrouped($index)) {
+          <div class="message-header">
+            @if (getUser(msg.sender)) {
+              <span
+                class="username"
+                (click)="openUserDialog(getUser(msg.sender))"
+                >{{ getUsername(msg.sender) }}</span
+              >
+            } @else {
+              <span class="username">{{ getUsername(msg.sender) }}</span>
+            }
+            <span class="timestamp">{{
+              msg.createdAt | date: "shortTime"
+            }}</span>
+          </div>
+        }
+
+        <div class="text">
+          @if (editingMessageId === msg._id) {
+            <mat-form-field class="edit-input" appearance="fill">
+              <textarea
+                matInput
+                [(ngModel)]="editedText"
+                (keydown.enter)="submitEdit(msg)"
+                (keydown.escape)="cancelEditing()"
+              ></textarea>
+            </mat-form-field>
+            <div class="edit-actions">
+              <button
+                mat-icon-button
+                matTooltip="Save"
+                (click)="submitEdit(msg)"
+              >
+                <mat-icon>check</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                matTooltip="Cancel"
+                (click)="cancelEditing()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <div class="rendered-message" #messageContainer>
+              <span [innerHTML]="msg.text | textFormat | async"></span>
+            </div>
+            <div class="message-attachment">
+              @if (msg.isEdited) {
+                <span class="edited">(Edited)</span>
+              }
+              @if (!isGrouped($index) && hoveredMessageId === msg._id) {
+                <span class="timestamp">{{
+                  msg.createdAt | date: "shortTime"
+                }}</span>
+              }
+            </div>
+          }
+        </div>
+        @if (msg.reactions.length > 0) {
+          <mat-chip-set class="reactions">
+            @for (
+              reaction of msg.reactions;
+              track reactionTrackFn($index, reaction)
+            ) {
+              @let key = `${msg._id}-${reaction.emoji}`;
+              <mat-chip
+                matTooltip="Reacted by: {{ reactedByUsers(reaction.users) }}"
+                [class.reacted]="reaction.users.includes(currentUserId!)"
+                (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
+                class="reaction-button"
+              >
+                {{ reaction.emoji }}
+                <div
+                  class="reaction-count"
+                  [class.reaction-count--animating]="
+                    animatingReactions.has(key) ||
+                    pendingRemovalRequests.has(key)
+                  "
+                >
+                  {{ reaction.users.length }}
+                </div>
+              </mat-chip>
+            }
+          </mat-chip-set>
         }
       </div>
+      @if (hoveredMessageId === msg._id) {
+        <div class="message-actions">
+          @if (msg.sender !== currentUserId) {
+            <button
+              mat-icon-button
+              matTooltip="Reply"
+              (click)="onReply.emit(msg)"
+            >
+              <mat-icon>reply</mat-icon>
+            </button>
+          }
+          @if (msg.sender === currentUserId) {
+            <button
+              mat-icon-button
+              matTooltip="Edit"
+              (click)="startEditing(msg)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          }
+          @if (
+            isAdmin ||
+            isOwner ||
+            isModerator ||
+            msg.sender === currentUserId ||
+            currentUserPermissions.includes("canDeleteMessages")
+          ) {
+            <button
+              mat-icon-button
+              matTooltip="Delete"
+              (click)="onDelete.emit(msg._id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
+          <button mat-icon-button matTooltip="Copy" (click)="onCopy(msg.text)">
+            <mat-icon>
+              @if (isCopied) {
+                check
+              } @else {
+                content_copy
+              }
+            </mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="showPickerFor(msg._id)"
+            matTooltip="React"
+          >
+            <mat-icon>mood</mat-icon>
+          </button>
+        </div>
       }
     </div>
-    @if (msg.reactions.length > 0) {
-    <mat-chip-set class="reactions">
-      @for (reaction of msg.reactions; track reactionTrackFn($index, reaction))
-      { @let key = `${msg._id}-${reaction.emoji}`;
-      <mat-chip
-        matTooltip="Reacted by: {{ reactedByUsers(reaction.users) }}"
-        [class.reacted]="reaction.users.includes(currentUserId!)"
-        (click)="toggleReaction({ emoji: reaction.emoji }, msg._id)"
-        class="reaction-button"
-      >
-        {{ reaction.emoji }}
-        <div
-          class="reaction-count"
-          [class.reaction-count--animating]="
-            animatingReactions.has(key) || pendingRemovalRequests.has(key)
-          "
-        >
-          {{ reaction.users.length }}
-        </div>
-      </mat-chip>
-      }
-    </mat-chip-set>
+    @if (activeReactionMessageId === msg._id) {
+      <emoji-mart
+        set="google"
+        theme="light"
+        class="emoji-picker"
+        (emojiSelect)="toggleReaction($event, msg._id)"
+      ></emoji-mart>
     }
-  </div>
-  @if (hoveredMessageId === msg._id) {
-  <div class="message-actions">
-    @if (msg.sender !== currentUserId) {
-    <button mat-icon-button matTooltip="Reply" (click)="onReply.emit(msg)">
-      <mat-icon>reply</mat-icon>
-    </button>
-    } @if (msg.sender === currentUserId) {
-    <button mat-icon-button matTooltip="Edit" (click)="startEditing(msg)">
-      <mat-icon>edit</mat-icon>
-    </button>
-    } @if (isAdmin || isOwner || isModerator || msg.sender === currentUserId ||
-    currentUserPermissions.includes('canDeleteMessages')) {
-    <button
-      mat-icon-button
-      matTooltip="Delete"
-      (click)="onDelete.emit(msg._id)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-    }
-    <button mat-icon-button matTooltip="Copy" (click)="onCopy(msg.text)">
-      <mat-icon> @if (isCopied) { check } @else { content_copy }</mat-icon>
-    </button>
-    <button mat-icon-button (click)="showPickerFor(msg._id)" matTooltip="React">
-      <mat-icon>mood</mat-icon>
-    </button>
-  </div>
   }
-</div>
-@if (activeReactionMessageId === msg._id) {
-<emoji-mart
-  set="google"
-  theme="light"
-  class="emoji-picker"
-  (emojiSelect)="toggleReaction($event, msg._id)"
-></emoji-mart>
-} } } @else {
-<div class="empty-message-container">
-  <p class="empty-message">No messages yet...</p>
-</div>
+} @else {
+  <div class="empty-message-container">
+    <p class="empty-message">No messages yet...</p>
+  </div>
 }
