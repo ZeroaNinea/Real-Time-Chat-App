@@ -1,5 +1,10 @@
 import { rotateKeys } from './cryptography/rsa-keys-rotation';
-rotateKeys(); // Rotate RSA keys.
+setInterval(
+  () => {
+    rotateKeys();
+  },
+  24 * 60 * 60 * 1000, // Rotate keys every 24 hours.
+); // Rotate RSA keys.
 
 import { app } from './app';
 import { setupSocket } from './socket';
