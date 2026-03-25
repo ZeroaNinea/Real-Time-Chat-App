@@ -25,7 +25,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       const currentUserPermissions = await checkPermission(chat, member);
@@ -59,7 +59,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       // }
 
       const memberRoles = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       )?.roles;
 
       const memberPermissions: string[] = (memberRoles || []).flatMap(
@@ -68,14 +68,14 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             chat.roles.find((r: ChatRoomRole) => r.name === role)
               ?.permissions || []
           );
-        }
+        },
       );
 
       if (role.permissions) {
         if (
           !canAssignPermissionsBelowOwnLevel(
             memberPermissions,
-            role.permissions
+            role.permissions,
           )
         ) {
           return callback?.({
@@ -86,7 +86,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
 
       chat.roles.push(role);
       const updatedRole = chat.roles.find(
-        (r: ChatRoomRole) => r.name === role.name
+        (r: ChatRoomRole) => r.name === role.name,
       );
       await chat.save();
 
@@ -106,7 +106,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       const currentUserPermissions = await checkPermission(chat, member);
@@ -150,7 +150,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const memberRoles = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       )?.roles;
 
       const memberPermissions: string[] = (memberRoles || []).flatMap(
@@ -159,14 +159,14 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             chat.roles.find((r: ChatRoomRole) => r.name === role)
               ?.permissions || []
           );
-        }
+        },
       );
 
       if (role.permissions) {
         if (
           !canAssignPermissionsBelowOwnLevel(
             memberPermissions,
-            role.permissions
+            role.permissions,
           )
         ) {
           return callback?.({
@@ -204,7 +204,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       const currentUserPermissions = await checkPermission(chat, member);
@@ -248,14 +248,14 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
             chat.roles.find((r: ChatRoomRole) => r.name === role)
               ?.permissions || []
           );
-        }
+        },
       );
 
       if (role.permissions) {
         if (
           !canAssignPermissionsBelowOwnLevel(
             memberPermissions,
-            role.permissions
+            role.permissions,
           )
         ) {
           return callback?.({
@@ -306,14 +306,14 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const isRoleExists = chat.roles.find(
-        (r: ChatRoomRole) => r.name === role.name
+        (r: ChatRoomRole) => r.name === role.name,
       );
       if (!isRoleExists) {
         return callback?.({ error: 'Role is not found.' });
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       const currentUserPermissions = await checkPermission(chat, member);
@@ -354,13 +354,13 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
 
       if (
         role.name === 'Admin' &&
-        !currentUserPermissions.includes('canAssignAdmins.')
+        !currentUserPermissions.includes('canAssignAdmins')
       ) {
         return callback?.({ error: 'You are not allowed to assign admins.' });
       }
 
       const updatedMember = chat.members.find((m: Member) =>
-        m.user.equals(userId)
+        m.user.equals(userId),
       );
 
       if (!updatedMember) {
@@ -394,7 +394,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
       if (!member) {
         return callback?.({ error: 'You are not a member of this chat room.' });
@@ -430,7 +430,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       const memberPermissions: string[] = memberRoles.flatMap(
         (role: string) =>
           chat.roles.find((r: ChatRoomRole) => r.name === role)?.permissions ||
-          []
+          [],
       );
 
       if (
@@ -490,10 +490,10 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const actingMember = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
       const targetMember = chat.members.find((m: Member) =>
-        m.user.equals(userId)
+        m.user.equals(userId),
       );
 
       const currentUserPermissions = await checkPermission(chat, actingMember);
@@ -548,7 +548,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const requester = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       if (!requester || !requester.roles.includes('Owner')) {
@@ -596,7 +596,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       if (chat.isPrivate) {
@@ -633,7 +633,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
       }
 
       const member = chat.members.find((m: Member) =>
-        m.user.equals(socket.data.user._id)
+        m.user.equals(socket.data.user._id),
       );
 
       if (member?.roles.includes('Owner')) {
@@ -646,7 +646,7 @@ export function registerMemberHandlers(io: Server, socket: Socket) {
         return callback?.({ error: 'You are not a member of this chat.' });
       } else {
         chat.members = chat.members.filter(
-          (m: Member) => !m.user.equals(socket.data.user._id)
+          (m: Member) => !m.user.equals(socket.data.user._id),
         );
         await chat.save();
         io.to(socket.data.user._id.toString()).emit('chatLeft', chat);
