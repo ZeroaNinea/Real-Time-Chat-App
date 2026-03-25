@@ -1,4 +1,6 @@
 import { rotateKeys } from './cryptography/rsa-keys-rotation';
+
+rotateKeys();
 setInterval(
   () => {
     rotateKeys();
