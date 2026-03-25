@@ -33,7 +33,7 @@ export class NotificationListComponent {
 
   getAvatarUrl(notification: PopulatedNotification) {
     return notification.sender.avatar
-      ? `${this.environment.backendUrl}/${notification.sender.avatar}`
+      ? `${notification.sender.avatar}`
       : 'assets/camera.svg';
   }
 
