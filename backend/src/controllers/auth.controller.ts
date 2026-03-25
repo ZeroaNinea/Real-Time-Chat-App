@@ -16,12 +16,13 @@ import { uploadFromBuffer } from '../helpers/upload-from-buffer-helper';
 export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
+    const normalizedEmail = email?.trim() || undefined;
 
     // Check if user exists.
     const query: any = [{ username }];
 
-    if (email) {
-      query.push({ email });
+    if (normalizedEmail) {
+      query.push({ email: normalizedEmail });
     }
 
     const existingUser = await User.findOne({ $or: query });
@@ -34,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
     // Create new user.
     const user = new User({
       username,
-      email,
+      email: normalizedEmail,
       password,
     });
 

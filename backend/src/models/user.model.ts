@@ -34,6 +34,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       required: false,
       unique: true,
       sparse: true,
+      set: (v: string) => (v?.trim() ? v : undefined),
     },
     password: {
       type: String,
