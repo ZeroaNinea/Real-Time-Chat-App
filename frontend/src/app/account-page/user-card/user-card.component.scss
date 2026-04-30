@@ -7,7 +7,7 @@
   // width: 120%;
 
   mat-card-title {
-    color: var(--mat-sys-on-secondary-fixed);
+    color: var(--mat-sys-on-surface);
     font-size: 1.8rem;
   }
 
@@ -53,10 +53,11 @@
 .bio {
   margin-bottom: 3rem;
   white-space: pre-line;
+  color: var(--mat-sys-on-surface);
 }
 
 .email,
 .joined {
   margin-bottom: 0rem;
-  color: var(--mat-sys-on-secondary-fixed);
+  color: var(--mat-sys-on-surface);
 }
