@@ -3,11 +3,14 @@
 This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
 
 ## Prerequisites
+
 - A running Kubernetes cluster.
 - `kubectl` installed and configured to interact with your cluster.
 
 ## Deploy MongoDB
+
 1. Create a namespace and use it:
+
    ```sh
    kubectl apply -f mongodb-namespace.yaml
    kubens mongodb-express
@@ -15,37 +18,44 @@ This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
    ```
 
 2. Apply the secrets for MongoDB (stores sensitive information like username and password):
+
    ```sh
    kubectl apply -f mongodb-secret.yaml
 
    ```
 
 3. Deploy the MongoDB database:
+
    ```sh
    kubectl apply -f mongodb-deployment.yaml
 
    ```
 
 4. Expose MongoDB as a service:
+
    ```sh
    kubectl apply -f mongodb-service.yaml
 
    ```
 
 5. Create a Persistent Volume to store data for MongoDB database:
+
    ```sh
    kubectl apply -f mongodb-pv.yaml
 
    ```
 
 6. Create a Volume clame:
+
    ```sh
    kubectl apply -f mongodb-pvc.yaml
 
    ```
 
 ## Deploy Mongo Express (Optional)
+
 1. Deploy the Mongo Express admin interface:
+
    ```sh
    kubectl apply -f mongodb-express-deployment.yaml
    kubectl apply -f mongodb-express-service.yaml
@@ -55,6 +65,7 @@ This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
    ```
 
 2. Update the `hosts` file located at `C:\Windows\System32\drivers\etc\hosts` (requires administrator privileges) and add the following line:
+
    ```plaintext
    127.0.0.1  mongodb-express.local
    ```
@@ -62,12 +73,15 @@ This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
 3. Access Mongo Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Verify the Deployment
+
 - Check the status of the MongoDB pods:
+
   ```sh
   kubectl get pods -l app=mongodb
   ```
 
 - Check the status of the Mongo Express pods:
+
   ```sh
   kubectl get pods -l app=mongodb-express
 
@@ -76,15 +90,17 @@ This guide explains how to deploy MongoDB and Mongo Express using Kubernetes.
 - Access Mongo Express at [`http://mongodb-express.local`](http://mongodb-express.local).
 
 ## Troubleshooting
-- **Mongo Express is not accessible:**
-  - Ensure the `mongodb-express-ingress.yaml` file is applied correctly.
-  - Verify that the `hosts` file is updated with `127.0.0.1 mongodb-express.local`.
-  - Check the status of the ingress controller using:
-    ```sh
-    kubectl get ingress
 
-    ```
+- **Mongo Express is not accessible:**
+- Ensure the `mongodb-express-ingress.yaml` file is applied correctly.
+- Verify that the `hosts` file is updated with `127.0.0.1 mongodb-express.local`.
+- Check the status of the ingress controller using:
+
+```sh
+kubectl get ingress
+
+```
 
 - **Kubernetes resources not created:**
-  - Ensure `kubectl` is configured correctly and connected to your cluster.
-  - Check for errors in the output of `kubectl apply` commands.
+- Ensure `kubectl` is configured correctly and connected to your cluster.
+- Check for errors in the output of `kubectl apply` commands.
