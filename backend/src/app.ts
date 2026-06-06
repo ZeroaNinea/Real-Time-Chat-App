@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import router from './routes';
-import path from 'path';
+// import path from 'path';
 
 import { corsOriginValidator } from './helpers/cors-config';
 
