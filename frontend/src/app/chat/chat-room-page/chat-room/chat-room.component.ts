@@ -203,7 +203,9 @@ export class ChatRoomComponent implements OnDestroy {
       this.lastMessageCount = newMessageCount;
 
       // Apply filled class to favorite GIFs.
-      this.applyFilledClassesToFavorites();
+      setTimeout(() => {
+        this.applyFilledClassesToFavorites();
+      }, 100);
     });
 
     effect(() => {
