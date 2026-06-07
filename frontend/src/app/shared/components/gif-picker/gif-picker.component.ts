@@ -36,7 +36,7 @@ export class GifPickerComponent {
   @Output() select = new EventEmitter<string>();
 
   searchTerm = '';
-  gifs: string[] = [];
+  gifs: { id: string; url: string }[] = [];
   // next: string = '';
   nextOffset = 0;
   isLoading = false;
@@ -160,5 +160,9 @@ export class GifPickerComponent {
 
   areThereFavorites() {
     return this.favoriteGifs.length > 0;
+  }
+
+  JSONStringify(obj: any) {
+    return JSON.stringify(obj);
   }
 }
