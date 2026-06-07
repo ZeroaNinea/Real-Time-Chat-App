@@ -51,7 +51,7 @@ export class GifService {
 
   searchGifs(query: string, limit = 20, offset = 0) {
     return this.http.get<{
-      gifs: string[];
+      gifs: { id: string; url: string; previewUrl: string }[];
       nextOffset: number;
     }>(`${this.baseUrl}/search`, {
       params: {
@@ -64,7 +64,7 @@ export class GifService {
 
   trendingGifs(limit = 20, offset = 0) {
     return this.http.get<{
-      gifs: string[];
+      gifs: { id: string; url: string; previewUrl: string }[];
       nextOffset: number;
     }>(`${this.baseUrl}/trending`, {
       params: {

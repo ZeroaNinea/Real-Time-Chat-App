@@ -16,7 +16,6 @@
         @if (gifs.length > 0) {
           @for (gif of gifs; track $index) {
             <div class="gif-container">
-              <span>{{ JSONStringify(gif) }}</span>
               <img [src]="gif" (click)="selectGif(gif)" class="gif" />
               <div class="favorite-wrapper">
                 <button

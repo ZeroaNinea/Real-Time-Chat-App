@@ -36,8 +36,7 @@ export class GifPickerComponent {
   @Output() select = new EventEmitter<string>();
 
   searchTerm = '';
-  gifs: { id: string; url: string }[] = [];
-  // next: string = '';
+  gifs: string[] = [];
   nextOffset = 0;
   isLoading = false;
 
@@ -54,7 +53,8 @@ export class GifPickerComponent {
 
   loadTrending() {
     this.gifService.trendingGifs().subscribe((res) => {
-      this.gifs = res.gifs;
+      console.log(res.gifs);
+      this.gifs = res.gifs.map((gif) => gif.previewUrl);
       this.nextOffset = res.nextOffset;
     });
   }
@@ -65,24 +65,25 @@ export class GifPickerComponent {
     }
 
     this.gifService.searchGifs(this.searchTerm).subscribe((res) => {
-      this.gifs = res.gifs;
+      this.gifs = res.gifs.map((gif) => gif.previewUrl);
       this.nextOffset = res.nextOffset;
     });
   }
 
   loadMore() {
     this.isLoading = true;
+    this.gifs = [];
 
     if (this.searchTerm) {
       this.gifService
         .searchGifs(this.searchTerm, 20, this.nextOffset)
         .subscribe((res) => {
-          this.gifs.push(...res.gifs);
+          this.gifs.push(...res.gifs.map((gif) => gif.previewUrl));
           this.nextOffset = res.nextOffset;
         });
     } else {
       this.gifService.trendingGifs(20, this.nextOffset).subscribe((res) => {
-        this.gifs.push(...res.gifs);
+        this.gifs.push(...res.gifs.map((gif) => gif.previewUrl));
         this.nextOffset = res.nextOffset;
       });
     }
