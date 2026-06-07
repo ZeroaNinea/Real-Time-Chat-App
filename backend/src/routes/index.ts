@@ -6,6 +6,7 @@ import messageRoutes from './message.routes';
 import notificationRoutes from './notification.routes';
 import socialRoutes from './social.routes';
 import favoritesRoutes from './favorites.routes';
+import gifRoutes from './gif.routes';
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use('/message', messageRoutes);
 router.use('/notification', notificationRoutes);
 router.use('/social', socialRoutes);
 router.use('/favorites', favoritesRoutes);
+router.use('/gif', gifRoutes);
 
 router.get('/healthcheck', (_req, res) => {
   res.status(200).send('OK');
