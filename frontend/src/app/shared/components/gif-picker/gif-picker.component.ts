@@ -37,7 +37,8 @@ export class GifPickerComponent {
 
   searchTerm = '';
   gifs: string[] = [];
-  next: string = '';
+  // next: string = '';
+  nextOffset = 0;
   isLoading = false;
 
   constructor() {
@@ -46,41 +47,43 @@ export class GifPickerComponent {
     this.chatService.favorites$.subscribe((favs) => {
       this.favoriteGifs = favs;
     });
+
+    console.log('GIFs:', this.gifs);
+    console.log('GIF:', this.gifs[0]);
   }
 
   loadTrending() {
-    this.gifService.trendingGifs(20).subscribe((res) => {
-      this.gifs = res.results.map((r) => r.media_formats.gif.url);
-      this.next = res.next;
+    this.gifService.trendingGifs().subscribe((res) => {
+      this.gifs = res.gifs;
+      this.nextOffset = res.nextOffset;
     });
   }
 
   search() {
-    if (!this.searchTerm.trim()) return this.loadTrending();
-    this.gifService.searchGifs(this.searchTerm, 20).subscribe((res) => {
-      this.gifs = res.results.map((r) => r.media_formats.gif.url);
-      this.next = res.next;
+    if (!this.searchTerm.trim()) {
+      return this.loadTrending();
+    }
+
+    this.gifService.searchGifs(this.searchTerm).subscribe((res) => {
+      this.gifs = res.gifs;
+      this.nextOffset = res.nextOffset;
     });
   }
 
   loadMore() {
-    if (!this.next) return;
-
     this.isLoading = true;
 
     if (this.searchTerm) {
       this.gifService
-        .searchGifs(this.searchTerm, 20, this.next)
+        .searchGifs(this.searchTerm, 20, this.nextOffset)
         .subscribe((res) => {
-          this.gifs = [];
-          this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
-          this.next = res.next;
+          this.gifs.push(...res.gifs);
+          this.nextOffset = res.nextOffset;
         });
     } else {
-      this.gifService.trendingGifs(20, this.next).subscribe((res) => {
-        this.gifs = [];
-        this.gifs.push(...res.results.map((r) => r.media_formats.gif.url));
-        this.next = res.next;
+      this.gifService.trendingGifs(20, this.nextOffset).subscribe((res) => {
+        this.gifs.push(...res.gifs);
+        this.nextOffset = res.nextOffset;
       });
     }
 

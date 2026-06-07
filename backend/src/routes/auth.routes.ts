@@ -27,14 +27,14 @@ router.put('/update-email', authMiddleware, asyncRoute(updateEmail));
 router.put(
   '/update-username-bio',
   authMiddleware,
-  asyncRoute(updateUsernameBio)
+  asyncRoute(updateUsernameBio),
 );
 router.put('/update-password', authMiddleware, asyncRoute(updatePassword));
 router.post(
   '/update-avatar',
   authMiddleware,
   uploadAvatar,
-  asyncRoute(updateAvatar)
+  asyncRoute(updateAvatar),
 );
 router.delete('/remove-avatar', authMiddleware, asyncRoute(removeAvatar));
 router.put('/update-pronouns', authMiddleware, asyncRoute(updatePronouns));
