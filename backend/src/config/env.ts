@@ -19,6 +19,7 @@ export interface EnvConfig {
   CLOUDINARY_CLOUD_NAME: string;
   CLOUDINARY_API_KEY: string;
   CLOUDINARY_API_SECRET: string;
+  GIPHY_API_KEY: string;
 }
 
 const config: EnvConfig = {
@@ -37,6 +38,7 @@ const config: EnvConfig = {
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || '',
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || '',
+  GIPHY_API_KEY: process.env.GIPHY_API_KEY || '',
 };
 
 export default config;

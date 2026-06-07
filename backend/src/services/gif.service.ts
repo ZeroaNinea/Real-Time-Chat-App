@@ -1,11 +1,12 @@
 import axios from 'axios';
+import config from '../config/env';
 
-const API_KEY = process.env.GIPHY_API_KEY;
+const { GIPHY_API_KEY } = config;
 
 export async function search(query: string, limit: number, offset: number) {
   const { data } = await axios.get('https://api.giphy.com/v1/gifs/search', {
     params: {
-      api_key: API_KEY,
+      api_key: GIPHY_API_KEY,
       q: query,
       limit,
       offset,
@@ -25,7 +26,7 @@ export async function search(query: string, limit: number, offset: number) {
 export async function trending(limit: number, offset: number) {
   const { data } = await axios.get('https://api.giphy.com/v1/gifs/trending', {
     params: {
-      api_key: API_KEY,
+      api_key: GIPHY_API_KEY,
       limit,
       offset,
     },
