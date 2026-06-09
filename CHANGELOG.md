@@ -18,4 +18,5 @@
 - Markdown formatting;
 - Emoji support;
 - Avatar upload;
-- Chat room thumbnail upload.
+- Chat room thumbnail upload;
+- Moderation and role assignment.
