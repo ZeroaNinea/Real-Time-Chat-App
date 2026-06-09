@@ -2,8 +2,9 @@
 
 ## v1.0.0
 
-- Authentication
-- Real-time messaging
+- Authentication with pure JWT
+- JWT key rotation
+- Real-time messaging with Socket.IO
 - GIF support via GIPHY
 - Favorites
 - Notifications
