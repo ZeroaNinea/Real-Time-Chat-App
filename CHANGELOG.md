@@ -17,6 +17,6 @@
 - Role-based permissions;
 - Markdown formatting;
 - Emoji support;
-- Avatar upload;
-- Chat room thumbnail upload;
+- Avatar upload via Cloudinary;
+- Chat room thumbnail upload via Cloudinary;
 - Moderation and role assignment.
