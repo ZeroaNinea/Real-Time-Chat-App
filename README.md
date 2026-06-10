@@ -1,4 +1,4 @@
-# 🟣 Real-Time Chat Application
+# 🟣 Bulbchat (Great Bulbdog Application)
 
 A full-featured, real-time chat application built with **Angular**, **Node.js**, **Socket.IO**, and **MongoDB**, styled with **Angular Material**, and deployed with **Docker** and **Kubernetes**.
 
