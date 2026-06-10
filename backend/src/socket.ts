@@ -12,7 +12,7 @@ export function setupSocket(server: HttpServer, app: Express) {
       origin: [
         'http://localhost:4200',
         'https://real-time-chat-app.local',
-        'https://real-time-chat-app-great-bulbdog.vercel.app',
+        'https://https://bulbchat.vercel.app',
       ],
       methods: ['GET', 'POST'],
       credentials: true,

@@ -5,7 +5,7 @@ export const corsOriginValidator = (
   const allowed = [
     'http://localhost:4200',
     'https://real-time-chat-app.local',
-    'https://real-time-chat-app-great-bulbdog.vercel.app',
+    'https://https://bulbchat.vercel.app',
   ];
 
   if (!origin || allowed.includes(origin)) {
